@@ -46,7 +46,7 @@ const AppInput = ({
   onRightIconPress,
   editable = true,
   inputStyle,
-  placeholderTextColor = COLORS.black,
+  placeholderTextColor,
   secureTextEntry,
 }: Props) => {
   return (
@@ -61,7 +61,7 @@ const AppInput = ({
 
         <TextInput
           placeholderTextColor={
-            placeholderTextColor ? placeholderTextColor : COLORS.black
+            placeholderTextColor ? placeholderTextColor : COLORS.grayLight
           }
           style={[styles.input, inputstyle, inputStyle]}
           placeholder={placeholder}
@@ -70,6 +70,7 @@ const AppInput = ({
           onChangeText={onChangeText}
           editable={editable}
           secureTextEntry={secureTextEntry}
+          
         />
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>

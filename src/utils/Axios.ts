@@ -1,6 +1,6 @@
-import axios, {Method} from 'axios';
+import axios, { Method } from 'axios';
 import Toast from 'react-native-toast-message';
-import {store} from 'redux/store';
+import { store } from 'redux/store';
 
 const BASE_URL = '';
 
@@ -54,8 +54,8 @@ const Axios = async ({
 
   const authHeder = accessToken
     ? {
-        Authorization: `Bearer ${accessToken}`,
-      }
+      Authorization: `Bearer ${accessToken}`,
+    }
     : {};
 
   const response = await axiosInstance({
@@ -63,17 +63,11 @@ const Axios = async ({
     url: APIS[path] + pathParams,
     data: data,
     params: params,
-    headers: isFormDate
-      ? {
-          'Content-Type': 'multipart/form-data',
-          ...authHeder,
-          ...header,
-        }
-      : {
-          'Content-Type': 'application/json',
-          ...authHeder,
-          ...header,
-        },
+    headers: {
+      'Content-Type': isFormDate ? 'multipart/form-data' : 'application/json',
+      ...authHeder,
+      ...header,
+    }
   });
   return response;
 };

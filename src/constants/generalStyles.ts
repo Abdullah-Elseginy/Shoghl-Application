@@ -9,11 +9,15 @@ export const generalStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-
   },
   rowBetween: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   center: {
@@ -25,7 +29,7 @@ export const generalStyles = StyleSheet.create({
     flex: 1
   },
   btn: {
-    height: hp(7),
+    height: hp(6),
   },
   btnTxt: {
     fontSize: wp(4),

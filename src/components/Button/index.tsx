@@ -14,7 +14,7 @@ import { COLORS, generalStyles } from '../../constants';
 
 type Props = {
   text: string;
-  onPress: () => void;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
   buttonTextStyle?: StyleProp<TextStyle>;
   isDisapled?: boolean;
@@ -55,7 +55,7 @@ const Button = ({
           backgroundColor:
             disabledBGColor && isDisapled
               ? disabledBGColor
-              : COLORS.black,
+              : COLORS.primary,
         },
         style,
       ]}>

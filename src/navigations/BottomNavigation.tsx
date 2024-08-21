@@ -3,11 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ScreenNames from './ScreenNames';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import {FONTS} from '../constants/Fonts';
-import HomeScreen from '../screens/HomeScreen';
 import { HomeSVG } from '../assets';
 import { hp, wp } from '../constants/Dimensions';
 import { COLORS } from '../constants/COLORS';
-
+import { HomeScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -43,7 +42,6 @@ const BottomTabNavigator = () => {
         tabBarStyle: [styles.tapStyles],
       })}>
       <Tab.Screen name={ScreenNames.HomeScreen} component={HomeScreen} />
-
     </Tab.Navigator>
   );
 };
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.1,
     borderTopColor: COLORS.black,
     paddingTop: Platform.OS === 'ios' ? hp(2) : hp(1.5),
-    // paddingBottom: Platform.OS === 'ios' ? hp(2) : hp(0),
     shadowOffset: {
       width: 0,
       height: 1,

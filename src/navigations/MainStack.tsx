@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScreenNames from './ScreenNames';
 import AuthStack from './AuthStack';
-import { LoginScreen, SplashScreen } from '../screens';
+import { SplashScreen } from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,10 +14,7 @@ const MainStack = () => {
         screenOptions={{headerShown: false}}
         initialRouteName={ScreenNames.SplashScreen}>
         <Stack.Screen name={ScreenNames.SplashScreen} component={SplashScreen} />
-        <Stack.Screen name={ScreenNames.LoginScreen} component={LoginScreen} />
-        {/* <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} /> */}
-        
-        
+        <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );
