@@ -23,7 +23,6 @@ const CompleteProfile = ({ navigation }: Props) => {
   const [country, setCountry] = React.useState(null);
   const [city, setCity] = React.useState(null);
   const [isSalaryHidden, setIsSalaryHidden] = React.useState(false);
-  console.log(gender);
 
   return (
     <AppScreenContainer>
