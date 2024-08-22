@@ -1,28 +1,28 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScreenNames from './ScreenNames';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import {FONTS} from '../constants/Fonts';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import { FONTS } from '../constants/Fonts';
 import { HomeSVG } from '../assets';
 import { hp, wp } from '../constants/Dimensions';
 import { COLORS } from '../constants/COLORS';
-import { HomeScreen } from '../screens';
+import { HomeScreen, JobsScreen, ProfileScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={({ route }) => ({
         tabBarHideOnKeyboard: true,
-        tabBarLabel: ({focused}) => {
+        tabBarLabel: ({ focused }) => {
           return (
             <View>
               <Text
                 style={[
                   styles.tabBarName,
                   {
-                    color: focused ? COLORS.black : COLORS.white,
+                    color: focused ? COLORS.primary : COLORS.grayLight,
                     fontFamily: focused ? FONTS.SemiBold : FONTS.Regular,
                   },
                 ]}>
@@ -31,17 +31,25 @@ const BottomTabNavigator = () => {
             </View>
           );
         },
-        tabBarIcon: ({focused}) => {
+        tabBarIcon: ({ focused }) => {
           let Icon;
-          if (route.name === ScreenNames.HomeScreen) {
+          if (route.name === ScreenNames.Home) {
             Icon = focused ? <HomeSVG /> : <HomeSVG />;
-          } 
+          }
+          if (route.name === ScreenNames.Jobs) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
+          if (route.name === ScreenNames.Profile) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
           return Icon;
         },
         headerShown: false,
         tabBarStyle: [styles.tapStyles],
       })}>
-      <Tab.Screen name={ScreenNames.HomeScreen} component={HomeScreen} />
+      <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
+      <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
+      <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

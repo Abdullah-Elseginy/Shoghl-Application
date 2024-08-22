@@ -29,6 +29,8 @@ type Props = {
   onRightIconPress?: () => void;
   placeholderTextColor?: ColorValue;
   secureTextEntry?: boolean;
+  appInputStyle?: StyleProp<ViewStyle>;
+  isNumericKeyboard?: boolean;
 };
 
 const AppInput = ({
@@ -48,9 +50,11 @@ const AppInput = ({
   inputStyle,
   placeholderTextColor,
   secureTextEntry,
+  appInputStyle,
+  isNumericKeyboard
 }: Props) => {
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.container, appInputStyle]}>
       {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
       <View style={[styles.inputContainer, containerStyle]}>
         {leftIcon && (
@@ -70,7 +74,7 @@ const AppInput = ({
           onChangeText={onChangeText}
           editable={editable}
           secureTextEntry={secureTextEntry}
-          
+          keyboardType={isNumericKeyboard ? 'numeric' : 'default'}
         />
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>

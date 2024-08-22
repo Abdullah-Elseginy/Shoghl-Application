@@ -15,18 +15,23 @@ type Props = {
 const SplashScreen = ({ navigation }: Props) => {
 
   useEffect(() => {
+    const user = false;
     setTimeout(() => {
-      navigation.replace(ScreenNames.AuthStack);
+      if (user) {
+        navigation.replace(ScreenNames.BottomTabs);
+      } else {
+        navigation.replace(ScreenNames.Login);
+      }
     }, 3000);
   }, []);
 
   return (
     <AppScreenContainer style={styles.container}>
-        <LogoCircleSVG />
-        <View style={{marginVertical: hp(1.5)}}>
+      <LogoCircleSVG />
+      <View style={{ marginVertical: hp(1.5) }}>
         <LogoShoglSVG />
-        </View>
-        <SplashTxtSVG />
+      </View>
+      <SplashTxtSVG />
     </AppScreenContainer>
   );
 };

@@ -20,10 +20,12 @@ export const generalStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  rowStart: {
+    flexDirection: 'row',
+    alignItems: 'flex-start'
+  },
   center: {
-    justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
   },
   flex: {
     flex: 1
@@ -34,12 +36,11 @@ export const generalStyles = StyleSheet.create({
   btnTxt: {
     fontSize: wp(4),
     textTransform: 'capitalize',
-    // fontFamily: FONTS.Medium,
+    fontFamily: FONTS.Medium,
   },
   txt: {
     fontSize: wp(6),
     textTransform: 'capitalize',
-    // color: COLORS.primary,
   },
   toAlignTxt: {
     marginTop: hp(-1),

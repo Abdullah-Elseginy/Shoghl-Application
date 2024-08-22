@@ -6,8 +6,4 @@ export { default as EyeSVG } from './svg/EyeSVG';
 export { default as EyeOffSVG } from './svg/EyeOffSVG';
 export { default as CheckboxSVG } from './svg/CheckboxSVG';
 export { default as CheckedboxSVG } from './svg/CheckedboxSVG';
-
-
-
-
-
+export { default as PackSVG } from './svg/PackSVG';

@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
-import React, {useState} from 'react';
-import {styles} from './styles';
+import React, { useState } from 'react';
+import { styles } from './styles';
 
 import CustomText from '../CustomText';
 import { COLORS, generalStyles } from '../../constants';
 
 type Props = {
   text: string;
-  onPress?: () => void;
+  onPress: () => void;
   style?: StyleProp<ViewStyle>;
   buttonTextStyle?: StyleProp<TextStyle>;
   isDisapled?: boolean;
@@ -22,6 +22,7 @@ type Props = {
   disabledColor?: ColorValue;
   loading?: boolean;
   loadingColor?: ColorValue;
+  secondry?: boolean;
 };
 
 const Button = ({
@@ -34,6 +35,7 @@ const Button = ({
   disabledColor,
   loading,
   loadingColor,
+  secondry
 }: Props) => {
   const [preventPress, setPreventPress] = useState<boolean>(false);
   const disabledPress: boolean = isDisapled || loading || preventPress;
@@ -55,7 +57,9 @@ const Button = ({
           backgroundColor:
             disabledBGColor && isDisapled
               ? disabledBGColor
-              : COLORS.primary,
+              : secondry
+                ? COLORS.white
+                : COLORS.primary,
         },
         style,
       ]}>
@@ -69,9 +73,7 @@ const Button = ({
           text={text}
           textStyle={[
             generalStyles.btnTxt,
-            {
-              color: disabledColor && isDisapled ? disabledColor : COLORS.white,
-            },
+            { color: disabledColor && isDisapled ? disabledColor : secondry ? COLORS.primary : COLORS.white },
             buttonTextStyle,
           ]}
         />

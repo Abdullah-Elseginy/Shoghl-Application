@@ -1,21 +1,21 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { COLORS } from '../../constants/COLORS';
-import { hp, wp } from '../../constants/Dimensions';
-import { FONTS } from '../../constants/Fonts';
+import { hp } from '../../constants/Dimensions';
+import { FONTS } from '../../constants';
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.primary
+        backgroundColor: COLORS.primaryLight
     },
     center: {
         alignItems: 'center',
         paddingTop: hp(12)
     },
     signin: {
-        fontSize: hp(4),
+        fontSize: hp(4.1),
         marginTop: hp(3),
-        marginBottom: hp(4),
+        marginBottom: hp(3),
         letterSpacing: hp(-0.2)
     },
     loginContent: {
@@ -31,15 +31,6 @@ export const styles = StyleSheet.create({
     },
     inputLabel: {
         textTransform: 'uppercase'
-    },
-    rowBetween: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    rowStart: {
-        flexDirection: 'row',
-        alignItems: 'flex-start'
     },
     btn: {
         marginVertical: hp(5.5),
@@ -66,6 +57,7 @@ export const styles = StyleSheet.create({
         fontSize: hp(1.6),
         marginStart: hp(3),
         textTransform: 'uppercase',
-        color: COLORS.primary
+        color: COLORS.primary,
+        fontFamily: FONTS.SemiBold
     }
 });

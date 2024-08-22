@@ -4,7 +4,7 @@ import { COLORS, hp, wp } from '../../constants';
 export const styles = StyleSheet.create({
   sheetView: {
     backgroundColor: COLORS.white,
-    paddingHorizontal: wp(4),
+    paddingHorizontal: wp(5),
     paddingBottom: hp(1),
     overflow: 'hidden'
   },
