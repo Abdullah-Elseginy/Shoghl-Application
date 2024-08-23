@@ -8,6 +8,7 @@ const ScreenNames = {
   Signup: 'Signup',
   CompleteProfile: 'CompleteProfile',
   Profile: 'Profile',
+  OnBoarding: 'OnBoarding',
 };
 
 export default Object.freeze(ScreenNames);

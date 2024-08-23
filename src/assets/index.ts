@@ -7,3 +7,8 @@ export { default as EyeOffSVG } from './svg/EyeOffSVG';
 export { default as CheckboxSVG } from './svg/CheckboxSVG';
 export { default as CheckedboxSVG } from './svg/CheckedboxSVG';
 export { default as PackSVG } from './svg/PackSVG';
+export { default as FrameOneSVG } from './svg/FrameOneSVG';
+export { default as FrameTwoSVG } from './svg/FrameTwoSVG';
+export { default as FrameThreeSVG } from './svg/FrameThreeSVG';
+export { default as ArrowRightSVG } from './svg/ArrowRightSVG';
+export { default as ArrowLeftSVG } from './svg/ArrowLeftSVG';

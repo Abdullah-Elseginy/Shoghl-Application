@@ -20,7 +20,7 @@ const SplashScreen = ({ navigation }: Props) => {
       if (user) {
         navigation.replace(ScreenNames.BottomTabs);
       } else {
-        navigation.replace(ScreenNames.Login);
+        navigation.replace(ScreenNames.OnBoarding);
       }
     }, 3000);
   }, []);
