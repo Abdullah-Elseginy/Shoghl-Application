@@ -10,34 +10,45 @@ export const styles = StyleSheet.create({
     },
     center: {
         alignItems: 'center',
-        paddingTop: hp(12)
+        paddingTop: hp(18),
+        marginBottom: hp(3),
+    },
+    contentContainer: {
+        flex: 1,
+        backgroundColor: COLORS.grayMoreLight,
+        borderTopStartRadius: hp(7),
+        borderTopEndRadius: hp(7),
     },
     signin: {
-        fontSize: hp(4.1),
-        marginTop: hp(3),
-        marginBottom: hp(3),
-        letterSpacing: hp(-0.2)
+        fontSize: hp(2.5),
+        marginTop: hp(2),
+        marginBottom: hp(1.5),
+        letterSpacing: hp(-0.2),
+        textAlign: 'center',
     },
     loginContent: {
         flex: 1,
         backgroundColor: COLORS.white,
-        borderTopStartRadius: hp(3),
-        borderTopEndRadius: hp(3),
-        paddingHorizontal: hp(3),
-        paddingVertical: hp(3),
+        borderTopStartRadius: hp(7),
+        borderTopEndRadius: hp(7),
+        paddingHorizontal: hp(4.5),
+        paddingTop: hp(8),
     },
     containerStyle: {
-        marginBottom: hp(6.5),
+        marginBottom: hp(3),
     },
     inputLabel: {
         textTransform: 'uppercase'
     },
     btn: {
-        marginVertical: hp(5.5),
-        alignSelf: 'center'
+        marginVertical: hp(4.5),
+        alignSelf: 'center',
+        height: hp(7),
+        borderRadius: hp(4)
     },
     btnTxt: {
         textTransform: 'uppercase',
+        letterSpacing: hp(0.2)
     },
     remember: {
         marginStart: hp(1),
@@ -54,10 +65,8 @@ export const styles = StyleSheet.create({
         marginStart: hp(1),
     },
     signup: {
-        fontSize: hp(1.6),
-        marginStart: hp(3),
-        textTransform: 'uppercase',
+        fontSize: hp(1.8),
         color: COLORS.primary,
-        fontFamily: FONTS.SemiBold
+        fontFamily: FONTS.Medium
     }
 });

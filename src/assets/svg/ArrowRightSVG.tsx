@@ -8,9 +8,9 @@ const ArrowRightSVG = (props: SvgProps) => (
         fill="none"
         {...props}
     >
-        <Rect width={36} height={36} fill="#0CCE68" rx={2} />
+        <Rect width={36} height={36} fill="#fff" rx={2} />
         <Path
-            fill="#fff"
+            fill="#4D6182"
             d="M15.213 11 13.5 12.645 19.063 18 13.5 23.355 15.213 25l7.287-7-7.287-7Z"
         />
     </Svg>

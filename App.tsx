@@ -5,7 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { LogBox, StatusBar } from 'react-native';
 import { persistor, store } from './src/redux/store';
 import { COLORS } from './src/constants';
-import { CompleteProfile } from './src/screens';
+import { ProfileScreen } from './src/screens';
 
 const App = () => {
   useEffect(() => {
@@ -17,7 +17,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
         <MainStack />
-        {/* <CompleteProfile /> */}
+        {/* <ProfileScreen /> */}
       </PersistGate>
     </Provider>
   );

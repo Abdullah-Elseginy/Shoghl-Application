@@ -5,6 +5,7 @@ export { default as AppHeader } from './AppHeader';
 export { default as AppInput } from './AppInput';
 export { default as Checkbox } from './Checkbox';
 export { default as Dropdown } from './Dropdown';
+export { default as SwitchButton } from './SwitchButton';
 export { default as GeneralModal } from './GeneralModal';
 export { default as CustomBottomSheet } from './CustomBottomSheet';
 

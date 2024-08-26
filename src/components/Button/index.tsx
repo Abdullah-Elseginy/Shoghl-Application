@@ -23,6 +23,7 @@ type Props = {
   loading?: boolean;
   loadingColor?: ColorValue;
   secondry?: boolean;
+  leftIcon?: React.ReactNode;
 };
 
 const Button = ({
@@ -35,7 +36,8 @@ const Button = ({
   disabledColor,
   loading,
   loadingColor,
-  secondry
+  secondry,
+  leftIcon
 }: Props) => {
   const [preventPress, setPreventPress] = useState<boolean>(false);
   const disabledPress: boolean = isDisapled || loading || preventPress;
@@ -69,14 +71,17 @@ const Button = ({
           size={'small'}
         />
       ) : (
-        <CustomText
-          text={text}
-          textStyle={[
-            generalStyles.btnTxt,
-            { color: disabledColor && isDisapled ? disabledColor : secondry ? COLORS.primary : COLORS.white },
-            buttonTextStyle,
-          ]}
-        />
+        <>
+          {leftIcon && leftIcon}
+          <CustomText
+            text={text}
+            textStyle={[
+              generalStyles.btnTxt,
+              { color: disabledColor && isDisapled ? disabledColor : secondry ? COLORS.primary : COLORS.white },
+              buttonTextStyle,
+            ]}
+          />
+        </>
       )}
     </TouchableOpacity>
   );

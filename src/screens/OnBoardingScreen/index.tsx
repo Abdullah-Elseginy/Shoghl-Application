@@ -11,15 +11,15 @@ import {
     StatusBar,
     TouchableOpacity,
     Dimensions,
+    Image,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
-import { COLORS, FONTS, hp, wp } from '../../constants';
+import { COLORS, FONTS, hp, IMAGES, wp } from '../../constants';
 import { changeIsSkipping } from '../../redux/slices/authSlice';
-import { ArrowRightSVG, FrameOneSVG, FrameThreeSVG, FrameTwoSVG } from '../../assets';
 import ScreenNames from '../../navigations/ScreenNames';
-import LogoBlackSVG from '../../assets/svg/LogoBlackSVG';
+import { Button } from '../../components';
 const { width, height } = Dimensions.get('window');
 
 type Props = {
@@ -31,22 +31,19 @@ const slides = [
         id: '1',
         titleHead: 'Post a Job',
         title: 'Select a package that suits your needs and submit your job details',
-        bold: 'Shoghl',
-        subtitle: ' helps you achieve your goals!',
+        url: IMAGES.board1,
     },
     {
         id: '2',
         titleHead: 'Advertise',
         title: 'Advertise your listings and find candidates interested in your job offer',
-        bold: 'Shoghl',
-        subtitle: ' helps you achieve your goals!',
+        url: IMAGES.board2,
     },
     {
         id: '3',
         titleHead: 'Recruit',
         title: 'Allow candidates to apply to jobs via a form and rate or comment them',
-        bold: 'Shoghl',
-        subtitle: ' helps you achieve your goals!',
+        url: IMAGES.board3,
     },
 ];
 
@@ -61,69 +58,9 @@ const Slide = ({ item }) => {
                 maxHeight: '85%',
             }}
         >
-            {item.id == 1 ? (
-                <>
-                    <View style={{ alignItems: 'center', marginBottom: hp(5) }}>
-                        <LogoBlackSVG />
-                    </View>
-                    <Text style={styles.subtitle_top}>
-                        <Text
-                            style={{
-                                fontFamily: FONTS.SemiBold,
-                                color: COLORS.black,
-                            }}
-                        >
-                            {item.bold}
-                        </Text>{' '}
-                        {item.subtitle}
-                    </Text>
-                    <FrameOneSVG />
-                    <Text style={styles.title_head_top}>{item.titleHead}</Text>
-                    <Text style={styles.title_top}>{item.title}</Text>
-                </>
-            ) : null}
-            {item.id == 2 ? (
-                <>
-                    <View style={{ alignItems: 'center', marginBottom: hp(5) }}>
-                        <LogoBlackSVG />
-                    </View>
-                    <Text style={styles.subtitle_top}>
-                        <Text
-                            style={{
-                                fontFamily: FONTS.SemiBold,
-                                color: COLORS.black,
-                            }}
-                        >
-                            {item.bold}
-                        </Text>{' '}
-                        {item.subtitle}
-                    </Text>
-                    <FrameTwoSVG />
-                    <Text style={styles.title_head_top}>{item.titleHead}</Text>
-                    <Text style={styles.title_top}>{item.title}</Text>
-                </>
-            ) : null}
-            {item.id == 3 ? (
-                <>
-                    <View style={{ alignItems: 'center', marginBottom: hp(5) }}>
-                        <LogoBlackSVG />
-                    </View>
-                    <Text style={styles.subtitle_top}>
-                        <Text
-                            style={{
-                                fontFamily: FONTS.SemiBold,
-                                color: COLORS.black,
-                            }}
-                        >
-                            {item.bold}
-                        </Text>{' '}
-                        {item.subtitle}
-                    </Text>
-                    <FrameThreeSVG />
-                    <Text style={styles.title_head_top}>{item.titleHead}</Text>
-                    <Text style={styles.title_top}>{item.title}</Text>
-                </>
-            ) : null}
+            <Image source={item.url} style={{ width: wp(85), height: hp(45) }} resizeMode="contain" />
+            <Text style={styles.title_head_top}>{item.titleHead}</Text>
+            <Text style={styles.title_top}>{item.title}</Text>
         </SafeAreaView>
     );
 };
@@ -179,7 +116,7 @@ const OnBoardingScreen = ({ navigation }: Props) => {
                             style={[
                                 styles.indicator,
                                 currentSlideIndex == index && {
-                                    backgroundColor: COLORS.black,
+                                    backgroundColor: COLORS.primary,
                                     width: 25,
                                 },
                             ]}
@@ -199,7 +136,7 @@ const OnBoardingScreen = ({ navigation }: Props) => {
                                     navigation.replace(ScreenNames.Login);
                                 }}
                             >
-                                <Text style={styles.startNowBtn}>start now</Text>
+                                <Text style={styles.startNowBtn}>start</Text>
                             </TouchableOpacity>
                         </View>
                     ) : (
@@ -218,10 +155,9 @@ const OnBoardingScreen = ({ navigation }: Props) => {
                             >
                                 <Text style={styles.skip_btn}>skip</Text>
                             </TouchableOpacity>
-                            <View style={{ width: 15 }} />
-                            <TouchableOpacity onPress={goToNextSlide}>
-                                <ArrowRightSVG />
-                            </TouchableOpacity>
+                            <View style={{ width: wp(30) }} >
+                                <Button text="next" onPress={goToNextSlide} buttonTextStyle={{ textTransform: 'uppercase' }} />
+                            </View>
                         </View>
                     )}
                 </View>
@@ -267,17 +203,18 @@ const styles = StyleSheet.create({
     },
     title_head_top: {
         color: COLORS.primary,
-        fontSize: 20,
-        marginTop: 40,
+        fontSize: 30,
+        marginTop: 20,
         fontFamily: FONTS.SemiBold,
         textAlign: 'center',
     },
     title_top: {
         color: COLORS.black,
-        fontSize: 18,
-        marginTop: 40,
+        fontSize: 16,
+        marginTop: 20,
         fontFamily: FONTS.Regular,
         textAlign: 'center',
+        width: wp(80),
     },
     title: {
         color: COLORS.black,
@@ -289,7 +226,7 @@ const styles = StyleSheet.create({
     indicator: {
         height: 2.5,
         width: 10,
-        backgroundColor: COLORS.primaryLight,
+        backgroundColor: COLORS.grayLight,
         marginHorizontal: 3,
         borderRadius: 2,
     },
@@ -315,13 +252,14 @@ const styles = StyleSheet.create({
         lineHeight: 52,
         fontSize: wp(4),
         fontFamily: FONTS.Medium,
-        textTransform: 'capitalize',
+        textTransform: 'uppercase',
     },
     skip_btn: {
         fontFamily: FONTS.Medium,
-        fontSize: wp(4),
-        color: COLORS.black,
+        fontSize: wp(5),
+        color: COLORS.grayLight,
         textAlign: 'left',
+        textTransform: 'capitalize',
     },
     bottomSheetBlock: {
         textAlign: 'right',
