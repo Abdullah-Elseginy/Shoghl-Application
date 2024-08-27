@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }: Props) => {
           <AppInput placeholder="* * * * * * * *" label="password" labelStyle={styles.inputLabel} containerStyle={styles.containerStyle} secureTextEntry={isSecure} rightIcon={isSecure ? <EyeSVG /> : <EyeOffSVG />} onRightIconPress={() => setIsSecure(!isSecure)} />
           <View style={generalStyles.rowBetween}>
             <View style={generalStyles.rowStart}>
-              <SwitchButton isChecked={isChecked} setIsChecked={setIsChecked} size='small' />
+              <SwitchButton isChecked={isChecked} setIsChecked={setIsChecked} size="small" />
               <CustomText text="Remember me" textStyle={styles.remember} />
             </View>
             <Pressable>

@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
 		zIndex: 1,
 	},
 	listItemContainerStyle: {
-		zIndex: 999,
+		zIndex: 999
 	},
 	listItemLabelStyle: {
 		color: COLORS.black,

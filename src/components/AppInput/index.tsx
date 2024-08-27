@@ -47,7 +47,6 @@ const AppInput = ({
   onLeftIconPress,
   onRightIconPress,
   editable = true,
-  inputStyle,
   placeholderTextColor,
   secureTextEntry,
   appInputStyle,
@@ -62,12 +61,11 @@ const AppInput = ({
             {leftIcon}
           </TouchableOpacity>
         )}
-
         <TextInput
           placeholderTextColor={
             placeholderTextColor ? placeholderTextColor : COLORS.grayLight
           }
-          style={[styles.input, inputstyle, inputStyle]}
+          style={[styles.input, inputstyle]}
           placeholder={placeholder}
           value={value}
           multiline={multiline}
