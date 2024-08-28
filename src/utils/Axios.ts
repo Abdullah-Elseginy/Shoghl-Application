@@ -10,7 +10,7 @@ export type APIsTypes = {
 
 export const APIS: APIsTypes = {
   // =================== auth =================== //
-  //   login: 'auth/login',
+    // login: 'auth/login',
 };
 
 const axiosInstance = axios.create({

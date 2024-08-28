@@ -2,6 +2,22 @@ import { StyleSheet } from 'react-native';
 import { COLORS, FONTS, hp, wp } from '../../constants';
 
 export const styles = StyleSheet.create({
+    SearchBox: {
+        shadowColor: COLORS.black,
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.27,
+        shadowRadius: 4.65,
+
+        elevation: 6,
+        backgroundColor:COLORS.white,
+        borderRadius:wp(1.5),
+        padding:hp(1),
+        marginBottom:hp(2)
+
+    },
     container: {
         paddingHorizontal: wp(5),
         paddingTop: hp(1),
@@ -30,7 +46,8 @@ export const styles = StyleSheet.create({
         borderWidth: hp(0.1),
         borderColor: COLORS.grayLight,
         borderRadius: hp(1),
-        marginBottom: hp(3)
+        marginBottom: hp(3),
+        marginRight: wp(2)
     },
     jobTopBox: {
         paddingHorizontal: wp(6),
@@ -49,7 +66,7 @@ export const styles = StyleSheet.create({
         fontSize: hp(1.8),
         textTransform: 'capitalize',
         marginBottom: hp(0.5),
-        fontFamily: FONTS.Medium
+        fontFamily: FONTS.Medium,
     },
     period: {
         backgroundColor: COLORS.primary,
@@ -73,4 +90,51 @@ export const styles = StyleSheet.create({
         fontSize: hp(1.8),
         textTransform: 'capitalize',
     },
+    HowItWorkBox: {
+        marginRight: wp(2),
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: wp(60),
+        padding: hp(1),
+        borderRadius: hp(1),
+        borderWidth: hp(0.1),
+        borderColor: COLORS.grayLight,
+        marginBottom: hp(2),
+    },
+    SearchByCareer:{
+        justifyContent:'center',
+        alignItems:'center',
+        marginRight:wp(4),
+        width:wp(60),
+        borderWidth:wp(0.1),
+        borderColor: COLORS.grayLight,
+    },
+    SearchByLocation:{
+        width:wp(30),
+        alignItems:'center',
+    },
+    SearchLocationContainer:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+    },
+    Line: {
+        height: hp(0.1),
+        backgroundColor: COLORS.grayLight,
+        marginVertical: hp(3),
+    },
+    HowItWorkSection: {
+        marginVertical: hp(2),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    careerSearchSection:{
+        textAlign:'center',
+        marginBottom:hp(9),
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    MarginVertical: {
+        marginVertical: wp(2)
+    }
 });
