@@ -55,5 +55,9 @@ export const generalStyles = StyleSheet.create({
     // backgroundColor: COLORS.blue_extra_light,
     alignItems: "center",
     justifyContent: "center"
-  }
+  },
+  container: {
+    paddingHorizontal: wp(5),
+    paddingTop: hp(1),
+  },
 });

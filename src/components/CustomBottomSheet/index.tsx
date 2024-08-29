@@ -1,9 +1,8 @@
 import React, {useRef, useEffect, ReactNode} from 'react';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {styles} from './styles';
 import BottomSheet from 'react-native-raw-bottom-sheet';
-import { COLORS, hp, wp } from '../../constants';
-
+import {COLORS, hp, wp} from '../../constants';
 
 interface CustomBottomSheetProps {
   isOpen: boolean;
@@ -39,37 +38,39 @@ const CustomBottomSheet: React.FC<CustomBottomSheetProps> = ({
   }, [isOpen]);
 
   return (
-    <BottomSheet
-      draggable
-      ref={bottomSheetRef}
-      height={height}
-      duration={50}
-      closeOnDragDown={closeOnDragDown}
-      closeOnPressMask={closeOnPressMask}
-      onClose={onClose}
-      animationType="fade"
-      dragFromTopOnly={dragFromTopOnly}
-      customStyles={{
-        container: {
-          borderTopLeftRadius: wp(5),
-          borderTopRightRadius: wp(5),
-        },
-        draggableIcon: [
-          {
-            backgroundColor: COLORS.black,
-            width: wp(40),
-            marginTop:hp(3)
+    <ScrollView>
+      <BottomSheet
+        draggable
+        ref={bottomSheetRef}
+        height={height}
+        duration={50}
+        closeOnDragDown={closeOnDragDown}
+        closeOnPressMask={closeOnPressMask}
+        onClose={onClose}
+        animationType="fade"
+        dragFromTopOnly={dragFromTopOnly}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: wp(5),
+            borderTopRightRadius: wp(5),
           },
-          draggableIcon,
-        ],
-      }}>
-      <>
-        {!closeOnDragDown && <View style={styles.dragFromTopOnly} />}
-        <View style={[styles.sheetView, childrenContainerStyle]}>
-          {children}
-        </View>
-      </>
-    </BottomSheet>
+          draggableIcon: [
+            {
+              backgroundColor: COLORS.black,
+              width: wp(40),
+              marginTop: hp(3),
+            },
+            draggableIcon,
+          ],
+        }}>
+        <>
+          {!closeOnDragDown && <View style={styles.dragFromTopOnly} />}
+          <View style={[styles.sheetView, childrenContainerStyle]}>
+            {children}
+          </View>
+        </>
+      </BottomSheet>
+    </ScrollView>
   );
 };
 

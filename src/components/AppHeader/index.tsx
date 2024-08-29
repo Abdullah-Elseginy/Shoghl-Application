@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
-import { HomeSVG } from '../../assets';
+import { ArrowLeftSVG, HomeSVG } from '../../assets';
 import CustomText from '../CustomText';
 import { generalStyles } from '../../constants';
 
@@ -46,7 +46,7 @@ const AppHeader = ({
         <TouchableOpacity
           style={[styles.arrowBack, { backgroundColor: arrowBackColor }]}
           onPress={() => navigation.goBack()}>
-          <HomeSVG />
+          <ArrowLeftSVG />
         </TouchableOpacity>
       )}
       {leftIcon && (

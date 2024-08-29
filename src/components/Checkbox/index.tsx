@@ -1,20 +1,18 @@
-import { Pressable } from 'react-native';
+import {Pressable} from 'react-native';
 import React from 'react';
-import { CheckboxSVG, CheckedboxSVG } from '../../assets';
-import { hp } from '../../constants';
+import {CheckboxSVG, CheckedboxSVG} from '../../assets';
+import {hp} from '../../constants';
 
 type Props = {
   isChecked?: boolean;
   setIsChecked?: any;
 };
 
-const Checkbox = ({
-  isChecked,
-  setIsChecked,
-}: Props) => {
-
+const Checkbox = ({isChecked, setIsChecked}: Props) => {
   return (
-    <Pressable onPressIn={() => setIsChecked(!isChecked)} style={{ height: hp(0) }}>
+    <Pressable
+      onPressIn={() => setIsChecked(!isChecked)}
+      style={{height: hp(0)}}>
       {isChecked ? <CheckedboxSVG /> : <CheckboxSVG />}
     </Pressable>
   );

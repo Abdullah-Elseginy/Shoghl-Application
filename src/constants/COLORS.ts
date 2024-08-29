@@ -8,4 +8,8 @@ export const COLORS = {
   // grayLight: '#32343E',
   blueLight: '#F0F5FB',
   // blueLight: '#A0A5BA',
+  yellowlight:'#FCF6D9',
+  yellow: '#e1d123',
+  blue:'#186fc9',
+  bluesmothy:'#186dc92e'
 };

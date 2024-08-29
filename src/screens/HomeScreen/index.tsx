@@ -188,7 +188,7 @@ const BROWESLOCATION = [
   },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [city, setCity] = React.useState('');
   const HowItWork = ({item}) => {
     return (
@@ -282,7 +282,11 @@ const HomeScreen = () => {
             placeholder="All Categories"
             appInputStyle={styles.containerStyle}
           />
-          <Button text="search" style={styles.btn} onPress={() => null} />
+          <Button
+            text="search"
+            style={styles.btn}
+            onPress={() => navigation.navigate('SearchedJobs')}
+          />
         </View>
         <View style={styles.HowItWorkSection}>
           <CustomText text="Recent Jobs" textStyle={styles.sectionTitle} />
