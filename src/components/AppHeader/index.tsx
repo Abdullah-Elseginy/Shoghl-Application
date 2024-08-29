@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { styles } from './styles';
-import { ArrowLeftSVG, HomeSVG } from '../../assets';
+import {useNavigation} from '@react-navigation/native';
+import {styles} from './styles';
+import {ArrowLeftSVG} from '../../assets';
 import CustomText from '../CustomText';
-import { generalStyles } from '../../constants';
+import {generalStyles} from '../../constants';
 
 type Props = {
   title?: string;
@@ -44,7 +44,7 @@ const AppHeader = ({
       style={[styles.headerContainer, generalStyles.rowCenter, styleHeader]}>
       {arrowBack && (
         <TouchableOpacity
-          style={[styles.arrowBack, { backgroundColor: arrowBackColor }]}
+          style={[styles.arrowBack, {backgroundColor: arrowBackColor}]}
           onPress={() => navigation.goBack()}>
           <ArrowLeftSVG />
         </TouchableOpacity>

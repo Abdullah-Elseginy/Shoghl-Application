@@ -27,6 +27,11 @@ export const styles = StyleSheet.create({
     borderWidth: wp(0.1),
     borderRadius: wp(1),
   },
+  buttomSheetScroll: {
+    // backgroundColor:"#cce",
+    paddingBottom: hp(10),
+    marginTop: hp(2),
+  },
   filtersSections: {
     marginBottom: hp(1),
   },
@@ -35,6 +40,7 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.Bold,
     marginBottom: hp(0.8),
   },
+  filterTextComplate: {marginRight: wp(2)},
   Line: {
     height: hp(0.1),
     backgroundColor: COLORS.grayLight,
@@ -53,11 +59,13 @@ export const styles = StyleSheet.create({
     borderRadius: hp(1),
     padding: hp(1),
   },
+  contencontainer: {paddingLeft: 20},
   filterChoices: {
     width: '100%',
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: hp(1),
   },
+  ItemText: {marginLeft: hp(0.8)},
   jobBox: {
     borderWidth: hp(0.1),
     borderColor: COLORS.grayLight,
@@ -83,6 +91,7 @@ export const styles = StyleSheet.create({
     marginBottom: hp(0.5),
     fontFamily: FONTS.Medium,
   },
+  PeriodBox: {width: wp(50)},
   period: {
     backgroundColor: COLORS.yellowlight,
     borderColor: COLORS.yellow,
@@ -113,6 +122,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp(6),
     paddingVertical: hp(3),
   },
+  JocBttomBox: {marginBottom: hp(2)},
   btnIcon: {
     marginEnd: wp(1.5),
   },
@@ -120,6 +130,7 @@ export const styles = StyleSheet.create({
     fontSize: hp(1.8),
     textTransform: 'capitalize',
   },
+  LocationIcon: {marginStart: wp(20)},
   quetionBox: {
     padding: hp(2),
     flexDirection: 'row',

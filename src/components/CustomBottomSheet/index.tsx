@@ -2,7 +2,6 @@ import React, {useRef, useEffect, ReactNode} from 'react';
 import {ScrollView, View} from 'react-native';
 import {styles} from './styles';
 import BottomSheet from 'react-native-raw-bottom-sheet';
-import {COLORS, hp, wp} from '../../constants';
 
 interface CustomBottomSheetProps {
   isOpen: boolean;
@@ -50,18 +49,8 @@ const CustomBottomSheet: React.FC<CustomBottomSheetProps> = ({
         animationType="fade"
         dragFromTopOnly={dragFromTopOnly}
         customStyles={{
-          container: {
-            borderTopLeftRadius: wp(5),
-            borderTopRightRadius: wp(5),
-          },
-          draggableIcon: [
-            {
-              backgroundColor: COLORS.black,
-              width: wp(40),
-              marginTop: hp(3),
-            },
-            draggableIcon,
-          ],
+          container: styles.container,
+          draggableIcon: [styles.DraglbleIcon, draggableIcon],
         }}>
         <>
           {!closeOnDragDown && <View style={styles.dragFromTopOnly} />}

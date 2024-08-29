@@ -196,7 +196,7 @@ const HomeScreen = ({navigation}) => {
         {item.imag}
         <CustomText textStyle={styles.job} text={item.title} />
         <CustomText
-          textStyle={[styles.sectionSubTitle, {textAlign: 'center'}]}
+          textStyle={[styles.sectionSubTitle, styles.HIWContentText]}
           text={item.content}
         />
       </View>
@@ -216,13 +216,13 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
         <View style={styles.jobBottomBox}>
-          <View style={[generalStyles.row, {marginBottom: hp(2)}]}>
+          <View style={[generalStyles.row, styles.JobButtomBox2]}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
             <Location
               width={hp(2)}
               height={hp(2)}
-              style={[styles.btnIcon, {marginStart: wp(20)}]}
+              style={[styles.btnIcon, styles.LocationBTN]}
             />
             <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
           </View>
@@ -244,7 +244,7 @@ const HomeScreen = ({navigation}) => {
         {item.imag}
         <CustomText
           text={item.title}
-          textStyle={[{marginTop: hp(-15)}, styles.sectionSubTitle]}
+          textStyle={[styles.CareerLevelTitle, styles.sectionSubTitle]}
         />
       </View>
     );
@@ -253,7 +253,7 @@ const HomeScreen = ({navigation}) => {
     return (
       <View style={styles.SearchByLocation}>
         {item.imag}
-        <CustomText text={item.title} textStyle={{marginTop: hp(-3.5)}} />
+        <CustomText text={item.title} textStyle={styles.BrowseLocationTitle} />
       </View>
     );
   };
@@ -335,7 +335,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.careerSearchSection}>
           <CustomText
             text="Browse Jobs by Career Level"
-            textStyle={[styles.sectionTitle, {marginBottom: hp(-11)}]}
+            textStyle={[styles.sectionTitle, styles.BrowseJobbyCareerLevel]}
           />
         </View>
         <View>
@@ -354,7 +354,7 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.HowItWorkSection}>
             <CustomText
               text="Browse Jobs by Career Location"
-              textStyle={[styles.sectionTitle, {marginBottom: hp(-4)}]}
+              textStyle={[styles.sectionTitle,styles.BrowseJobsbCareerLocation ]}
             />
           </View>
           <View style={styles.SearchLocationContainer}>

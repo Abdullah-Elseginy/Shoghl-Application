@@ -2,7 +2,7 @@
 import React from 'react';
 import {AppHeader, AppScreenContainer, CustomText} from '../../components';
 import {ScrollView} from 'react-native-gesture-handler';
-import {generalStyles, hp, IMAGES} from '../../constants';
+import {generalStyles, IMAGES} from '../../constants';
 import {Image, View} from 'react-native';
 import {styles} from './styles';
 import {Documentation} from '../../assets';
@@ -109,7 +109,7 @@ const JobDetailsScreen = ({navigation}) => {
           <View style={styles.SkillsBox}>
             <CustomText
               text="Full time"
-              textStyle={[styles.JobsiteText, {marginBottom: hp(1.5)}]}
+              textStyle={[styles.JobsiteText, styles.FullTimeText]}
             />
             <CustomText text="Full time" textStyle={styles.JobsiteText} />
             <CustomText text="Full time" textStyle={styles.JobsiteText} />

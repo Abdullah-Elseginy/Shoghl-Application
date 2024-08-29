@@ -111,8 +111,12 @@ const QUETIONS = [
 
 const FilterSection = ({title, options}) => {
   const [expanded, setExpanded] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const toggleOption = option => {
+  type Option = {
+    id: number;
+    name: string;
+  };
+  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  const toggleOption = (option: Option) => {
     setSelectedOptions(prevState =>
       prevState.includes(option)
         ? prevState.filter(item => item !== option)
@@ -120,7 +124,7 @@ const FilterSection = ({title, options}) => {
     );
   };
   return (
-    <View style={{marginBottom: hp(1)}}>
+    <View>
       <View style={styles.Line} />
       <TouchableOpacity
         style={[styles.filtersSections, generalStyles.rowBetween]}
@@ -132,12 +136,12 @@ const FilterSection = ({title, options}) => {
         <FlatList
           data={options}
           keyExtractor={item => item}
-          contentContainerStyle={{paddingLeft: 20}}
+          contentContainerStyle={styles.contencontainer}
           renderItem={({item}) => (
-            <View style={{flexDirection: 'row'}}>
+            <View>
               <View style={styles.filterChoices}>
                 <Checkbox isChecked={true} setIsChecked={false} />
-                <CustomText text={item} textStyle={{marginLeft: 5}} />
+                <CustomText text={item} textStyle={styles.ItemText} />
               </View>
             </View>
           )}
@@ -157,7 +161,7 @@ const Job = ({item, navigation}) => {
           <View style={styles.jobTopContent}>
             <CustomText text={item.status} textStyle={styles.status} />
             <CustomText text={item.job} textStyle={styles.job} />
-            <View style={[generalStyles.rowBetween, {width: wp(50)}]}>
+            <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
               <CustomText text={item.period} textStyle={styles.period} />
               <CustomText text={item.intern} textStyle={[styles.period2]} />
             </View>
@@ -165,13 +169,13 @@ const Job = ({item, navigation}) => {
         </View>
       </View>
       <View style={styles.jobBottomBox}>
-        <View style={[generalStyles.row, {marginBottom: hp(2)}]}>
+        <View style={[generalStyles.row, styles.JocBttomBox]}>
           <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
           <Location
             width={hp(2)}
             height={hp(2)}
-            style={[styles.btnIcon, {marginStart: wp(20)}]}
+            style={[styles.btnIcon, styles.LocationIcon]}
           />
           <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
         </View>
@@ -194,7 +198,7 @@ const Quetions = ({item}) => {
 const SearchedJobs = ({navigation}) => {
   const [openSheet, SetOpenSheet] = useState(false);
   return (
-    <AppScreenContainer style={{flex: 1}}>
+    <AppScreenContainer>
       <AppHeader arrowBack={true} />
       <ScrollView contentContainerStyle={styles.container}>
         {/* Section1 Search Title */}
@@ -211,20 +215,15 @@ const SearchedJobs = ({navigation}) => {
           style={styles.filterBottm}>
           <CustomText
             text="Filter"
-            textStyle={[styles.filtersText, {marginRight: wp(2)}]}
+            textStyle={[styles.filtersText, styles.filterTextComplate]}
           />
-          <Filte width={wp(7)} height={hp(4)} color={'#00f'} />
+          <Filte width={wp(7)} height={hp(4)} />
         </TouchableOpacity>
         <CustomBottomSheet
           isOpen={openSheet}
           height={hp(70)}
           children={
-            <ScrollView
-              contentContainerStyle={{
-                // backgroundColor:"#cce",
-                paddingBottom: hp(10),
-                marginTop: hp(2),
-              }}>
+            <ScrollView contentContainerStyle={styles.buttomSheetScroll}>
               <View style={styles.FilterBox}>
                 <View style={styles.filtersSections}>
                   <CustomText text="Filters" textStyle={styles.filtersText} />

@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     borderRadius: hp(1),
     marginRight: wp(1),
   },
+  FullTimeText: {marginBottom: hp(1.5)},
   locationBox: {
     marginTop: hp(1),
     // backgroundColor:COLORS.blue
@@ -57,7 +58,7 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.grayLight,
     padding: hp(2),
     borderRadius: wp(1),
-    marginBottom:hp(2)
+    marginBottom: hp(2),
   },
   Titles: {
     fontFamily: FONTS.Bold,
