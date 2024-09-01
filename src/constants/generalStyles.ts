@@ -1,6 +1,6 @@
-import { StyleSheet } from 'react-native';
-import { hp, wp } from './Dimensions';
-import { FONTS } from './Fonts';
+import {StyleSheet} from 'react-native';
+import {hp, wp} from './Dimensions';
+import {FONTS} from './Fonts';
 
 export const generalStyles = StyleSheet.create({
   ScreenContainer: {
@@ -22,13 +22,13 @@ export const generalStyles = StyleSheet.create({
   },
   rowStart: {
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   center: {
     alignItems: 'center',
   },
   flex: {
-    flex: 1
+    flex: 1,
   },
   btn: {
     height: hp(6),
@@ -46,18 +46,21 @@ export const generalStyles = StyleSheet.create({
     marginTop: hp(-1),
   },
   contentContainerStyle: {
-    paddingBottom: hp(5)
+    paddingBottom: hp(5),
   },
   circle: {
     width: wp(9),
     height: wp(9),
     borderRadius: wp(5),
     // backgroundColor: COLORS.blue_extra_light,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   container: {
     paddingHorizontal: wp(5),
     paddingTop: hp(1),
+  },
+  headercenter: {
+    textAlign: 'center',
   },
 });

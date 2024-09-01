@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  JobRequirementBox: {
+  JobRequirementBoxs: {
     backgroundColor: COLORS.grayMoreLight,
     borderWidth: wp(0.1),
     borderColor: COLORS.grayLight,
@@ -78,6 +78,45 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
-    // justifyContent: 'space-between',
+  },
+  similarJobMainContainer: {
+    backgroundColor: COLORS.white,
+  },
+  SimilarJobBoxs: {
+    width: 200,
+    // backgroundColor:COLO,
+    marginRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: hp(1),
+    borderColor: COLORS.grayMoreLight,
+    borderWidth: hp(0.12),
+    padding: hp(2),
+  },
+  similarjobtext: {
+    fontFamily: FONTS.Bold,
+    color: COLORS.primary,
+    marginTop: hp(0.6),
+  },
+  location: {
+    fontFamily: FONTS.ExtraLight,
+  },
+  company: {
+    fontFamily: FONTS.Bold,
+  },
+  days: {
+    fontFamily: FONTS.ExtraLight,
+  },
+  SimilarFuncDetails: {
+    width: '100%',
+    marginTop: hp(1),
+  },
+  Telimed: {
+    fontFamily: FONTS.ExtraLight,
+    marginLeft: wp(1),
+  },
+  relatedjobText: {
+    fontFamily: FONTS.Bold,
+    color:COLORS.primary
   },
 });

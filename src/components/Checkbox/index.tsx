@@ -1,7 +1,6 @@
 import {Pressable} from 'react-native';
 import React from 'react';
 import {CheckboxSVG, CheckedboxSVG} from '../../assets';
-import {hp} from '../../constants';
 
 type Props = {
   isChecked?: boolean;

@@ -11,6 +11,7 @@ const ScreenNames = {
   OnBoarding: 'OnBoarding',
   SearchedJobs: 'SearchedJobs',
   JobDetails: 'JobDetails',
+  CompanyProfile: 'CompanyProfile',
 };
 
 export default Object.freeze(ScreenNames);

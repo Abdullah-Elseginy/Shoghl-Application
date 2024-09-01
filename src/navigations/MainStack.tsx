@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScreenNames from './ScreenNames';
 import AuthStack from './AuthStack';
 import BottomTabNavigator from './BottomNavigation';
-import {JobDetailsScreen, SearchedJobs} from '../screens';
+import {CompanyProfile, JobDetailsScreen, SearchedJobs} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +13,7 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.AuthStack}>
+        initialRouteName={ScreenNames.JobDetails}>
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
@@ -26,6 +26,10 @@ const MainStack = () => {
         <Stack.Screen
           name={ScreenNames.JobDetails}
           component={JobDetailsScreen}
+        />
+        <Stack.Screen
+          name={ScreenNames.CompanyProfile}
+          component={CompanyProfile}
         />
       </Stack.Navigator>
     </NavigationContainer>
