@@ -27,6 +27,8 @@ import {
   UpperArrow2,
 } from '../../assets';
 import {COLORS, generalStyles, hp, wp} from '../../constants';
+import {ParamListBase} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 const JOBS = [
   {
     id: 1,
@@ -108,21 +110,24 @@ const QUETIONS = [
     text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
   },
 ];
-
-const FilterSection = ({title, options}) => {
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+  item: any;
+};
+const FilterSection = ({title, options}: any) => {
   const [expanded, setExpanded] = useState(false);
-  type Option = {
-    id: number;
-    name: string;
-  };
-  const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  const toggleOption = (option: Option) => {
-    setSelectedOptions(prevState =>
-      prevState.includes(option)
-        ? prevState.filter(item => item !== option)
-        : [...prevState, option],
-    );
-  };
+  // type Option = {
+  //   id: number;
+  //   name: string;
+  // };
+  // const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+  // const toggleOption = (option: Option) => {
+  //   setSelectedOptions(prevState =>
+  //     prevState.includes(option)
+  //       ? prevState.filter(item => item !== option)
+  //       : [...prevState, option],
+  //   );
+  // };
   return (
     <View>
       <View style={styles.Line} />
@@ -140,7 +145,7 @@ const FilterSection = ({title, options}) => {
           renderItem={({item}) => (
             <View>
               <View style={styles.filterChoices}>
-                <Checkbox isChecked={true} setIsChecked={false} />
+                <Checkbox isChecked={false} />
                 <CustomText text={item} textStyle={styles.ItemText} />
               </View>
             </View>
@@ -150,7 +155,7 @@ const FilterSection = ({title, options}) => {
     </View>
   );
 };
-const Job = ({item, navigation}) => {
+const Job = ({item, navigation}: Props) => {
   return (
     <Pressable
       onPress={() => navigation.navigate('JobDetails')}
@@ -187,7 +192,7 @@ const Job = ({item, navigation}) => {
     </Pressable>
   );
 };
-const Quetions = ({item}) => {
+const Quetions = ({item}: any) => {
   return (
     <View style={styles.quetionBox}>
       <CustomText text={item.text} textStyle={styles.filtersText} />
@@ -195,7 +200,7 @@ const Quetions = ({item}) => {
     </View>
   );
 };
-const SearchedJobs = ({navigation}) => {
+const SearchedJobs = ({navigation}: any) => {
   const [openSheet, SetOpenSheet] = useState(false);
   return (
     <AppScreenContainer>

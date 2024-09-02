@@ -1,22 +1,22 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ScreenNames from './ScreenNames';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { FONTS } from '../constants/Fonts';
-import { HomeSVG } from '../assets';
-import { hp, wp } from '../constants/Dimensions';
-import { COLORS } from '../constants/COLORS';
-import { HomeScreen, JobsScreen, ProfileScreen } from '../screens';
+import {Platform, StyleSheet, Text, View} from 'react-native';
+import {FONTS} from '../constants/Fonts';
+import {HomeSVG} from '../assets';
+import {hp, wp} from '../constants/Dimensions';
+import {COLORS} from '../constants/COLORS';
+import {ForEmployee, HomeScreen, JobsScreen, ProfileScreen} from '../screens';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
-        tabBarLabel: ({ focused }) => {
+        tabBarLabel: ({focused}) => {
           return (
             <View>
               <Text
@@ -32,7 +32,7 @@ const BottomTabNavigator = () => {
             </View>
           );
         },
-        tabBarIcon: ({ focused }) => {
+        tabBarIcon: ({focused}) => {
           let Icon;
           if (route.name === ScreenNames.Home) {
             Icon = focused ? <HomeSVG /> : <HomeSVG />;
@@ -43,6 +43,9 @@ const BottomTabNavigator = () => {
           if (route.name === ScreenNames.Profile) {
             Icon = focused ? <HomeSVG /> : <HomeSVG />;
           }
+          if (route.name === ScreenNames.ForEmployee) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
           return Icon;
         },
         headerShown: false,
@@ -50,6 +53,7 @@ const BottomTabNavigator = () => {
       })}>
       <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
       <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
+      <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
       <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
     </Tab.Navigator>
   );

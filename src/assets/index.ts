@@ -60,3 +60,7 @@ export {default as Globaly} from './svg/globaly.svg';
 export {default as ShareLink} from './svg/sharelink.svg';
 export {default as People} from './svg/people.svg';
 export {default as Description} from './svg/Description.svg';
+export {default as Employees} from './svg/employees.svg';
+export {default as CompanyLAnding} from './svg/company-landing-header.svg';
+export {default as Progress} from './svg/progress-with-one.svg';
+export {default as SavaTime} from './svg/saving-time.svg';

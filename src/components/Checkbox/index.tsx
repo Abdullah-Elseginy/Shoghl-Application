@@ -9,7 +9,7 @@ type Props = {
 
 const Checkbox = ({isChecked, setIsChecked}: Props) => {
   return (
-    <Pressable onPressIn={() => setIsChecked(!isChecked)}>
+    <Pressable onPressIn={() => setIsChecked((prev: boolean) => !prev)}>
       {isChecked ? <CheckedboxSVG /> : <CheckboxSVG />}
     </Pressable>
   );

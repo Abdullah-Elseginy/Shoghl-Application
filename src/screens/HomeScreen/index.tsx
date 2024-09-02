@@ -30,7 +30,9 @@ import {
   Tiktok,
   Udacity,
 } from '../../assets';
-import {generalStyles, hp, wp} from '../../constants';
+import {generalStyles, hp} from '../../constants';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
 
 const CITY = [
   {id: 1, label: 'Cairo'},
@@ -187,10 +189,13 @@ const BROWESLOCATION = [
     title: 'Riyadh',
   },
 ];
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+};
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation}: Props) => {
   const [city, setCity] = React.useState('');
-  const HowItWork = ({item}) => {
+  const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
         {item.imag}
@@ -202,7 +207,7 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   };
-  const Job = ({item}) => {
+  const Job = ({item}: any) => {
     return (
       <View style={styles.jobBox}>
         <View style={styles.jobTopBox}>
@@ -234,11 +239,11 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   };
-  const Parteners = ({item}) => {
+  const Parteners = ({item}: any) => {
     return <View>{item.imag}</View>;
   };
 
-  const CareerLevels = ({item}) => {
+  const CareerLevels = ({item}: any) => {
     return (
       <View style={styles.SearchByCareer}>
         {item.imag}
@@ -249,7 +254,7 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   };
-  const BrowesLocation = ({item}) => {
+  const BrowesLocation = ({item}: any) => {
     return (
       <View style={styles.SearchByLocation}>
         {item.imag}
@@ -354,7 +359,10 @@ const HomeScreen = ({navigation}) => {
           <View style={styles.HowItWorkSection}>
             <CustomText
               text="Browse Jobs by Career Location"
-              textStyle={[styles.sectionTitle,styles.BrowseJobsbCareerLocation ]}
+              textStyle={[
+                styles.sectionTitle,
+                styles.BrowseJobsbCareerLocation,
+              ]}
             />
           </View>
           <View style={styles.SearchLocationContainer}>

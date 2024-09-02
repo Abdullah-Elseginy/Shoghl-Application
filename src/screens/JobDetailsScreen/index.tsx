@@ -17,6 +17,8 @@ import {
   SimilsrJobs,
   Temlid,
 } from '../../assets';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
 const SIMILARJOBS = [
   {
     id: 1,
@@ -81,7 +83,7 @@ const SIMILARFUNCTIONS = [
     Telimed: 'Telimed',
   },
 ];
-const SimilarJobs = ({item}) => {
+const SimilarJobs = ({item}:any) => {
   return (
     <View style={styles.SimilarJobBoxs}>
       <View>{item.imag}</View>
@@ -92,7 +94,10 @@ const SimilarJobs = ({item}) => {
     </View>
   );
 };
-const SimilarFunctions = ({item}) => {
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase>;
+};
+const SimilarFunctions = ({item}:any) => {
   return (
     <View style={styles.SimilarJobBoxs}>
       <View>{item.imag}</View>
@@ -116,7 +121,7 @@ const SimilarFunctions = ({item}) => {
     </View>
   );
 };
-const JobDetailsScreen = ({navigation}) => {
+const JobDetailsScreen = ({navigation}:Props) => {
   return (
     <AppScreenContainer style={{flex: 1}}>
       <AppHeader

@@ -10,3 +10,4 @@ export {default as OnBoardingScreen} from './OnBoardingScreen';
 export {default as SearchedJobs} from './SearchedJobs';
 export {default as JobDetailsScreen} from './JobDetailsScreen';
 export {default as CompanyProfile} from './CompanyProfile';
+export {default as ForEmployee} from './ForEmployee';

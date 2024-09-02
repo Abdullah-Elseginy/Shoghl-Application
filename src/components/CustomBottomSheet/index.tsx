@@ -5,7 +5,7 @@ import BottomSheet from 'react-native-raw-bottom-sheet';
 
 interface CustomBottomSheetProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   children: ReactNode;
   height: number;
   childrenContainerStyle?: any;
