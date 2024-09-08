@@ -64,3 +64,6 @@ export {default as Employees} from './svg/employees.svg';
 export {default as CompanyLAnding} from './svg/company-landing-header.svg';
 export {default as Progress} from './svg/progress-with-one.svg';
 export {default as SavaTime} from './svg/saving-time.svg';
+export {default as EditPen} from './svg/EditPen.svg';
+export {default as ExitXicon} from './svg/ExitXicon.svg';
+export {default as Upload} from './svg/Upload.svg';

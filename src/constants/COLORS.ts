@@ -13,4 +13,8 @@ export const COLORS = {
   yellow: '#e1d123',
   blue: '#186fc9',
   bluesmothy: '#186dc92e',
+  blueMoresmothy: '#186dc90e',
+  GreenSmothy: '#53b427',
+  GreenSmothy2: '#54b42734',
+  danger: '#e51b1168',
 };

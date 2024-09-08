@@ -4,7 +4,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScreenNames from './ScreenNames';
 import AuthStack from './AuthStack';
 import BottomTabNavigator from './BottomNavigation';
-import {CompanyProfile, JobDetailsScreen, SearchedJobs} from '../screens';
+import {
+  CompanyProfile,
+  ComplateCompanyProfile,
+  JobDetailsScreen,
+  SearchedJobs,
+  WelcomeEmployee,
+} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +36,14 @@ const MainStack = () => {
         <Stack.Screen
           name={ScreenNames.CompanyProfile}
           component={CompanyProfile}
+        />
+        <Stack.Screen
+          name={ScreenNames.WelcomeEmployee}
+          component={WelcomeEmployee}
+        />
+        <Stack.Screen
+          name={ScreenNames.ComplateCompanyProfile}
+          component={ComplateCompanyProfile}
         />
       </Stack.Navigator>
     </NavigationContainer>

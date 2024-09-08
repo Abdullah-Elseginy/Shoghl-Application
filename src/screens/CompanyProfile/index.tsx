@@ -30,8 +30,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {FlatList} from 'react-native-gesture-handler';
 type Props = {
-  navigation: NativeStackNavigationProp<ParamListBase>;
-  item: any;
+  navigation?: NativeStackNavigationProp<ParamListBase>;
+  item?: any;
 };
 const JOBS = [
   {

@@ -13,6 +13,8 @@ const ScreenNames = {
   JobDetails: 'JobDetails',
   CompanyProfile: 'CompanyProfile',
   ForEmployee: 'Employee',
+  WelcomeEmployee: 'WelcomeEmployee',
+  ComplateCompanyProfile: 'ComplateCompanyProfile',
 };
 
 export default Object.freeze(ScreenNames);

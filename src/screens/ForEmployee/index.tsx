@@ -66,7 +66,7 @@ const Parteners = ({item}: any) => {
   return <View>{item.imag}</View>;
 };
 
-const ForEmployee = () => {
+const ForEmployee = ({navigation}) => {
   return (
     <AppScreenContainer style={styles.ScreenContainer}>
       {/* Header */}
@@ -81,7 +81,10 @@ const ForEmployee = () => {
             text="Hire Smarter. Grow Faster"
             textStyle={styles.HeaderSubText}
           />
-          <Button text="Hire Now" />
+          <Button
+            text="Hire Now"
+            onPress={() => navigation.navigate('WelcomeEmployee')}
+          />
         </View>
         {/* Join Saudi Top Companies */}
         <View style={styles.PAddingContainer}>
