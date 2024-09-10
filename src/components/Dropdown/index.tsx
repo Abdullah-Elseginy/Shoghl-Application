@@ -7,10 +7,10 @@ import CustomText from '../CustomText';
 type Props = {
   placeholder?: string;
   label?: string;
-  value: any;
+  value?: any;
   setValue: any;
   onChangeValue?: any;
-  list: any;
+  list?: any;
   dropDownStyle?: StyleProp<ViewStyle>;
   placeholderStyle?: StyleProp<TextStyle>;
 };

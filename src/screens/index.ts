@@ -13,3 +13,4 @@ export {default as CompanyProfile} from './CompanyProfile';
 export {default as ForEmployee} from './ForEmployee';
 export {default as WelcomeEmployee} from './WelcomeEmployee';
 export {default as ComplateCompanyProfile} from './ComplateCompanyProfile';
+export {default as JobPost} from './JobPostScreen';

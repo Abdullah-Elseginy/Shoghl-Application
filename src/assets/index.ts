@@ -67,3 +67,4 @@ export {default as SavaTime} from './svg/saving-time.svg';
 export {default as EditPen} from './svg/EditPen.svg';
 export {default as ExitXicon} from './svg/ExitXicon.svg';
 export {default as Upload} from './svg/Upload.svg';
+export {default as File} from './svg/File.svg';

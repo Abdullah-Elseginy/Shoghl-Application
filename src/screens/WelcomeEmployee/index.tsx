@@ -1,10 +1,16 @@
 import React from 'react';
-import {AppScreenContainer, Button, CustomText} from '../../components';
+import {
+  AppHeader,
+  AppScreenContainer,
+  Button,
+  CustomText,
+} from '../../components';
 import {Pressable, View} from 'react-native';
 import {styles} from './styles';
-import { generalStyles, hp, wp} from '../../constants';
+import {generalStyles, hp, wp} from '../../constants';
 import {Cash, Crown, Edit, ExitXicon, Location, Raya} from '../../assets';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
+import ScreenNames from '../../navigations/ScreenNames';
 const JOBS = [
   {
     id: 1,
@@ -139,46 +145,63 @@ const Job = ({item, navigation}: Props) => {
 };
 const WelcomeEmployee = ({navigation}) => {
   return (
-    <AppScreenContainer style={styles.AppContainer}>
-      {/* welcome and post job */}
-      <View style={generalStyles.rowCenter}>
-        <CustomText text="Welcome Ahmed " textStyle={styles.WelcomeTExt} />
-        <Button
-          onPress={() => navigation.navigate('ComplateCompanyProfile')}
-          style={{
-            width: wp(30),
-          }}
-          text="+ Post job"
-        />
+    <AppScreenContainer>
+      <AppHeader arrowBack={true} title="Welcome Ahmed" />
+      <View style={styles.AppContainer}>
+        {/* welcome and post job */}
+        <View style={generalStyles.rowCenter}>
+          <CustomText text="Welcome Ahmed " textStyle={styles.WelcomeTExt} />
+          <Button
+            onPress={() =>
+              navigation.navigate(ScreenNames.ComplateCompanyProfile)
+            }
+            style={{
+              width: wp(30),
+            }}
+            text="+ Post job"
+          />
+        </View>
+        <ScrollView>
+          {/* hiring */}
+          <View style={styles.HringBox}>
+            <CustomText text="Hiring?" textStyle={styles.TextTitle} />
+            <CustomText
+              text="If you looking for hire right candidate start hire now.?"
+              textStyle={styles.subText}
+            />
+            <Button
+              onPress={() => {
+                navigation.navigate(ScreenNames.JobPost);
+              }}
+              text="Start Hiring"
+              style={styles.bottomStyle}
+            />
+          </View>
+          {/* CVs */}
+          <View style={styles.HringBox}>
+            <CustomText text="CVs" textStyle={styles.TextTitle} />
+            <CustomText
+              text="If you looking for hire right candidate start hire now.?"
+              textStyle={styles.subText}
+            />
+            <Button
+              onPress={() => {}}
+              text="Brows CVs"
+              style={styles.bottomStyle}
+            />
+          </View>
+          {/* Jobs*/}
+          <View style={styles.FlatBox}>
+            <FlatList
+              data={JOBS}
+              keyExtractor={item => item.id.toString()}
+              renderItem={({item}) => (
+                <Job navigation={navigation} item={item} />
+              )}
+            />
+          </View>
+        </ScrollView>
       </View>
-      <ScrollView>
-        {/* hiring */}
-        <View style={styles.HringBox}>
-          <CustomText text="Hiring?" textStyle={styles.TextTitle} />
-          <CustomText
-            text="If you looking for hire right candidate start hire now.?"
-            textStyle={styles.subText}
-          />
-          <Button text="Start Hiring" style={styles.bottomStyle} />
-        </View>
-        {/* CVs */}
-        <View style={styles.HringBox}>
-          <CustomText text="CVs" textStyle={styles.TextTitle} />
-          <CustomText
-            text="If you looking for hire right candidate start hire now.?"
-            textStyle={styles.subText}
-          />
-          <Button text="Brows CVs" style={styles.bottomStyle} />
-        </View>
-        {/* Jobs*/}
-        <View style={styles.FlatBox}>
-          <FlatList
-            data={JOBS}
-            keyExtractor={item => item.id.toString()}
-            renderItem={({item}) => <Job navigation={navigation} item={item} />}
-          />
-        </View>
-      </ScrollView>
     </AppScreenContainer>
   );
 };

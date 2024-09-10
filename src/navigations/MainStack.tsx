@@ -8,6 +8,7 @@ import {
   CompanyProfile,
   ComplateCompanyProfile,
   JobDetailsScreen,
+  JobPost,
   SearchedJobs,
   WelcomeEmployee,
 } from '../screens';
@@ -45,6 +46,7 @@ const MainStack = () => {
           name={ScreenNames.ComplateCompanyProfile}
           component={ComplateCompanyProfile}
         />
+        <Stack.Screen name={ScreenNames.JobPost} component={JobPost} />
       </Stack.Navigator>
     </NavigationContainer>
   );

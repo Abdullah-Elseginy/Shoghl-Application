@@ -15,6 +15,7 @@ const ScreenNames = {
   ForEmployee: 'Employee',
   WelcomeEmployee: 'WelcomeEmployee',
   ComplateCompanyProfile: 'ComplateCompanyProfile',
+  JobPost: 'JobPost',
 };
 
 export default Object.freeze(ScreenNames);
