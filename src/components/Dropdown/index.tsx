@@ -8,11 +8,13 @@ type Props = {
   placeholder?: string;
   label?: string;
   value?: any;
-  setValue: any;
+  setValue?: any;
   onChangeValue?: any;
   list?: any;
   dropDownStyle?: StyleProp<ViewStyle>;
   placeholderStyle?: StyleProp<TextStyle>;
+  ModalContainerStyle?: StyleProp<ViewStyle>;
+  ItemsBOX?: StyleProp<ViewStyle>;
 };
 
 const Dropdown = ({
@@ -24,6 +26,8 @@ const Dropdown = ({
   list,
   dropDownStyle,
   placeholderStyle,
+  ModalContainerStyle,
+  ItemsBOX,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,12 +46,15 @@ const Dropdown = ({
         setValue={setValue}
         onChangeValue={onChangeValue}
         style={[styles.dropDownStyle, dropDownStyle]}
-        modalContentContainerStyle={styles.dropDownContainerStyle}
+        modalContentContainerStyle={[
+          styles.dropDownContainerStyle,
+          ModalContainerStyle,
+        ]}
         containerStyle={styles.dropDownContainerStyle}
         listItemLabelStyle={styles.listItemLabelStyle}
         selectedItemContainerStyle={styles.selectedItemContainerStyle}
         selectedItemLabelStyle={styles.selectedItemLabelStyle}
-        dropDownContainerStyle={styles.itemsContaienrStyle}
+        dropDownContainerStyle={[ItemsBOX, styles.itemsContaienrStyle]}
         schema={{
           label: 'label',
           value: 'id',

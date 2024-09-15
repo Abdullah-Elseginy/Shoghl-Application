@@ -55,9 +55,9 @@ export const styles = StyleSheet.create({
   },
   ContanerInput: {
     borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
     marginTop: hp(1),
-    backgroundColor: COLORS.white,
   },
   OptopnTExt: {
     marginTop: hp(2),
@@ -75,5 +75,79 @@ export const styles = StyleSheet.create({
     marginRight: wp(5),
     borderRadius: wp(2),
     marginTop: hp(2),
+  },
+  ContaibYear: {
+    marginLeft: wp(6),
+  },
+  DropStyles: {
+    width: wp(40),
+    marginTop: hp(2),
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  InputBox: {
+    width: wp(40),
+    marginRight: wp(6),
+    marginTop: hp(2),
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  DropBorder: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  ChecedContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textHide: {
+    fontFamily: FONTS.Medium,
+    marginLeft: wp(2),
+  },
+  StepText: {
+    marginBottom: hp(2),
+  },
+  JobDEs: {
+    height: hp(20),
+    marginTop: hp(1),
+    marginBottom: hp(2),
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  inputstyle: {
+    textAlignVertical: 'top',
+  },
+  KetWords: {
+    marginTop: hp(1),
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  TextKeywords: {
+    color: COLORS.grayLight,
+  },
+  Buttom: {
+    marginTop: hp(4),
+  },
+  TexyBox: {
+    marginLeft: wp(2),
+  },
+  JopOptionsupbox: {
+    marginBottom: hp(2),
+  },
+  SubSelectionbox: {
+    marginLeft: wp(12),
+    marginTop: hp(1),
+  },
+  SubCheckBox: {
+    marginLeft: wp(12),
+    marginBottom: hp(1.2),
+  },
+  subcheckText: {
+    marginLeft: wp(2),
   },
 });

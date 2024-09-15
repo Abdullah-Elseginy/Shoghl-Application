@@ -9,6 +9,7 @@ import {
   ComplateCompanyProfile,
   JobDetailsScreen,
   JobPost,
+  RegisterationSteps,
   SearchedJobs,
   WelcomeEmployee,
 } from '../screens';
@@ -20,7 +21,7 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.BottomTabs}>
+        initialRouteName={ScreenNames.RegisterationSteps}>
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
@@ -45,6 +46,10 @@ const MainStack = () => {
         <Stack.Screen
           name={ScreenNames.ComplateCompanyProfile}
           component={ComplateCompanyProfile}
+        />
+        <Stack.Screen
+          name={ScreenNames.RegisterationSteps}
+          component={RegisterationSteps}
         />
         <Stack.Screen name={ScreenNames.JobPost} component={JobPost} />
       </Stack.Navigator>
