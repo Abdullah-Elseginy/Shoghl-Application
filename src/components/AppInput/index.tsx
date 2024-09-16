@@ -1,5 +1,6 @@
 import {
   ColorValue,
+  FlatList,
   StyleProp,
   Text,
   TextInput,
@@ -10,7 +11,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import {styles} from './styles';
-import { COLORS } from '../../constants';
+import {COLORS} from '../../constants';
+import CustomText from '../CustomText';
 
 type Props = {
   placeholder?: string;
@@ -31,6 +33,7 @@ type Props = {
   secureTextEntry?: boolean;
   appInputStyle?: StyleProp<ViewStyle>;
   isNumericKeyboard?: boolean;
+  Flatdata?: any;
 };
 
 const AppInput = ({
@@ -50,7 +53,8 @@ const AppInput = ({
   placeholderTextColor,
   secureTextEntry,
   appInputStyle,
-  isNumericKeyboard
+  isNumericKeyboard,
+  Flatdata, //! FaltList
 }: Props) => {
   return (
     <View style={[styles.container, appInputStyle]}>
@@ -61,6 +65,20 @@ const AppInput = ({
             {leftIcon}
           </TouchableOpacity>
         )}
+        {Flatdata?.length ? (
+          <View style={styles.ChildernView2}>
+            <FlatList
+              horizontal
+              data={Flatdata}
+              renderItem={({item}) => (
+                <CustomText textStyle={styles.FlatListText} text={item} />
+              )}
+            />
+          </View>
+        ) : (
+          ''
+        )}
+
         <TextInput
           placeholderTextColor={
             placeholderTextColor ? placeholderTextColor : COLORS.grayLight

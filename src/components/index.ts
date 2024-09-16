@@ -9,3 +9,4 @@ export {default as SwitchButton} from './SwitchButton';
 export {default as GeneralModal} from './GeneralModal';
 export {default as CustomBottomSheet} from './CustomBottomSheet';
 export {default as CaroselComponent} from './Carousel';
+export {default as StepIndecater} from './StepIndicator';

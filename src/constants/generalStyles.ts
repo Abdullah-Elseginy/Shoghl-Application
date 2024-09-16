@@ -10,6 +10,11 @@ export const generalStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  rowwrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
   rowBetween: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -62,5 +67,11 @@ export const generalStyles = StyleSheet.create({
   },
   headercenter: {
     textAlign: 'center',
+  },
+  marginLeft: {
+    marginLeft: wp(1),
+  },
+  marginright: {
+    marginRight: wp(1),
   },
 });
