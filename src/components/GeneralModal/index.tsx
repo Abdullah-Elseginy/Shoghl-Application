@@ -11,6 +11,7 @@ import {
 import {COLORS} from '../../constants/COLORS';
 import {styles} from './style';
 import {HomeSVG} from '../../assets';
+import {hp} from '../../constants';
 
 interface GeneralModalProps {
   setModalVisible: (visible: boolean) => void;
@@ -78,6 +79,10 @@ const GeneralModal: FC<GeneralModalProps> = ({
         animationType="fade"
         transparent={true}
         visible={modalVisible}
+        style={{
+          height: hp(20),
+          backgroundColor: '#00d',
+        }}
         onRequestClose={() => {
           if (allowOnRequestClose) {
             setModalVisible(!modalVisible);

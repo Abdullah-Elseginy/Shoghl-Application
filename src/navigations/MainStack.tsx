@@ -7,9 +7,11 @@ import BottomTabNavigator from './BottomNavigation';
 import {
   CompanyProfile,
   ComplateCompanyProfile,
+  ComplateSearchedCv,
   JobDetailsScreen,
   JobPost,
   RegisterationSteps,
+  SearchCV,
   SearchedJobs,
   WelcomeEmployee,
 } from '../screens';
@@ -21,7 +23,7 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.RegisterationSteps}>
+        initialRouteName={ScreenNames.WelcomeEmployee}>
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
@@ -52,6 +54,11 @@ const MainStack = () => {
           component={RegisterationSteps}
         />
         <Stack.Screen name={ScreenNames.JobPost} component={JobPost} />
+        <Stack.Screen name={ScreenNames.SearchCV} component={SearchCV} />
+        <Stack.Screen
+          name={ScreenNames.ComplateSearchedCv}
+          component={ComplateSearchedCv}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

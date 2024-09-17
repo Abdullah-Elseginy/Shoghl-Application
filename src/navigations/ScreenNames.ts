@@ -17,6 +17,8 @@ const ScreenNames = {
   ComplateCompanyProfile: 'ComplateCompanyProfile',
   JobPost: 'JobPost',
   RegisterationSteps: 'RegisterationSteps',
+  SearchCV: 'SearchCV',
+  ComplateSearchedCv: 'ComplateSearchedCv',
 };
 
 export default Object.freeze(ScreenNames);

@@ -1,16 +1,7 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, FONTS, hp, wp} from '../../constants';
+import {COLORS, FONTS, hp, wp} from '../../../constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: wp(5),
-    paddingBottom: hp(5),
-    paddingTop: hp(2),
-  },
-  Lapesstyle: {
-    textAlign: 'center',
-  },
   SectionBox: {
     marginTop: hp(3),
   },
@@ -80,8 +71,5 @@ export const styles = StyleSheet.create({
   },
   Checkbox: {
     marginTop: hp(4),
-  },
-  Bottom: {
-    marginTop: hp(5),
   },
 });

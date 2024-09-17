@@ -15,3 +15,5 @@ export {default as WelcomeEmployee} from './WelcomeEmployee';
 export {default as ComplateCompanyProfile} from './ComplateCompanyProfile';
 export {default as JobPost} from './JobPostScreen';
 export {default as RegisterationSteps} from './RegisterationSteps';
+export {default as SearchCV} from './SearchCV';
+export {default as ComplateSearchedCv} from './ComplateSearchedCV';

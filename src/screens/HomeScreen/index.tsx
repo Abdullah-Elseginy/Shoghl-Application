@@ -5,6 +5,7 @@ import {
   AppInput,
   AppScreenContainer,
   Button,
+  CustomModal,
   CustomText,
   Dropdown,
 } from '../../components';
@@ -376,6 +377,7 @@ const HomeScreen = ({navigation}: Props) => {
           <Button text="show more" style={styles.btn} onPress={() => null} />
         </View>
       </ScrollView>
+      <CustomModal />
     </AppScreenContainer>
   );
 };

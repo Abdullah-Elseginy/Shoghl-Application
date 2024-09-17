@@ -1,15 +1,13 @@
 import {StyleSheet} from 'react-native';
-import {COLORS, FONTS, hp, wp} from '../../constants';
+import {COLORS, FONTS, hp, wp} from '../../../constants';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: wp(5),
-    paddingBottom: hp(5),
-    paddingTop: hp(2),
-  },
-  Lapesstyle: {
-    textAlign: 'center',
+  ContanerInput: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+    marginTop: hp(1),
+    width: wp(42),
   },
   SectionBox: {
     marginTop: hp(3),
@@ -17,7 +15,14 @@ export const styles = StyleSheet.create({
   StepTitle: {
     fontFamily: FONTS.Bold,
     fontSize: hp(2),
-    // marginRight: wp(0),
+  },
+  LapelStyle: {
+    marginTop: hp(2),
+  },
+  DropBorder: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
   },
   StepTitlechoice: {
     color: COLORS.grayLight,
@@ -53,35 +58,21 @@ export const styles = StyleSheet.create({
     color: COLORS.primary,
     fontSize: wp(3.7),
   },
-  choise: {
-    width: wp(40),
-    padding: hp(0.8),
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: wp(5),
-    borderRadius: wp(2),
+
+  MArginBtn: {
+    marginBottom: hp(1),
+  },
+  Add: {
+    width: wp(20),
+    height: hp(4.5),
+    alignSelf: 'flex-end',
     marginTop: hp(2),
-    height: hp(4),
   },
-  ContanerInput: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.white,
-    borderWidth: hp(0.1),
-    marginTop: hp(1),
+  MArgintop: {
+    marginTop: hp(3),
   },
-  OptopnTExt: {
-    marginTop: hp(2),
-    marginBottom: hp(0.5),
-  },
-  DropBorder: {
-    borderColor: COLORS.primary,
-    backgroundColor: COLORS.white,
-    borderWidth: hp(0.1),
-  },
-  Checkbox: {
-    marginTop: hp(4),
-  },
-  Bottom: {
-    marginTop: hp(5),
+  CV: {
+    width: wp(30),
+    alignSelf: 'center',
   },
 });

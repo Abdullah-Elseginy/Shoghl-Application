@@ -185,7 +185,9 @@ const WelcomeEmployee = ({navigation}) => {
               textStyle={styles.subText}
             />
             <Button
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate(ScreenNames.SearchCV);
+              }}
               text="Brows CVs"
               style={styles.bottomStyle}
             />
