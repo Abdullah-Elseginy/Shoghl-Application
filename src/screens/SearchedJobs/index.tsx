@@ -116,18 +116,6 @@ type Props = {
 };
 const FilterSection = ({title, options}: any) => {
   const [expanded, setExpanded] = useState(false);
-  // type Option = {
-  //   id: number;
-  //   name: string;
-  // };
-  // const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-  // const toggleOption = (option: Option) => {
-  //   setSelectedOptions(prevState =>
-  //     prevState.includes(option)
-  //       ? prevState.filter(item => item !== option)
-  //       : [...prevState, option],
-  //   );
-  // };
   return (
     <View>
       <View style={styles.Line} />

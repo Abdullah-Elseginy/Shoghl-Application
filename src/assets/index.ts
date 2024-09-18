@@ -73,3 +73,4 @@ export {default as Cancel} from './svg/cancel.svg';
 export {default as File} from './svg/File.svg';
 export {default as Tips} from './svg/tips.svg';
 export {default as Search} from './svg/Searchhand.svg';
+export {default as Tips2} from './svg/tips2.svg';
