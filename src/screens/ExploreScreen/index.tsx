@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Pressable, SectionList, TouchableOpacity, View} from 'react-native';
+import {
+  Pressable,
+  TouchableOpacity,
+  View,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import {
   AppHeader,
   AppScreenContainer,
@@ -9,7 +15,6 @@ import {
   CustomBottomSheet,
   CustomText,
 } from '../../components';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {styles} from './styles';
 import {
   Add,
@@ -295,7 +300,7 @@ const Quetions = ({item}: any) => {
     </View>
   );
 };
-const SearchedJobs = ({navigation}: any) => {
+const ExploreScreen = ({navigation}: any) => {
   const [openSheet, SetOpenSheet] = useState(false);
   return (
     <AppScreenContainer>
@@ -368,4 +373,4 @@ const SearchedJobs = ({navigation}: any) => {
     </AppScreenContainer>
   );
 };
-export default SearchedJobs;
+export default ExploreScreen;

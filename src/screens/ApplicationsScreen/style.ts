@@ -1,82 +1,89 @@
-/* eslint-disable quotes */
 import {StyleSheet} from 'react-native';
 import {COLORS, FONTS, hp, wp} from '../../constants';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  maincontainer: {
+    flex: 1,
+  },
   container: {
-    paddingHorizontal: wp(5),
-    paddingTop: hp(1),
+    flex: 1,
+    backgroundColor: COLORS.white,
+    paddingHorizontal: wp(4),
+    paddingVertical: hp(2),
   },
-  sectionTitle: {
-    fontSize: hp(2.5),
-    textTransform: 'capitalize',
-    fontFamily: FONTS.Bold,
-    textAlign: 'center',
+  MAinheader: {
+    // backgroundColor: '#0dd',
+    paddingHorizontal: wp(10),
+    marginTop: hp(1),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  jobsNumber: {
-    color: COLORS.grayLight,
+  appication: {
+    fontSize: wp(4),
+    fontFamily: FONTS.SemiBold,
+    color: COLORS.black,
   },
-  Secion1Box: {
-    minHeight: hp(15),
-    padding: hp(2),
-    justifyContent: 'center',
+  applicationBox: {
+    // borderBottomWidth: hp(0.5),
+    width: wp(23),
     alignItems: 'center',
   },
-  FilterBox: {
-    padding: hp(2),
-    borderWidth: wp(0.1),
-    borderRadius: wp(1),
+  selected: {
+    borderBottomColor: COLORS.primary,
+    borderBottomWidth: hp(0.5),
+    width: wp(23),
+    alignItems: 'center',
   },
-  buttomSheetScroll: {
-    // backgroundColor:"#cce",
-    paddingBottom: hp(10),
+  dropdwon: {
+    backgroundColor: COLORS.white,
+    borderWidth: wp(0.21),
+    borderColor: COLORS.primary,
+    width: wp(40),
+    marginLeft: wp(3),
+  },
+  dropBox: {
     marginTop: hp(2),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  filtersSections: {
-    marginBottom: hp(1),
+  sortedby: {
+    fontFamily: FONTS.SemiBold,
   },
-  filtersText: {
-    fontSize: wp(4),
-    fontFamily: FONTS.Bold,
-    marginBottom: hp(0.8),
+  searchBox: {
+    backgroundColor: COLORS.grayMoreLight,
+    borderRadius: wp(4),
+    padding: wp(1),
   },
-  filterTextComplate: {marginRight: wp(2)},
-  Line: {
-    height: hp(0.1),
-    backgroundColor: COLORS.grayLight,
-    marginBottom: hp(1),
-  },
-  PrimaryColor: {
+  searchText: {
     color: COLORS.primary,
   },
-  filterBottm: {
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginBottom: hp(1),
-    borderRadius: hp(1),
-    padding: hp(1),
+  Bold: {
+    fontFamily: FONTS.Bold,
   },
-  contencontainer: {paddingLeft: 20},
-  filterChoices: {
-    width: '100%',
-    flexDirection: 'row',
-    marginBottom: hp(1),
+  Box: {
+    borderWidth: wp(0.21),
+    borderColor: COLORS.primary,
+    borderRadius: wp(2),
+    padding: wp(2),
+    width: wp(45),
+    marginTop: hp(1),
   },
-  ItemText: {marginLeft: hp(0.8)},
+  mainbox: {
+    marginTop: hp(2),
+  },
   jobBox: {
     borderWidth: hp(0.1),
     borderColor: COLORS.grayLight,
     borderRadius: hp(1),
-    marginBottom: hp(3),
+    marginBottom: hp(2),
   },
   jobTopBox: {
     paddingHorizontal: wp(6),
-    paddingVertical: hp(5),
+    paddingVertical: hp(2),
   },
   jobTopContent: {
-    marginStart: wp(8),
+    marginStart: wp(4),
   },
   status: {
     color: COLORS.grayLight,
@@ -143,4 +150,13 @@ export const styles = StyleSheet.create({
   btn: {
     marginTop: hp(2),
   },
+  marTop: {
+    marginTop: hp(3),
+  },
+  filtersText: {
+    fontSize: wp(4),
+    fontFamily: FONTS.Bold,
+    marginBottom: hp(0.8),
+  },
 });
+export default styles;

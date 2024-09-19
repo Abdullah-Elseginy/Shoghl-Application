@@ -19,6 +19,9 @@ const ScreenNames = {
   RegisterationSteps: 'RegisterationSteps',
   SearchCV: 'SearchCV',
   ComplateSearchedCv: 'ComplateSearchedCv',
+  Applications: 'Applications',
+  SaveScreen: 'SaveScreen',
+  ExploreScreen: 'ExploreScreen',
 };
 
 export default Object.freeze(ScreenNames);

@@ -212,7 +212,6 @@ const Step1 = () => {
             placeholder="Select"
             Flatdata={SelectedJops}
           />
-
         </View>
         <FlatList data={JopTypes4} numColumns={2} renderItem={renderItem6} />
       </View>

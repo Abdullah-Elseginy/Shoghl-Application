@@ -5,12 +5,15 @@ import ScreenNames from './ScreenNames';
 import AuthStack from './AuthStack';
 import BottomTabNavigator from './BottomNavigation';
 import {
+  Applications,
   CompanyProfile,
   ComplateCompanyProfile,
   ComplateSearchedCv,
+  ExploreScreen,
   JobDetailsScreen,
   JobPost,
   RegisterationSteps,
+  SaveScreen,
   SearchCV,
   SearchedJobs,
   WelcomeEmployee,
@@ -23,7 +26,7 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.BottomTabs}>
+        initialRouteName={ScreenNames.Splash}>
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
@@ -59,6 +62,15 @@ const MainStack = () => {
           name={ScreenNames.ComplateSearchedCv}
           component={ComplateSearchedCv}
         />
+        <Stack.Screen
+          name={ScreenNames.Applications}
+          component={Applications}
+        />
+        <Stack.Screen
+          name={ScreenNames.ExploreScreen}
+          component={ExploreScreen}
+        />
+        <Stack.Screen name={ScreenNames.SaveScreen} component={SaveScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
