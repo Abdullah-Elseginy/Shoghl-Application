@@ -2,12 +2,13 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ScreenNames from './ScreenNames';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {FONTS} from '../constants/Fonts';
 import {HomeSVG} from '../assets';
 import {hp, wp} from '../constants/Dimensions';
 import {COLORS} from '../constants/COLORS';
 import {ForEmployee, HomeScreen, JobsScreen, ProfileScreen} from '../screens';
+import {CustomText} from '../components';
 
 const Tab = createBottomTabNavigator();
 
@@ -19,16 +20,16 @@ const BottomTabNavigator = () => {
         tabBarLabel: ({focused}) => {
           return (
             <View>
-              <Text
-                style={[
+              <CustomText
+                text={route.name}
+                textStyle={[
                   styles.tabBarName,
                   {
                     color: focused ? COLORS.primary : COLORS.grayLight,
                     fontFamily: focused ? FONTS.SemiBold : FONTS.Regular,
                   },
-                ]}>
-                {route.name}
-              </Text>
+                ]}
+              />
             </View>
           );
         },

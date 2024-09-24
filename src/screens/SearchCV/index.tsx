@@ -11,8 +11,12 @@ import {styles} from './styles';
 import {generalStyles, hp, wp} from '../../constants';
 import {Search, Tips} from '../../assets';
 import ScreenNames from '../../navigations/ScreenNames';
-
-const SearchCV = ({navigation}) => {
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+};
+const SearchCV = ({navigation}: Props) => {
   return (
     <AppScreenContainer style={styles.container}>
       <AppHeader arrowBack={true} title="Search CV" />

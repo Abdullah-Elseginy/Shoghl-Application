@@ -3,7 +3,6 @@ import {ScrollView} from 'react-native';
 import {
   AppScreenContainer,
   Button,
-  CustomText,
   StepIndecater,
 } from '../../components';
 import {styles} from './styles';

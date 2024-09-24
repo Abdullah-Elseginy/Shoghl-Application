@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, View, Text, TouchableOpacity} from 'react-native';
+import {Modal, View, TouchableOpacity} from 'react-native';
 import {Cancel, Help, UploadDoc} from '../../assets';
 import {styles} from './styles';
 import {generalStyles, hp, wp} from '../../constants';
@@ -85,7 +85,10 @@ const CustomModal = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.uploadButton}>
                   <UploadDoc width={wp(5)} height={hp(3)} />
-                  <Text style={styles.uploadText}> Upload Documents</Text>
+                  <CustomText
+                    text="Upload Documents"
+                    textStyle={styles.uploadText}
+                  />
                 </TouchableOpacity>
               </View>
             </View>

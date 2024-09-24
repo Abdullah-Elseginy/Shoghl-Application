@@ -13,28 +13,40 @@ import {PackSVG} from '../../assets';
 import {Pressable, View} from 'react-native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
+import {signUpOne} from '../../redux/slices/authSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const SignupScreen = ({navigation}: Props) => {
-  // const [isYes, setIsYes] = React.useState(false);
-  // const [isNo, setIsNo] = React.useState(false);
-
-  // React.useEffect(() => {
-  //   if (isYes) {
-  //     setIsNo(false);
-  //   }
-  // }, [isYes]);
-
-  // React.useEffect(() => {
-  //   if (isNo) {
-  //     setIsYes(false);
-  //   }
-  // }, [isNo]);
   const [LoginType, SetLoginType] = React.useState('candidate');
+  const [BorderName, SetBorderName] = React.useState('');
+  const dispatch = useDispatch();
+  const candidateData = {
+    border_number: BorderName,
+  };
 
+  const HandleNextCandidate = userdata => {
+    dispatch(signUpOne(userdata))
+      .unwrap()
+      .then(() => {
+        // Toast.show({
+        //   type: 'success',
+        //   text1: 'login success',
+        // });
+        navigation.replace(ScreenNames.CompleteProfile);
+      })
+      .catch(err => {
+        console.log('signup ', err);
+        // Toast.show({
+        //   type: 'error',
+        //   text1: `someting went wrong`,
+        // });
+        navigation.replace(ScreenNames.CompleteProfile);
+      });
+  };
   return (
     <AppScreenContainer style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,15 +69,6 @@ const SignupScreen = ({navigation}: Props) => {
               onPress={() => SetLoginType('corporate')}
             />
           </View>
-          {/* <CustomText text="Do you residence?" textStyle={styles.residence} />
-        <View style={[generalStyles.rowStart, { marginBottom: hp(1) }]}>
-          <Checkbox isChecked={isYes} setIsChecked={setIsYes} />
-          <CustomText text="yes" textStyle={styles.checkTxt} />
-        </View>
-        <View style={[generalStyles.rowStart, { marginBottom: hp(4) }]}>
-          <Checkbox isChecked={isNo} setIsChecked={setIsNo} />
-          <CustomText text="No" textStyle={styles.checkTxt} />
-        </View> */}
 
           {/* Candidate */}
           {LoginType !== 'corporate' ? (
@@ -75,10 +78,16 @@ const SignupScreen = ({navigation}: Props) => {
                 label="Border Number"
                 labelStyle={styles.inputLabel}
                 containerStyle={styles.inputContainerStyle}
+                value={BorderName}
+                onChangeText={val => {
+                  SetBorderName(val);
+                }}
               />
               <Button
                 text="next"
-                onPress={() => navigation.replace(ScreenNames.CompleteProfile)}
+                onPress={() => {
+                  HandleNextCandidate(candidateData);
+                }}
               />
               <View style={[generalStyles.rowCenter, {marginTop: hp(1.3)}]}>
                 <CustomText

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {Pressable, SectionList, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {
   AppHeader,
   AppScreenContainer,
@@ -11,214 +11,27 @@ import {
 } from '../../components';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {styles} from './styles';
-import {
-  Add,
-  Adidas,
-  Cash,
-  Crown,
-  DowenArrow,
-  Filte,
-  Location,
-  Nike,
-  Photoshop,
-  Samsung,
-  Tiktok,
-  Udacity,
-  UpperArrow2,
-} from '../../assets';
-import {COLORS, generalStyles, hp, wp} from '../../constants';
+import {Add, DowenArrow, Filte, UpperArrow2} from '../../assets';
+import {generalStyles, hp, wp} from '../../constants';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-const Optionsdata = [
-  {
-    id: '1',
-    title: 'Workplace',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '2',
+import {JOBS, QUETIONS, Optionsdata} from '../../utils/Data';
+import Job from '../../components/Jobs';
 
-    title: 'Country',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '3',
-    title: 'City',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    title: 'Career Level',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    title: 'Area',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-];
-const JOBS = [
-  {
-    id: 1,
-    img: <Photoshop />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.yellowlight,
-  },
-  {
-    id: 2,
-    img: <Nike />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.blueLight,
-  },
-  {
-    id: 3,
-    img: <Tiktok />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 4,
-    img: <Samsung />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Udacity />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 6,
-    img: <Adidas />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    color: COLORS.yellowlight,
-    price: '$30,000.00 - $35,000.00',
-  },
-];
-const QUETIONS = [
-  {
-    id: 1,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-  {
-    id: 2,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-  {
-    id: 3,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-];
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
-  item: any;
 };
 const FilterSection = ({item}: {item: any}) => {
   const [expanded, setExpanded] = useState(false);
-  const [options, setOptions] = useState(item.options);
+  const [FilterOptions, setOptions] = useState<Array<any>>(item.options);
 
   const toggleCheckbox = (index: number) => {
     setOptions(prevOptions =>
-      prevOptions.map((opt, i) =>
+      prevOptions.map((opt: any, i: number) =>
         i === index ? {...opt, selected: !opt.selected} : opt,
       ),
     );
   };
-
   return (
     <View>
       <View style={styles.Line} />
@@ -230,7 +43,7 @@ const FilterSection = ({item}: {item: any}) => {
       </TouchableOpacity>
       {expanded && (
         <FlatList
-          data={options}
+          data={FilterOptions}
           keyExtractor={(option, index) => index.toString()} // Using index as key for options
           contentContainerStyle={styles.contencontainer}
           renderItem={({item, index}) => (
@@ -250,43 +63,6 @@ const FilterSection = ({item}: {item: any}) => {
   );
 };
 
-const Job = ({item, navigation}: Props) => {
-  return (
-    <Pressable
-      onPress={() => navigation.navigate('JobDetails')}
-      style={[styles.jobBox, {backgroundColor: item.color}]}>
-      <View style={styles.jobTopBox}>
-        <View style={generalStyles.row}>
-          {item.img}
-          <View style={styles.jobTopContent}>
-            <CustomText text={item.status} textStyle={styles.status} />
-            <CustomText text={item.job} textStyle={styles.job} />
-            <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
-              <CustomText text={item.period} textStyle={styles.period} />
-              <CustomText text={item.intern} textStyle={[styles.period2]} />
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={styles.jobBottomBox}>
-        <View style={[generalStyles.row, styles.JocBttomBox]}>
-          <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
-          <Location
-            width={hp(2)}
-            height={hp(2)}
-            style={[styles.btnIcon, styles.LocationIcon]}
-          />
-          <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
-        </View>
-        <View style={generalStyles.row}>
-          <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.price} textStyle={styles.jobBottomTxt} />
-        </View>
-      </View>
-    </Pressable>
-  );
-};
 const Quetions = ({item}: any) => {
   return (
     <View style={styles.quetionBox}>
@@ -295,7 +71,7 @@ const Quetions = ({item}: any) => {
     </View>
   );
 };
-const SearchedJobs = ({navigation}: any) => {
+const SearchedJobs = ({navigation}: Props) => {
   const [openSheet, SetOpenSheet] = useState(false);
   return (
     <AppScreenContainer>

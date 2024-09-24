@@ -8,78 +8,18 @@ import {
 import {Pressable, View} from 'react-native';
 import {styles} from './styles';
 import {generalStyles, hp, wp} from '../../constants';
-import {Cash, Crown, Edit, ExitXicon, Location, Raya} from '../../assets';
+import {Cash, Crown, Edit, ExitXicon, Location} from '../../assets';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import ScreenNames from '../../navigations/ScreenNames';
-const JOBS = [
-  {
-    id: 1,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'Office Boy',
-    period: 'full time',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '0 - 2 Yrs of Exp · males_only. 2500-6200 LE ',
-  },
-  {
-    id: 2,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'Restaurant Dishwasher',
-    period: 'full time',
-    intern: '',
-    freelance: 'freelance',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 3,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: '',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 4,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: '',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 6,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: '',
-    intern: '',
-    freelance: 'freelance',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-];
-const Job = ({item, navigation}: Props) => {
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+import {WelComJOBS} from '../../utils/Data';
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+  item: any;
+};
+
+const Job = ({item}: Props) => {
   return (
     <Pressable onPress={() => {}} style={[styles.jobBox]}>
       <View style={styles.jobTopBox}>
@@ -143,7 +83,7 @@ const Job = ({item, navigation}: Props) => {
     </Pressable>
   );
 };
-const WelcomeEmployee = ({navigation}) => {
+const WelcomeEmployee = ({navigation}: Props) => {
   return (
     <AppScreenContainer>
       <AppHeader arrowBack={true} title="Welcome Ahmed" />
@@ -195,7 +135,7 @@ const WelcomeEmployee = ({navigation}) => {
           {/* Jobs*/}
           <View style={styles.FlatBox}>
             <FlatList
-              data={JOBS}
+              data={WelComJOBS}
               keyExtractor={item => item.id.toString()}
               renderItem={({item}) => (
                 <Job navigation={navigation} item={item} />

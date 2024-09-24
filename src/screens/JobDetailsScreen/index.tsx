@@ -17,8 +17,8 @@ import {
   SimilsrJobs,
   Temlid,
 } from '../../assets';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { ParamListBase } from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
 const SIMILARJOBS = [
   {
     id: 1,
@@ -83,7 +83,7 @@ const SIMILARFUNCTIONS = [
     Telimed: 'Telimed',
   },
 ];
-const SimilarJobs = ({item}:any) => {
+const SimilarJobs = ({item}: any) => {
   return (
     <View style={styles.SimilarJobBoxs}>
       <View>{item.imag}</View>
@@ -97,7 +97,7 @@ const SimilarJobs = ({item}:any) => {
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
-const SimilarFunctions = ({item}:any) => {
+const SimilarFunctions = ({item}: any) => {
   return (
     <View style={styles.SimilarJobBoxs}>
       <View>{item.imag}</View>
@@ -121,13 +121,10 @@ const SimilarFunctions = ({item}:any) => {
     </View>
   );
 };
-const JobDetailsScreen = ({navigation}:Props) => {
+const JobDetailsScreen = ({navigation}: Props) => {
   return (
     <AppScreenContainer style={{flex: 1}}>
-      <AppHeader
-        arrowBack={true}
-        title="Job Details"
-      />
+      <AppHeader arrowBack={true} title="Job Details" />
       <ScrollView contentContainerStyle={generalStyles.container}>
         {/* Section1 company Profle */}
         <View style={styles.profileBox}>
@@ -304,7 +301,7 @@ const JobDetailsScreen = ({navigation}:Props) => {
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <SimilarJobs item={item} />}
           />
-          <Button text="Search other opportunities" />
+          <Button text="Search other opportunities" onPress={() => null} />
         </View>
         {/*Similar functions */}
         <View
@@ -317,7 +314,7 @@ const JobDetailsScreen = ({navigation}:Props) => {
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <SimilarFunctions item={item} />}
           />
-          <Button text="See All Financial Mangment Jobs" />
+          <Button text="See All Financial Mangment Jobs" onPress={() => null} />
         </View>
         {/* About Egyptian Culture Center */}
         <View style={styles.JobRequirementBoxs}>

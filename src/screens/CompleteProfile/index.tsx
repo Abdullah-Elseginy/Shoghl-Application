@@ -17,22 +17,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {ArrowLeftSVG} from '../../assets';
 import {FlatList} from 'react-native-gesture-handler';
+import {signUpTwo} from '../../redux/slices/authSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const CompleteProfile = ({navigation}: Props) => {
-  // const genderList = [
-  //   {id: 1, label: 'male'},
-  //   {id: 2, label: 'female'},
-  // ];
-  // const nationalityList = [
-  //   {id: 1, label: 'Saudi'},
-  //   {id: 2, label: 'Hindi'},
-  //   {id: 3, label: 'Bangladeshi'},
-  //   {id: 4, label: 'Pakistani'},
-  // ];
   const countryList = [
     {id: 1, label: 'Saudi Arabia'},
     {id: 2, label: 'India'},
@@ -51,16 +42,52 @@ const CompleteProfile = ({navigation}: Props) => {
   ]);
   const [SelectedJops, SetSelectedJops] = React.useState([]);
   const [currentSlectedindex, setcurrentSlectedindex] = React.useState(-1);
-  // const [gender, setGender] = React.useState(null);
-  // const [nationality, setNationality] = React.useState(null);
-  const [country, setCountry] = React.useState(null);
-  const [city, setCity] = React.useState(null);
+  // const [country, setCountry] = React.useState(null);
+  // const [city, setCity] = React.useState(null);
   const [isSalaryHidden, setIsSalaryHidden] = React.useState(false);
+  // const [InputValues, SetInputValues] = React.useState({
+  //   user_code: 'LtfZJ',
+  //   country: '',
+  //   city: '',
+  //   phone: '',
+  //   jobs: SelectedJops,
+  //   expected_salary: '',
+  //   hide_salary: isSalaryHidden ? 'yes' : 'no',
+  // });
+  // const UpdateInputsVAlue = (KeyName: any, val: any) => {
+  //   SetInputValues(prevState => ({
+  //     ...prevState,
+  //     [KeyName]: val,
+  //   }));
+  // };
+
+  // console.log('Country value updated:', InputValues);
+
   const hadleAddJobToinput = (index: number, item: any) => {
     SetSelectedJops(prevState => [...prevState, item]);
     SetJopTypes4(prev => prev.filter((_, i) => i !== index));
     setcurrentSlectedindex(index);
   };
+
+  // const HandleProfile = (userdata: any) => {
+  //   dispatch(signUpTwo(userdata))
+  //     .unwrap()
+  //     .then(() => {
+  //       // Toast.show({
+  //       //   type: 'success',
+  //       //   text1: 'login success',
+  //       // });
+  //       navigation.replace(ScreenNames.BottomTabs);
+  //     })
+  //     .catch(err => {
+  //       console.log('login ', err);
+  //       // Toast.show({
+  //       //   type: 'error',
+  //       //   text1: `someting went wrong`,
+  //       // });
+  //       navigation.replace(ScreenNames.BottomTabs);
+  //     });
+  // };
   const renderItem6 = ({
     item,
     index,
@@ -95,62 +122,29 @@ const CompleteProfile = ({navigation}: Props) => {
           text="Main Step"
           textStyle={[styles.smallTxt, styles.Aling]}
         />
-        {/* <AppInput placeholder="First Name" label="First Name" labelStyle={styles.inputLabel} containerStyle={styles.inputContainerStyle} />
-        <AppInput placeholder="Last Name" label="Last Name" labelStyle={styles.inputLabel} containerStyle={styles.inputContainerStyle} /> */}
-        {/* <View style={[generalStyles.rowBetween, {alignItems: 'flex-end'}]}>
-          <AppInput
-            placeholder="Day"
-            label="Birthday"
-            labelStyle={styles.inputLabel}
-            containerStyle={[styles.inputContainerStyle]}
-            appInputStyle={styles.birthContainerStyle}
-            isNumericKeyboard
-          />
-          <AppInput
-            placeholder="Month"
-            appInputStyle={styles.birthContainerStyle}
-            containerStyle={[styles.inputContainerStyle]}
-            isNumericKeyboard
-          />
-          <AppInput
-            placeholder="Year"
-            appInputStyle={styles.birthContainerStyle}
-            containerStyle={[styles.inputContainerStyle]}
-            isNumericKeyboard
-          />
-        </View> */}
-        {/* <Dropdown
-          placeholder={'choose an option'}
-          list={genderList}
-          label={'gender'}
-          value={gender}
-          setValue={setGender}
-          dropDownStyle={styles.inputContainerStyle}
-        />
-        <Dropdown
-          placeholder={'choose an option'}
-          list={nationalityList}
-          label={'nationality'}
-          value={nationality}
-          setValue={setNationality}
-          dropDownStyle={styles.inputContainerStyle}
-        /> */}
+
         <CustomText text="your location" textStyle={styles.contentTitle} />
         <Dropdown
           placeholder={'choose an option'}
           list={countryList}
           label={'country'}
-          value={country}
-          setValue={setCountry}
+          // value={InputValues.country}
+          // setValue={setCountry}
           dropDownStyle={styles.inputContainerStyle}
+          // onChangeValue={(val: any) => {
+          //   UpdateInputsVAlue('country', val);
+          // }}
         />
         <Dropdown
           placeholder={'choose an option'}
           list={cityList}
           label={'city'}
-          value={city}
-          setValue={setCity}
+          // value={InputValues.city}
+          // setValue={setCity}
           dropDownStyle={styles.inputContainerStyle}
+          // onChangeValue={(val: any) => {
+          //   UpdateInputsVAlue('city', val);
+          // }}
         />
         <CustomText text="contact info" textStyle={styles.contentTitle} />
         <AppInput
@@ -159,6 +153,10 @@ const CompleteProfile = ({navigation}: Props) => {
           labelStyle={styles.inputLabel}
           containerStyle={styles.inputContainerStyle}
           isNumericKeyboard
+          // value={InputValues.phone}
+          // onChangeText={(val: any) => {
+          //   UpdateInputsVAlue('phone', val);
+          // }}
         />
         <CustomText
           text="What Type(S) of job are you open to?"
@@ -170,6 +168,10 @@ const CompleteProfile = ({navigation}: Props) => {
           placeholder="Add Your Job Type"
           containerStyle={styles.inputContainerStyle}
           Flatdata={SelectedJops}
+          // value={InputValues.jobs}
+          // onChangeText={vals => {
+          //   UpdateInputsVAlue('jobs', vals);
+          // }}
         />
         <CustomText text="suggestion:" textStyle={styles.smallTxt} />
         <FlatList data={JopTypes4} numColumns={2} renderItem={renderItem6} />
@@ -185,6 +187,10 @@ const CompleteProfile = ({navigation}: Props) => {
             containerStyle={styles.inputContainerStyleSalary}
             appInputStyle={{width: '70%'}}
             isNumericKeyboard
+            // value={InputValues.expected_salary}
+            // onChangeText={val => {
+            //   UpdateInputsVAlue('expected_salary', val);
+            // }}
           />
           <CustomText
             text="SAR / Task"
@@ -200,7 +206,10 @@ const CompleteProfile = ({navigation}: Props) => {
         </View>
         <Button
           text="save"
-          onPress={() => navigation.replace(ScreenNames.BottomTabs)}
+          onPress={() => {
+            // HandleProfile();
+            navigation.navigate(ScreenNames.BottomTabs);
+          }}
           style={{marginVertical: hp(3)}}
         />
       </ScrollView>

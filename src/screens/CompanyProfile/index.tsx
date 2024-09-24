@@ -6,106 +6,33 @@ import {
   Button,
   CustomText,
 } from '../../components';
-import {COLORS, generalStyles, hp, wp} from '../../constants';
+import {generalStyles, hp, wp} from '../../constants';
 import {
-  Adidas,
   Cash,
   Crown,
   Description,
   Documentation,
   Globaly,
   Location,
-  Nike,
   People,
-  Photoshop,
   Raya,
-  Samsung,
   ShareLink,
   Temlid,
-  Tiktok,
-  Udacity,
 } from '../../assets';
 import {styles} from './style';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {FlatList} from 'react-native-gesture-handler';
+import {JOBS} from '../../utils/Data';
+
 type Props = {
   navigation?: NativeStackNavigationProp<ParamListBase>;
   item?: any;
 };
-const JOBS = [
-  {
-    id: 1,
-    img: <Photoshop />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.yellowlight,
-  },
-  {
-    id: 2,
-    img: <Nike />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.blueLight,
-  },
-  {
-    id: 3,
-    img: <Tiktok />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 4,
-    img: <Samsung />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Udacity />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 6,
-    img: <Adidas />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    color: COLORS.yellowlight,
-    price: '$30,000.00 - $35,000.00',
-  },
-];
 
-const Job = ({item, navigation}: Props) => {
+const Job = ({item}: Props) => {
   return (
-    <Pressable
-      onPress={() => navigation.navigate('JobDetails')}
-      style={[styles.jobBox, {backgroundColor: item.color}]}>
+    <Pressable style={[styles.jobBox, {backgroundColor: item.color}]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
           {item.img}
@@ -146,8 +73,7 @@ const CompanyProfile = ({navigation}: Props) => {
       <ScrollView contentContainerStyle={generalStyles.container}>
         {/* Section One Company Profile */}
         <View style={styles.profileBox}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('CompanyProfile')}>
+          <TouchableOpacity>
             <Raya width={wp(50)} height={hp(15)} />
           </TouchableOpacity>
           <View style={styles.CompanyNameBox}>

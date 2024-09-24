@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {
   View,
   Modal,
-  Text,
   StatusBar,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -12,6 +11,7 @@ import {COLORS} from '../../constants/COLORS';
 import {styles} from './style';
 import {HomeSVG} from '../../assets';
 import {hp} from '../../constants';
+import CustomText from '../CustomText';
 
 interface GeneralModalProps {
   setModalVisible: (visible: boolean) => void;
@@ -90,25 +90,29 @@ const GeneralModal: FC<GeneralModalProps> = ({
         }}>
         <TouchableWithoutFeedback
           onPress={() => setModalVisible(!modalVisible)}>
-          <View style={styles.centeredView}></View>
+          <View style={styles.centeredView} />
         </TouchableWithoutFeedback>
         <View style={styles.modalView}>
           {SvgIcon ? <HomeSVG /> : null}
-          <Text style={[styles.modalTitleStyle, modalTitleStyle]}>
-            {modalTitle}
-          </Text>
+          <CustomText
+            text={modalTitle}
+            textStyle={[styles.modalTitleStyle, modalTitleStyle]}
+          />
+
           {modalSubTitle?.length > 0 && (
             <>
               {isTextClickable ? (
                 <TouchableOpacity activeOpacity={0.5} onPress={onPressSubTitle}>
-                  <Text style={[styles.modalSubTitleStyle, modalSubtitleStyle]}>
-                    {modalSubTitle}
-                  </Text>
+                  <CustomText
+                    text={modalSubTitle}
+                    textStyle={[styles.modalSubTitleStyle, modalSubtitleStyle]}
+                  />
                 </TouchableOpacity>
               ) : (
-                <Text style={[styles.modalSubTitleStyle, modalSubtitleStyle]}>
-                  {modalSubTitle}
-                </Text>
+                <CustomText
+                  text={modalSubTitle}
+                  textStyle={[styles.modalSubTitleStyle, modalSubtitleStyle]}
+                />
               )}
             </>
           )}
@@ -130,9 +134,10 @@ const GeneralModal: FC<GeneralModalProps> = ({
               {loading ? (
                 <ActivityIndicator color={COLORS.white} size={'small'} />
               ) : (
-                <Text style={[styles.primaryBtnTxt, primaryBtnTxtStyle]}>
-                  {primaryBtnTxt}
-                </Text>
+                <CustomText
+                  text={primaryBtnTxt}
+                  textStyle={[styles.primaryBtnTxt, primaryBtnTxtStyle]}
+                />
               )}
             </TouchableOpacity>
           )}
@@ -140,9 +145,10 @@ const GeneralModal: FC<GeneralModalProps> = ({
             <TouchableOpacity
               onPress={() => CancelButtonPress()}
               style={[styles.cancleBtnStyle, cancleStyle]}>
-              <Text style={[styles.cancle, cancleBtnTxtStyle]}>
-                {textCnancle}
-              </Text>
+              <CustomText
+                text={textCnancle}
+                textStyle={[styles.cancle, cancleBtnTxtStyle]}
+              />
             </TouchableOpacity>
           )}
         </View>

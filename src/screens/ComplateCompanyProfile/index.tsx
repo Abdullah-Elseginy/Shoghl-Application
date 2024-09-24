@@ -24,76 +24,14 @@ import {
 } from 'react-native-image-picker';
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
-const JOBS = [
-  {
-    id: 1,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'Office Boy',
-    period: 'full time',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '0 - 2 Yrs of Exp · males_only. 2500-6200 LE ',
-  },
-  {
-    id: 2,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'Restaurant Dishwasher',
-    period: 'full time',
-    intern: '',
-    freelance: 'freelance',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 3,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: '',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 4,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: '',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    freelance: '',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 6,
-    img: <Raya />,
-    status: 'telimed',
-    job: 'electrician',
-    period: '',
-    intern: '',
-    freelance: 'freelance',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-];
+import {ParamListBase} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {JOBS} from '../../utils/Data';
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+};
 
-const Job = ({item, navigation}: Props) => {
+const Job = ({item}: any) => {
   return (
     <Pressable onPress={() => {}} style={[styles.jobBox]}>
       <View style={styles.jobTopBox}>
@@ -157,7 +95,7 @@ const Job = ({item, navigation}: Props) => {
     </Pressable>
   );
 };
-const ComplateCompanyProfile = ({navigation}) => {
+const ComplateCompanyProfile = ({navigation}: Props) => {
   // Select Images
   const [imageUri, setImageUri] = useState<string | null>(null);
   const selectImage = () => {
@@ -180,7 +118,7 @@ const ComplateCompanyProfile = ({navigation}) => {
     });
   };
   const [Disapled, SetDisapled] = useState(true);
-  const [InputsData, SetInputsData] = useState([
+  const [InputsData] = useState([
     {title: 'Location', type: 'text', value: '', error: '', hasError: false},
     {title: 'Founded', type: 'text', value: '', error: '', hasError: false},
     {

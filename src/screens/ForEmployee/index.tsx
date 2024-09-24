@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, FlatList, ScrollView} from 'react-native';
 import {
   AppScreenContainer,
   Button,
@@ -7,66 +7,19 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './style';
-import {
-  CompanyLAnding,
-  Dreams,
-  FeaturdLogo,
-  Progress,
-  SavaTime,
-} from '../../assets';
+import {CompanyLAnding,  SavaTime} from '../../assets';
 import {hp, wp} from '../../constants';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-const PARTENERS = [
-  {
-    id: 1,
-    imag: <Dreams />,
-  },
-  {
-    id: 2,
-    imag: <FeaturdLogo />,
-  },
-  {
-    id: 3,
-    imag: <Dreams />,
-  },
-  {
-    id: 4,
-    imag: <FeaturdLogo />,
-  },
-  {
-    id: 5,
-    imag: <Dreams />,
-  },
-  {
-    id: 6,
-    imag: <FeaturdLogo />,
-  },
-];
-const CAROUSELDATA = [
-  {
-    imag: <Progress width={wp(60)} height={hp(15)} />,
-    title: 'progress with one tool',
-    description:
-      'Gain control over the whole process by using WUZZUF, all the way from screening to short-listing, till interviewing and hiring, and better manage the process with your team.',
-  },
-  {
-    imag: <Progress width={wp(60)} height={hp(15)} />,
-    title: 'progress with one tool',
-    description:
-      'Gain control over the whole process by using WUZZUF, all the way from screening to short-listing, till interviewing and hiring, and better manage the process with your team.',
-  },
-  {
-    imag: <Progress width={wp(60)} height={hp(15)} />,
-    title: 'progress with one tool',
-    description:
-      'Gain control over the whole process by using WUZZUF, all the way from screening to short-listing, till interviewing and hiring, and better manage the process with your team.',
-  },
-];
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+import {CAROUSELDATA, PARTENERS} from '../../utils/Data';
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+};
 const Parteners = ({item}: any) => {
   return <View>{item.imag}</View>;
 };
 
-const ForEmployee = ({navigation}) => {
+const ForEmployee = ({navigation}: Props) => {
   return (
     <AppScreenContainer style={styles.ScreenContainer}>
       {/* Header */}

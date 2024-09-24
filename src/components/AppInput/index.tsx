@@ -2,7 +2,6 @@ import {
   ColorValue,
   FlatList,
   StyleProp,
-  Text,
   TextInput,
   TextStyle,
   TouchableOpacity,
@@ -58,7 +57,9 @@ const AppInput = ({
 }: Props) => {
   return (
     <View style={[styles.container, appInputStyle]}>
-      {label && <Text style={[styles.label, labelStyle]}>{label}</Text>}
+      {label && (
+        <CustomText text={label} textStyle={[styles.label, labelStyle]} />
+      )}
       <View style={[styles.inputContainer, containerStyle]}>
         {leftIcon && (
           <TouchableOpacity onPress={onLeftIconPress}>

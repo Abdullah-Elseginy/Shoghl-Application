@@ -7,7 +7,6 @@ import {
   StyleSheet,
   FlatList,
   View,
-  Text,
   StatusBar,
   TouchableOpacity,
   Dimensions,
@@ -19,7 +18,7 @@ import {ParamListBase} from '@react-navigation/native';
 import {COLORS, FONTS, hp, IMAGES, wp} from '../../constants';
 import {changeIsSkipping} from '../../redux/slices/authSlice';
 import ScreenNames from '../../navigations/ScreenNames';
-import {Button} from '../../components';
+import {Button, CustomText} from '../../components';
 const {width, height} = Dimensions.get('window');
 
 type Props = {
@@ -64,8 +63,8 @@ const Slide = ({item}) => {
         style={{width: wp(85), height: hp(45)}}
         resizeMode="contain"
       />
-      <Text style={styles.title_head_top}>{item.titleHead}</Text>
-      <Text style={styles.title_top}>{item.title}</Text>
+      <CustomText text={item.titleHead} textStyle={styles.title_head_top} />
+      <CustomText text={item.titled} textStyle={styles.title_top} />
     </SafeAreaView>
   );
 };
@@ -138,7 +137,7 @@ const OnBoardingScreen = ({navigation}: Props) => {
                   dispatch(changeIsSkipping());
                   navigation.replace(ScreenNames.Login);
                 }}>
-                <Text style={styles.startNowBtn}>start</Text>
+                <CustomText text="start" textStyle={styles.startNowBtn} />
               </TouchableOpacity>
             </View>
           ) : (
@@ -154,7 +153,7 @@ const OnBoardingScreen = ({navigation}: Props) => {
                   },
                 ]}
                 onPress={skip}>
-                <Text style={styles.skip_btn}>skip</Text>
+                <CustomText text="skip" textStyle={styles.skip_btn} />
               </TouchableOpacity>
               <View style={{width: wp(30)}}>
                 <Button

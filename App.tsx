@@ -7,6 +7,7 @@ import {LogBox, StatusBar} from 'react-native';
 import {persistor, store} from './src/redux/store';
 import {COLORS} from './src/constants';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import Toast from 'react-native-toast-message';
 
 const App = () => {
   useEffect(() => {
@@ -19,6 +20,7 @@ const App = () => {
         <GestureHandlerRootView style={{flex: 1}}>
           <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
           <MainStack />
+          <Toast />
         </GestureHandlerRootView>
       </PersistGate>
     </Provider>

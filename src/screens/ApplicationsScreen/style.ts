@@ -41,6 +41,10 @@ const styles = StyleSheet.create({
     width: wp(40),
     marginLeft: wp(3),
   },
+  modaldropdwen: {
+    width: wp(45),
+    backgroundColor: '#0dd',
+  },
   dropBox: {
     marginTop: hp(2),
     flexDirection: 'row',

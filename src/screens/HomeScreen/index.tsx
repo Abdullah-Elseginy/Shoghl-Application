@@ -11,29 +11,13 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {FlatList, ScrollView, View} from 'react-native';
-import {
-  Adidas,
-  BlackSmith,
-  Carpenter,
-  Cash,
-  Crown,
-  Dreams,
-  Electricity,
-  FeaturdLogo,
-  Hairdresser,
-  HowItWork1,
-  HowItWork2,
-  Location,
-  Nike,
-  Photoshop,
-  Riyadh,
-  Samsung,
-  Tiktok,
-  Udacity,
-} from '../../assets';
+import {Cash, Crown, Location, Riyadh} from '../../assets';
 import {generalStyles, hp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
+import {CAREERLEVEL, HOWITWORK, JOBSHOME, PARTENERS} from '../../utils/Data';
+import {useDispatch} from 'react-redux';
+import {getAllCities, getAllCountries} from '../../redux/slices/authSlice';
 
 const CITY = [
   {id: 1, label: 'Cairo'},
@@ -41,133 +25,6 @@ const CITY = [
   {id: 3, label: 'Giza'},
 ];
 
-const JOBS = [
-  {
-    id: 1,
-    img: <Photoshop />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 2,
-    img: <Nike />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 3,
-    img: <Tiktok />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 4,
-    img: <Samsung />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Udacity />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 6,
-    img: <Adidas />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-];
-const HOWITWORK = [
-  {
-    id: 1,
-    title: 'Post a Job',
-    imag: <HowItWork1 width={'70%'} />,
-    content:
-      'Select a package that suits your needs and submit your job details.',
-  },
-  {
-    id: 2,
-    title: 'Post a Job',
-    imag: <HowItWork2 />,
-    content:
-      'Select a package that suits your needs and submit your job details.',
-  },
-  {
-    id: 3,
-    title: 'Post a Job',
-    imag: <HowItWork2 />,
-    content:
-      'Select a package that suits your needs and submit your job details.',
-  },
-];
-const PARTENERS = [
-  {
-    id: 1,
-    imag: <Dreams />,
-  },
-  {
-    id: 2,
-    imag: <FeaturdLogo />,
-  },
-  {
-    id: 3,
-    imag: <Dreams />,
-  },
-  {
-    id: 4,
-    imag: <FeaturdLogo />,
-  },
-  {
-    id: 5,
-    imag: <Dreams />,
-  },
-  {
-    id: 6,
-    imag: <FeaturdLogo />,
-  },
-];
-const CAREERLEVEL = [
-  {
-    id: 1,
-    imag: <Hairdresser style={{marginTop: hp(-8)}} width={'65%'} />,
-    title: 'Hairdresser',
-  },
-  {
-    id: 2,
-    imag: <BlackSmith style={{marginTop: hp(-8)}} width={'65%'} />,
-    title: 'BlackSmith',
-  },
-  {
-    id: 3,
-    imag: <Carpenter style={{marginTop: hp(-8)}} width={'65%'} />,
-    title: 'Carpenter',
-  },
-  {
-    id: 4,
-    imag: <Electricity style={{marginTop: hp(-8)}} width={'65%'} />,
-    title: 'Electricity',
-  },
-];
 const BROWESLOCATION = [
   {
     id: 1,
@@ -196,6 +53,13 @@ type Props = {
 
 const HomeScreen = ({navigation}: Props) => {
   const [city, setCity] = React.useState('');
+  // const dispatch = useDispatch();
+  // React.useEffect(() => {
+  //   dispatch(getAllCountries());
+  // }, [dispatch]);
+  // React.useEffect(() => {
+  //   dispatch(getAllCities(+20));
+  // }, [dispatch]);
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -298,7 +162,7 @@ const HomeScreen = ({navigation}: Props) => {
           <CustomText text="Recent Jobs" textStyle={styles.sectionTitle} />
         </View>
         <FlatList
-          data={JOBS}
+          data={JOBSHOME}
           horizontal={true}
           keyExtractor={item => item.id.toString()}
           renderItem={({item}) => <Job item={item} />}
