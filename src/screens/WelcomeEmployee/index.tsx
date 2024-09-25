@@ -16,10 +16,9 @@ import {ParamListBase} from '@react-navigation/native';
 import {WelComJOBS} from '../../utils/Data';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
-  item: any;
 };
 
-const Job = ({item}: Props) => {
+const Job = ({item}: any) => {
   return (
     <Pressable onPress={() => {}} style={[styles.jobBox]}>
       <View style={styles.jobTopBox}>

@@ -8,7 +8,7 @@ import {
 } from '../../components';
 import styles from './style';
 import {generalStyles, hp, wp} from '../../constants';
-import {Add, Search} from '../../assets';
+import {Add, Eye, Lock, Search} from '../../assets';
 import {JOBS, QUETIONS} from '../../utils/Data';
 import Job from '../../components/Jobs';
 const list = [
@@ -27,6 +27,7 @@ const Quetions = ({item}: any) => {
 };
 const Applications = ({navigation}: any) => {
   const [selected, setSelected] = useState<String>('Application');
+  const [SortedbyVal, setSortedbyVal] = useState<any>('');
   const handlePress = (choice: string) => {
     setSelected(choice);
   };
@@ -42,7 +43,11 @@ const Applications = ({navigation}: any) => {
                 ? styles.selected
                 : styles.applicationBox
             }>
-            <CustomText text="Application" textStyle={styles.appication} />
+            <CustomText
+              text="Application"
+              text2="(50)"
+              textStyle={styles.appication}
+            />
           </Pressable>
           <Pressable
             onPress={() => handlePress('Archive')}
@@ -58,7 +63,11 @@ const Applications = ({navigation}: any) => {
             <Dropdown
               list={list}
               dropDownStyle={styles.dropdwon}
-              ModalContainerStyle={styles.modaldropdwen}
+              value={SortedbyVal}
+              onChangeValue={(val: any) => {
+                setSortedbyVal(val);
+              }}
+              ItemsBOX={styles.ItemsBox}
             />
           </View>
         </View>
@@ -78,7 +87,7 @@ const Applications = ({navigation}: any) => {
             </View>
             <View style={[generalStyles.row, styles.Box]}>
               <View style={styles.searchBox}>
-                <Search width={wp(6)} height={hp(3)} />
+                <Eye width={wp(6)} height={hp(3)} />
               </View>
               <View style={generalStyles.marginLeft}>
                 <CustomText text="15" textStyle={styles.Bold} />
@@ -91,7 +100,7 @@ const Applications = ({navigation}: any) => {
           </View>
           <View style={[generalStyles.row, styles.Box]}>
             <View style={styles.searchBox}>
-              <Search width={wp(6)} height={hp(3)} />
+              <Lock width={wp(6)} height={hp(3)} />
             </View>
             <View style={generalStyles.marginLeft}>
               <CustomText text="15" textStyle={styles.Bold} />

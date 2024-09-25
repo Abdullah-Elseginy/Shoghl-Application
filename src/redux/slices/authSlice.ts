@@ -135,6 +135,7 @@ const initialState = {
   allCountries: null,
   allCities: null,
   corpRegisterSteps: null,
+  registerationType: '',
 };
 
 const authSlice = createSlice({
@@ -143,6 +144,9 @@ const authSlice = createSlice({
   reducers: {
     changeIsSkipping: state => {
       state.isSkipping = true;
+    },
+    changeRegisterationType: (state, action) => {
+      state.registerationType = action.payload;
     },
   },
   extraReducers: builder => {

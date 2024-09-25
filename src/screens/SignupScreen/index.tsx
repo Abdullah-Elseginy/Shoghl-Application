@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 import * as React from 'react';
 import {
   AppInput,
@@ -23,30 +24,93 @@ type Props = {
 const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
+  const [errBordername, setErrorBordername] = React.useState('');
+  const [formData, setFormData] = React.useState({
+    companyName: '',
+    firstName: '',
+    lastName: '',
+    mobileNumber: '',
+    businessMail: '',
+    password: '',
+    role: '',
+  });
+  const [formErrors, setFormErrors] = React.useState({
+    companyName: '',
+    firstName: '',
+    lastName: '',
+    mobileNumber: '',
+    businessMail: '',
+    password: '',
+    role: '',
+  });
+
   const dispatch = useDispatch();
-  const candidateData = {
-    border_number: BorderName,
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData({...formData, [field]: value});
   };
 
-  const HandleNextCandidate = userdata => {
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    if (LoginType === 'corporate') {
+      // Corporate validation
+      if (!formData.companyName) {
+        errors.companyName = 'Company Name is required';
+      }
+      if (!formData.firstName) errors.firstName = 'First Name is required';
+      if (!formData.lastName) errors.lastName = 'Last Name is required';
+      if (!formData.mobileNumber.match(/^[0-9]{11}$/)) {
+        errors.mobileNumber = 'Enter a valid 11-digit mobile number';
+      }
+      if (!formData.businessMail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        errors.businessMail = 'Enter a valid email address';
+      }
+      if (formData.password.length < 8) {
+        errors.password = 'Password must be at least 6 characters';
+      }
+      if (!formData.role) errors.role = 'Role is required';
+    } else {
+      // Candidate validation
+      if (!BorderName) {
+        setErrorBordername('Please Enter Border Name');
+      } else {
+        setErrorBordername('');
+      }
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0 && !errBordername; // Ensure no errors
+  };
+  const handleSubmit = () => {
+    if (validateForm()) {
+      if (LoginType === 'corporate') {
+        // Corporate user sign-up
+        const corporateData = {...formData};
+        dispatch(signUpOne(corporateData))
+          .unwrap()
+          .then(() => navigation.replace(ScreenNames.RegisterationSteps))
+          .catch(err => console.error('signup ', err));
+      } else {
+        // Candidate user sign-up
+        const candidateData = {border_number: BorderName};
+        if (validateForm() && errBordername.length === 0) {
+          HandleNextCandidate(candidateData);
+        }
+      }
+    }
+  };
+
+  const HandleNextCandidate = (userdata: {border_number: string}) => {
     dispatch(signUpOne(userdata))
       .unwrap()
       .then(() => {
-        // Toast.show({
-        //   type: 'success',
-        //   text1: 'login success',
-        // });
         navigation.replace(ScreenNames.CompleteProfile);
       })
       .catch(err => {
         console.log('signup ', err);
-        // Toast.show({
-        //   type: 'error',
-        //   text1: `someting went wrong`,
-        // });
-        navigation.replace(ScreenNames.CompleteProfile);
       });
   };
+
   return (
     <AppScreenContainer style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -59,18 +123,18 @@ const SignupScreen = ({navigation}: Props) => {
             <Button
               text="candidate"
               style={styles.btn}
-              secondry={LoginType !== 'candidate' ? true : false}
+              secondry={LoginType !== 'candidate'}
               onPress={() => SetLoginType('candidate')}
             />
             <Button
               text="corporate"
               style={styles.btn}
-              secondry={LoginType !== 'corporate' ? true : false}
+              secondry={LoginType !== 'corporate'}
               onPress={() => SetLoginType('corporate')}
             />
           </View>
 
-          {/* Candidate */}
+          {/* Candidate Form */}
           {LoginType !== 'corporate' ? (
             <>
               <AppInput
@@ -79,16 +143,10 @@ const SignupScreen = ({navigation}: Props) => {
                 labelStyle={styles.inputLabel}
                 containerStyle={styles.inputContainerStyle}
                 value={BorderName}
-                onChangeText={val => {
-                  SetBorderName(val);
-                }}
+                onChangeText={SetBorderName}
               />
-              <Button
-                text="next"
-                onPress={() => {
-                  HandleNextCandidate(candidateData);
-                }}
-              />
+              <CustomText text={errBordername} textStyle={styles.ErrorMSG} />
+              <Button text="Next" onPress={() => handleSubmit()} />
               <View style={[generalStyles.rowCenter, {marginTop: hp(1.3)}]}>
                 <CustomText
                   text="Have an account?"
@@ -115,67 +173,127 @@ const SignupScreen = ({navigation}: Props) => {
             </>
           ) : (
             <>
+              {/* Corporate Form */}
               <AppInput
                 placeholder="Enter Your Company name"
                 label="Company Name"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
+                value={formData.companyName}
+                onChangeText={value => handleInputChange('companyName', value)}
               />
+              {formErrors.companyName && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.companyName}
+                />
+              )}
+
               <View style={generalStyles.rowBetween}>
                 <View>
                   <AppInput
-                    placeholder=" First Name"
+                    placeholder="First Name"
                     label="First Name"
                     labelStyle={[styles.inputLabel, styles.CoporateInput]}
                     containerStyle={[
                       styles.inputContainerStyle,
                       styles.Firstname,
                     ]}
+                    value={formData.firstName}
+                    onChangeText={value =>
+                      handleInputChange('firstName', value)
+                    }
                   />
+                  {formErrors.firstName && (
+                    <CustomText
+                      textStyle={styles.ErrorMSG}
+                      text={formErrors.firstName}
+                    />
+                  )}
                 </View>
                 <View>
                   <AppInput
                     placeholder="Last Name"
-                    label="First Name"
+                    label="Last Name"
                     labelStyle={[styles.inputLabel, styles.CoporateInput]}
                     containerStyle={[
                       styles.inputContainerStyle,
                       styles.Firstname,
                     ]}
+                    value={formData.lastName}
+                    onChangeText={value => handleInputChange('lastName', value)}
                   />
+                  {formErrors.lastName && (
+                    <CustomText
+                      textStyle={styles.ErrorMSG}
+                      text={formErrors.lastName}
+                    />
+                  )}
                 </View>
               </View>
+
               <AppInput
                 placeholder="Enter Your Mobile Number"
                 label="Mobile Number"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
+                value={formData.mobileNumber}
+                onChangeText={value => handleInputChange('mobileNumber', value)}
               />
+              {formErrors.mobileNumber && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.mobileNumber}
+                />
+              )}
+
               <AppInput
                 placeholder="Enter Your Business Mail"
                 label="Business Mail"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
+                value={formData.businessMail}
+                onChangeText={value => handleInputChange('businessMail', value)}
               />
+              {formErrors.businessMail && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.businessMail}
+                />
+              )}
+
               <AppInput
                 placeholder="Enter Your Password"
                 label="Create Password"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
+                value={formData.password}
+                onChangeText={value => handleInputChange('password', value)}
+                secureTextEntry
               />
+              {formErrors.password && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.password}
+                />
+              )}
+
               <AppInput
-                placeholder="Enter Your role are you for?"
-                label="Which role are you for?"
+                placeholder="Enter Your Role"
+                label="Which role are you applying for?"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
+                value={formData.role}
+                onChangeText={value => handleInputChange('role', value)}
               />
-              <Button
-                style={styles.bottmStyle}
-                text="Create account"
-                onPress={() => {
-                  navigation.navigate(ScreenNames.RegisterationSteps);
-                }}
-              />
+              {formErrors.role && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.role}
+                />
+              )}
+
+              <Button text="Submit" onPress={handleSubmit} />
             </>
           )}
         </View>

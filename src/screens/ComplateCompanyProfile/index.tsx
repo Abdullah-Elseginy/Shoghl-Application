@@ -7,21 +7,17 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {Alert, ImageBackground, TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 import {
   Cash,
   Crown,
   Edit,
   ExitXicon,
+  Globaly,
   Location,
   Raya,
-  Upload,
 } from '../../assets';
-import {
-  launchImageLibrary,
-  ImageLibraryOptions,
-  Asset,
-} from 'react-native-image-picker';
+
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
 import {ParamListBase} from '@react-navigation/native';
@@ -97,27 +93,27 @@ const Job = ({item}: any) => {
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
   // Select Images
-  const [imageUri, setImageUri] = useState<string | null>(null);
-  const selectImage = () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
-      quality: 1,
-    };
+  // const [imageUri, setImageUri] = useState<string | null>(null);
+  // const selectImage = () => {
+  //   const options: ImageLibraryOptions = {
+  //     mediaType: 'photo',
+  //     quality: 1,
+  //   };
 
-    launchImageLibrary(options, response => {
-      if (response.didCancel) {
-      } else if (response.errorCode) {
-        Alert.alert(
-          'Error:',
-          response.errorMessage || 'Unknown error occurred',
-        );
-      } else if (response.assets && response.assets.length > 0) {
-        const selectedImage: Asset = response.assets[0];
-        setImageUri(selectedImage.uri || null);
-      }
-    });
-  };
-  const [Disapled, SetDisapled] = useState(true);
+  //   launchImageLibrary(options, response => {
+  //     if (response.didCancel) {
+  //     } else if (response.errorCode) {
+  //       Alert.alert(
+  //         'Error:',
+  //         response.errorMessage || 'Unknown error occurred',
+  //       );
+  //     } else if (response.assets && response.assets.length > 0) {
+  //       const selectedImage: Asset = response.assets[0];
+  //       setImageUri(selectedImage.uri || null);
+  //     }
+  //   });
+  // };
+  const [Disapled, SetDisapled] = useState(false);
   const [InputsData] = useState([
     {title: 'Location', type: 'text', value: '', error: '', hasError: false},
     {title: 'Founded', type: 'text', value: '', error: '', hasError: false},
@@ -132,7 +128,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
     {title: 'Industry', type: 'text', value: '', error: '', hasError: false},
   ]);
 
-  const [InpusValues, SetInpusValues] = useState({
+  const [InpusValues, SetInpusValues] = useState<any>({
     Location: 'Egypt',
     Founded: '2020',
     'Company Size': '50-100 employeee',
@@ -142,7 +138,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
 
   const OchangeInpus = (val: string, FieldName: string) => {
     // Dynamically update the state for the corresponding field
-    SetInpusValues(prevState => ({
+    SetInpusValues((prevState: any) => ({
       ...prevState,
       [FieldName]: val,
     }));
@@ -154,33 +150,30 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       <ScrollView>
         {/* Profile Cover and photo */}
         <View>
-          {imageUri ? (
-            <TouchableOpacity
-              onPress={() => {
-                selectImage();
-              }}>
-              <ImageBackground
-                source={{uri: imageUri}}
-                style={styles.coverImage}
-              />
-            </TouchableOpacity>
-          ) : (
-            <View style={styles.CoverBackgroud}>
+          <View style={styles.CoverBackgroud}>
+            <View style={styles.ProfilePhotoBox}>
+              <Raya />
+            </View>
+            <View style={styles.TextsBox}>
               <CustomText
-                text="Upload Your Company Cover Photo"
+                text="Raya Contact Center"
                 textStyle={styles.coverText}
               />
-              <TouchableOpacity
-                onPress={() => {
-                  selectImage();
-                }}>
-                <Upload />
-              </TouchableOpacity>
+              <View style={[generalStyles.row]}>
+                <Location />
+                <CustomText
+                  text="Consumer Electronics . Retail . Cairo, Egypt . 501-1000 employees"
+                  textStyle={styles.subText2}
+                />
+              </View>
+              <View style={[generalStyles.row]}>
+                <Globaly />
+                <CustomText
+                  text="www.Rayacorp.com"
+                  textStyle={styles.subText2}
+                />
+              </View>
             </View>
-          )}
-
-          <View style={styles.ProfilePhotoBox}>
-            <Raya />
           </View>
         </View>
 

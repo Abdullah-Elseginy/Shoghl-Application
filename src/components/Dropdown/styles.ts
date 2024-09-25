@@ -13,6 +13,7 @@ export const styles = StyleSheet.create({
   dropDownContainerStyle: {
     borderRadius: 10,
     zIndex: 12,
+    alignItems: 'center',
   },
   listItemContainerStyle: {
     zIndex: 999,

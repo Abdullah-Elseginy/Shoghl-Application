@@ -67,4 +67,7 @@ export const styles = StyleSheet.create({
   bottmStyle: {
     marginTop: hp(4),
   },
+  ErrorMSG: {
+    color: COLORS.danger,
+  },
 });

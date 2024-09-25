@@ -283,7 +283,6 @@ const JobPost = () => {
                   dropDownStyle={styles.DropStyles}
                   ItemsBOX={styles.DropStyles}
                   placeholder="Min"
-                  //   value={}
                 />
               </View>
               <View style={styles.ContaibYear}>

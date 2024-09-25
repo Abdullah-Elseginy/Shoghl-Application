@@ -3,36 +3,32 @@ import {COLORS, FONTS, hp, wp} from '../../constants';
 
 export const styles = StyleSheet.create({
   CoverBackgroud: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    height: hp(15),
+    flexDirection: 'row',
     alignItems: 'center',
-    height: hp(20),
+    paddingHorizontal: wp(4),
   },
   coverImage: {
     alignItems: 'center',
     height: hp(20),
   },
   coverText: {
-    color: COLORS.white,
+    color: COLORS.black,
     fontSize: hp(2),
     fontFamily: FONTS.SemiBold,
     textAlign: 'center',
-    marginBottom: hp(1),
-    marginTop: hp(2),
   },
   ProfilePhotoBox: {
     backgroundColor: COLORS.white,
-    borderRadius: hp(50),
-    width: hp(15),
-    height: hp(15),
-    overflow: 'hidden',
     marginBottom: hp(2),
     marginLeft: hp(2),
-    // alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: hp(-7.5),
-    borderWidth: wp(0.5),
-    borderColor: COLORS.grayLight,
+    height: hp(12),
+  },
+  TextsBox: {
+    alignItems: 'flex-start',
   },
   HringBox: {
     borderWidth: wp(0.1),
@@ -52,6 +48,11 @@ export const styles = StyleSheet.create({
   subText: {
     color: COLORS.grayLight,
     marginVertical: hp(1),
+  },
+  subText2: {
+    color: COLORS.grayLight,
+    marginLeft: wp(1),
+    width: wp(60),
   },
   Container: {
     paddingHorizontal: hp(2),

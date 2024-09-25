@@ -208,7 +208,7 @@ const CompleteProfile = ({navigation}: Props) => {
           text="save"
           onPress={() => {
             // HandleProfile();
-            navigation.navigate(ScreenNames.BottomTabs);
+            navigation.replace(ScreenNames.BottomTabs);
           }}
           style={{marginVertical: hp(3)}}
         />
