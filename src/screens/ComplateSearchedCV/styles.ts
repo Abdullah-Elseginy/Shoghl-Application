@@ -204,7 +204,7 @@ export const styles = StyleSheet.create({
     borderRadius: wp(1),
     padding: wp(0.4),
     alignSelf: 'flex-end',
-    marginLeft: wp(3),
+    // marginLeft: wp(3),
     paddingHorizontal: wp(0.5),
     backgroundColor: COLORS.primaryMoreLight,
   },

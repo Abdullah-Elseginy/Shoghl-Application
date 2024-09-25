@@ -207,7 +207,7 @@ const renderItem = ({item}: any) => (
     <View style={generalStyles.row}>
       <View style={{height: hp(13)}}>{item.img}</View>
       <View style={styles.textsBox}>
-        <View style={[generalStyles.rowBetween, styles.namesbox]}>
+        <View style={[generalStyles.row, styles.namesbox]}>
           <CustomText text="Abdullah Elseginy" textStyle={styles.name} />
           <View style={styles.Lock}>
             <Lock height={hp(1.8)} width={wp(3.7)} />
@@ -215,17 +215,10 @@ const renderItem = ({item}: any) => (
           <View style={[styles.Lock, styles.CVbg]}>
             <CustomText text="CV" textStyle={[styles.CV]} />
           </View>
-          <TouchableOpacity style={[generalStyles.row, styles.applyBox]}>
-            <SendMSG width={wp(3)} height={hp(2.5)} />
-            <CustomText text="invite to apply" textStyle={styles.Apply} />
-          </TouchableOpacity>
         </View>
         <CustomText text={item.subText1} textStyle={styles.supproftext} />
         <View style={generalStyles.rowBetween}>
           <CustomText text={item.lastseen} textStyle={styles.lastseen} />
-          <View style={styles.immmediatstart}>
-            <CustomText text2="Immediate Start" textStyle={styles.Apply} />
-          </View>
         </View>
       </View>
     </View>
@@ -276,6 +269,16 @@ const renderItem = ({item}: any) => (
           />
         </View>
       </View>
+    </View>
+    {/* Footer */}
+    <View style={generalStyles.rowBetween}>
+      <View style={styles.immmediatstart}>
+        <CustomText text2="Immediate Start" textStyle={styles.Apply} />
+      </View>
+      <TouchableOpacity style={[generalStyles.row, styles.applyBox]}>
+        <SendMSG width={wp(3)} height={hp(2.5)} />
+        <CustomText text="invite to apply" textStyle={styles.Apply} />
+      </TouchableOpacity>
     </View>
   </View>
 );

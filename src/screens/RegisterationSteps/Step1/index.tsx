@@ -81,17 +81,10 @@ const Step1 = () => {
         onPress={() => {
           hadleAddJobToinput(index, item.title);
         }}
-        style={[
-          styles.choise,
-          currentSlectedindex === index ? styles.selected : styles.unselected,
-        ]}>
+        style={[styles.choise, styles.selected]}>
         <CustomText
           text={`${item.title}\t\t +`}
-          textStyle={
-            currentSlectedindex === index
-              ? styles.textSlected
-              : styles.textunselected
-          }
+          textStyle={styles.textSlected}
         />
       </Pressable>
     );
@@ -125,8 +118,8 @@ const Step1 = () => {
       setSelectedIds5(prevSelected => [...prevSelected, id]);
     }
   };
-  const hadleAddJobToinput = (index, item) => {
-    SetSelectedJops(prevState => [...prevState, item]);
+  const hadleAddJobToinput = (index: number, item: any) => {
+    SetSelectedJops((prevState: any) => [...prevState, item]);
     SetJopTypes4(prev => prev.filter((_, i) => i !== index));
     setcurrentSlectedindex(index);
   };
@@ -211,6 +204,8 @@ const Step1 = () => {
             containerStyle={styles.ContanerInput}
             placeholder="Select"
             Flatdata={SelectedJops}
+            setFlatData={SetSelectedJops}
+            setDelatedToJobTypesAgain={SetJopTypes4}
           />
         </View>
         <FlatList data={JopTypes4} numColumns={2} renderItem={renderItem6} />

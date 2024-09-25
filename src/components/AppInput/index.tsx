@@ -1,6 +1,7 @@
 import {
   ColorValue,
   FlatList,
+  Pressable,
   StyleProp,
   TextInput,
   TextStyle,
@@ -33,6 +34,8 @@ type Props = {
   appInputStyle?: StyleProp<ViewStyle>;
   isNumericKeyboard?: boolean;
   Flatdata?: any;
+  setFlatData?: any;
+  setDelatedToJobTypesAgain?: any;
 };
 
 const AppInput = ({
@@ -54,7 +57,22 @@ const AppInput = ({
   appInputStyle,
   isNumericKeyboard,
   Flatdata, //! FaltList
+  setFlatData,
+  setDelatedToJobTypesAgain,
 }: Props) => {
+  const DelateItem = (index: number) => {
+    const newData = [...Flatdata];
+    const [deletedItem] = newData.splice(index, 1);
+    const delatedItem = {
+      id: index + '',
+      title: deletedItem,
+    };
+    console.log(deletedItem);
+    setFlatData(newData);
+    if (deletedItem) {
+      setDelatedToJobTypesAgain((prev: any) => [...prev, delatedItem]);
+    }
+  };
   return (
     <View style={[styles.container, appInputStyle]}>
       {label && (
@@ -71,8 +89,13 @@ const AppInput = ({
             <FlatList
               horizontal
               data={Flatdata}
-              renderItem={({item}) => (
-                <CustomText textStyle={styles.FlatListText} text={item} />
+              renderItem={({item, index}) => (
+                <Pressable
+                  onPress={() => {
+                    DelateItem(index);
+                  }}>
+                  <CustomText textStyle={styles.FlatListText} text={item} />
+                </Pressable>
               )}
             />
           </View>
