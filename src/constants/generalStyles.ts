@@ -40,7 +40,7 @@ export const generalStyles = StyleSheet.create({
   },
   btnTxt: {
     fontSize: wp(4),
-    textTransform: 'capitalize',
+    textTransform: 'uppercase',
     fontFamily: FONTS.Medium,
   },
   txt: {

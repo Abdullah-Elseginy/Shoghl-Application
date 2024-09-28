@@ -105,25 +105,26 @@ export const loginOne = createAsyncThunk(
   },
 );
 // ===================== Login Two Action ========================
-// export const loginTwo = createAsyncThunk(
-//   "auth/loginTwo",
-//   async (data, { rejectWithValue }) => {
-//     try {
-//       const res = await Axios({
-//         method: "POST",
-//         path: APIS.loginTwo,
-//         data: data,
-//         isFormData: true,
-//       });
-//       console.log("loginTwo", res?.data);
-//       return res.data;
-//     } catch (error) {
-//       const errorMessage = error.response?.data?.errors?.message || error.message
-//       console.log('loginTwo Error' ,errorMessage);
-//       return rejectWithValue(errorMessage);
-//    }
-//   }
-// );
+export const loginTwo = createAsyncThunk(
+  'auth/loginTwo',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.loginTwo,
+        data: data,
+        isFormData: true,
+      });
+      console.log('loginTwo', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('loginTwo Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 const initialState = {
   token: null,
@@ -224,23 +225,22 @@ const authSlice = createSlice({
       .addCase(loginOne.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // ===================== Login Two ========================
+
+      .addCase(loginTwo.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(loginTwo.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.token = action.payload.token;
+        state.error = null;
+      })
+      .addCase(loginTwo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
-    // ===================== Login Two ========================
-
-    // .addCase(loginTwo.pending, (state, action) => {
-    //   state.loading = true;
-    // })
-    // .addCase(loginTwo.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   state.user = action.payload;
-    //   state.token = action.payload.token;
-    //   state.error = null;
-
-    // })
-    // .addCase(loginTwo.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.payload;
-    // });
   },
 });
 

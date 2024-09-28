@@ -36,6 +36,7 @@ type Props = {
   Flatdata?: any;
   setFlatData?: any;
   setDelatedToJobTypesAgain?: any;
+  maxLength?: number;
 };
 
 const AppInput = ({
@@ -59,6 +60,7 @@ const AppInput = ({
   Flatdata, //! FaltList
   setFlatData,
   setDelatedToJobTypesAgain,
+  maxLength,
 }: Props) => {
   const DelateItem = (index: number) => {
     const newData = [...Flatdata];
@@ -115,6 +117,7 @@ const AppInput = ({
           editable={editable}
           secureTextEntry={secureTextEntry}
           keyboardType={isNumericKeyboard ? 'numeric' : 'default'}
+          maxLength={maxLength}
         />
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>
