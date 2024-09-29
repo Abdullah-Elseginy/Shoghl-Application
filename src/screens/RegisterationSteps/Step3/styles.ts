@@ -75,4 +75,7 @@ export const styles = StyleSheet.create({
     width: wp(30),
     alignSelf: 'center',
   },
+  CVname: {
+    textAlign: 'center',
+  },
 });

@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   listItemContainerStyle: {
-    zIndex: 999,
+    zIndex: 20,
   },
   listItemLabelStyle: {
     color: COLORS.black,

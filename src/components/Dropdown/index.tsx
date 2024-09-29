@@ -15,6 +15,7 @@ type Props = {
   placeholderStyle?: StyleProp<TextStyle>;
   ModalContainerStyle?: StyleProp<ViewStyle>;
   ItemsBOX?: StyleProp<ViewStyle>;
+  selectedItemContainerStyle?: StyleProp<ViewStyle>;
 };
 
 const Dropdown = ({
@@ -28,6 +29,7 @@ const Dropdown = ({
   placeholderStyle,
   ModalContainerStyle,
   ItemsBOX,
+  selectedItemContainerStyle,
 }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -52,7 +54,10 @@ const Dropdown = ({
         ]}
         containerStyle={styles.dropDownContainerStyle}
         listItemLabelStyle={styles.listItemLabelStyle}
-        selectedItemContainerStyle={styles.selectedItemContainerStyle}
+        selectedItemContainerStyle={[
+          styles.selectedItemContainerStyle,
+          selectedItemContainerStyle,
+        ]}
         selectedItemLabelStyle={styles.selectedItemLabelStyle}
         dropDownContainerStyle={[ItemsBOX, styles.itemsContaienrStyle]}
         schema={{

@@ -41,4 +41,20 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.SemiBold,
     fontSize: wp(3),
   },
+  menueOptions: {
+    borderRadius: wp(1),
+    width: wp(90),
+    backgroundColor: COLORS.white,
+    position: 'relative',
+    elevation: 1,
+    alignSelf: 'center',
+  },
+  rowOptions: {
+    height: hp(5),
+  },
+  txt: {
+    textTransform: 'capitalize',
+    fontSize: wp(3.2),
+    fontFamily: FONTS.Regular,
+  },
 });

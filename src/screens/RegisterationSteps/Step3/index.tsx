@@ -1,13 +1,33 @@
 import React, {useState} from 'react';
-import {Button, CustomText, Dropdown, GeneralModal} from '../../../components';
+import {
+  AppInput,
+  Button,
+  CustomText,
+  Dropdown,
+  GeneralModal,
+} from '../../../components';
 import {styles} from './styles';
 import {generalStyles} from '../../../constants';
-import {FlatList, Pressable, View} from 'react-native';
+import {Alert, FlatList, Pressable, View} from 'react-native';
 import ScreenNames from '../../../navigations/ScreenNames';
+import DocumentPicker from 'react-native-document-picker';
 const List = [
   {label: 'Egypt', value: 'apple'},
   {label: 'Morroco', value: 'banana'},
   {label: 'Italy', value: 'orange'},
+];
+const LanguageList = [
+  {label: 'Arabic', value: 'Arabic'},
+  {label: 'English', value: 'English'},
+  {label: 'Italy', value: 'Italy'},
+  {label: 'france', value: 'france'},
+];
+const ProficiencyList = [
+  {label: 'Native', value: 'Native'},
+  {label: 'Beginner', value: 'Beginner'},
+  {label: 'Intermediate', value: 'Intermediate'},
+  {label: 'Advanced', value: 'Advanced'},
+  {label: 'Expert', value: 'Expert'},
 ];
 const DropDwensData = [
   {
@@ -85,6 +105,34 @@ const Step3 = ({navigation}: any) => {
       <Dropdown list={item.list} dropDownStyle={styles.DropBorder} />
     </View>
   );
+  const [file, setFile] = useState(null);
+  const [slectedLang, setSelectedLang] = useState([]);
+  const [langagevals, setlangaugevals] = useState({
+    language: '',
+    proficiency: '',
+  });
+  const Setlanguage = (key, val) => {
+    setlangaugevals({...langagevals, [key]: val});
+  };
+  console.log(langagevals.proficiency);
+
+  const selectDocument = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
+      });
+      setFile(res[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        Alert.alert('Document selection was canceled');
+      } else {
+        Alert.alert('Unknown Error: ' + JSON.stringify(err));
+      }
+    }
+  };
+  const [Selected, setselected] = useState('');
+  const [ShowMenuProficiency, SetShowMenuProficiency] = useState(false);
+  console.log(Selected);
   return (
     <>
       {/*Personal Info */}
@@ -143,14 +191,36 @@ const Step3 = ({navigation}: any) => {
             text={'Language'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          <Dropdown list={List} dropDownStyle={styles.DropBorder} />
+          <Dropdown
+            value={langagevals.language}
+            onChangeValue={val => {
+              Setlanguage('language', val);
+              console.log('first');
+            }}
+            list={LanguageList}
+            dropDownStyle={styles.DropBorder}
+          />
         </View>
         <View>
           <CustomText
             text={'Proficiency'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          <Dropdown list={List} dropDownStyle={styles.DropBorder} />
+          {/* <Dropdown
+            list={ProficiencyList}
+            dropDownStyle={styles.DropBorder}
+            value={langagevals.proficiency}
+            setValue={(val: any) => Setlanguage('proficiency', val)}
+          /> */}
+          <AppInput
+            menueOption={['sc', 'casca']}
+            value={Selected}
+            editable={false}
+            showMenue={ShowMenuProficiency}
+            isdisabled={false}
+            setShowMenue={SetShowMenuProficiency}
+            onChangeText={val => setselected(val)}
+          />
           <Button text="Add" style={styles.Add} onPress={() => {}} />
         </View>
       </View>
@@ -172,7 +242,17 @@ const Step3 = ({navigation}: any) => {
         <View style={generalStyles.rowwrap}>
           <CustomText text="Upload your CV" textStyle={styles.StepTitle} />
         </View>
-        <Button text="Upload CV" style={styles.CV} onPress={() => {}} />
+        <Button
+          text="Upload CV"
+          style={styles.CV}
+          onPress={() => {
+            selectDocument();
+          }}
+        />
+        <CustomText
+          text={JSON.stringify(file?.name)}
+          textStyle={styles.CVname}
+        />
       </View>
     </>
   );

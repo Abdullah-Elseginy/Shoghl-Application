@@ -14,7 +14,7 @@ import {PackSVG} from '../../assets';
 import {Pressable, View} from 'react-native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {signUpOne} from '../../redux/slices/authSlice';
 
 type Props = {
@@ -25,6 +25,7 @@ const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
+  const {loading} = useSelector(state => state.auth);
   const [formData, setFormData] = React.useState({
     companyName: '',
     firstName: '',
@@ -43,11 +44,24 @@ const SignupScreen = ({navigation}: Props) => {
     password: '',
     role: '',
   });
-
   const dispatch = useDispatch();
+  const [candidateError, SetCAndidateError] = React.useState('');
 
   const handleInputChange = (field: string, value: string) => {
     setFormData({...formData, [field]: value});
+  };
+  const validateBorderNumber = () => {
+    if (!BorderName) {
+      setErrorBordername('Border Name is required');
+      return;
+    }
+    if (!/^\d{10}$/.test(BorderName)) {
+      setErrorBordername('Border Number should be at least 10 digits');
+    } else {
+      const candidateData = {border_number: BorderName};
+      setErrorBordername('');
+      HandleNextCandidate(candidateData);
+    }
   };
 
   const validateForm = () => {
@@ -69,13 +83,6 @@ const SignupScreen = ({navigation}: Props) => {
         errors.password = 'Password must be at least 6 characters';
       }
       if (!formData.role) errors.role = 'Role is required';
-    } else {
-      // Candidate validation
-      if (!BorderName) {
-        setErrorBordername('Please Enter Border Name');
-      } else {
-        setErrorBordername('');
-      }
     }
 
     setFormErrors(errors);
@@ -83,20 +90,11 @@ const SignupScreen = ({navigation}: Props) => {
   };
   const handleSubmit = () => {
     if (validateForm()) {
-      if (LoginType === 'corporate') {
-        // Corporate user sign-up
-        const corporateData = {...formData};
-        dispatch(signUpOne(corporateData))
-          .unwrap()
-          .then(() => navigation.replace(ScreenNames.RegisterationSteps))
-          .catch(err => console.error('signup ', err));
-      } else {
-        // Candidate user sign-up
-        const candidateData = {border_number: BorderName};
-        if (validateForm() && errBordername.length === 0) {
-          HandleNextCandidate(candidateData);
-        }
-      }
+      const corporateData = {...formData};
+      dispatch(signUpOne(corporateData))
+        .unwrap()
+        .then(() => navigation.replace(ScreenNames.RegisterationSteps))
+        .catch(err => console.error('signup ', err));
     }
   };
 
@@ -142,11 +140,17 @@ const SignupScreen = ({navigation}: Props) => {
                 label="Border Number"
                 labelStyle={styles.inputLabel}
                 containerStyle={styles.inputContainerStyle}
+                maxLength={10}
+                isNumericKeyboard
                 value={BorderName}
                 onChangeText={SetBorderName}
               />
               <CustomText text={errBordername} textStyle={styles.ErrorMSG} />
-              <Button text="Next" onPress={() => handleSubmit()} />
+              <Button
+                loading={loading}
+                text="Next"
+                onPress={() => validateBorderNumber()}
+              />
               <View style={[generalStyles.rowCenter, {marginTop: hp(1.3)}]}>
                 <CustomText
                   text="Have an account?"
@@ -292,8 +296,7 @@ const SignupScreen = ({navigation}: Props) => {
                   text={formErrors.role}
                 />
               )}
-
-              <Button text="Submit" onPress={handleSubmit} />
+              <Button loading={loading} text="Submit" onPress={handleSubmit} />
             </>
           )}
         </View>
