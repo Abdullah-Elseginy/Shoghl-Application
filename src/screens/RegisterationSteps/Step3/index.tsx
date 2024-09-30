@@ -7,66 +7,22 @@ import {
   GeneralModal,
 } from '../../../components';
 import {styles} from './styles';
-import {generalStyles} from '../../../constants';
+import {COLORS, generalStyles, hp, wp} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
 import ScreenNames from '../../../navigations/ScreenNames';
 import DocumentPicker from 'react-native-document-picker';
-const List = [
-  {label: 'Egypt', value: 'apple'},
-  {label: 'Morroco', value: 'banana'},
-  {label: 'Italy', value: 'orange'},
-];
-const LanguageList = [
-  {label: 'Arabic', value: 'Arabic'},
-  {label: 'English', value: 'English'},
-  {label: 'Italy', value: 'Italy'},
-  {label: 'france', value: 'france'},
-];
+import {DowenArrow, UpperArrow} from '../../../assets';
+const List = ['Egypt', 'Morroco', 'Italy'];
+const LanguageList = ['Arabic', 'English', 'Italy', 'france'];
 const ProficiencyList = [
-  {label: 'Native', value: 'Native'},
-  {label: 'Beginner', value: 'Beginner'},
-  {label: 'Intermediate', value: 'Intermediate'},
-  {label: 'Advanced', value: 'Advanced'},
-  {label: 'Expert', value: 'Expert'},
+  'Native',
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+  'Expert',
 ];
-const DropDwensData = [
-  {
-    id: '1',
-    title: 'Field(S) of study',
-    list: [
-      {label: 'Egypt', value: 'apple'},
-      {label: 'Morroco', value: 'banana'},
-      {label: 'Italy', value: 'orange'},
-    ],
-  },
-  {
-    id: '2',
-    title: 'University / Institution',
-    list: [
-      {label: 'Egypt', value: 'apple'},
-      {label: 'Morroco', value: 'banana'},
-      {label: 'Italy', value: 'orange'},
-    ],
-  },
-  {
-    id: '3',
-    title: 'When did you get your degree?Field(S) of study?',
-    list: [
-      {label: 'Egypt', value: 'apple'},
-      {label: 'Morroco', value: 'banana'},
-      {label: 'Italy', value: 'orange'},
-    ],
-  },
-  {
-    id: '4',
-    title: 'Grade',
-    list: [
-      {label: 'Egypt', value: 'apple'},
-      {label: 'Morroco', value: 'banana'},
-      {label: 'Italy', value: 'orange'},
-    ],
-  },
-];
+const YearsExList = ['0-1', '2-5', '5-10', '10-20'];
+
 const CareerLevel = [
   {id: '1', title: 'Student'},
   {id: '2', title: 'Entry Level'},
@@ -76,6 +32,42 @@ const CareerLevel = [
   {id: '6', title: 'Not Specified'},
 ];
 const Step3 = ({navigation}: any) => {
+  const [DropDwensData, setDropDwensData] = useState([
+    {
+      id: '1',
+      title: 'Field(S) of study',
+      list: ['CS', 'IT', 'SE', 'AI'],
+      SelectedProficiency: '',
+      ShowMenuProficiency: false,
+    },
+    {
+      id: '2',
+      title: 'University / Institution',
+      list: ['Tanta', 'Alex', 'Cairo', 'Aswan'],
+      SelectedProficiency: '',
+      ShowMenuProficiency: false,
+    },
+    {
+      id: '3',
+      title: 'When did you get your degree?Field(S) of study?',
+      list: ['2020', '2021', '2022', '2023', '2024'],
+      SelectedProficiency: '',
+      ShowMenuProficiency: false,
+    },
+    {
+      id: '4',
+      title: 'Grade',
+      list: ['poor', 'good', 'Very Good', 'Excelant'],
+      SelectedProficiency: '',
+      ShowMenuProficiency: false,
+    },
+  ]);
+  const [SelectedProficiency, setselectedProficiency] = useState('');
+  const [ShowMenuProficiency, SetShowMenuProficiency] = useState(false);
+  const [SelectedLanguage, setselectedLanguage] = useState('');
+  const [ShowMenuLanguage, SetShowMenuLanguage] = useState(false);
+  const [SelectedYearsEx, setselectedYearsEx] = useState('');
+  const [ShowMenuYearsEx, SetShowMenuYearsEx] = useState(false);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
     <Pressable
@@ -92,29 +84,60 @@ const Step3 = ({navigation}: any) => {
       />
     </Pressable>
   );
+  const updateSelectedProficiency = (id, value) => {
+    setDropDwensData(prevData =>
+      prevData.map(item =>
+        item.id === id ? {...item, SelectedProficiency: value} : item,
+      ),
+    );
+  };
+
+  const toggleShowMenuProficiency = id => {
+    setDropDwensData(prevData =>
+      prevData.map(item =>
+        item.id === id
+          ? {...item, ShowMenuProficiency: !item.ShowMenuProficiency}
+          : item,
+      ),
+    );
+  };
   const renderItem6 = ({
     item,
   }: {
-    item: {id: string; title: string; list: any};
+    item: {
+      id: string;
+      title: string;
+      list: any;
+      SelectedProficiency: string;
+      ShowMenuProficiency: boolean;
+    };
   }) => (
     <View>
       <CustomText
         text={item.title}
         textStyle={[styles.LapelStyle, styles.MArginBtn]}
       />
-      <Dropdown list={item.list} dropDownStyle={styles.DropBorder} />
+      <AppInput
+        menueOption={item.list}
+        value={item.SelectedProficiency || item.list[0]} // Use item's SelectedProficiency
+        editable={false}
+        showMenue={item.ShowMenuProficiency} // Use item's ShowMenuProficiency
+        isdisabled={false}
+        setShowMenue={() => toggleShowMenuProficiency(item.id)} // Toggle menu for this item
+        onChangeText={val => updateSelectedProficiency(item.id, val)} // Update proficiency for this item
+        rightIcon={
+          item.ShowMenuProficiency ? (
+            <UpperArrow width={wp(6)} height={hp(1.5)} />
+          ) : (
+            <DowenArrow width={wp(6)} />
+          )
+        }
+      />
     </View>
   );
+
   const [file, setFile] = useState(null);
   const [slectedLang, setSelectedLang] = useState([]);
-  const [langagevals, setlangaugevals] = useState({
-    language: '',
-    proficiency: '',
-  });
-  const Setlanguage = (key, val) => {
-    setlangaugevals({...langagevals, [key]: val});
-  };
-  console.log(langagevals.proficiency);
 
   const selectDocument = async () => {
     try {
@@ -130,9 +153,24 @@ const Step3 = ({navigation}: any) => {
       }
     }
   };
-  const [Selected, setselected] = useState('');
-  const [ShowMenuProficiency, SetShowMenuProficiency] = useState(false);
-  console.log(Selected);
+
+  const addedLanguge = () => {
+    for (let i = 0; i < slectedLang.length; i++) {
+      if (slectedLang[i]?.lang === SelectedLanguage) {
+        Alert.alert('You have already selected this language');
+        return;
+      }
+    }
+    setSelectedLang([
+      ...slectedLang,
+      {lang: SelectedLanguage, prof: SelectedProficiency},
+    ]);
+  };
+  const deleteItemByIndex = (indexToDelete: number) => {
+    setSelectedLang(prevLanguages =>
+      prevLanguages.filter((_, index) => index !== indexToDelete),
+    );
+  };
   return (
     <>
       {/*Personal Info */}
@@ -140,11 +178,26 @@ const Step3 = ({navigation}: any) => {
         <View style={generalStyles.row}>
           <CustomText
             text="How many years of experience do you have?"
-            textStyle={styles.StepTitle}
+            textStyle={[styles.StepTitle, styles.margnbtn]}
           />
         </View>
         <View>
-          <Dropdown list={List} dropDownStyle={styles.DropBorder} />
+          <AppInput
+            menueOption={YearsExList}
+            value={SelectedYearsEx || YearsExList[0]}
+            editable={false}
+            showMenue={ShowMenuYearsEx}
+            isdisabled={false}
+            setShowMenue={SetShowMenuYearsEx}
+            onChangeText={val => setselectedYearsEx(val)}
+            rightIcon={
+              ShowMenuYearsEx ? (
+                <UpperArrow width={wp(6)} height={hp(1.5)} />
+              ) : (
+                <DowenArrow width={wp(6)} />
+              )
+            }
+          />
         </View>
       </View>
       {/*Personal Info */}
@@ -191,37 +244,69 @@ const Step3 = ({navigation}: any) => {
             text={'Language'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          <Dropdown
-            value={langagevals.language}
-            onChangeValue={val => {
-              Setlanguage('language', val);
-              console.log('first');
-            }}
-            list={LanguageList}
-            dropDownStyle={styles.DropBorder}
+          <AppInput
+            menueOption={LanguageList}
+            value={SelectedLanguage || LanguageList[0]}
+            editable={false}
+            showMenue={ShowMenuLanguage}
+            isdisabled={false}
+            setShowMenue={SetShowMenuLanguage}
+            onChangeText={val => setselectedLanguage(val)}
+            rightIcon={
+              ShowMenuProficiency ? (
+                <UpperArrow width={wp(6)} height={hp(1.5)} />
+              ) : (
+                <DowenArrow width={wp(6)} />
+              )
+            }
           />
         </View>
+        {/* Proficiency */}
         <View>
           <CustomText
             text={'Proficiency'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          {/* <Dropdown
-            list={ProficiencyList}
-            dropDownStyle={styles.DropBorder}
-            value={langagevals.proficiency}
-            setValue={(val: any) => Setlanguage('proficiency', val)}
-          /> */}
           <AppInput
-            menueOption={['sc', 'casca']}
-            value={Selected}
+            menueOption={ProficiencyList}
+            value={SelectedProficiency || ProficiencyList[0]}
             editable={false}
             showMenue={ShowMenuProficiency}
             isdisabled={false}
             setShowMenue={SetShowMenuProficiency}
-            onChangeText={val => setselected(val)}
+            onChangeText={val => setselectedProficiency(val)}
+            rightIcon={
+              ShowMenuProficiency ? (
+                <UpperArrow width={wp(6)} height={hp(1.5)} />
+              ) : (
+                <DowenArrow width={wp(6)} />
+              )
+            }
           />
-          <Button text="Add" style={styles.Add} onPress={() => {}} />
+          <Button
+            text="Add"
+            isDisapled={SelectedLanguage && SelectedProficiency ? false : true}
+            disabledBGColor={COLORS.grayLight}
+            style={styles.Add}
+            onPress={() => {
+              addedLanguge();
+            }}
+          />
+          <FlatList
+            data={slectedLang}
+            keyExtractor={item => item?.lang}
+            renderItem={({item, index}) => (
+              <View style={[generalStyles.rowBetween]}>
+                <CustomText text={item.lang} textStyle={styles.Langtxt} />
+                <CustomText text={item.prof} textStyle={styles.Langtxt} />
+                <Button
+                  text="Delate"
+                  onPress={() => deleteItemByIndex(index)}
+                  style={[styles.delate]}
+                />
+              </View>
+            )}
+          />
         </View>
       </View>
       {/* What skills, tools, technologies and fields of expertise do you have? */}

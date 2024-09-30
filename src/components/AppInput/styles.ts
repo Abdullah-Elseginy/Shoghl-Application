@@ -15,10 +15,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    backgroundColor: COLORS.blueLight,
     paddingHorizontal: wp(2.5),
     borderRadius: wp(2.5),
     paddingTop: hp(0.3),
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
   },
   input: {
     flex: 1,
@@ -42,12 +44,13 @@ export const styles = StyleSheet.create({
     fontSize: wp(3),
   },
   menueOptions: {
-    borderRadius: wp(1),
+    borderRadius: wp(2),
     width: wp(90),
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.primaryMoreLight,
     position: 'relative',
-    elevation: 1,
+    // elevation: 1,
     alignSelf: 'center',
+    marginTop: hp(0.1),
   },
   rowOptions: {
     height: hp(5),
@@ -55,6 +58,6 @@ export const styles = StyleSheet.create({
   txt: {
     textTransform: 'capitalize',
     fontSize: wp(3.2),
-    fontFamily: FONTS.Regular,
+    fontFamily: FONTS.Medium,
   },
 });

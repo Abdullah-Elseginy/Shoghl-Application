@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
 import {AppInput, Checkbox, CustomText, Dropdown} from '../../../components';
@@ -25,12 +26,16 @@ const JopTypes3 = [
   {id: '2', title: 'remotly'},
   {id: '3', title: 'hybrid'},
 ];
+
+
 const Step1 = () => {
   const [JopTypes4, SetJopTypes4] = useState([
     {id: '1', title: 'on site'},
     {id: '2', title: 'remotly'},
     {id: '3', title: 'hybrid'},
   ]);
+
+
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedIds5, setSelectedIds5] = useState<string[]>([]);
@@ -123,7 +128,17 @@ const Step1 = () => {
     SetJopTypes4(prev => prev.filter((_, i) => i !== index));
     setcurrentSlectedindex(index);
   };
+  const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
 
+  const handleDropdownOpen = dropdownId => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null); // Close it if it's already open
+    } else {
+      setOpenDropdown(dropdownId); // Open the new dropdown
+    }
+  };
+  const [selected, setSelected] = useState('');
+  console.log('Seleteddd', selected);
   return (
     <>
       <CustomText
@@ -225,28 +240,41 @@ const Step1 = () => {
             containerStyle={styles.ContanerInput}
             placeholder="Select"
           />
-          <CustomText text=" " textStyle={styles.OptopnTExt} />
-          <Dropdown
-            list={[
-              {label: 'Egypt', value: 'apple'},
-              {label: 'Morroco', value: 'banana'},
-              {label: 'Italy', value: 'orange'},
-            ]}
-            dropDownStyle={styles.DropBorder}
 
-            //   value={}
-          />
-          <CustomText text=" " textStyle={styles.OptopnTExt} />
           <Dropdown
+            placeholder="Select an option"
+            label="Choose a name"
+            value={selected}
+            setValue={setSelected}
             list={[
-              {label: 'Egypt', value: 'apple'},
-              {label: 'Morroco', value: 'banana'},
-              {label: 'Italy', value: 'orange'},
+              {label: 'abdullah', id: 'abdullah'},
+              {label: 'mo sa', id: 'mo sa'},
+              {label: 'sayed', id: 'sayed'},
             ]}
-            dropDownStyle={styles.DropBorder}
-
-            //   value={}
+            containerStyle={{zIndex: openDropdown === 'dropdown1' ? 10000 : 1}} // Manage zIndex
+            isOpen={openDropdown === 'dropdown1'} // Determine if this dropdown is open
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown1' : null)
+            } // Pass the current state
           />
+
+          <Dropdown
+            placeholder="Select another option"
+            label="Choose another name"
+            value={selected}
+            setValue={setSelected}
+            list={[
+              {label: 'option1', id: 'option1'},
+              {label: 'option2', id: 'option2'},
+              {label: 'option3', id: 'option3'},
+            ]}
+            containerStyle={{zIndex: openDropdown === 'dropdown2' ? 10000 : 1}} // Manage zIndex
+            isOpen={openDropdown === 'dropdown2'} // Determine if this dropdown is open
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown2' : null)
+            } // Pass the current state
+          />
+
           <View style={[generalStyles.row, styles.Checkbox]}>
             <Checkbox isChecked={true} setIsChecked={() => {}} />
             <CustomText

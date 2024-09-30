@@ -1,14 +1,22 @@
 import {View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {AppInput, CustomText, Dropdown} from '../../../components';
-import {generalStyles} from '../../../constants';
+import {generalStyles, hp, wp} from '../../../constants';
 import {styles} from './styles';
-const List = [
-  {label: 'Egypt', value: 'apple'},
-  {label: 'Morroco', value: 'banana'},
-  {label: 'Italy', value: 'orange'},
-];
+import {DowenArrow, UpperArrow} from '../../../assets';
+const Country = ['Egypt', 'Morroco', 'Italy'];
+const GenderList = ['male', 'Femele', 'prefer Not to say'];
+const Nationality = ['Egptien', 'Italy', 'france'];
+const City = ['Tanta', 'Cairo', 'London'];
 const Step2 = () => {
+  const [SelectedGender, setselectedGender] = useState('');
+  const [ShowMenuGender, SetShowMenuGender] = useState(false);
+  const [SelectedNationality, setselectedNationality] = useState('');
+  const [ShowMenuNationality, SetShowMenuNationality] = useState(false);
+  const [SelectedCountry, setselectedCountry] = useState('');
+  const [ShowMenuCountry, SetShowMenuCountry] = useState(false);
+  const [SelectedCity, setselectedCity] = useState('');
+  const [ShowMenuCity, SetShowMenuCity] = useState(false);
   return (
     <>
       {/*Personal Info */}
@@ -68,17 +76,54 @@ const Step2 = () => {
               text="Gender"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <Dropdown list={List} dropDownStyle={[styles.DropBorder2]} />
+            <AppInput
+              containerStyle={styles.DropBorder2}
+              styleMenuOption={styles.menuOptopn}
+              menueOption={GenderList}
+              value={SelectedGender || GenderList[0]}
+              editable={false}
+              showMenue={ShowMenuGender}
+              isdisabled={false}
+              setShowMenue={SetShowMenuGender}
+              onChangeText={val => setselectedGender(val)}
+              rightIcon={
+                ShowMenuGender ? (
+                  <UpperArrow width={wp(6)} height={hp(1.5)} />
+                ) : (
+                  <DowenArrow width={wp(6)} />
+                )
+              }
+            />
+            {ShowMenuNationality ? <View style={styles.sefeAreaView} /> : ''}
           </View>
           <View>
             <CustomText
               text="Nationality"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <Dropdown list={List} dropDownStyle={styles.DropBorder2} />
+            <AppInput
+              containerStyle={styles.DropBorder2}
+              styleMenuOption={styles.menuOptopn}
+              menueOption={Nationality}
+              value={SelectedNationality || Nationality[0]}
+              editable={false}
+              showMenue={ShowMenuNationality}
+              isdisabled={false}
+              setShowMenue={SetShowMenuNationality}
+              onChangeText={val => setselectedNationality(val)}
+              rightIcon={
+                ShowMenuNationality ? (
+                  <UpperArrow width={wp(6)} height={hp(1.5)} />
+                ) : (
+                  <DowenArrow width={wp(6)} />
+                )
+              }
+            />
+            {ShowMenuGender ? <View style={styles.sefeAreaView} /> : ''}
           </View>
         </View>
       </View>
+      {/* Location */}
       <View style={styles.SectionBox}>
         <View style={generalStyles.row}>
           <CustomText text="Your Location" textStyle={styles.StepTitle} />
@@ -89,14 +134,48 @@ const Step2 = () => {
               text="Country"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <Dropdown list={List} dropDownStyle={[styles.DropBorder2]} />
+            <AppInput
+              containerStyle={styles.DropBorder2}
+              styleMenuOption={styles.menuOptopn}
+              menueOption={Country}
+              value={SelectedCountry || Country[0]}
+              editable={false}
+              showMenue={ShowMenuCountry}
+              isdisabled={false}
+              setShowMenue={SetShowMenuCountry}
+              onChangeText={val => setselectedCountry(val)}
+              rightIcon={
+                ShowMenuCountry ? (
+                  <UpperArrow width={wp(6)} height={hp(1.5)} />
+                ) : (
+                  <DowenArrow width={wp(6)} />
+                )
+              }
+            />
           </View>
           <View>
             <CustomText
               text="City"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <Dropdown list={List} dropDownStyle={styles.DropBorder2} />
+            <AppInput
+              containerStyle={styles.DropBorder2}
+              styleMenuOption={styles.menuOptopn}
+              menueOption={City}
+              value={SelectedCity || City[0]}
+              editable={false}
+              showMenue={ShowMenuCity}
+              isdisabled={false}
+              setShowMenue={SetShowMenuCity}
+              onChangeText={val => setselectedCity(val)}
+              rightIcon={
+                ShowMenuCity ? (
+                  <UpperArrow width={wp(6)} height={hp(1.5)} />
+                ) : (
+                  <DowenArrow width={wp(6)} />
+                )
+              }
+            />
           </View>
         </View>
       </View>

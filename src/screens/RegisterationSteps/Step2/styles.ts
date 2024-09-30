@@ -43,8 +43,14 @@ export const styles = StyleSheet.create({
     borderWidth: hp(0.1),
     width: wp(42),
   },
+  menuOptopn: {
+    width: wp(42),
+  },
 
   MArginBtn: {
     marginBottom: hp(1),
+  },
+  sefeAreaView: {
+    height: hp(15.2),
   },
 });

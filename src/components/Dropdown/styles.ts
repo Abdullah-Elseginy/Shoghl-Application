@@ -2,9 +2,6 @@ import {StyleSheet} from 'react-native';
 import {COLORS, FONTS, hp, wp} from '../../constants';
 
 export const styles = StyleSheet.create({
-  // container: {
-  // 	zIndex: 1,
-  // },
   dropDownStyle: {
     backgroundColor: COLORS.blueLight,
     borderWidth: 0,

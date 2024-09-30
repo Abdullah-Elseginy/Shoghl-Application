@@ -42,6 +42,7 @@ type Props = {
   menueOption?: any;
   setShowMenue?: () => void;
   isdisabled?: boolean;
+  styleMenuOption?: StyleProp<ViewStyle>;
 };
 
 const AppInput = ({
@@ -70,6 +71,7 @@ const AppInput = ({
   menueOption,
   isdisabled = true,
   setShowMenue,
+  styleMenuOption,
 }: Props) => {
   const DelateItem = (index: number) => {
     const newData = [...Flatdata];
@@ -140,10 +142,10 @@ const AppInput = ({
         )}
       </Pressable>
       {showMenue && (
-        <View style={styles.menueOptions}>
+        <View style={[styles.menueOptions, styleMenuOption]}>
           <FlatList
             data={menueOption}
-            renderItem={({item, index}) => (
+            renderItem={({item}) => (
               <View>
                 <Menu.Item
                   title={item}

@@ -78,4 +78,19 @@ export const styles = StyleSheet.create({
   CVname: {
     textAlign: 'center',
   },
+  Langtxt: {
+    fontFamily: FONTS.SemiBold,
+    fontSize: wp(3.5),
+    width: wp(30),
+    marginRight: wp(2),
+  },
+  delate: {
+    backgroundColor: COLORS.danger,
+    width: wp(20),
+    height: hp(4.5),
+    alignSelf: 'flex-end',
+  },
+  margnbtn: {
+    marginBottom: hp(1.5),
+  },
 });

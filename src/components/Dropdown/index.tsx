@@ -16,6 +16,9 @@ type Props = {
   ModalContainerStyle?: StyleProp<ViewStyle>;
   ItemsBOX?: StyleProp<ViewStyle>;
   selectedItemContainerStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
+  isOpen?: boolean; // New prop to indicate if this dropdown is open
+  onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
 };
 
 const Dropdown = ({
@@ -30,8 +33,19 @@ const Dropdown = ({
   ModalContainerStyle,
   ItemsBOX,
   selectedItemContainerStyle,
+  containerStyle,
+  isOpen,
+  onDropdownOpen,
 }: Props) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    const newState = !isDropdownOpen;
+    setIsDropdownOpen(newState); // Toggle local dropdown state
+    if (onDropdownOpen) {
+      onDropdownOpen(newState); // Pass the new state to the parent
+    }
+  };
 
   return (
     <>
@@ -42,8 +56,8 @@ const Dropdown = ({
         placeholder={placeholder}
         placeholderStyle={[styles.placeholderStyle, placeholderStyle]}
         items={list}
-        open={isOpen}
-        setOpen={() => setIsOpen(!isOpen)}
+        open={isDropdownOpen}
+        setOpen={handleDropdownToggle} // Use the toggle function
         value={value}
         setValue={setValue}
         onChangeValue={onChangeValue}
@@ -52,7 +66,11 @@ const Dropdown = ({
           styles.dropDownContainerStyle,
           ModalContainerStyle,
         ]}
-        containerStyle={styles.dropDownContainerStyle}
+        containerStyle={[
+          styles.dropDownContainerStyle,
+          containerStyle,
+          {zIndex: isOpen ? 10000 : 1}, // Set a high zIndex when open
+        ]}
         listItemLabelStyle={styles.listItemLabelStyle}
         selectedItemContainerStyle={[
           styles.selectedItemContainerStyle,
