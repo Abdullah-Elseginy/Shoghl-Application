@@ -26,8 +26,11 @@ const JopTypes3 = [
   {id: '2', title: 'remotly'},
   {id: '3', title: 'hybrid'},
 ];
-
-
+const period = [
+  {label: 'Per Hour', id: 'Per Hour'},
+  {label: 'Per Week', id: 'Per Week'},
+  {label: 'Per Month', id: 'Per Month'},
+];
 const Step1 = () => {
   const [JopTypes4, SetJopTypes4] = useState([
     {id: '1', title: 'on site'},
@@ -35,12 +38,12 @@ const Step1 = () => {
     {id: '3', title: 'hybrid'},
   ]);
 
-
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedIds5, setSelectedIds5] = useState<string[]>([]);
   const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
   const [SelectedJops, SetSelectedJops] = useState([]);
+  const [Checked, setChecked] = useState(false);
 
   const renderItem3 = ({item}: {item: {id: string; title: string}}) => {
     const isSelected = selectedIds.includes(item.id); // Check if item is selected
@@ -137,8 +140,8 @@ const Step1 = () => {
       setOpenDropdown(dropdownId); // Open the new dropdown
     }
   };
-  const [selected, setSelected] = useState('');
-  console.log('Seleteddd', selected);
+  const [selectedCountr, setSelectedCountry] = useState('');
+  const [selectedPeriod, setSelectedPeriod] = useState('');
   return (
     <>
       <CustomText
@@ -238,37 +241,33 @@ const Step1 = () => {
           />
           <AppInput
             containerStyle={styles.ContanerInput}
-            placeholder="Select"
+            placeholder="Type Your Salary"
           />
-
+          <View style={styles.dropBox}>
+            <Dropdown
+              placeholder="Select Your Country"
+              value={selectedCountr}
+              setValue={setSelectedCountry}
+              dropDownStyle={generalStyles.DropBorder}
+              list={[{label: 'Saudi Arabia', id: 'Saudi Arabia'}]}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+              }} // Manage zIndex
+              isOpen={openDropdown === 'dropdown1'} // Determine if this dropdown is open
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown1' : null)
+              } // Pass the current state
+            />
+          </View>
           <Dropdown
-            placeholder="Select an option"
-            label="Choose a name"
-            value={selected}
-            setValue={setSelected}
-            list={[
-              {label: 'abdullah', id: 'abdullah'},
-              {label: 'mo sa', id: 'mo sa'},
-              {label: 'sayed', id: 'sayed'},
-            ]}
-            containerStyle={{zIndex: openDropdown === 'dropdown1' ? 10000 : 1}} // Manage zIndex
-            isOpen={openDropdown === 'dropdown1'} // Determine if this dropdown is open
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown1' : null)
-            } // Pass the current state
-          />
-
-          <Dropdown
-            placeholder="Select another option"
-            label="Choose another name"
-            value={selected}
-            setValue={setSelected}
-            list={[
-              {label: 'option1', id: 'option1'},
-              {label: 'option2', id: 'option2'},
-              {label: 'option3', id: 'option3'},
-            ]}
-            containerStyle={{zIndex: openDropdown === 'dropdown2' ? 10000 : 1}} // Manage zIndex
+            placeholder="Select The Period"
+            value={selectedPeriod}
+            setValue={setSelectedPeriod}
+            list={period}
+            dropDownStyle={generalStyles.DropBorder}
+            containerStyle={[
+              {zIndex: openDropdown === 'dropdown2' ? 10000 : 1},
+            ]} // Manage zIndex
             isOpen={openDropdown === 'dropdown2'} // Determine if this dropdown is open
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown2' : null)
@@ -276,7 +275,12 @@ const Step1 = () => {
           />
 
           <View style={[generalStyles.row, styles.Checkbox]}>
-            <Checkbox isChecked={true} setIsChecked={() => {}} />
+            <Checkbox
+              isChecked={Checked}
+              setIsChecked={() => {
+                setChecked(prev => !prev);
+              }}
+            />
             <CustomText
               text="Hide Minimum salary"
               textStyle={generalStyles.marginLeft}

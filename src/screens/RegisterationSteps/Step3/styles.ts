@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
   LapelStyle: {
     marginTop: hp(2),
   },
+  marginbtn: {
+    marginBottom: hp(2),
+  },
   DropBorder: {
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
@@ -91,6 +94,6 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   margnbtn: {
-    marginBottom: hp(1.5),
+    marginBottom: hp(1),
   },
 });

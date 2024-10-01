@@ -127,7 +127,15 @@ const HomeScreen = ({navigation}: Props) => {
       </View>
     );
   };
+  const [openDropdown, setOpenDropdown] = React.useState(null);
 
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(dropdownId);
+    }
+  };
   return (
     <AppScreenContainer style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -142,11 +150,18 @@ const HomeScreen = ({navigation}: Props) => {
             appInputStyle={styles.containerStyle}
           />
           <Dropdown
-            placeholder={'City'}
-            list={CITY}
+            placeholder="City"
             value={city}
             setValue={setCity}
-            dropDownStyle={styles.containerStyle}
+            dropDownStyle={[generalStyles.DropBorder, styles.containerStyle]}
+            list={CITY}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown1'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown1' : null)
+            }
           />
           <AppInput
             placeholder="All Categories"

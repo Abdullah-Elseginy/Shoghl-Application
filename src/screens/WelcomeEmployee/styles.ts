@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   LocationIcon: {marginStart: wp(20)},
-  FlatBox: {marginTop: hp(4)},
+  FlatBox: {marginTop: hp(4), marginBottom: hp(15)},
   editDelateBox: {
     width: wp(16),
     backgroundColor: COLORS.danger,
@@ -116,5 +116,8 @@ export const styles = StyleSheet.create({
   },
   Color: {
     backgroundColor: COLORS.primaryMoreLight,
+  },
+  Scroll: {
+    // marginBottom: hp(50),
   },
 });

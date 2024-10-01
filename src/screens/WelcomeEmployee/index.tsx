@@ -91,16 +91,14 @@ const WelcomeEmployee = ({navigation}: Props) => {
         <View style={generalStyles.rowCenter}>
           <CustomText text="Welcome Ahmed " textStyle={styles.WelcomeTExt} />
           <Button
-            onPress={() =>
-              navigation.navigate(ScreenNames.ComplateCompanyProfile)
-            }
+            onPress={() => navigation.navigate(ScreenNames.JobPost)}
             style={{
               width: wp(30),
             }}
             text="+ Post job"
           />
         </View>
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.Scroll}>
           {/* hiring */}
           <View style={styles.HringBox}>
             <CustomText text="Hiring?" textStyle={styles.TextTitle} />
@@ -110,7 +108,7 @@ const WelcomeEmployee = ({navigation}: Props) => {
             />
             <Button
               onPress={() => {
-                navigation.navigate(ScreenNames.JobPost);
+                null;
               }}
               text="Start Hiring"
               style={styles.bottomStyle}

@@ -244,5 +244,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {changeIsSkipping} = authSlice.actions;
+export const {changeIsSkipping, changeRegisterationType} = authSlice.actions;
 export default authSlice.reducer;

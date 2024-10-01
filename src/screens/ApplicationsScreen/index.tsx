@@ -1,7 +1,6 @@
 import {FlatList, Pressable, ScrollView, View} from 'react-native';
 import React, {useState} from 'react';
 import {
-  AppHeader,
   AppScreenContainer,
   CustomText,
   Dropdown,
@@ -33,7 +32,7 @@ const Applications = ({navigation}: any) => {
   };
   return (
     <AppScreenContainer style={styles.maincontainer}>
-      <AppHeader arrowBack title="Applications" />
+      {/* <AppHeader arrowBack title="Applications" /> */}
       <View style={styles.container}>
         <View style={styles.MAinheader}>
           <Pressable

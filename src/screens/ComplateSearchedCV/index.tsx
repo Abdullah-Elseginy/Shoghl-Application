@@ -230,14 +230,14 @@ const renderItem = ({item}: any) => (
         </View>
         <View style={styles.medtexBox}>
           <CustomText
-            text={item.subText3}
-            text2=""
+            text={item.subText3.slice(0, item.subText3.indexOf('('))}
+            text2={item.subText3.slice(item.subText3.indexOf('(')).trim()}
             textStyle2={styles.tex2}
             textStyle={styles.tex1}
           />
           <CustomText
-            text={item.subtext4}
-            text2=""
+            text={item.subtext4.slice(0, item.subtext4.lastIndexOf('('))}
+            text2={item.subtext4.slice(item.subtext4.lastIndexOf('(')).trim()}
             textStyle2={styles.tex2}
             textStyle={styles.tex1}
           />
@@ -249,8 +249,8 @@ const renderItem = ({item}: any) => (
         </View>
         <View style={styles.medtexBox}>
           <CustomText
-            text={item.subtext5}
-            text2=""
+            text={item.subtext5.slice(0, item.subtext5.indexOf('('))}
+            text2={item.subtext5.slice(item.subtext5.indexOf('(')).trim()}
             textStyle2={styles.tex2}
             textStyle={styles.tex1}
           />

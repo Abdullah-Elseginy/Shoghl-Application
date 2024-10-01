@@ -47,10 +47,12 @@ export const styles = StyleSheet.create({
     borderRadius: wp(2),
     width: wp(90),
     backgroundColor: COLORS.primaryMoreLight,
-    position: 'relative',
+    position: 'absolute',
     // elevation: 1,
     alignSelf: 'center',
     marginTop: hp(0.1),
+    zIndex: 1,
+    top: hp(6.2),
   },
   rowOptions: {
     height: hp(5),

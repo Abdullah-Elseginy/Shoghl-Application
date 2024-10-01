@@ -15,7 +15,7 @@ import {Pressable, View} from 'react-native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpOne} from '../../redux/slices/authSlice';
+import {changeRegisterationType, signUpOne} from '../../redux/slices/authSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -93,7 +93,10 @@ const SignupScreen = ({navigation}: Props) => {
       const corporateData = {...formData};
       dispatch(signUpOne(corporateData))
         .unwrap()
-        .then(() => navigation.replace(ScreenNames.RegisterationSteps))
+        .then(() => {
+          dispatch(changeRegisterationType('corporate'));
+          navigation.replace(ScreenNames.RegisterationSteps);
+        })
         .catch(err => console.error('signup ', err));
     }
   };
@@ -102,6 +105,7 @@ const SignupScreen = ({navigation}: Props) => {
     dispatch(signUpOne(userdata))
       .unwrap()
       .then(() => {
+        dispatch(changeRegisterationType('candidate'));
         navigation.replace(ScreenNames.CompleteProfile);
       })
       .catch(err => {

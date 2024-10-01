@@ -145,7 +145,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   };
   return (
     <AppScreenContainer>
-      <AppHeader arrowBack={true} title="Company Profile" />
+      {/* <AppHeader arrowBack={true} title="Company Profile" /> */}
 
       <ScrollView>
         {/* Profile Cover and photo */}

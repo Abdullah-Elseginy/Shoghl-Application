@@ -20,8 +20,8 @@ const ScreenNames = {
   SearchCV: 'SearchCV',
   ComplateSearchedCv: 'ComplateSearchedCv',
   Applications: 'Applications',
-  SaveScreen: 'SaveScreen',
-  ExploreScreen: 'ExploreScreen',
+  SaveScreen: 'Save',
+  ExploreScreen: 'Explore',
 };
 
 export default Object.freeze(ScreenNames);

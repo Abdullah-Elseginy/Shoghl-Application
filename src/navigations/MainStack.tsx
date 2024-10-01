@@ -9,11 +9,9 @@ import {
   CompanyProfile,
   ComplateCompanyProfile,
   ComplateSearchedCv,
-  ExploreScreen,
   JobDetailsScreen,
   JobPost,
   RegisterationSteps,
-  SaveScreen,
   SearchCV,
   SearchedJobs,
   WelcomeEmployee,
@@ -26,7 +24,7 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.RegisterationSteps}>
+        initialRouteName={ScreenNames.Splash}>
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
@@ -66,11 +64,6 @@ const MainStack = () => {
           name={ScreenNames.Applications}
           component={Applications}
         />
-        <Stack.Screen
-          name={ScreenNames.ExploreScreen}
-          component={ExploreScreen}
-        />
-        <Stack.Screen name={ScreenNames.SaveScreen} component={SaveScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

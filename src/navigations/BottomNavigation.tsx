@@ -7,12 +7,22 @@ import {FONTS} from '../constants/Fonts';
 import {HomeSVG} from '../assets';
 import {hp, wp} from '../constants/Dimensions';
 import {COLORS} from '../constants/COLORS';
-import {ForEmployee, HomeScreen, JobsScreen, ProfileScreen} from '../screens';
+import {
+  Applications,
+  Explore,
+  ForEmployee,
+  HomeScreen,
+  JobsScreen,
+  ProfileScreen,
+  Save,
+} from '../screens';
 import {CustomText} from '../components';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const {registerationType} = useSelector((state: any) => state.auth);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -47,15 +57,38 @@ const BottomTabNavigator = () => {
           if (route.name === ScreenNames.ForEmployee) {
             Icon = focused ? <HomeSVG /> : <HomeSVG />;
           }
+          if (route.name === ScreenNames.ExploreScreen) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
+          if (route.name === ScreenNames.Applications) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
+          if (route.name === ScreenNames.SaveScreen) {
+            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+          }
           return Icon;
         },
         headerShown: false,
         tabBarStyle: [styles.tapStyles],
       })}>
-      <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
-      <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
-      <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
-      <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
+      {registerationType === 'candidate' ? (
+        <>
+          <Tab.Screen name={ScreenNames.ExploreScreen} component={Explore} />
+          <Tab.Screen
+            name={ScreenNames.Applications}
+            component={Applications}
+          />
+          <Tab.Screen name={ScreenNames.SaveScreen} component={Save} />
+          <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
+        </>
+      ) : (
+        <>
+          <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
+          <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
+          <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
+          <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
+        </>
+      )}
     </Tab.Navigator>
   );
 };

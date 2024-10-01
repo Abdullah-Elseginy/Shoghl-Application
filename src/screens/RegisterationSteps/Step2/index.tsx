@@ -1,22 +1,24 @@
+/* eslint-disable react-native/no-inline-styles */
 import {View} from 'react-native';
 import React, {useState} from 'react';
 import {AppInput, CustomText, Dropdown} from '../../../components';
-import {generalStyles, hp, wp} from '../../../constants';
+import {generalStyles} from '../../../constants';
 import {styles} from './styles';
-import {DowenArrow, UpperArrow} from '../../../assets';
-const Country = ['Egypt', 'Morroco', 'Italy'];
-const GenderList = ['male', 'Femele', 'prefer Not to say'];
-const Nationality = ['Egptien', 'Italy', 'france'];
-const City = ['Tanta', 'Cairo', 'London'];
+import {Nationality, Country, City, GenderList} from '../../../utils/Data';
 const Step2 = () => {
-  const [SelectedGender, setselectedGender] = useState('');
-  const [ShowMenuGender, SetShowMenuGender] = useState(false);
-  const [SelectedNationality, setselectedNationality] = useState('');
-  const [ShowMenuNationality, SetShowMenuNationality] = useState(false);
-  const [SelectedCountry, setselectedCountry] = useState('');
-  const [ShowMenuCountry, SetShowMenuCountry] = useState(false);
-  const [SelectedCity, setselectedCity] = useState('');
-  const [ShowMenuCity, SetShowMenuCity] = useState(false);
+  // DropDwens
+  const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
+  const [selectedGender, setSelectedGEnder] = useState('');
+  const [selectedNationality, setSelectedNationality] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null); // Close it if it's already open
+    } else {
+      setOpenDropdown(dropdownId); // Open the new dropdown
+    }
+  };
   return (
     <>
       {/*Personal Info */}
@@ -76,50 +78,40 @@ const Step2 = () => {
               text="Gender"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <AppInput
-              containerStyle={styles.DropBorder2}
-              styleMenuOption={styles.menuOptopn}
-              menueOption={GenderList}
-              value={SelectedGender || GenderList[0]}
-              editable={false}
-              showMenue={ShowMenuGender}
-              isdisabled={false}
-              setShowMenue={SetShowMenuGender}
-              onChangeText={val => setselectedGender(val)}
-              rightIcon={
-                ShowMenuGender ? (
-                  <UpperArrow width={wp(6)} height={hp(1.5)} />
-                ) : (
-                  <DowenArrow width={wp(6)} />
-                )
+            <Dropdown
+              placeholder="Select Gender"
+              value={selectedGender}
+              setValue={setSelectedGEnder}
+              dropDownStyle={generalStyles.DropBorder2}
+              list={GenderList}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown1'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
             />
-            {ShowMenuNationality ? <View style={styles.sefeAreaView} /> : ''}
           </View>
           <View>
             <CustomText
               text="Nationality"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <AppInput
-              containerStyle={styles.DropBorder2}
-              styleMenuOption={styles.menuOptopn}
-              menueOption={Nationality}
-              value={SelectedNationality || Nationality[0]}
-              editable={false}
-              showMenue={ShowMenuNationality}
-              isdisabled={false}
-              setShowMenue={SetShowMenuNationality}
-              onChangeText={val => setselectedNationality(val)}
-              rightIcon={
-                ShowMenuNationality ? (
-                  <UpperArrow width={wp(6)} height={hp(1.5)} />
-                ) : (
-                  <DowenArrow width={wp(6)} />
-                )
+            <Dropdown
+              placeholder="Select Nationality"
+              value={selectedNationality}
+              setValue={setSelectedNationality}
+              dropDownStyle={generalStyles.DropBorder2}
+              list={Nationality}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown2'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown2' : null)
               }
             />
-            {ShowMenuGender ? <View style={styles.sefeAreaView} /> : ''}
           </View>
         </View>
       </View>
@@ -134,22 +126,18 @@ const Step2 = () => {
               text="Country"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <AppInput
-              containerStyle={styles.DropBorder2}
-              styleMenuOption={styles.menuOptopn}
-              menueOption={Country}
-              value={SelectedCountry || Country[0]}
-              editable={false}
-              showMenue={ShowMenuCountry}
-              isdisabled={false}
-              setShowMenue={SetShowMenuCountry}
-              onChangeText={val => setselectedCountry(val)}
-              rightIcon={
-                ShowMenuCountry ? (
-                  <UpperArrow width={wp(6)} height={hp(1.5)} />
-                ) : (
-                  <DowenArrow width={wp(6)} />
-                )
+            <Dropdown
+              placeholder="Select Country"
+              value={selectedCountry}
+              setValue={setSelectedCountry}
+              dropDownStyle={generalStyles.DropBorder2}
+              list={Country}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown3'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown3' : null)
               }
             />
           </View>
@@ -158,22 +146,18 @@ const Step2 = () => {
               text="City"
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
-            <AppInput
-              containerStyle={styles.DropBorder2}
-              styleMenuOption={styles.menuOptopn}
-              menueOption={City}
-              value={SelectedCity || City[0]}
-              editable={false}
-              showMenue={ShowMenuCity}
-              isdisabled={false}
-              setShowMenue={SetShowMenuCity}
-              onChangeText={val => setselectedCity(val)}
-              rightIcon={
-                ShowMenuCity ? (
-                  <UpperArrow width={wp(6)} height={hp(1.5)} />
-                ) : (
-                  <DowenArrow width={wp(6)} />
-                )
+            <Dropdown
+              placeholder="Select Country"
+              value={selectedCity}
+              setValue={setSelectedCity}
+              dropDownStyle={generalStyles.DropBorder2}
+              list={City}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown4'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown4' : null)
               }
             />
           </View>

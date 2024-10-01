@@ -1,6 +1,6 @@
 import {FlatList, Pressable, ScrollView, View} from 'react-native';
 import React from 'react';
-import {AppHeader, AppScreenContainer, CustomText} from '../../components';
+import { AppScreenContainer, CustomText} from '../../components';
 import styles from './styles';
 import {COLORS, generalStyles, hp} from '../../constants';
 import {
@@ -150,7 +150,7 @@ const Quetions = ({item}: any) => {
 const SaveScreen = ({navigation}: any) => {
   return (
     <AppScreenContainer>
-      <AppHeader arrowBack={true} title="Saved" />
+      {/* <AppHeader arrowBack={true} title="Saved" /> */}
       <ScrollView contentContainerStyle={styles.container}>
         {/* Section1 Search Title */}
         <View style={styles.Secion1Box}>

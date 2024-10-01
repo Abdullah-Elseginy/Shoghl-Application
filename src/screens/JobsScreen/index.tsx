@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {AppScreenContainer, Button, CustomText} from '../../components';
+import {AppScreenContainer, CustomText} from '../../components';
 import {styles} from './styles';
-import ScreenNames from '../../navigations/ScreenNames';
 
 const JobsScreen = ({navigation}) => {
   return (
     <AppScreenContainer style={styles.container}>
       <CustomText text="JobsScreen" />
-      <Button
+      {/* <Button
         text="applications"
         onPress={() => navigation.navigate(ScreenNames.Applications)}
       />
@@ -18,7 +17,7 @@ const JobsScreen = ({navigation}) => {
       <Button
         text="Explore"
         onPress={() => navigation.navigate(ScreenNames.ExploreScreen)}
-      />
+      /> */}
     </AppScreenContainer>
   );
 };

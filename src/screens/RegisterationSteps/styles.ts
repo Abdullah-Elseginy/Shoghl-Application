@@ -84,4 +84,7 @@ export const styles = StyleSheet.create({
   Bottom: {
     marginTop: hp(5),
   },
+  dropBox: {
+    marginTop: hp(3),
+  },
 });

@@ -14,7 +14,11 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginOne, loginTwo} from '../../redux/slices/authSlice';
+import {
+  changeRegisterationType,
+  loginOne,
+  loginTwo,
+} from '../../redux/slices/authSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -25,6 +29,7 @@ const LoginScreen = ({navigation}: Props) => {
   const [isChecked, setIsChecked] = useState(false);
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [showOTP, SetShowOtp] = useState(false);
+  const [showpass, setshowpass] = useState(false);
   const dispatch = useDispatch();
   const {loading} = useSelector((state: any) => state.auth);
   const [InputVal, SetInputVal] = useState({
@@ -73,6 +78,7 @@ const LoginScreen = ({navigation}: Props) => {
     }
     if (valid) {
       clearFields();
+      dispatch(changeRegisterationType('corporate'));
       navigation.replace(ScreenNames.BottomTabs);
     }
   };
@@ -141,6 +147,7 @@ const LoginScreen = ({navigation}: Props) => {
         .unwrap()
         .then(() => {
           clearFields();
+          dispatch(changeRegisterationType('candidate'));
           navigation.replace(ScreenNames.BottomTabs);
         })
         .catch(err => {
@@ -242,6 +249,9 @@ const LoginScreen = ({navigation}: Props) => {
             <AppInput
               placeholder="Enter Your Password"
               label="Password"
+              secureTextEntry={showpass}
+              onRightIconPress={() => setshowpass((prev: any) => !prev)}
+              rightIcon={showpass ? <EyeSVG /> : <EyeOffSVG />}
               labelStyle={styles.inputLabel}
               containerStyle={styles.inputContainerStyle}
               value={InputVal.password}

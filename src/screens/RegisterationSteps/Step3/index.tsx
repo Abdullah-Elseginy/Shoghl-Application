@@ -1,27 +1,47 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {
-  AppInput,
-  Button,
-  CustomText,
-  Dropdown,
-  GeneralModal,
-} from '../../../components';
+import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
-import {COLORS, generalStyles, hp, wp} from '../../../constants';
+import {COLORS, generalStyles} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
-import ScreenNames from '../../../navigations/ScreenNames';
 import DocumentPicker from 'react-native-document-picker';
-import {DowenArrow, UpperArrow} from '../../../assets';
-const List = ['Egypt', 'Morroco', 'Italy'];
-const LanguageList = ['Arabic', 'English', 'Italy', 'france'];
-const ProficiencyList = [
-  'Native',
-  'Beginner',
-  'Intermediate',
-  'Advanced',
-  'Expert',
+
+const YearsExList = [
+  {
+    label: '0-1',
+    id: '0-1',
+  },
+  {
+    label: '1-5',
+    id: '1-5',
+  },
+  {
+    label: '5-10',
+    id: '5-10',
+  },
+  {
+    label: '10-20',
+    id: '10-20',
+  },
 ];
-const YearsExList = ['0-1', '2-5', '5-10', '10-20'];
+const FieldList = [
+  {
+    label: 'IT',
+    id: 'IT',
+  },
+  {
+    label: 'CS',
+    id: 'CS',
+  },
+  {
+    label: 'SE',
+    id: 'SE',
+  },
+  {
+    label: 'AI',
+    id: 'AI',
+  },
+];
 
 const CareerLevel = [
   {id: '1', title: 'Student'},
@@ -32,43 +52,23 @@ const CareerLevel = [
   {id: '6', title: 'Not Specified'},
 ];
 const Step3 = ({navigation}: any) => {
-  const [DropDwensData, setDropDwensData] = useState([
-    {
-      id: '1',
-      title: 'Field(S) of study',
-      list: ['CS', 'IT', 'SE', 'AI'],
-      SelectedProficiency: '',
-      ShowMenuProficiency: false,
-    },
-    {
-      id: '2',
-      title: 'University / Institution',
-      list: ['Tanta', 'Alex', 'Cairo', 'Aswan'],
-      SelectedProficiency: '',
-      ShowMenuProficiency: false,
-    },
-    {
-      id: '3',
-      title: 'When did you get your degree?Field(S) of study?',
-      list: ['2020', '2021', '2022', '2023', '2024'],
-      SelectedProficiency: '',
-      ShowMenuProficiency: false,
-    },
-    {
-      id: '4',
-      title: 'Grade',
-      list: ['poor', 'good', 'Very Good', 'Excelant'],
-      SelectedProficiency: '',
-      ShowMenuProficiency: false,
-    },
-  ]);
   const [SelectedProficiency, setselectedProficiency] = useState('');
-  const [ShowMenuProficiency, SetShowMenuProficiency] = useState(false);
   const [SelectedLanguage, setselectedLanguage] = useState('');
-  const [ShowMenuLanguage, SetShowMenuLanguage] = useState(false);
-  const [SelectedYearsEx, setselectedYearsEx] = useState('');
-  const [ShowMenuYearsEx, SetShowMenuYearsEx] = useState(false);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
+  // dropDwens
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [selectedYearEx, setSelectedYearEx] = useState('');
+  const [selectedFeild, setSelectedFeild] = useState('');
+  const [selectedUniversty, setSelectedUniversty] = useState('');
+  const [selectedDegree, setSelectedDegree] = useState('');
+  const [selectedGrade, setSelectedGrade] = useState('');
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(dropdownId);
+    }
+  };
   const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
     <Pressable
       style={[
@@ -84,58 +84,6 @@ const Step3 = ({navigation}: any) => {
       />
     </Pressable>
   );
-  const updateSelectedProficiency = (id, value) => {
-    setDropDwensData(prevData =>
-      prevData.map(item =>
-        item.id === id ? {...item, SelectedProficiency: value} : item,
-      ),
-    );
-  };
-
-  const toggleShowMenuProficiency = id => {
-    setDropDwensData(prevData =>
-      prevData.map(item =>
-        item.id === id
-          ? {...item, ShowMenuProficiency: !item.ShowMenuProficiency}
-          : item,
-      ),
-    );
-  };
-  const renderItem6 = ({
-    item,
-  }: {
-    item: {
-      id: string;
-      title: string;
-      list: any;
-      SelectedProficiency: string;
-      ShowMenuProficiency: boolean;
-    };
-  }) => (
-    <View>
-      <CustomText
-        text={item.title}
-        textStyle={[styles.LapelStyle, styles.MArginBtn]}
-      />
-      <AppInput
-        menueOption={item.list}
-        value={item.SelectedProficiency || item.list[0]} // Use item's SelectedProficiency
-        editable={false}
-        showMenue={item.ShowMenuProficiency} // Use item's ShowMenuProficiency
-        isdisabled={false}
-        setShowMenue={() => toggleShowMenuProficiency(item.id)} // Toggle menu for this item
-        onChangeText={val => updateSelectedProficiency(item.id, val)} // Update proficiency for this item
-        rightIcon={
-          item.ShowMenuProficiency ? (
-            <UpperArrow width={wp(6)} height={hp(1.5)} />
-          ) : (
-            <DowenArrow width={wp(6)} />
-          )
-        }
-      />
-    </View>
-  );
-
   const [file, setFile] = useState(null);
   const [slectedLang, setSelectedLang] = useState([]);
 
@@ -182,20 +130,18 @@ const Step3 = ({navigation}: any) => {
           />
         </View>
         <View>
-          <AppInput
-            menueOption={YearsExList}
-            value={SelectedYearsEx || YearsExList[0]}
-            editable={false}
-            showMenue={ShowMenuYearsEx}
-            isdisabled={false}
-            setShowMenue={SetShowMenuYearsEx}
-            onChangeText={val => setselectedYearsEx(val)}
-            rightIcon={
-              ShowMenuYearsEx ? (
-                <UpperArrow width={wp(6)} height={hp(1.5)} />
-              ) : (
-                <DowenArrow width={wp(6)} />
-              )
+          <Dropdown
+            placeholder="Select Years Of Experience"
+            value={selectedYearEx}
+            setValue={setSelectedYearEx}
+            dropDownStyle={generalStyles.DropBorder}
+            list={YearsExList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown1'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown1' : null)
             }
           />
         </View>
@@ -229,7 +175,94 @@ const Step3 = ({navigation}: any) => {
         <View style={generalStyles.rowwrap}>
           <CustomText text="Degree Details?" textStyle={styles.StepTitle} />
         </View>
-        <FlatList data={DropDwensData} renderItem={renderItem6} />
+        <View style={generalStyles.row}>
+          <CustomText
+            text="Field(S) of study"
+            textStyle={[styles.LapelStyle, styles.margnbtn]}
+          />
+        </View>
+        <View>
+          <Dropdown
+            placeholder="Field(S) of study"
+            value={selectedFeild}
+            setValue={setSelectedFeild}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown3'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown3' : null)
+            }
+          />
+        </View>
+        <View style={generalStyles.row}>
+          <CustomText
+            text="University / Institution"
+            textStyle={[styles.LapelStyle, styles.margnbtn]}
+          />
+        </View>
+        <View>
+          <Dropdown
+            placeholder="University / Institution"
+            value={selectedUniversty}
+            setValue={setSelectedUniversty}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown4'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown4' : null)
+            }
+          />
+        </View>
+        <View style={generalStyles.row}>
+          <CustomText
+            text="When did you get your degree?"
+            textStyle={[styles.LapelStyle, styles.margnbtn]}
+          />
+        </View>
+        <View>
+          <Dropdown
+            placeholder="When did you get your degree?"
+            value={selectedDegree}
+            setValue={setSelectedDegree}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown5' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown5'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown5' : null)
+            }
+          />
+        </View>
+        <View style={generalStyles.row}>
+          <CustomText
+            text="Grade"
+            textStyle={[styles.LapelStyle, styles.margnbtn]}
+          />
+        </View>
+        <View>
+          <Dropdown
+            placeholder="Grade"
+            value={selectedGrade}
+            setValue={setSelectedGrade}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown6'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown6' : null)
+            }
+          />
+        </View>
       </View>
       {/* Language  */}
       <View style={[styles.SectionBox]}>
@@ -244,20 +277,18 @@ const Step3 = ({navigation}: any) => {
             text={'Language'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          <AppInput
-            menueOption={LanguageList}
-            value={SelectedLanguage || LanguageList[0]}
-            editable={false}
-            showMenue={ShowMenuLanguage}
-            isdisabled={false}
-            setShowMenue={SetShowMenuLanguage}
-            onChangeText={val => setselectedLanguage(val)}
-            rightIcon={
-              ShowMenuProficiency ? (
-                <UpperArrow width={wp(6)} height={hp(1.5)} />
-              ) : (
-                <DowenArrow width={wp(6)} />
-              )
+          <Dropdown
+            placeholder="Langauge"
+            value={SelectedLanguage}
+            setValue={setselectedLanguage}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown7' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown7'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown7' : null)
             }
           />
         </View>
@@ -267,22 +298,21 @@ const Step3 = ({navigation}: any) => {
             text={'Proficiency'}
             textStyle={[styles.LapelStyle, styles.MArginBtn]}
           />
-          <AppInput
-            menueOption={ProficiencyList}
-            value={SelectedProficiency || ProficiencyList[0]}
-            editable={false}
-            showMenue={ShowMenuProficiency}
-            isdisabled={false}
-            setShowMenue={SetShowMenuProficiency}
-            onChangeText={val => setselectedProficiency(val)}
-            rightIcon={
-              ShowMenuProficiency ? (
-                <UpperArrow width={wp(6)} height={hp(1.5)} />
-              ) : (
-                <DowenArrow width={wp(6)} />
-              )
+          <Dropdown
+            placeholder="Proficiency"
+            value={SelectedProficiency}
+            setValue={setselectedProficiency}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown8' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown8'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown8' : null)
             }
           />
+
           <Button
             text="Add"
             isDisapled={SelectedLanguage && SelectedProficiency ? false : true}
@@ -314,11 +344,21 @@ const Step3 = ({navigation}: any) => {
         <View style={generalStyles.rowwrap}>
           <CustomText
             text="What skills, tools, technologies and fields of expertise do you have?"
-            textStyle={styles.StepTitle}
+            textStyle={[styles.StepTitle, styles.marginbtn]}
           />
           <Dropdown
-            list={List}
-            dropDownStyle={[styles.DropBorder, styles.MArgintop]}
+            placeholder="Skills"
+            value={selectedGrade}
+            setValue={setSelectedGrade}
+            dropDownStyle={generalStyles.DropBorder}
+            list={FieldList}
+            containerStyle={{
+              zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
+            }}
+            isOpen={openDropdown === 'dropdown6'}
+            onDropdownOpen={isOpen =>
+              handleDropdownOpen(isOpen ? 'dropdown6' : null)
+            }
           />
         </View>
       </View>

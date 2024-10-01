@@ -2,7 +2,6 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View, FlatList, ScrollView} from 'react-native';
 import {
-  AppHeader,
   AppScreenContainer,
   Button,
   Checkbox,
@@ -70,11 +69,11 @@ const Quetions = ({item}: any) => {
     </View>
   );
 };
-const ExploreScreen = ({navigation}: Props) => {
+const Explore = ({navigation}: Props) => {
   const [openSheet, SetOpenSheet] = useState(false);
   return (
     <AppScreenContainer>
-      <AppHeader arrowBack={true} title="Search jobs" />
+      {/* <AppHeader arrowBack={true} title="Search jobs" /> */}
       <ScrollView contentContainerStyle={styles.container}>
         {/* Section1 Search Title */}
         <View style={styles.Secion1Box}>
@@ -143,4 +142,4 @@ const ExploreScreen = ({navigation}: Props) => {
     </AppScreenContainer>
   );
 };
-export default ExploreScreen;
+export default Explore;

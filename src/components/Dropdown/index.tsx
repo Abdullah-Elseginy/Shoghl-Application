@@ -19,6 +19,7 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>;
   isOpen?: boolean; // New prop to indicate if this dropdown is open
   onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
+  labelStyle?: StyleProp<ViewStyle>;
 };
 
 const Dropdown = ({
@@ -36,6 +37,7 @@ const Dropdown = ({
   containerStyle,
   isOpen,
   onDropdownOpen,
+  labelStyle,
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -49,7 +51,9 @@ const Dropdown = ({
 
   return (
     <>
-      {label && <CustomText text={label} textStyle={styles.labelStyle} />}
+      {label && (
+        <CustomText text={label} textStyle={[styles.labelStyle, labelStyle]} />
+      )}
       <DropDownPicker
         maxHeight={200}
         listMode="SCROLLVIEW"

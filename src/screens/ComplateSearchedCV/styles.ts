@@ -133,7 +133,8 @@ export const styles = StyleSheet.create({
     marginTop: hp(2),
   },
   tex2: {
-    color: COLORS.blue,
+    color: COLORS.bluesmothy2,
+    fontFamily: FONTS.Regular,
   },
   texone: {
     color: COLORS.black,
@@ -158,7 +159,8 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.grayLight,
     borderRadius: wp(1),
     padding: wp(2),
-    backgroundColor: COLORS.blueMoresmothy,
+    backgroundColor: COLORS.white,
+    elevation: 1,
     marginBottom: hp(2),
   },
   textsBox: {

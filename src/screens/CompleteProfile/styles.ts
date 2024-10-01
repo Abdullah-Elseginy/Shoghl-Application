@@ -78,4 +78,7 @@ export const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: wp(3.7),
   },
+  marginTop: {
+    marginTop: hp(2),
+  },
 });

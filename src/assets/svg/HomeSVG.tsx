@@ -16,4 +16,5 @@ const HomeSVG = (props: SvgProps) => (
     />
   </Svg>
 );
+
 export default HomeSVG;

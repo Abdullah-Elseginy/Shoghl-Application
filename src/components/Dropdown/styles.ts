@@ -20,14 +20,15 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.Medium,
   },
   itemsContaienrStyle: {
-    borderWidth: 0,
+    borderWidth: hp(0.1),
     marginTop: wp(1),
     borderRadius: 10,
-    backgroundColor: COLORS.blueLight,
+    backgroundColor: COLORS.white,
     padding: wp(1.5),
+    borderColor: COLORS.primary,
   },
   selectedItemContainerStyle: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.primaryMoreLight,
     borderRadius: 10,
     paddingHorizontal: wp(1.5),
   },

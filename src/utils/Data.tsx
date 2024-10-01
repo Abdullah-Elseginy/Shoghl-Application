@@ -409,6 +409,122 @@ const CAREERLEVEL = [
     title: 'Electricity',
   },
 ];
+const Country = [
+  {
+    label: 'Egypt',
+    id: 'egptien',
+  },
+  {
+    label: 'Morroco',
+    id: 'morroco',
+  },
+  {
+    label: 'Italy',
+    id: 'italy',
+  },
+  {
+    label: 'France',
+    id: 'france',
+  },
+  {
+    label: 'United Kingdom',
+    id: 'uk',
+  },
+  {
+    label: 'United States',
+    id: 'us',
+  },
+  {
+    label: 'Germany',
+    id: 'germany',
+  },
+  {
+    label: 'Spain',
+    id: 'spain',
+  },
+  {
+    label: 'Netherlands',
+    id: 'netherlands',
+  },
+  {
+    label: 'Belgium',
+    id: 'belgium',
+  },
+  {
+    label: 'Australia',
+    id: 'australia',
+  },
+];
+const GenderList = [
+  {
+    label: 'male',
+    id: 'male',
+  },
+  {
+    label: 'Female',
+    id: 'Female',
+  },
+];
+const Nationality = [
+  {
+    label: 'Egptien',
+    id: 'egptien',
+  },
+  {
+    label: 'Italy',
+    id: 'italy',
+  },
+  {
+    label: 'France',
+    id: 'france',
+  },
+];
+const City = [
+  {
+    label: 'Tanta',
+    id: 'tanta',
+  },
+  {
+    label: 'Cairo',
+    id: 'cairo',
+  },
+  {
+    label: 'Alex',
+    id: 'alex',
+  },
+  {
+    label: 'Giza',
+    id: 'giza',
+  },
+  {
+    label: 'Aswan',
+    id: 'aswan',
+  },
+  {
+    label: 'Dakahlia',
+    id: 'dakahlia',
+  },
+  {
+    label: 'Minya',
+    id: 'minya',
+  },
+  {
+    label: 'Monastir',
+    id: 'monastir',
+  },
+  {
+    label: 'Suez',
+    id: 'suez',
+  },
+  {
+    label: 'Sharjah',
+    id: 'sharjah',
+  },
+  {
+    label: 'Riyadh',
+    id: 'riyad',
+  },
+];
 export {
   JOBS,
   QUETIONS,
@@ -419,4 +535,8 @@ export {
   JOBSHOME,
   HOWITWORK,
   CAREERLEVEL,
+  Nationality,
+  Country,
+  City,
+  GenderList,
 };

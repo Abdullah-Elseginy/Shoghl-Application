@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {hp, wp} from './Dimensions';
 import {FONTS} from './Fonts';
+import {COLORS} from './COLORS';
 
 export const generalStyles = StyleSheet.create({
   ScreenContainer: {
@@ -73,5 +74,16 @@ export const generalStyles = StyleSheet.create({
   },
   marginright: {
     marginRight: wp(1),
+  },
+  DropBorder: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  DropBorder2: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+    width: wp(42),
   },
 });
