@@ -82,4 +82,4 @@ export {default as GraduteCap} from './svg/graduate-cap.svg';
 export {default as SendMSG} from './svg/paper.svg';
 export {default as LockOpened} from './svg/LockOpened.svg';
 export {default as Eye} from './svg/eye.svg';
-
+export {default as Save} from './svg/save-as-svgrepo-com.svg';

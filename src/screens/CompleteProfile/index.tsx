@@ -185,7 +185,7 @@ const CompleteProfile = ({navigation}: Props) => {
           text="save"
           onPress={() => {
             // HandleProfile();
-            navigation.replace(ScreenNames.BottomTabs);
+            navigation.replace(ScreenNames.Login);
           }}
           style={{marginVertical: hp(3)}}
         />

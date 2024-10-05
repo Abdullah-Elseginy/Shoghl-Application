@@ -121,18 +121,19 @@ const LoginScreen = ({navigation}: Props) => {
   // const HandleLogins = () => {};
   const handleSubmit = () => {
     const isValid = handleCandiditeInputsStep1();
-    console.log(isValid);
+    console.log('isvalid===' + isValid);
     if (isValid) {
       let candidateData = {
         border_number: InputVal.borderno,
       };
       dispatch(loginOne(candidateData))
         .unwrap()
-        .then(() => {
+        .then(res => {
           SetShowOtp(true); // Show OTP input
+          console.log('resoooo', res);
         })
         .catch(err => {
-          console.log('signin error ', err);
+          console.log('LoginOne error ', err);
         });
     }
   };
@@ -151,7 +152,7 @@ const LoginScreen = ({navigation}: Props) => {
           navigation.replace(ScreenNames.BottomTabs);
         })
         .catch(err => {
-          console.log('signin error ', err);
+          console.log('loginTwo error ', err);
         });
     }
   };

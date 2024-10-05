@@ -47,7 +47,7 @@ export const getAllCities = createAsyncThunk(
 export const signUpOne = createAsyncThunk(
   'auth/signUpOne',
   async (data, {rejectWithValue}) => {
-    console.log(data);
+    console.log('dada', data);
     try {
       const res = await Axios({
         method: 'POST',

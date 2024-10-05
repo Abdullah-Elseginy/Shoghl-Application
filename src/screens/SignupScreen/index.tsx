@@ -25,7 +25,7 @@ const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
-  const {loading} = useSelector(state => state.auth);
+  const {loading, error} = useSelector(state => state.auth);
   const [formData, setFormData] = React.useState({
     companyName: '',
     firstName: '',
@@ -109,7 +109,7 @@ const SignupScreen = ({navigation}: Props) => {
         navigation.replace(ScreenNames.CompleteProfile);
       })
       .catch(err => {
-        console.log('signup ', err);
+        console.log('signupone ', err);
       });
   };
 
