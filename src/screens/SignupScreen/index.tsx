@@ -149,7 +149,10 @@ const SignupScreen = ({navigation}: Props) => {
                 value={BorderName}
                 onChangeText={SetBorderName}
               />
-              <CustomText text={errBordername} textStyle={styles.ErrorMSG} />
+              {errBordername && (
+                <CustomText text={errBordername} textStyle={styles.ErrorMSG} />
+              )}
+              <CustomText text={error} textStyle={styles.ErrorMSG} />
               <Button
                 loading={loading}
                 text="Next"

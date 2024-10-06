@@ -13,7 +13,6 @@ import React from 'react';
 import {styles} from './styles';
 import {COLORS} from '../../constants';
 import CustomText from '../CustomText';
-import {Menu} from 'react-native-paper';
 
 type Props = {
   placeholder?: string;
@@ -38,11 +37,6 @@ type Props = {
   setFlatData?: any;
   setDelatedToJobTypesAgain?: any;
   maxLength?: number;
-  showMenue?: boolean;
-  menueOption?: any;
-  setShowMenue?: () => void;
-  isdisabled?: boolean;
-  styleMenuOption?: StyleProp<ViewStyle>;
 };
 
 const AppInput = ({
@@ -67,11 +61,6 @@ const AppInput = ({
   setFlatData,
   setDelatedToJobTypesAgain,
   maxLength,
-  showMenue = false,
-  menueOption,
-  isdisabled = true,
-  setShowMenue,
-  styleMenuOption,
 }: Props) => {
   const DelateItem = (index: number) => {
     const newData = [...Flatdata];
@@ -91,12 +80,7 @@ const AppInput = ({
       {label && (
         <CustomText text={label} textStyle={[styles.label, labelStyle]} />
       )}
-      <Pressable
-        disabled={isdisabled}
-        onPress={() => {
-          setShowMenue(!showMenue);
-        }}
-        style={[styles.inputContainer, containerStyle]}>
+      <View style={[styles.inputContainer, containerStyle]}>
         {leftIcon && (
           <TouchableOpacity onPress={onLeftIconPress}>
             {leftIcon}
@@ -130,37 +114,17 @@ const AppInput = ({
           value={value}
           multiline={multiline}
           onChangeText={onChangeText}
+          maxLength={maxLength}
           editable={editable}
           secureTextEntry={secureTextEntry}
           keyboardType={isNumericKeyboard ? 'numeric' : 'default'}
-          maxLength={maxLength}
         />
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>
             {rightIcon}
           </TouchableOpacity>
         )}
-      </Pressable>
-      {showMenue && (
-        <View style={[styles.menueOptions, styleMenuOption]}>
-          <FlatList
-            data={menueOption}
-            renderItem={({item}) => (
-              <View>
-                <Menu.Item
-                  title={item}
-                  titleStyle={styles.txt}
-                  style={styles.rowOptions}
-                  onPress={() => {
-                    onChangeText(item);
-                    setShowMenue(!showMenue);
-                  }}
-                />
-              </View>
-            )}
-          />
-        </View>
-      )}
+      </View>
     </View>
   );
 };

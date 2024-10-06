@@ -8,7 +8,7 @@ import {
 } from '../../components';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {generalStyles} from '../../constants';
+import {COLORS, generalStyles} from '../../constants';
 import {EyeOffSVG, EyeSVG, PackSVG} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -19,6 +19,7 @@ import {
   loginOne,
   loginTwo,
 } from '../../redux/slices/authSlice';
+import {OtpInput} from 'react-native-otp-entry';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -31,7 +32,7 @@ const LoginScreen = ({navigation}: Props) => {
   const [showOTP, SetShowOtp] = useState(false);
   const [showpass, setshowpass] = useState(false);
   const dispatch = useDispatch();
-  const {loading} = useSelector((state: any) => state.auth);
+  const {loading, error} = useSelector((state: any) => state.auth);
   const [InputVal, SetInputVal] = useState({
     email: '',
     password: '',
@@ -39,7 +40,7 @@ const LoginScreen = ({navigation}: Props) => {
     otp: '',
   });
 
-  const [error, setError] = useState<any>({
+  const [errors, setError] = useState<any>({
     email: '',
     password: '',
     borderno: '',
@@ -55,7 +56,7 @@ const LoginScreen = ({navigation}: Props) => {
   };
   const handleLoginCorporateInputs = () => {
     let valid = true;
-    setError({...error, email: '', password: ''});
+    setError({...errors, email: '', password: ''});
     if (!InputVal.email) {
       setError((prev: any) => ({...prev, email: 'Email is required'}));
       valid = false;
@@ -129,7 +130,10 @@ const LoginScreen = ({navigation}: Props) => {
       dispatch(loginOne(candidateData))
         .unwrap()
         .then(res => {
-          SetShowOtp(true); // Show OTP input
+          // SetShowOtp(true); // Show OTP input
+          navigation.navigate(ScreenNames.OTPScreen, {
+            borderNo: InputVal.borderno,
+          });
           console.log('resoooo', res);
         })
         .catch(err => {
@@ -186,25 +190,14 @@ const LoginScreen = ({navigation}: Props) => {
               labelStyle={styles.inputLabel}
               containerStyle={styles.inputContainerStyle}
               value={InputVal.borderno}
+              isNumericKeyboard
               maxLength={10}
               onChangeText={val => SetInputVal({...InputVal, borderno: val})}
             />
-            <CustomText text={error.borderno} textStyle={styles.error} />
-            {showOTP ? (
-              <>
-                <AppInput
-                  placeholder="Enter your OTP number"
-                  label="OTP Number"
-                  labelStyle={styles.inputLabel}
-                  containerStyle={styles.inputContainerStyle}
-                  value={InputVal.otp}
-                  onChangeText={val => SetInputVal({...InputVal, otp: val})}
-                />
-                <CustomText text={error.otp} textStyle={styles.error} />
-              </>
-            ) : (
-              ''
+            {errors.borderno && (
+              <CustomText text={errors.borderno} textStyle={styles.error} />
             )}
+            <CustomText text={error} textStyle={styles.error} />
             <View style={[generalStyles.rowBetween, styles.remeBox]}>
               <View style={[generalStyles.row]}>
                 <Checkbox
@@ -246,7 +239,7 @@ const LoginScreen = ({navigation}: Props) => {
               value={InputVal.email}
               onChangeText={val => SetInputVal({...InputVal, email: val})}
             />
-            <CustomText text={error.email} textStyle={styles.error} />
+            <CustomText text={errors.email} textStyle={styles.error} />
             <AppInput
               placeholder="Enter Your Password"
               label="Password"
@@ -258,7 +251,7 @@ const LoginScreen = ({navigation}: Props) => {
               value={InputVal.password}
               onChangeText={val => SetInputVal({...InputVal, password: val})}
             />
-            <CustomText text={error.password} textStyle={styles.error} />
+            <CustomText text={errors.password} textStyle={styles.error} />
             <View style={[generalStyles.rowBetween, styles.remeBox]}>
               <View style={[generalStyles.row]}>
                 <Checkbox

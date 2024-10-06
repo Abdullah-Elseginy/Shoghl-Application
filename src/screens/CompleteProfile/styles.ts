@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
-    marginBottom: hp(3),
+    // marginBottom: hp(3),
     marginTop: hp(1),
   },
   inputContainerStyleSalary: {
@@ -41,7 +41,6 @@ export const styles = StyleSheet.create({
   },
   MArgins: {
     marginTop: hp(1),
-    marginBottom: hp(2),
   },
   DropBorder: {
     borderColor: COLORS.primary,

@@ -10,79 +10,11 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp, IMAGES, wp} from '../../constants';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {
-  Documentation,
-  Location,
-  Photoshop,
-  SimilsrJobs,
-  Temlid,
-} from '../../assets';
+import {Documentation, Location, Temlid} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
-const SIMILARJOBS = [
-  {
-    id: 1,
-    title: 'General Manager',
-    imag: <SimilsrJobs />,
-    company: 'Next Gen Supplements',
-    location: '-Ad-Diriyah, Riyadh',
-    days: '16 days ago',
-  },
-  {
-    id: 2,
-    title: 'General Manager',
-    imag: <SimilsrJobs />,
-    company: 'Next Gen Supplements',
-    location: '-Ad-Diriyah, Riyadh',
-    days: '16 days ago',
-  },
-  {
-    id: 3,
-    title: 'General Manager',
-    imag: <SimilsrJobs />,
-    company: 'Next Gen Supplements',
-    location: '-Ad-Diriyah, Riyadh',
-    days: '16 days ago',
-  },
-  {
-    id: 4,
-    title: 'General Manager',
-    imag: <SimilsrJobs />,
-    company: 'Next Gen Supplements',
-    location: '-Ad-Diriyah, Riyadh',
-    days: '16 days ago',
-  },
-];
-const SIMILARFUNCTIONS = [
-  {
-    id: 1,
-    title: 'Senior Health and Nutrition Advisor',
-    imag: <Photoshop />,
-    location: 'EGP',
-    Telimed: 'Telimed',
-  },
-  {
-    id: 2,
-    title: 'Senior Health and Nutrition Advisor',
-    imag: <Photoshop />,
-    location: 'MOC',
-    Telimed: 'Telimed',
-  },
-  {
-    id: 3,
-    title: 'Senior Health and Nutrition Advisor',
-    imag: <Photoshop />,
-    location: 'KSA',
-    Telimed: 'Telimed',
-  },
-  {
-    id: 4,
-    title: 'Senior Health and Nutrition Advisor',
-    imag: <Photoshop />,
-    location: 'KSA',
-    Telimed: 'Telimed',
-  },
-];
+import {SIMILARFUNCTIONS, SIMILARJOBS} from '../../utils/Data';
+
 const SimilarJobs = ({item}: any) => {
   return (
     <View style={styles.SimilarJobBoxs}>

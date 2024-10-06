@@ -5,52 +5,8 @@ import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import {CareerLevel2, FieldList, YearsExList} from '../../../utils/Data';
 
-const YearsExList = [
-  {
-    label: '0-1',
-    id: '0-1',
-  },
-  {
-    label: '1-5',
-    id: '1-5',
-  },
-  {
-    label: '5-10',
-    id: '5-10',
-  },
-  {
-    label: '10-20',
-    id: '10-20',
-  },
-];
-const FieldList = [
-  {
-    label: 'IT',
-    id: 'IT',
-  },
-  {
-    label: 'CS',
-    id: 'CS',
-  },
-  {
-    label: 'SE',
-    id: 'SE',
-  },
-  {
-    label: 'AI',
-    id: 'AI',
-  },
-];
-
-const CareerLevel = [
-  {id: '1', title: 'Student'},
-  {id: '2', title: 'Entry Level'},
-  {id: '3', title: 'Experienced'},
-  {id: '4', title: 'Manager'},
-  {id: '5', title: 'Senior Management'},
-  {id: '6', title: 'Not Specified'},
-];
 const Step3 = ({navigation}: any) => {
   const [SelectedProficiency, setselectedProficiency] = useState('');
   const [SelectedLanguage, setselectedLanguage] = useState('');
@@ -162,7 +118,7 @@ const Step3 = ({navigation}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={CareerLevel}
+            data={CareerLevel2}
             keyExtractor={item => item.id}
             renderItem={renderItem4}
             extraData={selectedId4}

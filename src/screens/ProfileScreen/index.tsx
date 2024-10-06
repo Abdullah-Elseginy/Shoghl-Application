@@ -38,17 +38,12 @@ import {
   UpperArrow,
 } from '../../assets';
 import {COLORS, generalStyles, hp, IMAGES, wp} from '../../constants';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ComplateCompanyProfile from '../ComplateCompanyProfile';
+import {PROGRESSES} from '../../utils/Data';
+import {getMyProfile} from '../../redux/slices/authSlice';
 
-const PROGRESSES = [
-  {id: 1, subject: 'english', rate: '60%'},
-  {id: 2, subject: 'arabic', rate: '90%'},
-  {id: 3, subject: 'computer', rate: '25%'},
-  {id: 4, subject: 'MS office', rate: '40%'},
-];
-
-const Progrss = ({item}) => {
+const Progrss = ({item}: any) => {
   return (
     <View style={styles.progresscontainer}>
       <CustomText text={item.rate} />
@@ -60,13 +55,26 @@ const Progrss = ({item}) => {
   );
 };
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation}: any) => {
   const [isLicence, setIsLicence] = React.useState(false);
   const [isMotorCycle, setIsMotorCycle] = React.useState(false);
   const [txtToCopy, setTxtToCopy] = React.useState('');
   const [isPublic, setIsPublic] = React.useState(false);
   const [isFindEasily, setIsFindEasily] = React.useState(false);
   const {registerationType} = useSelector((state: any) => state.auth);
+  const {userProfileData} = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch();
+  console.log(userProfileData);
+  React.useEffect(() => {
+    dispatch(getMyProfile())
+      .unwrap()
+      .then(res => {
+        console.log('resooooProfile', res);
+      })
+      .catch(err => {
+        console.log('Profile error ', err);
+      });
+  }, []);
   return (
     <>
       {registerationType === 'candidate' ? (

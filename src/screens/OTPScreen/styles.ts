@@ -71,4 +71,10 @@ export const styles = StyleSheet.create({
   pinCodeText: {
     color: COLORS.black,
   },
+  Resend: {
+    alignSelf: 'flex-end',
+    marginTop: hp(2),
+    fontFamily: FONTS.Bold,
+    color: COLORS.primary,
+  },
 });

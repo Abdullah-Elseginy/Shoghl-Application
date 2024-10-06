@@ -1,107 +1,17 @@
 import {FlatList, Pressable, ScrollView, View} from 'react-native';
 import React from 'react';
-import { AppScreenContainer, CustomText} from '../../components';
+import {AppScreenContainer, CustomText} from '../../components';
 import styles from './styles';
-import {COLORS, generalStyles, hp} from '../../constants';
-import {
-  Add,
-  Adidas,
-  Cash,
-  Crown,
-  Location,
-  Nike,
-  Photoshop,
-  Samsung,
-  Tiktok,
-  Udacity,
-} from '../../assets';
+import {generalStyles, hp} from '../../constants';
+import {Add, Cash, Crown, Location} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
+import {JOBS3, QUETIONS} from '../../utils/Data';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
   item: any;
 };
-const JOBS = [
-  {
-    id: 1,
-    img: <Photoshop />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.yellowlight,
-  },
-  {
-    id: 2,
-    img: <Nike />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.blueLight,
-  },
-  {
-    id: 3,
-    img: <Tiktok />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 4,
-    img: <Samsung />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-  },
-  {
-    id: 5,
-    img: <Udacity />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    price: '$30,000.00 - $35,000.00',
-    color: COLORS.grayMoreLight,
-  },
-  {
-    id: 6,
-    img: <Adidas />,
-    status: 'telimed',
-    job: 'electrician',
-    period: 'full time',
-    intern: 'internship',
-    location: 'Paris, France',
-    color: COLORS.yellowlight,
-    price: '$30,000.00 - $35,000.00',
-  },
-];
-const QUETIONS = [
-  {
-    id: 1,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-  {
-    id: 2,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-  {
-    id: 3,
-    text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
-  },
-];
+
 const Job = ({item, navigation}: Props) => {
   return (
     <Pressable
@@ -163,7 +73,7 @@ const SaveScreen = ({navigation}: any) => {
         {/* Jobs*/}
         <View>
           <FlatList
-            data={JOBS}
+            data={JOBS3}
             keyExtractor={item => item.id.toString()}
             renderItem={({item}) => <Job navigation={navigation} item={item} />}
           />

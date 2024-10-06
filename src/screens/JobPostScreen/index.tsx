@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {Pressable, ScrollView, View} from 'react-native';
 import {
@@ -12,30 +13,18 @@ import {
 import {styles} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {generalStyles} from '../../constants';
+import {
+  JopTypes,
+  data2,
+  JopTypes2,
+  CareerLevel,
+  City,
+  Country,
+  YEARSEXP,
+  YEARSEXP2,
+} from '../../utils/Data';
 
 const JobPost = () => {
-  const JopTypes = [
-    {id: '1', title: 'Part time'},
-    {id: '2', title: 'Full time'},
-    {id: '3', title: 'Trainning'},
-  ];
-  const data = [
-    {id: '1', title: 'Job'},
-    {id: '2', title: 'Trainnig'},
-  ];
-  const JopTypes2 = [
-    {id: '1', title: 'on site'},
-    {id: '2', title: 'remotly'},
-    {id: '3', title: 'hybrid'},
-  ];
-  const CareerLevel = [
-    {id: '1', title: 'Student'},
-    {id: '2', title: 'Entry Level'},
-    {id: '3', title: 'Experienced'},
-    {id: '4', title: 'Manager'},
-    {id: '5', title: 'Senior Management'},
-    {id: '6', title: 'Not Specified'},
-  ];
   const [JobOPtionData, setJobOPtionData] = useState([
     {
       id: '1',
@@ -67,6 +56,20 @@ const JobPost = () => {
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [Checked, setChecked] = useState<boolean>(false);
+  // dropdwens
+  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedYearEX, setSelectedselectedYearEX] = useState('');
+  const [selectedYearEX2, setSelectedselectedYearEX2] = useState('');
+  const [selectedVacancies, setSelectedselectedVacancies] = useState('');
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(dropdownId);
+    }
+  };
   const toggleSelection = (id: any, type: any) => {
     if (type === 'subjob') {
       setJobOSupPtionData(prevData =>
@@ -86,7 +89,7 @@ const JobPost = () => {
       );
     }
   };
-  const clearSubSelction = index => {
+  const clearSubSelction = (index: number) => {
     if (index == 0) {
       for (let i = 0; i < SubSlectionData.length; i++) {
         SubSlectionData[i].selected = false;
@@ -177,7 +180,7 @@ const JobPost = () => {
           <View>
             <CustomText text="Post Type" textStyle={styles.StepTitle} />
             <FlatList
-              data={data}
+              data={data2}
               keyExtractor={item => item.id}
               renderItem={renderItem}
               horizontal={true}
@@ -230,25 +233,33 @@ const JobPost = () => {
             <CustomText text="Your Location" textStyle={styles.StepTitle} />
             <CustomText text="Country" textStyle={styles.OptopnTExt} />
             <Dropdown
-              list={[
-                {label: 'Egypt', value: 'apple'},
-                {label: 'Morroco', value: 'banana'},
-                {label: 'Italy', value: 'orange'},
-              ]}
-              dropDownStyle={styles.DropBorder}
-
-              //   value={}
+              placeholder="Country"
+              value={selectedCountry}
+              setValue={setSelectedCountry}
+              dropDownStyle={generalStyles.DropBorder}
+              list={Country}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown1'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown1' : null)
+              }
             />
             <CustomText text="City" textStyle={styles.OptopnTExt} />
             <Dropdown
-              list={[
-                {label: 'Egypt', value: 'apple'},
-                {label: 'Morroco', value: 'banana'},
-                {label: 'Italy', value: 'orange'},
-              ]}
-              dropDownStyle={styles.DropBorder}
-
-              //   value={}
+              placeholder="City"
+              value={selectedCity}
+              setValue={setSelectedCity}
+              dropDownStyle={generalStyles.DropBorder}
+              list={City}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown2'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown2' : null)
+              }
             />
           </View>
           {/* Career Level */}
@@ -274,28 +285,34 @@ const JobPost = () => {
             <View style={generalStyles.row}>
               <View>
                 <Dropdown
-                  list={[
-                    {label: '1-3 years', value: 'apple'},
-                    {label: '4-6 years', value: 'banana'},
-                    {label: '7-9 years', value: 'orange'},
-                    {label: '10+ years', value: 'grape'},
-                  ]}
+                  placeholder="MIN"
+                  value={selectedYearEX}
+                  setValue={setSelectedselectedYearEX}
                   dropDownStyle={styles.DropStyles}
-                  ItemsBOX={styles.DropStyles}
-                  placeholder="Min"
+                  list={YEARSEXP}
+                  containerStyle={{
+                    zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
+                  }}
+                  isOpen={openDropdown === 'dropdown3'}
+                  onDropdownOpen={isOpen =>
+                    handleDropdownOpen(isOpen ? 'dropdown3' : null)
+                  }
                 />
               </View>
               <View style={styles.ContaibYear}>
                 <Dropdown
-                  list={[
-                    {label: '1-3 years', value: 'a'},
-                    {label: '4-6 years', value: 'c'},
-                    {label: '7-9 years', value: 'e'},
-                    {label: '10+ years', value: 'v'},
-                  ]}
+                  placeholder="MAX"
+                  value={selectedYearEX2}
+                  setValue={setSelectedselectedYearEX2}
                   dropDownStyle={styles.DropStyles}
-                  //   value={}
-                  placeholder="Max"
+                  list={YEARSEXP2}
+                  containerStyle={{
+                    zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
+                  }}
+                  isOpen={openDropdown === 'dropdown4'}
+                  onDropdownOpen={isOpen =>
+                    handleDropdownOpen(isOpen ? 'dropdown4' : null)
+                  }
                 />
               </View>
             </View>
@@ -305,16 +322,10 @@ const JobPost = () => {
             <CustomText text="Salary Range" textStyle={styles.StepTitle} />
             <View style={generalStyles.row}>
               <View>
-                <AppInput
-                  containerStyle={styles.InputBox}
-                  placeholder="SAR / Month"
-                />
+                <AppInput containerStyle={styles.InputBox} placeholder="MIN" />
               </View>
               <View>
-                <AppInput
-                  containerStyle={styles.InputBox}
-                  placeholder="SAR / Month"
-                />
+                <AppInput containerStyle={styles.InputBox} placeholder="MAx" />
               </View>
             </View>
           </View>
@@ -337,13 +348,18 @@ const JobPost = () => {
               textStyle={[styles.StepTitle, styles.StepText]}
             />
             <Dropdown
-              list={[
-                {label: '1', value: 'apple'},
-                {label: '2', value: 'banana'},
-                {label: '5', value: 'orange'},
-              ]}
-              dropDownStyle={styles.DropBorder}
-              //   value={}
+              placeholder="Vacancies"
+              value={selectedVacancies}
+              setValue={setSelectedselectedVacancies}
+              dropDownStyle={generalStyles.DropBorder}
+              list={YEARSEXP}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown5' ? 10000 : 1,
+              }}
+              isOpen={openDropdown === 'dropdown5'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown5' : null)
+              }
             />
           </View>
           {/*About Job */}

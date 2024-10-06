@@ -22,6 +22,7 @@ const ScreenNames = {
   Applications: 'Applications',
   SaveScreen: 'Save',
   ExploreScreen: 'Explore',
+  OTPScreen: 'OTPScreen',
 };
 
 export default Object.freeze(ScreenNames);

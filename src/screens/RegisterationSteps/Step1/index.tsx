@@ -4,33 +4,8 @@ import {FlatList, Pressable, View} from 'react-native';
 import {AppInput, Checkbox, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from '../styles';
-const CareerLevel = [
-  {id: '1', title: 'Student'},
-  {id: '2', title: 'Entry Level'},
-  {id: '3', title: 'Experienced'},
-  {id: '4', title: 'Manager'},
-  {id: '5', title: 'Senior Management'},
-  {id: '6', title: 'Not Specified'},
-];
-const JopTypes2 = [
-  {id: '1', title: 'Full time'},
-  {id: '2', title: 'Part time'},
-  {id: '3', title: 'Freelance/ project'},
-  {id: '4', title: 'Internship'},
-  {id: '5', title: 'Shift Based'},
-  {id: '6', title: 'Volunteering'},
-  {id: '7', title: 'Student Activity'},
-];
-const JopTypes3 = [
-  {id: '1', title: 'on site'},
-  {id: '2', title: 'remotly'},
-  {id: '3', title: 'hybrid'},
-];
-const period = [
-  {label: 'Per Hour', id: 'Per Hour'},
-  {label: 'Per Week', id: 'Per Week'},
-  {label: 'Per Month', id: 'Per Month'},
-];
+import {CareerLevel2, JopTypes3, JopTypes8, period} from '../../../utils/Data';
+
 const Step1 = () => {
   const [JopTypes4, SetJopTypes4] = useState([
     {id: '1', title: 'on site'},
@@ -159,7 +134,7 @@ const Step1 = () => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={CareerLevel}
+            data={CareerLevel2}
             keyExtractor={item => item.id}
             renderItem={renderItem4}
             extraData={selectedId4}
@@ -180,7 +155,7 @@ const Step1 = () => {
           />
         </View>
         <FlatList
-          data={JopTypes2}
+          data={JopTypes3}
           keyExtractor={item => item.id}
           renderItem={renderItem3}
           numColumns={2}
@@ -200,7 +175,7 @@ const Step1 = () => {
           />
         </View>
         <FlatList
-          data={JopTypes3}
+          data={JopTypes8}
           keyExtractor={item => item.id}
           renderItem={renderItem5}
           numColumns={2}

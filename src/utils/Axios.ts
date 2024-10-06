@@ -11,6 +11,10 @@ export type APIsTypes = {
   signUpTwo: string;
   loginOne: string;
   loginTwo: string;
+  getMyProfile: string;
+  myAboutMe: string;
+  personalCharacteristics: string;
+  myProfileOverview: string;
 };
 
 export const APIS: APIsTypes = {
@@ -22,6 +26,11 @@ export const APIS: APIsTypes = {
   signUpTwo: 'LOW/Auth/Registration/Two',
   loginOne: 'LOW/Auth/Login/One',
   loginTwo: 'LOW/Auth/Login/Two',
+  // =================== Profile =================== //
+  getMyProfile: 'LOW/My/Profile',
+  myAboutMe: 'LOW/My/About-Me',
+  personalCharacteristics: 'LOW/My/Personal-Characteristics',
+  myProfileOverview: 'LOW/My/Profile-Overview',
 };
 
 const axiosInstance = axios.create({

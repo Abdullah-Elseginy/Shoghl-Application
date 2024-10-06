@@ -44,6 +44,7 @@ export const getAllCities = createAsyncThunk(
 
 // ===================== Auth ========================
 // ===================== SignUp One Action ========================
+
 export const signUpOne = createAsyncThunk(
   'auth/signUpOne',
   async (data, {rejectWithValue}) => {
@@ -57,9 +58,8 @@ export const signUpOne = createAsyncThunk(
       console.log('signUpOne', res?.data);
       return res.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('signUpOne Error', errorMessage);
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('loginOne Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -77,8 +77,7 @@ export const signUpTwo = createAsyncThunk(
       console.log('signUpTwo', res?.data);
       return res.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
+      const errorMessage = error?.response?.data?.message || error.message;
       console.log('signUpTwo Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
@@ -97,8 +96,7 @@ export const loginOne = createAsyncThunk(
       console.log('loginOne', res?.data);
       return res.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
+      const errorMessage = error?.response?.data?.message || error.message;
       console.log('loginOne Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
@@ -118,15 +116,109 @@ export const loginTwo = createAsyncThunk(
       console.log('loginTwo', res?.data);
       return res.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
+      const errorMessage = error?.response?.data?.message || error.message;
       console.log('loginTwo Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
 );
+// ======================== Get My Profile ===========================
+export const getMyProfile = createAsyncThunk(
+  'auth/getMyProfile',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getMyProfile,
+      });
+      console.log('getMyProfile', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getMyProfile Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ======================== My About Me ===========================
+export const myAboutMe = createAsyncThunk(
+  'auth/myAboutMe',
+  async (aboutMeData, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.myAboutMe,
+        data: aboutMeData,
+      });
+      console.log('myAboutMe', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('myAboutMe Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ======================== Personal Characteristics ===========================
+export const personalCharacteristics = createAsyncThunk(
+  'auth/personalCharacteristics',
+  async (personalData, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.personalCharacteristics,
+        data: personalData,
+      });
+      console.log('personalCharacteristics', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('personalCharacteristics Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ======================== My Profile Overview ===========================
+export const myProfileOverview = createAsyncThunk(
+  'auth/myProfileOverview',
+  async (profileOverviewData, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.myProfileOverview,
+        data: profileOverviewData,
+      });
+      console.log('myProfileOverview', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('myProfileOverview Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
-const initialState = {
+type InitailStateTypes = {
+  //   login: string;
+  token: any;
+  user: any;
+  error: any;
+  userStatus: any;
+  openModalStatus: any;
+  allCountries: any;
+  allCities: any;
+  corpRegisterSteps: any;
+  registerationType: string;
+  loading: boolean;
+  userProfileData: any;
+  isSkipping: boolean;
+  userCode: any;
+};
+const initialState: InitailStateTypes = {
   token: null,
   loading: false,
   user: null,
@@ -137,6 +229,9 @@ const initialState = {
   allCities: null,
   corpRegisterSteps: null,
   registerationType: '',
+  userProfileData: '',
+  isSkipping: false,
+  userCode: null,
 };
 
 const authSlice = createSlice({
@@ -156,6 +251,7 @@ const authSlice = createSlice({
 
       .addCase(getAllCountries.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(getAllCountries.fulfilled, (state, action) => {
         state.loading = false;
@@ -171,6 +267,7 @@ const authSlice = createSlice({
 
       .addCase(getAllCities.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(getAllCities.fulfilled, (state, action) => {
         state.loading = false;
@@ -183,13 +280,15 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       // ===================== signUpOne =======================
-      .addCase(signUpOne.pending, (state, action) => {
+      .addCase(signUpOne.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(signUpOne.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        state.token = action.payload.token;
+        state.userCode = action.payload.data.code;
+        console.log(action.payload.data.access_token);
+        state.token = action.payload.data.access_token;
         state.error = null;
       })
       .addCase(signUpOne.rejected, (state, action) => {
@@ -198,13 +297,15 @@ const authSlice = createSlice({
       })
       // ===================== signUpTwo =======================
 
-      .addCase(signUpTwo.pending, (state, action) => {
+      .addCase(signUpTwo.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(signUpTwo.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.token;
+        console.log(action.payload.data.access_token);
+        state.token = action.payload.data.access_token;
         state.error = null;
       })
       .addCase(signUpTwo.rejected, (state, action) => {
@@ -213,13 +314,15 @@ const authSlice = createSlice({
       })
       // ===================== Login One ========================
 
-      .addCase(loginOne.pending, (state, action) => {
+      .addCase(loginOne.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(loginOne.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.token;
+        state.token = action.payload.data.access_token;
+        console.log('userTOKEN' + action.payload.data.access_token);
         state.error = null;
       })
       .addCase(loginOne.rejected, (state, action) => {
@@ -228,16 +331,74 @@ const authSlice = createSlice({
       })
       // ===================== Login Two ========================
 
-      .addCase(loginTwo.pending, (state, action) => {
+      .addCase(loginTwo.pending, state => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(loginTwo.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.token;
+        state.token = action.payload.data.access_token;
+        console.log('userTOKEN2' + action.payload.data.access_token);
         state.error = null;
       })
       .addCase(loginTwo.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== get My Profile ========================
+      .addCase(getMyProfile.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMyProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userProfileData = action.payload;
+        state.error = null;
+      })
+      .addCase(getMyProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== My About Me ========================
+      .addCase(myAboutMe.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(myAboutMe.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(myAboutMe.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== Personal Characteristics ========================
+      .addCase(personalCharacteristics.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(personalCharacteristics.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(personalCharacteristics.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== My Profile Overview ========================
+      .addCase(myProfileOverview.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(myProfileOverview.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(myProfileOverview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

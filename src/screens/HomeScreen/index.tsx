@@ -11,55 +11,25 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {FlatList, ScrollView, View} from 'react-native';
-import {Cash, Crown, Location, Riyadh} from '../../assets';
+import {Cash, Crown, Location} from '../../assets';
 import {generalStyles, hp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
-import {CAREERLEVEL, HOWITWORK, JOBSHOME, PARTENERS} from '../../utils/Data';
-import {useDispatch} from 'react-redux';
-import {getAllCities, getAllCountries} from '../../redux/slices/authSlice';
+import {
+  CAREERLEVEL,
+  City,
+  HOWITWORK,
+  JOBSHOME,
+  PARTENERS,
+  BROWESLOCATION,
+} from '../../utils/Data';
 
-const CITY = [
-  {id: 1, label: 'Cairo'},
-  {id: 2, label: 'Alex'},
-  {id: 3, label: 'Giza'},
-];
-
-const BROWESLOCATION = [
-  {
-    id: 1,
-    imag: <Riyadh width={'50%'} />,
-    title: 'Riyadh',
-  },
-  {
-    id: 2,
-    imag: <Riyadh width={'50%'} />,
-    title: 'Riyadh',
-  },
-  {
-    id: 3,
-    imag: <Riyadh width={'50%'} />,
-    title: 'Riyadh',
-  },
-  {
-    id: 4,
-    imag: <Riyadh width={'50%'} />,
-    title: 'Riyadh',
-  },
-];
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const HomeScreen = ({navigation}: Props) => {
   const [city, setCity] = React.useState('');
-  // const dispatch = useDispatch();
-  // React.useEffect(() => {
-  //   dispatch(getAllCountries());
-  // }, [dispatch]);
-  // React.useEffect(() => {
-  //   dispatch(getAllCities(+20));
-  // }, [dispatch]);
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -154,7 +124,7 @@ const HomeScreen = ({navigation}: Props) => {
             value={city}
             setValue={setCity}
             dropDownStyle={[generalStyles.DropBorder, styles.containerStyle]}
-            list={CITY}
+            list={City}
             containerStyle={{
               zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
             }}
@@ -184,7 +154,6 @@ const HomeScreen = ({navigation}: Props) => {
         />
         <Button text="show more jobs" style={styles.btn} onPress={() => null} />
         {/* How it Work Section */}
-        {/* <View style={styles.Line} /> */}
         <View>
           <View style={styles.HowItWorkSection}>
             <CustomText text="How it works?" textStyle={styles.sectionTitle} />
@@ -201,7 +170,6 @@ const HomeScreen = ({navigation}: Props) => {
           />
         </View>
         {/* Global Parteners */}
-        {/* <View style={styles.Line} /> */}
         <View>
           <View style={styles.HowItWorkSection}>
             <CustomText
@@ -224,7 +192,6 @@ const HomeScreen = ({navigation}: Props) => {
           />
         </View>
         <View>
-          {/* <View style={styles.Line} /> */}
 
           <FlatList
             horizontal={true}
@@ -235,7 +202,6 @@ const HomeScreen = ({navigation}: Props) => {
         </View>
         {/* Browse Jobs By location */}
         <View>
-          {/* <View style={styles.Line} /> */}
           <View style={styles.HowItWorkSection}>
             <CustomText
               text="Browse Jobs by Career Location"

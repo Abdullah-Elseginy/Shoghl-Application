@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  AppHeader,
   AppInput,
   AppScreenContainer,
   Button,
@@ -92,27 +91,6 @@ const Job = ({item}: any) => {
   );
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
-  // Select Images
-  // const [imageUri, setImageUri] = useState<string | null>(null);
-  // const selectImage = () => {
-  //   const options: ImageLibraryOptions = {
-  //     mediaType: 'photo',
-  //     quality: 1,
-  //   };
-
-  //   launchImageLibrary(options, response => {
-  //     if (response.didCancel) {
-  //     } else if (response.errorCode) {
-  //       Alert.alert(
-  //         'Error:',
-  //         response.errorMessage || 'Unknown error occurred',
-  //       );
-  //     } else if (response.assets && response.assets.length > 0) {
-  //       const selectedImage: Asset = response.assets[0];
-  //       setImageUri(selectedImage.uri || null);
-  //     }
-  //   });
-  // };
   const [Disapled, SetDisapled] = useState(false);
   const [InputsData] = useState([
     {title: 'Location', type: 'text', value: '', error: '', hasError: false},
@@ -145,8 +123,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   };
   return (
     <AppScreenContainer>
-      {/* <AppHeader arrowBack={true} title="Company Profile" /> */}
-
       <ScrollView>
         {/* Profile Cover and photo */}
         <View>
