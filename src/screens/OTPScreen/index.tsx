@@ -2,14 +2,16 @@ import React, {useState} from 'react';
 import {AppScreenContainer, Button, CustomText} from '../../components';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {COLORS} from '../../constants';
+import {COLORS, generalStyles} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {ParamListBase} from '@react-navigation/native';
+import {CommonActions, ParamListBase} from '@react-navigation/native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeRegisterationType, loginTwo} from '../../redux/slices/authSlice';
 import {OtpInput} from 'react-native-otp-entry';
 import {PackSVG} from '../../assets';
+import Toast from 'react-native-toast-message';
+import {AppDispatch} from '../../redux/store';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -17,15 +19,13 @@ type Props = {
 };
 
 const OTPScreen = ({route, navigation}: Props) => {
-  const dispatch = useDispatch();
-  const {loading, error} = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading} = useSelector((state: any) => state.auth);
   const [InputVal, SetInputVal] = useState({
     otp: '',
   });
   const [errorOTP, seterrorOTP] = useState('');
   const {borderNo} = route.params;
-  console.log('first', borderNo);
-  console.log('Route=>', route);
   const handleCandiditeInputsStep2 = () => {
     if (!InputVal.otp) {
       seterrorOTP('OTP Required');
@@ -39,17 +39,32 @@ const OTPScreen = ({route, navigation}: Props) => {
   const handlesumit2 = () => {
     const isValid = handleCandiditeInputsStep2();
     if (isValid) {
-      let candidateData = {
+      const candidateData = {
         border_number: borderNo,
         otp: InputVal.otp,
       };
       dispatch(loginTwo(candidateData))
         .unwrap()
-        .then(() => {
+        .then((res: any) => {
           dispatch(changeRegisterationType('candidate'));
-          navigation.replace(ScreenNames.BottomTabs);
+          Toast.show({
+            text1: 'Logged In Successfully',
+            type: 'success',
+            position: 'top',
+            visibilityTime: 1500,
+            autoHide: true,
+          });
+          setTimeout(() => {
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{name: ScreenNames.BottomTabs}],
+              }),
+            );
+          }, 800);
+          console.log('abdullahhhaahhaahha' + res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           console.log('loginTwo error ', err);
         });
     }
@@ -83,11 +98,18 @@ const OTPScreen = ({route, navigation}: Props) => {
                 //   focusedPinCodeContainerStyle: styles.activePinCodeContainer,
               }}
             />
-            <TouchableOpacity>
-              <CustomText text="Resend OTP?" textStyle={styles.Resend} />
-            </TouchableOpacity>
             <CustomText text={errorOTP} textStyle={styles.error} />
-            <CustomText text={error} textStyle={styles.error} />
+            <View style={generalStyles.rowBetween}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(ScreenNames.Login);
+                }}>
+                <CustomText text="Change Number?" textStyle={styles.Resend} />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <CustomText text="Resend OTP?" textStyle={styles.Resend} />
+              </TouchableOpacity>
+            </View>
           </>
           <Button
             text="login"

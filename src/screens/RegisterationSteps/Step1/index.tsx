@@ -108,7 +108,7 @@ const Step1 = () => {
   };
   const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
 
-  const handleDropdownOpen = dropdownId => {
+  const handleDropdownOpen = (dropdownId:any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null); // Close it if it's already open
     } else {

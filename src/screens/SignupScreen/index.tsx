@@ -16,6 +16,8 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeRegisterationType, signUpOne} from '../../redux/slices/authSlice';
+import {AppDispatch} from '../../redux/store';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -44,8 +46,7 @@ const SignupScreen = ({navigation}: Props) => {
     password: '',
     role: '',
   });
-  const dispatch = useDispatch();
-  const [candidateError, SetCAndidateError] = React.useState('');
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData({...formData, [field]: value});
@@ -106,9 +107,19 @@ const SignupScreen = ({navigation}: Props) => {
       .unwrap()
       .then(() => {
         dispatch(changeRegisterationType('candidate'));
+        Toast.show({
+          text1: 'Success',
+          text2: 'Account created successfully',
+          type: 'success',
+        });
         navigation.replace(ScreenNames.CompleteProfile);
       })
       .catch(err => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
+        });
         console.log('signupone ', err);
       });
   };
@@ -152,10 +163,10 @@ const SignupScreen = ({navigation}: Props) => {
               {errBordername && (
                 <CustomText text={errBordername} textStyle={styles.ErrorMSG} />
               )}
-              <CustomText text={error} textStyle={styles.ErrorMSG} />
               <Button
                 loading={loading}
                 text="Next"
+                style={styles.Bottom}
                 onPress={() => validateBorderNumber()}
               />
               <View style={[generalStyles.rowCenter, {marginTop: hp(1.3)}]}>

@@ -28,7 +28,7 @@ export const getAllCities = createAsyncThunk(
     try {
       const response = await Axios({
         method: 'GET',
-        path: `${APIS.allCities}/${country_code}/Details`,
+        path: `${APIS.allCities}/${country_code}`,
       });
       const res = response.data.data;
       console.log('getAllCities =>>>>>>', res);
@@ -244,6 +244,19 @@ const authSlice = createSlice({
     changeRegisterationType: (state, action) => {
       state.registerationType = action.payload;
     },
+    logoutSuccess: state => {
+      state.token = null;
+      state.loading = false;
+      state.user = null;
+      state.userProfileData = null;
+      state.error = null;
+      state.userStatus = null;
+      state.openModalStatus = null;
+      state.allCountries = null;
+      state.allCities = null;
+      state.corpRegisterSteps = null;
+      state.userCode = null;
+    },
   },
   extraReducers: builder => {
     builder
@@ -339,7 +352,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.data.access_token;
-        console.log('userTOKEN2' + action.payload.data.access_token);
+        console.log('userTOKEN22222222===' + action.payload.data.access_token);
         state.error = null;
       })
       .addCase(loginTwo.rejected, (state, action) => {
@@ -354,6 +367,7 @@ const authSlice = createSlice({
       .addCase(getMyProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.userProfileData = action.payload;
+        console.log('Progfilr DADADADADA===', action.payload);
         state.error = null;
       })
       .addCase(getMyProfile.rejected, (state, action) => {
@@ -405,5 +419,6 @@ const authSlice = createSlice({
   },
 });
 
-export const {changeIsSkipping, changeRegisterationType} = authSlice.actions;
+export const {changeIsSkipping, changeRegisterationType, logoutSuccess} =
+  authSlice.actions;
 export default authSlice.reducer;

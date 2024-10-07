@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
   },
   error: {
     color: COLORS.danger,
-    marginBottom: hp(1),
+    marginTop: hp(0.5),
   },
   inputContainerStyle: {
     marginBottom: hp(0.5),
@@ -72,7 +72,6 @@ export const styles = StyleSheet.create({
     color: COLORS.black,
   },
   Resend: {
-    alignSelf: 'flex-end',
     marginTop: hp(2),
     fontFamily: FONTS.Bold,
     color: COLORS.primary,

@@ -5,7 +5,9 @@ import {
   AppScreenContainer,
   Button,
   Checkbox,
+  CustomModal,
   CustomText,
+  GeneralModal,
   SwitchButton,
 } from '../../components';
 import {styles} from './styles';
@@ -34,68 +36,93 @@ import {
   Possibility,
   ProfilePic,
   Salary,
+  Saudi,
   Share,
+  Soadi,
   UpperArrow,
 } from '../../assets';
-import {COLORS, generalStyles, hp, IMAGES, wp} from '../../constants';
+import {COLORS, generalStyles, hp} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import ComplateCompanyProfile from '../ComplateCompanyProfile';
-import {PROGRESSES} from '../../utils/Data';
-import {getMyProfile} from '../../redux/slices/authSlice';
+import {getMyProfile, logoutSuccess} from '../../redux/slices/authSlice';
+import ScreenNames from '../../navigations/ScreenNames';
+import {CommonActions, useNavigation} from '@react-navigation/native';
+import {AppDispatch} from '../../redux/store';
 
-const Progrss = ({item}: any) => {
-  return (
-    <View style={styles.progresscontainer}>
-      <CustomText text={item.rate} />
-      <View style={styles.progressBox}>
-        <View style={[styles.bar, {width: item.rate}]} />
-      </View>
-      <CustomText text={item.subject} textStyle={styles.subject} />
-    </View>
-  );
-};
+// const Progrss = ({item}: any) => {
+//   return (
+//     <View style={styles.progresscontainer}>
+//       <CustomText text={item.rate} />
+//       <View style={styles.progressBox}>
+//         <View style={[styles.bar, {width: item.rate}]} />
+//       </View>
+//       <CustomText text={item.subject} textStyle={styles.subject} />
+//     </View>
+//   );
+// };
 
-const ProfileScreen = ({navigation}: any) => {
-  const [isLicence, setIsLicence] = React.useState(false);
-  const [isMotorCycle, setIsMotorCycle] = React.useState(false);
+const ProfileScreen = () => {
+  // const [isLicence, setIsLicence] = React.useState(false);
+  // const [isMotorCycle, setIsMotorCycle] = React.useState(false);
   const [txtToCopy, setTxtToCopy] = React.useState('');
   const [isPublic, setIsPublic] = React.useState(false);
   const [isFindEasily, setIsFindEasily] = React.useState(false);
   const {registerationType} = useSelector((state: any) => state.auth);
   const {userProfileData} = useSelector((state: any) => state.auth);
-  const dispatch = useDispatch();
-  console.log(userProfileData);
+  const navigation = useNavigation();
+  const dispatch = useDispatch<AppDispatch>();
   React.useEffect(() => {
     dispatch(getMyProfile())
       .unwrap()
-      .then(res => {
-        console.log('resooooProfile', res);
+      .then((res: any) => {
+        console.log(res);
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.log('Profile error ', err);
       });
-  }, []);
+  }, [dispatch]);
+  const LogOut = () => {
+    dispatch(logoutSuccess());
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: ScreenNames.AuthStack}],
+      }),
+    );
+  };
+  console.log(userProfileData);
+  const currentYear = new Date().getFullYear();
   return (
     <>
       {registerationType === 'candidate' ? (
         <AppScreenContainer style={{flex: 1}}>
           <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.userInfoBox}>
-              <ProfilePic width={100} height={100} />
-              <CustomText text="peter waldow" textStyle={styles.username} />
-              <CustomText text="Blacksmith" textStyle={styles.nickname} />
+              {/* <ProfilePic width={100} height={100} /> */}
+              <CustomText
+                text={
+                  userProfileData?.data?.first_name +
+                  ' ' +
+                  userProfileData?.data.last_name
+                }
+                textStyle={styles.username}
+              />
+              <CustomText
+                text={userProfileData?.data?.jobs?.toString()}
+                textStyle={styles.nickname}
+              />
               <View style={[generalStyles.rowBetween, styles.infoBox]}>
                 <CustomText
                   text="Immediate start"
                   textStyle={styles.starting}
                 />
                 <View style={generalStyles.rowBetween}>
-                  <Germany
+                  <Saudi
                     width={hp(2.5)}
                     height={hp(2.5)}
                     style={styles.btnIcon}
                   />
-                  <CustomText text="bangladesh" textStyle={styles.country} />
+                  <CustomText text="KSA" textStyle={styles.country} />
                 </View>
                 <View style={generalStyles.rowBetween}>
                   <Location
@@ -112,7 +139,12 @@ const ProfileScreen = ({navigation}: any) => {
                   height={hp(2.2)}
                   style={styles.btnIcon}
                 />
-                <CustomText text="36 years ago" textStyle={styles.age} />
+                <CustomText
+                  text={`${
+                    currentYear - userProfileData?.data?.birth_year
+                  } years ago`}
+                  textStyle={styles.age}
+                />
               </View>
               <Button
                 text="send message"
@@ -139,7 +171,10 @@ const ProfileScreen = ({navigation}: any) => {
             </View>
             <View style={generalStyles.rowBetween}>
               <View style={styles.overviewBox}>
-                <CustomText text="$45" textStyle={styles.overviewData} />
+                <CustomText
+                  text={`$${userProfileData?.data?.expected_salary} `}
+                  textStyle={styles.overviewData}
+                />
                 <CustomText
                   text="hourly rate"
                   textStyle={styles.overviewDataTitle}
@@ -164,11 +199,17 @@ const ProfileScreen = ({navigation}: any) => {
             </View>
             <View style={[generalStyles.row, {marginBottom: hp(1)}]}>
               <Mobile width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
-              <CustomText text="0123456789" textStyle={styles.contactData} />
+              <CustomText
+                text={userProfileData?.data?.phone}
+                textStyle={styles.contactData}
+              />
             </View>
             <View style={[generalStyles.row, {marginBottom: hp(1)}]}>
               <Phone width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
-              <CustomText text="26231955" textStyle={styles.contactData} />
+              <CustomText
+                text={userProfileData?.data?.border_number}
+                textStyle={styles.contactData}
+              />
             </View>
             <View style={[generalStyles.row, {marginBottom: hp(1)}]}>
               <Home width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
@@ -177,7 +218,8 @@ const ProfileScreen = ({navigation}: any) => {
                 textStyle={styles.contactData}
               />
             </View>
-            <View style={[generalStyles.rowBetween, styles.titleBox]}>
+            {/* social profiles */}
+            {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
               <CustomText
                 text="social profiles"
                 textStyle={styles.sectionTitle}
@@ -210,7 +252,7 @@ const ProfileScreen = ({navigation}: any) => {
                 text="having motorcycle"
                 textStyle={styles.checkTxt}
               />
-            </View>
+            </View> */}
             <View style={styles.titleBox}>
               <CustomText
                 text="bookmarks & share"
@@ -283,7 +325,7 @@ Duis ac augue sit amet ex blandit facilisis sit amet ut dui. Nulla pharetra ferm
               text="Excellent customer service skills, communication skills, and a happy, smiling attitude are essential. Available to work required shifts including weekends, evenings and holidays. I have great time management skills. I take constructive criticism well and I am comfortable voicing opinions."
               textStyle={{color: COLORS.grayLight}}
             />
-            <View style={[generalStyles.rowBetween, styles.titleBox]}>
+            {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
               <CustomText text="portfolio" textStyle={styles.sectionTitle} />
               <Pressable>
                 <Edit width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
@@ -404,6 +446,12 @@ Duis ac augue sit amet ex blandit facilisis sit amet ut dui. Nulla pharetra ferm
             <CustomText
               text="Due to the task"
               textStyle={styles.portfolioSubTxt}
+            /> */}
+            {/* <CustomModal/> */}
+            <Button
+              text="Log Out"
+              style={styles.Logout}
+              onPress={() => LogOut()}
             />
           </ScrollView>
         </AppScreenContainer>

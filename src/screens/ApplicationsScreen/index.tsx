@@ -1,20 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import {FlatList, Pressable, ScrollView, View} from 'react-native';
 import React, {useState} from 'react';
-import {
-  AppScreenContainer,
-  CustomText,
-  Dropdown,
-} from '../../components';
+import {AppScreenContainer, CustomText, Dropdown} from '../../components';
 import styles from './style';
 import {generalStyles, hp, wp} from '../../constants';
 import {Add, Eye, Lock, Search} from '../../assets';
 import {JOBS, QUETIONS} from '../../utils/Data';
 import Job from '../../components/Jobs';
-const list = [
-  {label: 'Egypt', value: 'apple'},
-  {label: 'Morroco', value: 'banana'},
-  {label: 'Italy', value: 'orange'},
-];
 
 const Quetions = ({item}: any) => {
   return (
@@ -26,7 +18,15 @@ const Quetions = ({item}: any) => {
 };
 const Applications = ({navigation}: any) => {
   const [selected, setSelected] = useState<String>('Application');
-  const [SortedbyVal, setSortedbyVal] = useState<any>('');
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [selectedCountr, setSelectedCountry] = useState('');
+
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null);
+      setOpenDropdown(dropdownId);
+    }
+  };
   const handlePress = (choice: string) => {
     setSelected(choice);
   };
@@ -60,13 +60,18 @@ const Applications = ({navigation}: any) => {
           <CustomText text="Sorted by" textStyle={styles.sortedby} />
           <View>
             <Dropdown
-              list={list}
+              placeholder="Select Your Country"
+              value={selectedCountr}
+              setValue={setSelectedCountry}
               dropDownStyle={styles.dropdwon}
-              value={SortedbyVal}
-              onChangeValue={(val: any) => {
-                setSortedbyVal(val);
+              list={[{label: 'KSA', id: '1'}]}
+              containerStyle={{
+                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }}
-              ItemsBOX={styles.ItemsBox}
+              isOpen={openDropdown === 'dropdown1'}
+              onDropdownOpen={isOpen =>
+                handleDropdownOpen(isOpen ? 'dropdown1' : null)
+              }
             />
           </View>
         </View>

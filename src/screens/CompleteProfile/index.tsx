@@ -20,6 +20,8 @@ import {FlatList} from 'react-native-gesture-handler';
 import {City} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpTwo} from '../../redux/slices/authSlice';
+import Toast from 'react-native-toast-message';
+import {AppDispatch} from '../../redux/store';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -27,8 +29,8 @@ type Props = {
 
 const CompleteProfile = ({navigation}: Props) => {
   const countryList = [{id: 1, label: 'Saudi Arabia'}];
-  const dispatch = useDispatch();
-  const {userCode, error, loading} = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const {userCode, loading} = useSelector((state: any) => state.auth);
 
   const [JopTypes4, SetJopTypes4] = React.useState([
     {id: '1', title: 'Bucher'},
@@ -92,9 +94,19 @@ const CompleteProfile = ({navigation}: Props) => {
         .unwrap()
         .then((res: any) => {
           console.log('ressignUpTwo=', res);
+          Toast.show({
+            text1: 'Success',
+            text2: 'Registration successful',
+            type: 'success',
+          });
           navigation.replace(ScreenNames.Login);
         })
         .catch((err: any) => {
+          Toast.show({
+            text1: 'Error',
+            text2: err,
+            type: 'error',
+          });
           console.log('signUpTwo error ', err);
         });
     }
@@ -211,6 +223,8 @@ const CompleteProfile = ({navigation}: Props) => {
           placeholder="Add Your Job Type"
           containerStyle={styles.inputContainerStyle}
           Flatdata={SelectedJops}
+          setFlatData={SetSelectedJops}
+          setDelatedToJobTypesAgain={SetJopTypes4}
         />
         {errors.SelectedJops && (
           <CustomText
@@ -257,7 +271,7 @@ const CompleteProfile = ({navigation}: Props) => {
           <CustomText text="Hide Minimum salary" textStyle={styles.checkTxt} />
         </View>
         {/* Submit Button */}
-        <CustomText text={error} textStyle={generalStyles.errortxt} />
+        {/* <CustomText text={error} textStyle={generalStyles.errortxt} /> */}
         <Button
           text="save"
           loading={loading}

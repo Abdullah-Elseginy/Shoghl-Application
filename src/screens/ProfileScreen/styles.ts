@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
   starting: {
     backgroundColor: COLORS.grayMoreLight,
     borderRadius: hp(1),
-    padding: hp(1),
+    padding: hp(0.5),
     fontSize: hp(1.8),
   },
   country: {
@@ -143,7 +143,7 @@ export const styles = StyleSheet.create({
   shareIt: {
     marginStart: wp(2),
     textTransform: 'capitalize',
-    color: COLORS.grayLight,
+    color: COLORS.blue,
   },
   switchTxt: {
     marginStart: hp(1),
@@ -189,5 +189,8 @@ export const styles = StyleSheet.create({
   portfolioSubTxt: {
     fontSize: hp(1.8),
     marginStart: wp(5),
+  },
+  Logout: {
+    backgroundColor: COLORS.danger,
   },
 });

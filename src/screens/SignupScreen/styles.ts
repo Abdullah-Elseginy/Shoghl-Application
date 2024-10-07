@@ -70,4 +70,7 @@ export const styles = StyleSheet.create({
   ErrorMSG: {
     color: COLORS.danger,
   },
+  Bottom: {
+    marginTop: hp(5),
+  },
 });

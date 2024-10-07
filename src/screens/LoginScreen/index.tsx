@@ -20,6 +20,8 @@ import {
   loginTwo,
 } from '../../redux/slices/authSlice';
 import {OtpInput} from 'react-native-otp-entry';
+import Toast from 'react-native-toast-message';
+import {AppDispatch} from '../../redux/store';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -29,10 +31,9 @@ const LoginScreen = ({navigation}: Props) => {
   const [isSecure, setIsSecure] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
   const [LoginType, SetLoginType] = React.useState('candidate');
-  const [showOTP, SetShowOtp] = useState(false);
   const [showpass, setshowpass] = useState(false);
-  const dispatch = useDispatch();
-  const {loading, error} = useSelector((state: any) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading} = useSelector((state: any) => state.auth);
   const [InputVal, SetInputVal] = useState({
     email: '',
     password: '',
@@ -102,22 +103,6 @@ const LoginScreen = ({navigation}: Props) => {
       return true;
     }
   };
-  const handleCandiditeInputsStep2 = () => {
-    if (!InputVal.otp) {
-      setError((prev: any) => ({...prev, otp: 'OTP is required'}));
-    } else if (!/^\d{6}$/.test(InputVal.otp)) {
-      setError((prev: any) => ({
-        ...prev,
-        otp: 'OTP must be 6 digits',
-      }));
-    } else {
-      setError({
-        otp: '',
-        borderno: '',
-      });
-      return true;
-    }
-  };
 
   // const HandleLogins = () => {};
   const handleSubmit = () => {
@@ -129,34 +114,29 @@ const LoginScreen = ({navigation}: Props) => {
       };
       dispatch(loginOne(candidateData))
         .unwrap()
-        .then(res => {
+        .then((res: any) => {
           // SetShowOtp(true); // Show OTP input
-          navigation.navigate(ScreenNames.OTPScreen, {
-            borderNo: InputVal.borderno,
+          Toast.show({
+            type: 'success',
+            text1: 'Success enter OTP',
+            position: 'top',
+            visibilityTime: 1500,
           });
+          setTimeout(() => {
+            navigation.navigate(ScreenNames.OTPScreen, {
+              borderNo: InputVal.borderno,
+            });
+          }, 1200);
           console.log('resoooo', res);
         })
-        .catch(err => {
+        .catch((err: any) => {
+          Toast.show({
+            type: 'error',
+            text1: err,
+            position: 'top',
+            visibilityTime: 2000,
+          });
           console.log('LoginOne error ', err);
-        });
-    }
-  };
-  const handlesumit2 = () => {
-    const isValid = handleCandiditeInputsStep2();
-    if (isValid) {
-      let candidateData = {
-        border_number: InputVal.borderno,
-        otp: InputVal.otp,
-      };
-      dispatch(loginTwo(candidateData))
-        .unwrap()
-        .then(() => {
-          clearFields();
-          dispatch(changeRegisterationType('candidate'));
-          navigation.replace(ScreenNames.BottomTabs);
-        })
-        .catch(err => {
-          console.log('loginTwo error ', err);
         });
     }
   };
@@ -197,7 +177,6 @@ const LoginScreen = ({navigation}: Props) => {
             {errors.borderno && (
               <CustomText text={errors.borderno} textStyle={styles.error} />
             )}
-            <CustomText text={error} textStyle={styles.error} />
             <View style={[generalStyles.rowBetween, styles.remeBox]}>
               <View style={[generalStyles.row]}>
                 <Checkbox
@@ -213,21 +192,13 @@ const LoginScreen = ({navigation}: Props) => {
                 <CustomText text="Forget Password?" />
               </TouchableOpacity>
             </View>
-            {!showOTP ? (
-              <Button
-                text="Get OTP"
-                loading={loading}
-                style={styles.Bottom}
-                onPress={handleSubmit}
-              />
-            ) : (
-              <Button
-                text="login"
-                loading={loading}
-                style={styles.Bottom}
-                onPress={handlesumit2}
-              />
-            )}
+
+            <Button
+              text="Get OTP"
+              loading={loading}
+              style={styles.Bottom}
+              onPress={handleSubmit}
+            />
           </View>
         ) : (
           <View>
