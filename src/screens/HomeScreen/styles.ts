@@ -145,4 +145,75 @@ export const styles = StyleSheet.create({
     marginBottom: hp(-11),
   },
   BrowseJobsbCareerLocation: {marginBottom: hp(-4)},
+  stepContainer: {
+    flexDirection: 'row',
+    marginBottom: wp(4.5),
+  },
+  stepNumber: {
+    width: wp(6),
+    height: wp(6),
+    borderRadius: wp(3),
+    backgroundColor: COLORS.grayMoreLight,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: wp(2),
+  },
+  stepText: {
+    fontSize: wp(3),
+    color: COLORS.gray,
+  },
+  stepInfo: {
+    flex: 1,
+  },
+  stepTitle: {
+    fontSize: wp(4),
+    fontWeight: 'bold',
+    color: COLORS.black,
+  },
+  stepSubtitle: {
+    fontSize: wp(3),
+    color: COLORS.gray,
+  },
+  email: {
+    color: COLORS.black,
+    fontWeight: 'bold',
+  },
+  resend: {
+    color: COLORS.primary,
+    marginTop: hp(0.7),
+  },
+  whyText: {
+    color: COLORS.primary,
+    marginBottom: hp(1),
+  },
+  uploadButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: hp(0.5),
+    paddingHorizontal: wp(2),
+    marginBottom: wp(2),
+  },
+  uploadText: {
+    color: COLORS.primary,
+    fontSize: 14,
+  },
+  skipButton: {
+    width: wp(30),
+    height: hp(4.5),
+  },
+  skipButtonText: {
+    color: COLORS.white,
+    fontSize: wp(4),
+  },
+  helpCenter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  helpCenterText: {
+    color: COLORS.primary,
+    fontSize: wp(3.5),
+    marginLeft: wp(1),
+    fontFamily: FONTS.Bold,
+  },
 });

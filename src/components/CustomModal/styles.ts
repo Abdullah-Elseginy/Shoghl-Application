@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
     top: hp(1),
     right: wp(3),
     padding: wp(2),
+    zIndex: 10,
   },
   title: {
     fontSize: wp(3.5),

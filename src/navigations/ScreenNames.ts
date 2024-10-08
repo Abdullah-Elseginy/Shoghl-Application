@@ -23,6 +23,7 @@ const ScreenNames = {
   SaveScreen: 'Save',
   ExploreScreen: 'Explore',
   OTPScreen: 'OTPScreen',
+  SignUpStepTwoCandidate: 'SignUpStepTwoCandidate',
 };
 
 export default Object.freeze(ScreenNames);

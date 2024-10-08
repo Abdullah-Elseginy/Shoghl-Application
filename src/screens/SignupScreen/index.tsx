@@ -27,7 +27,9 @@ const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
-  const {loading, error} = useSelector(state => state.auth);
+  const {loading} = useSelector((state: any) => state.auth);
+  // const [modalVisable, SetModlVisable] = React.useState(false);
+  // console.log('phone', candidatePhone);
   const [formData, setFormData] = React.useState({
     companyName: '',
     firstName: '',
@@ -105,14 +107,18 @@ const SignupScreen = ({navigation}: Props) => {
   const HandleNextCandidate = (userdata: {border_number: string}) => {
     dispatch(signUpOne(userdata))
       .unwrap()
-      .then(() => {
+      .then((res: any) => {
         dispatch(changeRegisterationType('candidate'));
         Toast.show({
           text1: 'Success',
-          text2: 'Account created successfully',
+          text2: 'Right Border Number',
           type: 'success',
         });
-        navigation.replace(ScreenNames.CompleteProfile);
+        console.log('Sign Up Respone Data=>', res.data.phone);
+        navigation.navigate(ScreenNames.SignUpStepTwoCandidate, {
+          phone: res?.data?.phone,
+        });
+        // SetModlVisable(true);
       })
       .catch(err => {
         Toast.show({
@@ -318,6 +324,36 @@ const SignupScreen = ({navigation}: Props) => {
             </>
           )}
         </View>
+        {/* Modal */}
+        {/* <CustomModal
+          modalVisible={modalVisable}
+          setModalVisible={SetModlVisable}
+          closeIcon={true}
+          title="Details"
+          children={
+            <>
+              <View>
+                <AppInput
+                  placeholder="Enter Mobile number"
+                  label="Mobile Number"
+                  labelStyle={[styles.inputLabel, styles.CoporateInput]}
+                  value={candidatePhone}
+                  onChangeText={val => setCandidatePhone(val)}
+                />
+                <Button
+                  text="Get OTP In This Number"
+                  onPress={() => {
+                    SetModlVisable(false);
+                    navigation.navigate(ScreenNames.OTPScreen, {
+                      borderNo: 'scsc',
+                      type: 'signup',
+                    });
+                  }}
+                />
+              </View>
+            </>
+          }
+        /> */}
       </ScrollView>
     </AppScreenContainer>
   );

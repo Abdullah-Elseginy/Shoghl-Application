@@ -11,7 +11,6 @@ import {
   ComplateSearchedCv,
   JobDetailsScreen,
   JobPost,
-  OTPScreen,
   RegisterationSteps,
   SearchCV,
   SearchedJobs,
@@ -65,7 +64,6 @@ const MainStack = () => {
           name={ScreenNames.Applications}
           component={Applications}
         />
-        <Stack.Screen name={ScreenNames.OTPScreen} component={OTPScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

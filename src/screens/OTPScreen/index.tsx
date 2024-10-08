@@ -25,7 +25,8 @@ const OTPScreen = ({route, navigation}: Props) => {
     otp: '',
   });
   const [errorOTP, seterrorOTP] = useState('');
-  const {borderNo} = route.params;
+  const {borderNo, type} = route.params;
+  console.log(borderNo, '____', type);
   const handleCandiditeInputsStep2 = () => {
     if (!InputVal.otp) {
       seterrorOTP('OTP Required');
@@ -74,7 +75,10 @@ const OTPScreen = ({route, navigation}: Props) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.center}>
           <PackSVG />
-          <CustomText text="OTP" textStyle={styles.signup} />
+          <CustomText
+            text={`Enter OTP To ${type === 'signup' ? 'SignUp' : 'Login'}`}
+            textStyle={styles.signup}
+          />
         </View>
         {/* candidate section */}
         <View>
@@ -112,7 +116,7 @@ const OTPScreen = ({route, navigation}: Props) => {
             </View>
           </>
           <Button
-            text="login"
+            text={`${type === 'signup' ? 'Sign Up' : 'Login'}`}
             loading={loading}
             style={styles.Bottom}
             onPress={handlesumit2}

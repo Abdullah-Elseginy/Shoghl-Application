@@ -68,9 +68,9 @@ const CompleteProfile = ({navigation}: Props) => {
     let newErrors: any = {};
     if (!selectedLocation) newErrors.selectedLocation = 'Location is required';
     if (!selectedCity) newErrors.selectedCity = 'City is required';
-    if (!phone) newErrors.phone = 'Phone number is required';
-    else if (!/^\d+$/.test(phone))
-      newErrors.phone = 'Phone number must be numeric';
+    // if (!phone) newErrors.phone = 'Phone number is required';
+    // else if (!/^\d+$/.test(phone))
+    //   newErrors.phone = 'Phone number must be numeric';
     if (SelectedJops.length === 0)
       newErrors.SelectedJops = 'Please add at least one job type';
     if (!expectedSalary)
@@ -194,7 +194,7 @@ const CompleteProfile = ({navigation}: Props) => {
           />
         )}
         {/* Mobile Number Input */}
-        <CustomText text="contact info" textStyle={styles.contentTitle} />
+        {/* <CustomText text="contact info" textStyle={styles.contentTitle} />
         <View>
           <AppInput
             placeholder="mobile number"
@@ -211,7 +211,7 @@ const CompleteProfile = ({navigation}: Props) => {
               textStyle={generalStyles.errortxt}
             />
           )}
-        </View>
+        </View> */}
         {/* Job Type Input */}
         <CustomText
           text="What Type(S) of job are you open to?"

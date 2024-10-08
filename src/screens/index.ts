@@ -21,3 +21,4 @@ export {default as Applications} from './ApplicationsScreen';
 export {default as Save} from './SaveScreen';
 export {default as Explore} from './Explore';
 export {default as OTPScreen} from './OTPScreen';
+export {default as SignUpStepTwoCandidate} from './SignUpStepTwoCandidate';

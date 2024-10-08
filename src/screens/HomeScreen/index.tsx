@@ -10,9 +10,9 @@ import {
   Dropdown,
 } from '../../components';
 import {styles} from './styles';
-import {FlatList, ScrollView, View} from 'react-native';
-import {Cash, Crown, Location} from '../../assets';
-import {generalStyles, hp} from '../../constants';
+import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
+import {Cancel, Cash, Crown, Help, Location, UploadDoc} from '../../assets';
+import {generalStyles, hp, wp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {
@@ -30,6 +30,7 @@ type Props = {
 
 const HomeScreen = ({navigation}: Props) => {
   const [city, setCity] = React.useState('');
+  const [modalVisible, SetModalVisable] = React.useState(true);
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -95,6 +96,80 @@ const HomeScreen = ({navigation}: Props) => {
         {item.imag}
         <CustomText text={item.title} textStyle={styles.BrowseLocationTitle} />
       </View>
+    );
+  };
+  const ModalContent = () => {
+    return (
+      <>
+        {/* Step 1 */}
+        <View style={styles.stepContainer}>
+          <View style={styles.stepNumber}>
+            <CustomText text="1" textStyle={styles.stepText} />
+          </View>
+          <View style={styles.stepInfo}>
+            <CustomText
+              text="Confirm your email address"
+              textStyle={styles.stepTitle}
+            />
+            <CustomText
+              text="An email confirmation has been sent to"
+              textStyle={styles.stepSubtitle}
+            />
+            <CustomText
+              textStyle={styles.email}
+              text="infinitySolution1@gmail.com"
+            />
+            <TouchableOpacity>
+              <CustomText
+                textStyle={styles.resend}
+                text="Resend Confirmation email"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Step 2 */}
+        <View style={styles.stepContainer}>
+          <View style={styles.stepNumber}>
+            <CustomText textStyle={styles.stepText} text="2" />
+          </View>
+          <View style={styles.stepInfo}>
+            <CustomText
+              textStyle={styles.stepTitle}
+              text="Add your Company Tax Card or Commercial Register."
+            />
+            <CustomText
+              textStyle={styles.stepSubtitle}
+              text="In order to approve your company account, we need your Tax Card or your Commercial Registration Document."
+            />
+            <TouchableOpacity>
+              <CustomText
+                text="Why do we need these documents?"
+                textStyle={styles.whyText}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.uploadButton}>
+              <UploadDoc width={wp(5)} height={hp(3)} />
+              <CustomText
+                text="Upload Documents"
+                textStyle={styles.uploadText}
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
+        {/* Skip For Now */}
+        <View style={generalStyles.rowBetween}>
+          <TouchableOpacity style={styles.helpCenter}>
+            <Help width={wp(5)} height={hp(3)} />
+            <CustomText text="Help Center" textStyle={styles.helpCenterText} />
+          </TouchableOpacity>
+          <Button
+            text="Skip For Now"
+            style={styles.skipButton}
+            onPress={() => SetModalVisable(false)}
+          />
+        </View>
+      </>
     );
   };
   const [openDropdown, setOpenDropdown] = React.useState(null);
@@ -192,7 +267,6 @@ const HomeScreen = ({navigation}: Props) => {
           />
         </View>
         <View>
-
           <FlatList
             horizontal={true}
             data={CAREERLEVEL}
@@ -222,7 +296,14 @@ const HomeScreen = ({navigation}: Props) => {
           <Button text="show more" style={styles.btn} onPress={() => null} />
         </View>
       </ScrollView>
-      <CustomModal />
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={() => SetModalVisable(prev => !prev)}
+        title="You are almost done!"
+        subtitle="Complete these two simple steps to publish your first job post."
+        closeIcon={true}
+        children={<ModalContent />}
+      />
     </AppScreenContainer>
   );
 };
