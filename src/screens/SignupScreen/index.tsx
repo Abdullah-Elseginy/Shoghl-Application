@@ -15,7 +15,11 @@ import {Pressable, View} from 'react-native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeRegisterationType, signUpOne} from '../../redux/slices/authSlice';
+import {
+  changeRegisterationType,
+  signUpOne,
+  signUpOneCorporate,
+} from '../../redux/slices/authSlice';
 import {AppDispatch} from '../../redux/store';
 import Toast from 'react-native-toast-message';
 
@@ -27,17 +31,17 @@ const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
-  const {loading} = useSelector((state: any) => state.auth);
+  const {loading, error} = useSelector((state: any) => state.auth);
   // const [modalVisable, SetModlVisable] = React.useState(false);
   // console.log('phone', candidatePhone);
   const [formData, setFormData] = React.useState({
-    companyName: '',
-    firstName: '',
-    lastName: '',
-    mobileNumber: '',
-    businessMail: '',
+    company_name: '',
+    first_name: '',
+    last_name: '',
+    mobile_number: '',
+    business_email: '',
     password: '',
-    role: '',
+    // role: '',
   });
   const [formErrors, setFormErrors] = React.useState({
     companyName: '',
@@ -46,8 +50,9 @@ const SignupScreen = ({navigation}: Props) => {
     mobileNumber: '',
     businessMail: '',
     password: '',
-    role: '',
+    // role: '',
   });
+
   const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (field: string, value: string) => {
@@ -71,21 +76,22 @@ const SignupScreen = ({navigation}: Props) => {
     const errors: {[key: string]: string} = {};
     if (LoginType === 'corporate') {
       // Corporate validation
-      if (!formData.companyName) {
+      if (!formData.company_name) {
         errors.companyName = 'Company Name is required';
       }
-      if (!formData.firstName) errors.firstName = 'First Name is required';
-      if (!formData.lastName) errors.lastName = 'Last Name is required';
-      if (!formData.mobileNumber.match(/^[0-9]{11}$/)) {
+      if (!formData.first_name) errors.firstName = 'First Name is required';
+      if (!formData.last_name) errors.lastName = 'Last Name is required';
+      if (!formData.mobile_number?.match(/^[0-9]{11}$/)) {
         errors.mobileNumber = 'Enter a valid 11-digit mobile number';
       }
-      if (!formData.businessMail.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        errors.businessMail = 'Enter a valid email address';
+      if (!formData.business_email?.match(/^[a-zA-Z0-9._%+-]+@company\.com$/)) {
+        errors.businessMail =
+          "The business email field must'n end with one of the following: gmail.com, outlook.com";
       }
-      if (formData.password.length < 8) {
+      if (formData.password?.length < 8) {
         errors.password = 'Password must be at least 6 characters';
       }
-      if (!formData.role) errors.role = 'Role is required';
+      // if (!formData.role) errors.role = 'Role is required';
     }
 
     setFormErrors(errors);
@@ -93,14 +99,30 @@ const SignupScreen = ({navigation}: Props) => {
   };
   const handleSubmit = () => {
     if (validateForm()) {
-      const corporateData = {...formData};
-      dispatch(signUpOne(corporateData))
+      console.log('form data2', formData);
+      dispatch(signUpOneCorporate(formData))
         .unwrap()
-        .then(() => {
+        .then((res: any) => {
           dispatch(changeRegisterationType('corporate'));
+          console.log('SignUpCorporate Success==' + res);
+          Toast.show({
+            text1: 'Success',
+            text2: 'Registration successful',
+            type: 'success',
+            visibilityTime: 1500,
+          });
           navigation.replace(ScreenNames.RegisterationSteps);
         })
-        .catch(err => console.error('signup ', err));
+        .catch(err => {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: err,
+            position: 'top',
+            visibilityTime: 1500,
+          });
+          console.error('SignUpCorporate ERROR=== ', err);
+        });
     }
   };
 
@@ -207,8 +229,8 @@ const SignupScreen = ({navigation}: Props) => {
                 label="Company Name"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
-                value={formData.companyName}
-                onChangeText={value => handleInputChange('companyName', value)}
+                value={formData.company_name}
+                onChangeText={value => handleInputChange('company_name', value)}
               />
               {formErrors.companyName && (
                 <CustomText
@@ -227,9 +249,9 @@ const SignupScreen = ({navigation}: Props) => {
                       styles.inputContainerStyle,
                       styles.Firstname,
                     ]}
-                    value={formData.firstName}
+                    value={formData.first_name}
                     onChangeText={value =>
-                      handleInputChange('firstName', value)
+                      handleInputChange('first_name', value)
                     }
                   />
                   {formErrors.firstName && (
@@ -248,8 +270,10 @@ const SignupScreen = ({navigation}: Props) => {
                       styles.inputContainerStyle,
                       styles.Firstname,
                     ]}
-                    value={formData.lastName}
-                    onChangeText={value => handleInputChange('lastName', value)}
+                    value={formData.last_name}
+                    onChangeText={value =>
+                      handleInputChange('last_name', value)
+                    }
                   />
                   {formErrors.lastName && (
                     <CustomText
@@ -263,10 +287,13 @@ const SignupScreen = ({navigation}: Props) => {
               <AppInput
                 placeholder="Enter Your Mobile Number"
                 label="Mobile Number"
+                isNumericKeyboard
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
-                value={formData.mobileNumber}
-                onChangeText={value => handleInputChange('mobileNumber', value)}
+                value={formData.mobile_number}
+                onChangeText={value =>
+                  handleInputChange('mobile_number', value)
+                }
               />
               {formErrors.mobileNumber && (
                 <CustomText
@@ -278,10 +305,13 @@ const SignupScreen = ({navigation}: Props) => {
               <AppInput
                 placeholder="Enter Your Business Mail"
                 label="Business Mail"
+                keyboardType="email-address"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
-                value={formData.businessMail}
-                onChangeText={value => handleInputChange('businessMail', value)}
+                value={formData.business_email}
+                onChangeText={value =>
+                  handleInputChange('business_email', value)
+                }
               />
               {formErrors.businessMail && (
                 <CustomText
@@ -298,6 +328,7 @@ const SignupScreen = ({navigation}: Props) => {
                 value={formData.password}
                 onChangeText={value => handleInputChange('password', value)}
                 secureTextEntry
+                rightIcon
               />
               {formErrors.password && (
                 <CustomText
@@ -306,7 +337,7 @@ const SignupScreen = ({navigation}: Props) => {
                 />
               )}
 
-              <AppInput
+              {/* <AppInput
                 placeholder="Enter Your Role"
                 label="Which role are you applying for?"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
@@ -319,7 +350,7 @@ const SignupScreen = ({navigation}: Props) => {
                   textStyle={styles.ErrorMSG}
                   text={formErrors.role}
                 />
-              )}
+              )} */}
               <Button loading={loading} text="Submit" onPress={handleSubmit} />
             </>
           )}

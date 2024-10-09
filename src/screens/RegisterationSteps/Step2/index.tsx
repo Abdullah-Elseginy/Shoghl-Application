@@ -1,11 +1,11 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View} from 'react-native';
 import React, {useState} from 'react';
-import {AppInput, CustomText, Dropdown} from '../../../components';
+import {AppInput, Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
 import {Nationality, Country, City, GenderList} from '../../../utils/Data';
-const Step2 = () => {
+const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   // DropDwens
   const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
   const [selectedGender, setSelectedGEnder] = useState('');
@@ -174,6 +174,23 @@ const Step2 = () => {
           labelStyle={styles.LapelStyle}
         />
       </View>
+      <Button
+        text={currentPosition === 2 ? 'Finsh' : 'Next'}
+        onPress={() => {
+          setCurrentPosition(2);
+        }}
+        style={styles.Bottom}
+      />
+      {currentPosition === 1 || currentPosition === 2 ? (
+        <Button
+          text={'Back'}
+          onPress={() => {
+            setCurrentPosition((pre: any) => pre - 1);
+          }}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 };

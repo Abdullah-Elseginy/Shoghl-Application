@@ -13,6 +13,7 @@ import React from 'react';
 import {styles} from './styles';
 import {COLORS} from '../../constants';
 import CustomText from '../CustomText';
+import {EyeSVG} from '../../assets';
 
 type Props = {
   placeholder?: string;
@@ -37,6 +38,7 @@ type Props = {
   setFlatData?: any;
   setDelatedToJobTypesAgain?: any;
   maxLength?: number;
+  keyboardType?: string;
 };
 
 const AppInput = ({
@@ -61,6 +63,7 @@ const AppInput = ({
   setFlatData,
   setDelatedToJobTypesAgain,
   maxLength,
+  keyboardType,
 }: Props) => {
   const DelateItem = (index: number) => {
     const newData = [...Flatdata];
@@ -117,7 +120,7 @@ const AppInput = ({
           maxLength={maxLength}
           editable={editable}
           secureTextEntry={secureTextEntry}
-          keyboardType={isNumericKeyboard ? 'numeric' : 'default'}
+          keyboardType={isNumericKeyboard ? 'numeric' : `${keyboardType}`}
         />
         {rightIcon && (
           <TouchableOpacity onPress={onRightIconPress}>

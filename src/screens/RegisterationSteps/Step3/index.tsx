@@ -6,8 +6,9 @@ import {COLORS, generalStyles} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {CareerLevel2, FieldList, YearsExList} from '../../../utils/Data';
+import ScreenNames from '../../../navigations/ScreenNames';
 
-const Step3 = ({navigation}: any) => {
+const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
   const [SelectedProficiency, setselectedProficiency] = useState('');
   const [SelectedLanguage, setselectedLanguage] = useState('');
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
@@ -335,6 +336,27 @@ const Step3 = ({navigation}: any) => {
           textStyle={styles.CVname}
         />
       </View>
+
+      <Button
+        text={currentPosition === 2 ? 'Finsh' : 'Next'}
+        onPress={() => {
+          setCurrentPosition(3);
+          if (currentPosition === 2) {
+            navigation.navigate(ScreenNames.BottomTabs);
+          }
+        }}
+        style={styles.Bottom}
+      />
+      {currentPosition === 1 || currentPosition === 2 ? (
+        <Button
+          text={'Back'}
+          onPress={() => {
+            setCurrentPosition(pre => pre - 1);
+          }}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 };

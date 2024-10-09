@@ -985,15 +985,17 @@ const JopTypes3 = [
   {id: '6', title: 'Volunteering'},
   {id: '7', title: 'Student Activity'},
 ];
+const currency = [{label: 'SAR', id: '1'}];
 const JopTypes8 = [
   {id: '1', title: 'on site'},
   {id: '2', title: 'remotly'},
   {id: '3', title: 'hybrid'},
 ];
 const period = [
-  {label: 'Per Hour', id: 'Per Hour'},
-  {label: 'Per Week', id: 'Per Week'},
-  {label: 'Per Month', id: 'Per Month'},
+  {label: 'Per Task', id: 't'},
+  {label: 'Per hour', id: 'h'},
+  {label: 'Per Month', id: 'm'},
+  {label: 'Per year', id: 'y'},
 ];
 const YearsExList = [
   {
@@ -1131,5 +1133,6 @@ export {
   period,
   FieldList,
   YearsExList,
-  JOBS3
+  JOBS3,
+  currency,
 };

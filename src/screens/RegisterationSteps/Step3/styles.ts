@@ -96,4 +96,7 @@ export const styles = StyleSheet.create({
   margnbtn: {
     marginBottom: hp(1),
   },
+  Bottom: {
+    marginTop: hp(5),
+  },
 });

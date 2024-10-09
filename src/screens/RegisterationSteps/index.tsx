@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
-import {
-  AppScreenContainer,
-  Button,
-  StepIndecater,
-} from '../../components';
+import {AppScreenContainer, Button, StepIndecater} from '../../components';
 import {styles} from './styles';
 import Step1 from './Step1';
 import Step2 from './Step2';
@@ -29,32 +25,20 @@ const RegiterationSteps = ({navigation}: any) => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         {currentPosition === 0 ? (
-          <Step1 />
+          <Step1
+            setCurrentPosition={setCurrentPosition}
+            currentPosition={currentPosition}
+          />
         ) : currentPosition === 1 ? (
-          <Step2 />
-        ) : (
-          <Step3 />
-        )}
-
-        <Button
-          text={currentPosition === 2 ? 'Finsh' : 'Next'}
-          onPress={() => {
-            HandleNext();
-            if (currentPosition === 2) {
-              navigation.navigate(ScreenNames.BottomTabs);
-            }
-          }}
-          style={styles.Bottom}
-        />
-        {currentPosition === 1 || currentPosition === 2 ? (
-          <Button
-            text={'Back'}
-            onPress={() => {
-              setCurrentPosition(pre => pre - 1);
-            }}
+          <Step2
+            setCurrentPosition={setCurrentPosition}
+            currentPosition={currentPosition}
           />
         ) : (
-          ''
+          <Step3
+            setCurrentPosition={setCurrentPosition}
+            currentPosition={currentPosition}
+          />
         )}
       </ScrollView>
     </AppScreenContainer>

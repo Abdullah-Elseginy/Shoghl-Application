@@ -53,4 +53,7 @@ export const styles = StyleSheet.create({
   sefeAreaView: {
     height: hp(15.2),
   },
+  Bottom: {
+    marginTop: hp(5),
+  },
 });
