@@ -56,4 +56,14 @@ export const styles = StyleSheet.create({
   Bottom: {
     marginTop: hp(5),
   },
+  ErrorMSG: {
+    color: COLORS.danger,
+    marginTop: hp(0.5),
+  },
+  width: {
+    width: wp(42),
+  },
+  width2: {
+    width: wp(27),
+  },
 });

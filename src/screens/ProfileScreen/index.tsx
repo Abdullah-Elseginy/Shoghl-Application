@@ -44,10 +44,15 @@ import {
 import {COLORS, generalStyles, hp} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
 import ComplateCompanyProfile from '../ComplateCompanyProfile';
-import {getMyProfile, logoutSuccess} from '../../redux/slices/authSlice';
+import {
+  getMyProfile,
+  logout,
+  logoutSuccess,
+} from '../../redux/slices/authSlice';
 import ScreenNames from '../../navigations/ScreenNames';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {AppDispatch} from '../../redux/store';
+import Toast from 'react-native-toast-message';
 
 // const Progrss = ({item}: any) => {
 //   return (
@@ -64,6 +69,7 @@ import {AppDispatch} from '../../redux/store';
 const ProfileScreen = () => {
   // const [isLicence, setIsLicence] = React.useState(false);
   // const [isMotorCycle, setIsMotorCycle] = React.useState(false);
+  const {loading} = useSelector((state: any) => state.auth);
   const [txtToCopy, setTxtToCopy] = React.useState('');
   const [isPublic, setIsPublic] = React.useState(false);
   const [isFindEasily, setIsFindEasily] = React.useState(false);
@@ -82,13 +88,33 @@ const ProfileScreen = () => {
       });
   }, [dispatch]);
   const LogOut = () => {
-    dispatch(logoutSuccess());
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{name: ScreenNames.AuthStack}],
-      }),
-    );
+    dispatch(logout())
+      .unwrap()
+      .then((res: any) => {
+        console.log('logout Success==' + res);
+        Toast.show({
+          text1: 'Success',
+          text2: 'Loed out Success',
+          type: 'success',
+          visibilityTime: 1500,
+        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: ScreenNames.AuthStack}],
+          }),
+        );
+      })
+      .catch(err => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: err,
+          position: 'top',
+          visibilityTime: 1500,
+        });
+        console.error('logout ERROR=== ', err);
+      });
   };
   console.log(userProfileData);
   const currentYear = new Date().getFullYear();
@@ -103,7 +129,7 @@ const ProfileScreen = () => {
                 text={
                   userProfileData?.data?.first_name +
                   ' ' +
-                  userProfileData?.data.last_name
+                  userProfileData?.data?.last_name
                 }
                 textStyle={styles.username}
               />
@@ -451,6 +477,7 @@ Duis ac augue sit amet ex blandit facilisis sit amet ut dui. Nulla pharetra ferm
             <Button
               text="Log Out"
               style={styles.Logout}
+              loading={loading}
               onPress={() => LogOut()}
             />
           </ScrollView>

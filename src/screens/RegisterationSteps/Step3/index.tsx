@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
@@ -6,7 +7,6 @@ import {COLORS, generalStyles} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {CareerLevel2, FieldList, YearsExList} from '../../../utils/Data';
-import ScreenNames from '../../../navigations/ScreenNames';
 
 const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
   const [SelectedProficiency, setselectedProficiency] = useState('');
@@ -76,6 +76,62 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
       prevLanguages.filter((_, index) => index !== indexToDelete),
     );
   };
+  const formData = {
+    year_ex: selectedYearEx,
+    educational_Level: selectedId4,
+    feiled_study: selectedFeild,
+    Universty: selectedUniversty,
+    degree_date: selectedDegree,
+    grade: selectedGrade,
+    language: SelectedLanguage,
+    profisincy: SelectedProficiency,
+    Cv_file: file,
+    skills: selectedGrade,
+  };
+  const [formErrors, setFormErrors] = React.useState({
+    year_ex: '',
+    educational_Level: '',
+    feiled_study: '',
+    Universty: '',
+    degree_date: '',
+    grade: '',
+    language: '',
+    profisincy: '',
+    Cv_file: '',
+    skills: '',
+  });
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    if (!formData.year_ex) {
+      errors.year_ex = 'Year Experience Required';
+    }
+    if (!formData.educational_Level?.length)
+      errors.educational_Level = 'Educational Level Required';
+    if (!formData.feiled_study) errors.feiled_study = 'Feiled Study Required';
+    if (!formData.Universty) {
+      errors.Universty = 'Universty Required';
+    }
+    if (!formData.degree_date) {
+      errors.degree_date = 'Degree Date Required';
+    }
+    if (!formData.grade) {
+      errors.grade = 'Grade Required';
+    }
+    if (!formData.language) {
+      errors.language = 'Language Required';
+    }
+    if (!formData.profisincy) {
+      errors.profisincy = 'Profetiency Required';
+    }
+    if (!formData.Cv_file) {
+      errors.Cv_file = 'CV Required';
+    }
+    if (!formData.skills) {
+      errors.skills = 'Skills Required';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   return (
     <>
       {/*Personal Info */}
@@ -102,6 +158,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.year_ex && (
+          <CustomText text={formErrors.year_ex} textStyle={styles.ErrorMSG} />
+        )}
       </View>
       {/*Personal Info */}
 
@@ -127,6 +186,12 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
           />
         </View>
       </View>
+      {formErrors.educational_Level && (
+        <CustomText
+          text={formErrors.educational_Level}
+          textStyle={styles.ErrorMSG}
+        />
+      )}
       {/* Degree Details */}
       <View style={[styles.SectionBox]}>
         <View style={generalStyles.rowwrap}>
@@ -154,6 +219,12 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.feiled_study && (
+          <CustomText
+            text={formErrors.feiled_study}
+            textStyle={styles.ErrorMSG}
+          />
+        )}
         <View style={generalStyles.row}>
           <CustomText
             text="University / Institution"
@@ -176,6 +247,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.Universty && (
+          <CustomText text={formErrors.Universty} textStyle={styles.ErrorMSG} />
+        )}
         <View style={generalStyles.row}>
           <CustomText
             text="When did you get your degree?"
@@ -198,6 +272,12 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.degree_date && (
+          <CustomText
+            text={formErrors.degree_date}
+            textStyle={styles.ErrorMSG}
+          />
+        )}
         <View style={generalStyles.row}>
           <CustomText
             text="Grade"
@@ -220,6 +300,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.grade && (
+          <CustomText text={formErrors.grade} textStyle={styles.ErrorMSG} />
+        )}
       </View>
       {/* Language  */}
       <View style={[styles.SectionBox]}>
@@ -249,6 +332,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.language && (
+          <CustomText text={formErrors.language} textStyle={styles.ErrorMSG} />
+        )}
         {/* Proficiency */}
         <View>
           <CustomText
@@ -269,6 +355,12 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
               handleDropdownOpen(isOpen ? 'dropdown8' : null)
             }
           />
+          {formErrors.profisincy && (
+            <CustomText
+              text={formErrors.profisincy}
+              textStyle={styles.ErrorMSG}
+            />
+          )}
 
           <Button
             text="Add"
@@ -318,6 +410,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             }
           />
         </View>
+        {formErrors.skills && (
+          <CustomText text={formErrors.skills} textStyle={styles.ErrorMSG} />
+        )}
       </View>
       {/* Upload your CV */}
       <View style={styles.SectionBox}>
@@ -331,19 +426,21 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             selectDocument();
           }}
         />
-        <CustomText
-          text={JSON.stringify(file?.name)}
-          textStyle={styles.CVname}
-        />
+        {JSON.stringify(file?.name) && (
+          <CustomText
+            text={JSON.stringify(file?.name)}
+            textStyle={styles.CVname}
+          />
+        )}
+        {formErrors.Cv_file && (
+          <CustomText text={formErrors.Cv_file} textStyle={[styles.ErrorMSG,styles.centerTExt]} />
+        )}
       </View>
 
       <Button
         text={currentPosition === 2 ? 'Finsh' : 'Next'}
         onPress={() => {
-          setCurrentPosition(3);
-          if (currentPosition === 2) {
-            navigation.navigate(ScreenNames.BottomTabs);
-          }
+          validateForm();
         }}
         style={styles.Bottom}
       />

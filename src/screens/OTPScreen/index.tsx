@@ -119,7 +119,11 @@ const OTPScreen = ({route, navigation}: Props) => {
             text={`${type === 'signup' ? 'Sign Up' : 'Login'}`}
             loading={loading}
             style={styles.Bottom}
-            onPress={handlesumit2}
+            onPress={() => {
+              type === 'signup'
+                ? navigation.navigate(ScreenNames.CompleteProfile)
+                : handlesumit2;
+            }}
           />
         </View>
       </ScrollView>

@@ -42,7 +42,7 @@ export const getAllCities = createAsyncThunk(
   },
 );
 
-// ===================== Auth ========================
+// ===================== Auth candidate ========================
 // ===================== SignUp One Action ========================
 export const signUpOne = createAsyncThunk(
   'auth/signUpOne',
@@ -121,6 +121,26 @@ export const loginTwo = createAsyncThunk(
     }
   },
 );
+// ======================== Logout candidate =========================
+export const logout = createAsyncThunk(
+  'auth/logout',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.logoutCandidate,
+      });
+      console.log('logout', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('logout Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+
 // ======================== Get My Profile ===========================
 export const getMyProfile = createAsyncThunk(
   'auth/getMyProfile',
@@ -191,7 +211,7 @@ export const signUpThreeCorporate = createAsyncThunk(
     try {
       const res = await Axios({
         method: 'POST',
-        path: APIS.signUpTwoCorporate,
+        path: APIS.signUpThreeCorporate,
         data: data,
       });
       console.log('signUpThreeCorporate', res?.data);
@@ -407,6 +427,31 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginOne.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== Logout ========================
+      .addCase(logout.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.token = null;
+        state.loading = false;
+        state.user = null;
+        state.userProfileData = null;
+        state.error = null;
+        state.userStatus = null;
+        state.openModalStatus = null;
+        state.allCountries = null;
+        state.allCities = null;
+        state.corpRegisterSteps = null;
+        state.userCode = null;
+        console.log('Logout ====' + action.payload);
+      })
+      .addCase(logout.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

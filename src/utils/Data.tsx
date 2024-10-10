@@ -421,25 +421,17 @@ const Country = [
 const GenderList = [
   {
     label: 'male',
-    id: '1',
+    id: 'm',
   },
   {
     label: 'Female',
-    id: '2',
+    id: 'f',
   },
 ];
 const Nationality = [
   {
-    label: 'Egptien',
+    label: 'Saudi',
     id: '1',
-  },
-  {
-    label: 'Italy',
-    id: '2',
-  },
-  {
-    label: 'France',
-    id: '3',
   },
 ];
 const City = [

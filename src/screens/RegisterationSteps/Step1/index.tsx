@@ -168,6 +168,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   });
   console.log(formData);
   const validateForm = () => {
+    setCurrentPosition(1);
     const errors: {[key: string]: string} = {};
     if (!formData.career_level?.length) {
       errors.career_level = 'Select at least one career level';
@@ -192,19 +193,18 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    const formData2 = {
-      career_level: ['Experienced'],
-      job_types: ['Full time', 'Freelance/ project'],
-      workspace_setting: ['on site', 'hybrid'],
-      job_titles: ['on site', 'remotely'],
-      minnuim_net_salary: 55,
-      minnuim_net_salary_per: 'h',
-      minnuim_net_salary_currency: '1',
-      minnuim_net_salary_hide: 'no',
-    };
-    const f3 = JSON.stringify(formData2);
+    // const formData2 = {
+    //   career_level: ['Experienced'],
+    //   job_types: ['Full time', 'Freelance/ project'],
+    //   workspace_setting: ['on site', 'hybrid'],
+    //   job_titles: ['on site', 'remotely'],
+    //   minnuim_net_salary: 55,
+    //   minnuim_net_salary_per: 'h',
+    //   minnuim_net_salary_currency: '1',
+    //   minnuim_net_salary_hide: 'no',
+    // };
     if (validateForm()) {
-      dispatch(signUpTwoCorporate(f3))
+      dispatch(signUpTwoCorporate(formData))
         .unwrap()
         .then((res: any) => {
           console.log('signUpTwoCorporate Success==' + res);
@@ -226,6 +226,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           });
           console.log('dataaaaaaaaaa=', formData);
           console.error('SignUpCorporateTWO ERROR=== ', err);
+          // setCurrentPosition(1);
         });
     }
   };

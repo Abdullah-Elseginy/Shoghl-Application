@@ -18,6 +18,7 @@ export type APIsTypes = {
   personalCharacteristics: string;
   myProfileOverview: string;
   signUpThreeCorporate: string;
+  logoutCandidate: string;
 };
 
 export const APIS: APIsTypes = {
@@ -25,14 +26,17 @@ export const APIS: APIsTypes = {
   allCountries: 'Helpers/Countries/All',
   allCities: 'Helpers/Countries',
   // =================== auth Candidate =================== //
-  signUpOne: 'LOW/Auth/Registration/One',
-  signUpTwo: 'LOW/Auth/Registration/Two',
-  loginOne: 'LOW/Auth/Login/One',
-  loginTwo: 'LOW/Auth/Login/Two',
+  signUpOne: '/API/LOW/Auth/Registration/One',
+  signUpTwo: '/API/LOW/Auth/Registration/Two',
+  loginOne: '/API/LOW/Auth/Login/One',
+  loginTwo: '/API/LOW/Auth/Login/Two',
+  // ================= Logout Candidate==================//
+  logoutCandidate: '/API/LOW/Auth/Logout',
   // =================== auth Company =================== //
   signUpOneCorporate: '/API/COM/Auth/Registration/Form',
   signUpTwoCorporate: '/API/COM/Auth/Registration/Career-Interests',
-  signUpThreeCorporate: '/API/COM/Auth/Registration/Career-Interests',
+  signUpThreeCorporate: '/API/COM/Auth/Registration/General-Info',
+
   // =================== Profile =================== //
   getMyProfile: 'LOW/My/Profile',
   myAboutMe: 'LOW/My/About-Me',
