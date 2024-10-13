@@ -193,4 +193,13 @@ export const styles = StyleSheet.create({
   Logout: {
     backgroundColor: COLORS.danger,
   },
+  loadinbox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  aboutmeInput: {
+    height: hp(25),
+    paddingVertical: hp(0),
+  },
 });

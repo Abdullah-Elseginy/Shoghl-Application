@@ -84,3 +84,4 @@ export {default as LockOpened} from './svg/LockOpened.svg';
 export {default as Eye} from './svg/eye.svg';
 export {default as Save} from './svg/save-as-svgrepo-com.svg';
 export {default as Saudi} from './svg/flag-for-flag-saudi-arabia-svgrepo-com.svg';
+export {default as SaveEdits} from './svg/saveedit.svg';

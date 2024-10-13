@@ -1,46 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Axios, {APIS} from '../../utils/Axios';
 // ========================== Helpers ========================
-// ===================== Get All Countries ========================
-export const getAllCountries = createAsyncThunk(
-  'auth/getAllCountries',
-  async (_, {rejectWithValue}) => {
-    try {
-      const response = await Axios({
-        method: 'GET',
-        path: APIS.allCountries,
-      });
-      const res = response.data.data;
-      console.log('getAllCountries ', res);
-      return res;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('getAllCountries Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
-// ===================== Get All Cities ========================
-export const getAllCities = createAsyncThunk(
-  'auth/getAllCities',
-  async (country_code, {rejectWithValue}) => {
-    try {
-      const response = await Axios({
-        method: 'GET',
-        path: `${APIS.allCities}/${country_code}`,
-      });
-      const res = response.data.data;
-      console.log('getAllCities =>>>>>>', res);
-      return res;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('getAllCities Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
 
 // ===================== Auth candidate ========================
 // ===================== SignUp One Action ========================
@@ -127,7 +87,7 @@ export const logout = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       const res = await Axios({
-        method: 'POST',
+        method: 'GET',
         path: APIS.logoutCandidate,
       });
       console.log('logout', res?.data);
@@ -197,7 +157,7 @@ export const signUpTwoCorporate = createAsyncThunk(
       return res.data;
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
-      console.log('Error response data:', error.response?.data);
+      console.log('Error response data:', error.response?.data.errors);
       console.log('signUpTwoCorporate Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
@@ -226,45 +186,26 @@ export const signUpThreeCorporate = createAsyncThunk(
 );
 // ===================== Data ========================
 // ======================== My About Me ===========================
-export const myAboutMe = createAsyncThunk(
-  'auth/myAboutMe',
-  async (aboutMeData, {rejectWithValue}) => {
+export const editAbout_charactaristic = createAsyncThunk(
+  'auth/editAbout_charactaristic',
+  async (data, {rejectWithValue}) => {
     try {
       const res = await Axios({
         method: 'POST',
-        path: APIS.myAboutMe,
-        data: aboutMeData,
+        path: APIS.editAbout_charactaristic,
+        data: data,
       });
-      console.log('myAboutMe', res?.data);
+      console.log('editAbout_charactaristic', res?.data);
       return res.data;
     } catch (error) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
-      console.log('myAboutMe Error', errorMessage);
+      console.log('editAbout_charactaristic Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
 );
-// ======================== Personal Characteristics ===========================
-export const personalCharacteristics = createAsyncThunk(
-  'auth/personalCharacteristics',
-  async (personalData, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'POST',
-        path: APIS.personalCharacteristics,
-        data: personalData,
-      });
-      console.log('personalCharacteristics', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('personalCharacteristics Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
+
 // ======================== My Profile Overview ===========================
 export const myProfileOverview = createAsyncThunk(
   'auth/myProfileOverview',
@@ -348,38 +289,6 @@ const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      // ===================== Get All Countries =======================
-
-      .addCase(getAllCountries.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getAllCountries.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allCountries = action.payload;
-        // console.log(action.payload);
-        state.error = null;
-      })
-      .addCase(getAllCountries.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      // ===================== Get All Cities =======================
-
-      .addCase(getAllCities.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getAllCities.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allCities = action.payload;
-        // console.log(action.payload);
-        state.error = null;
-      })
-      .addCase(getAllCities.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
       // ===================== signUpOne =======================
       .addCase(signUpOne.pending, state => {
         state.loading = true;
@@ -423,7 +332,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.data.access_token;
-        console.log('userTOKEN' + action.payload.data.access_token);
+        console.log(
+          'userTOKEN from loginone=' + action.payload.data.access_token,
+        );
         state.error = null;
       })
       .addCase(loginOne.rejected, (state, action) => {
@@ -435,21 +346,19 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, state => {
         state.loading = false;
         state.error = null;
         state.token = null;
         state.loading = false;
         state.user = null;
         state.userProfileData = null;
-        state.error = null;
         state.userStatus = null;
         state.openModalStatus = null;
         state.allCountries = null;
         state.allCities = null;
         state.corpRegisterSteps = null;
         state.userCode = null;
-        console.log('Logout ====' + action.payload);
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
@@ -464,8 +373,11 @@ const authSlice = createSlice({
       .addCase(loginTwo.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.data.access_token;
-        console.log('userTOKEN22222222===' + action.payload.data.access_token);
+        state.token = action.payload.data.access_token.access_token;
+        console.log(
+          'userTOKEN from Login Twoooooo==' +
+            action.payload.data.access_token.access_token,
+        );
         state.error = null;
       })
       .addCase(loginTwo.rejected, (state, action) => {
@@ -540,30 +452,16 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       // ===================== My About Me ========================
-      .addCase(myAboutMe.pending, state => {
+      .addCase(editAbout_charactaristic.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(myAboutMe.fulfilled, (state, action) => {
+      .addCase(editAbout_charactaristic.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
         state.error = null;
       })
-      .addCase(myAboutMe.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      // ===================== Personal Characteristics ========================
-      .addCase(personalCharacteristics.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(personalCharacteristics.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.error = null;
-      })
-      .addCase(personalCharacteristics.rejected, (state, action) => {
+      .addCase(editAbout_charactaristic.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

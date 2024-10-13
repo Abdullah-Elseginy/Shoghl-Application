@@ -37,10 +37,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
   const [SelectedJops, SetSelectedJops] = useState([]);
   const [Checked, setChecked] = useState(false);
-  console.log('Current career level==', selectedId4);
-  console.log('Selected types jobs==', selectedIds);
-  console.log('Selected types Workspace==', selectedIds5);
-  console.log('Selected Job Types==', SelectedJops);
   const renderItem3 = ({item}: {item: {id: string; title: string}}) => {
     const isSelected = selectedIds.includes(item.title); // Check if item is selected
     return (
@@ -147,7 +143,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [MinSalary, setMinSalary] = useState('');
   const {loading, error} = useSelector((state: any) => state.auth);
   const formData = {
-    career_level: selectedId4,
+    career_level: [selectedId4],
     job_types: selectedIds,
     workspace_setting: selectedIds5,
     job_titles: SelectedJops,
@@ -166,9 +162,8 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     minnuim_net_salary_currency: '',
     minnuim_net_salary_hide: '',
   });
-  console.log(formData);
   const validateForm = () => {
-    setCurrentPosition(1);
+    // setCurrentPosition(1);
     const errors: {[key: string]: string} = {};
     if (!formData.career_level?.length) {
       errors.career_level = 'Select at least one career level';
@@ -204,10 +199,10 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     //   minnuim_net_salary_hide: 'no',
     // };
     if (validateForm()) {
+      // console.log('formData=', formData);
       dispatch(signUpTwoCorporate(formData))
         .unwrap()
-        .then((res: any) => {
-          console.log('signUpTwoCorporate Success==' + res);
+        .then(() => {
           Toast.show({
             text1: 'Success',
             text2: 'Good Step one Complated',
@@ -224,9 +219,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             position: 'top',
             visibilityTime: 1500,
           });
-          console.log('dataaaaaaaaaa=', formData);
-          console.error('SignUpCorporateTWO ERROR=== ', err);
-          // setCurrentPosition(1);
         });
     }
   };

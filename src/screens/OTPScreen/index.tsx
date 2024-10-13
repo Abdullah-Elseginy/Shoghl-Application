@@ -46,7 +46,7 @@ const OTPScreen = ({route, navigation}: Props) => {
       };
       dispatch(loginTwo(candidateData))
         .unwrap()
-        .then((res: any) => {
+        .then(() => {
           dispatch(changeRegisterationType('candidate'));
           Toast.show({
             text1: 'Logged In Successfully',
@@ -63,10 +63,16 @@ const OTPScreen = ({route, navigation}: Props) => {
               }),
             );
           }, 800);
-          console.log('abdullahhhaahhaahha' + res);
         })
         .catch((err: any) => {
-          console.log('loginTwo error ', err);
+          Toast.show({
+            text2: err,
+            text1: 'Error',
+            type: 'error',
+            position: 'top',
+            visibilityTime: 1500,
+            autoHide: true,
+          });
         });
     }
   };
@@ -122,7 +128,7 @@ const OTPScreen = ({route, navigation}: Props) => {
             onPress={() => {
               type === 'signup'
                 ? navigation.navigate(ScreenNames.CompleteProfile)
-                : handlesumit2;
+                : handlesumit2();
             }}
           />
         </View>

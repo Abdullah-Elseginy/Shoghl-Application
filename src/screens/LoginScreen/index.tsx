@@ -17,9 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   changeRegisterationType,
   loginOne,
-  loginTwo,
 } from '../../redux/slices/authSlice';
-import {OtpInput} from 'react-native-otp-entry';
 import Toast from 'react-native-toast-message';
 import {AppDispatch} from '../../redux/store';
 

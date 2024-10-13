@@ -14,6 +14,7 @@ import {
   RegisterationSteps,
   SearchCV,
   SearchedJobs,
+  SplashScreen,
   WelcomeEmployee,
 } from '../screens';
 
@@ -24,12 +25,14 @@ const MainStack = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName={ScreenNames.Splash}>
+        initialRouteName={ScreenNames.BottomTabs}>
+        <Stack.Screen name={ScreenNames.Splash} component={SplashScreen} />
         <Stack.Screen name={ScreenNames.AuthStack} component={AuthStack} />
         <Stack.Screen
           name={ScreenNames.BottomTabs}
           component={BottomTabNavigator}
         />
+
         <Stack.Screen
           name={ScreenNames.SearchedJobs}
           component={SearchedJobs}

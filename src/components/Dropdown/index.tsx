@@ -20,6 +20,7 @@ type Props = {
   isOpen?: boolean; // New prop to indicate if this dropdown is open
   onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
   labelStyle?: StyleProp<ViewStyle>;
+  schema: any;
 };
 
 const Dropdown = ({
@@ -38,6 +39,7 @@ const Dropdown = ({
   isOpen,
   onDropdownOpen,
   labelStyle,
+  schema,
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -82,10 +84,14 @@ const Dropdown = ({
         ]}
         selectedItemLabelStyle={styles.selectedItemLabelStyle}
         dropDownContainerStyle={[ItemsBOX, styles.itemsContaienrStyle]}
-        schema={{
-          label: 'label',
-          value: 'id',
-        }}
+        schema={
+          schema
+            ? schema
+            : {
+                label: 'label',
+                value: 'id',
+              }
+        }
       />
     </>
   );

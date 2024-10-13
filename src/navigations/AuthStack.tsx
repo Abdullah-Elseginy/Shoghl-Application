@@ -8,7 +8,6 @@ import {
   OTPScreen,
   SignupScreen,
   SignUpStepTwoCandidate,
-  SplashScreen,
 } from '../screens';
 
 const Stack = createNativeStackNavigator();
@@ -17,8 +16,7 @@ const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={ScreenNames.Splash}>
-      <Stack.Screen name={ScreenNames.Splash} component={SplashScreen} />
+      initialRouteName={ScreenNames.OnBoarding}>
       <Stack.Screen
         name={ScreenNames.OnBoarding}
         component={OnBoardingScreen}

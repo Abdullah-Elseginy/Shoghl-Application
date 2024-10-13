@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import {View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {AppInput, Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
@@ -10,7 +10,10 @@ import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpThreeCorporate} from '../../../redux/slices/authSlice';
 import {AppDispatch} from '../../../redux/store';
+import {getAllCities} from '../../../redux/slices/appdataSlice';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
+  const {allCities} = useSelector((state: any) => state.appdata);
+  console.log('all cititw here=>', allCities);
   // DropDwens
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
@@ -118,6 +121,14 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         });
     }
   };
+
+  const getCities = () => {
+    dispatch(getAllCities(187));
+  };
+
+  useEffect(() => {
+    getCities();
+  }, []);
   return (
     <>
       {/*Personal Info */}
@@ -314,7 +325,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedCity}
               setValue={setSelectedCity}
               dropDownStyle={generalStyles.DropBorder2}
-              list={City}
+              list={allCities}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
               }}
@@ -322,6 +333,10 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown4' : null)
               }
+              schema={{
+                label: 'name_en',
+                value: 'id',
+              }}
             />
           </View>
         </View>
