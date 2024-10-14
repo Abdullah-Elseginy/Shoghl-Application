@@ -49,7 +49,7 @@ const AppInput = ({
   containerStyle,
   labelStyle,
   value,
-  multiline,
+  multiline=false,
   inputstyle,
   onChangeText,
   onLeftIconPress,

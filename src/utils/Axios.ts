@@ -39,7 +39,7 @@ export const APIS: APIsTypes = {
   // =================== Profile =================== //
   getMyProfile: '/API/LOW/My/Profile',
   editAbout_charactaristic: '/API/LOW/My/About',
-  myProfileOverview: 'LOW/My/Profile-Overview',
+  myProfileOverview: '/API/LOW/My/Profile-Overview',
 };
 
 const axiosInstance = axios.create({

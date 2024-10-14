@@ -41,19 +41,40 @@ export const getAllCities = createAsyncThunk(
     }
   },
 );
+
+// ========================== Profile OverView ========================
+export const EditmyProfileOverview = createAsyncThunk(
+  'auth/EditmyProfileOverview',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.myProfileOverview,
+        data: data,
+      });
+      console.log('editAbout_charactaristic', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('EditmyProfileOverview Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 type InitailStateTypes = {
   //   login: string;
   token: any;
   user: any;
   error: any;
-  loading: boolean;
+  loadingappdata: boolean;
   allCountries: any;
   allCities: any;
 };
 const initialState: InitailStateTypes = {
   token: null,
-  loading: false,
+  loadingappdata: false,
   user: null,
   error: null,
   allCountries: '',
@@ -94,6 +115,20 @@ const appdataSlice = createSlice({
       })
       .addCase(getAllCities.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      // =====================Post Profile overview =======================
+
+      .addCase(EditmyProfileOverview.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(EditmyProfileOverview.fulfilled, state => {
+        state.loadingappdata = false;
+        state.error = null;
+      })
+      .addCase(EditmyProfileOverview.rejected, (state, action) => {
+        state.loadingappdata = false;
         state.error = action.payload;
       });
   },

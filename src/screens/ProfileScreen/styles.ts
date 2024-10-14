@@ -48,13 +48,16 @@ export const styles = StyleSheet.create({
     width: wp(50),
     borderRadius: hp(1),
     marginTop: hp(1.5),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   btnTxt: {
     color: COLORS.black,
-    fontSize: wp(3.5),
+    fontSize: wp(3),
   },
   btnIcon: {
     marginEnd: wp(1.5),
+    marginBottom: hp(0.16),
   },
   titleBox: {
     marginTop: hp(2),
@@ -67,6 +70,24 @@ export const styles = StyleSheet.create({
   },
   overviewBox: {
     backgroundColor: COLORS.grayMoreLight,
+    borderRadius: hp(1),
+    padding: hp(1),
+    width: '45%',
+    alignItems: 'center',
+  },
+  overviewBox1: {
+    borderRadius: hp(1),
+    padding: hp(1),
+    width: '45%',
+  },
+  overviewBox3: {
+    backgroundColor: COLORS.grayMoreLight,
+    borderRadius: hp(1),
+    padding: hp(1),
+    alignItems: 'center',
+  },
+  inputOverView: {
+    backgroundColor: COLORS.white,
     borderRadius: hp(1),
     padding: hp(1),
     width: '45%',
@@ -111,11 +132,9 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   copyBox: {
-    borderColor: COLORS.black,
-    borderWidth: hp(0.2),
     borderRadius: hp(0.5),
-    marginTop: hp(2),
-    marginBottom: hp(3),
+    // marginTop: hp(2),
+    // marginBottom: hp(3),
     height: hp(5.5),
     backgroundColor: COLORS.white,
   },
@@ -123,6 +142,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     paddingHorizontal: 0,
     paddingTop: 0,
+    borderWidth: 0,
   },
   copyIconBox: {
     backgroundColor: COLORS.primary,
@@ -133,7 +153,6 @@ export const styles = StyleSheet.create({
   },
   shareBox: {
     padding: hp(1.5),
-    backgroundColor: COLORS.primary,
     borderRadius: hp(1),
   },
   shareTxt: {
@@ -201,5 +220,26 @@ export const styles = StyleSheet.create({
   aboutmeInput: {
     height: hp(25),
     paddingVertical: hp(0),
+  },
+  contactsBox: {
+    width: wp(60),
+    height: hp(4.5),
+  },
+  inputStyle: {
+    padding: 0,
+    margin: 0,
+  },
+  margintop: {
+    marginTop: hp(0.5),
+  },
+  ErrorMSG: {
+    color: COLORS.danger,
+    marginTop: hp(0.5),
+    paddingLeft: wp(6.2),
+  },
+  gradient: {
+    padding: wp(0.5),
+    borderRadius: wp(2),
+    marginVertical: hp(3),
   },
 });
