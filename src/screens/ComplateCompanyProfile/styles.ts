@@ -179,4 +179,10 @@ export const styles = StyleSheet.create({
     marginRight: wp(4),
     marginBottom: hp(2),
   },
+  Logout: {
+    backgroundColor: COLORS.danger,
+  },
+  Logout2: {
+    marginHorizontal: wp(4),
+  },
 });

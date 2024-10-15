@@ -7,7 +7,11 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {CommonActions, ParamListBase} from '@react-navigation/native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
-import {changeRegisterationType, loginTwo} from '../../redux/slices/authSlice';
+import {
+  changeRegisterationType,
+  loginTwo,
+  signUpThreeVerifyOTP,
+} from '../../redux/slices/authSlice';
 import {OtpInput} from 'react-native-otp-entry';
 import {PackSVG} from '../../assets';
 import Toast from 'react-native-toast-message';
@@ -25,7 +29,7 @@ const OTPScreen = ({route, navigation}: Props) => {
     otp: '',
   });
   const [errorOTP, seterrorOTP] = useState('');
-  const {borderNo, type} = route.params;
+  const {borderNo, type, borderNoCandidateSignUp} = route.params;
   console.log(borderNo, '____', type);
   const handleCandiditeInputsStep2 = () => {
     if (!InputVal.otp) {
@@ -62,6 +66,40 @@ const OTPScreen = ({route, navigation}: Props) => {
                 routes: [{name: ScreenNames.BottomTabs}],
               }),
             );
+          }, 800);
+        })
+        .catch((err: any) => {
+          Toast.show({
+            text2: err,
+            text1: 'Error',
+            type: 'error',
+            position: 'top',
+            visibilityTime: 1500,
+            autoHide: true,
+          });
+        });
+    }
+  };
+  const handlesubmitSignUpCandidate = () => {
+    const isValid = handleCandiditeInputsStep2();
+    if (isValid) {
+      const candidateDataSignUp = {
+        border_number: borderNoCandidateSignUp,
+        otp: InputVal.otp,
+      };
+      dispatch(signUpThreeVerifyOTP(candidateDataSignUp))
+        .unwrap()
+        .then(() => {
+          dispatch(changeRegisterationType('candidate'));
+          Toast.show({
+            text1: 'SignUp Successfully',
+            type: 'success',
+            position: 'top',
+            visibilityTime: 1500,
+            autoHide: true,
+          });
+          setTimeout(() => {
+            navigation.navigate(ScreenNames.CompleteProfile);
           }, 800);
         })
         .catch((err: any) => {
@@ -127,7 +165,7 @@ const OTPScreen = ({route, navigation}: Props) => {
             style={styles.Bottom}
             onPress={() => {
               type === 'signup'
-                ? navigation.navigate(ScreenNames.CompleteProfile)
+                ? handlesubmitSignUpCandidate()
                 : handlesumit2();
             }}
           />

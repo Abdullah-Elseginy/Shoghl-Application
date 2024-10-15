@@ -22,6 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {signUpTwo} from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import {AppDispatch} from '../../redux/store';
+import {getAllCities, getAllCountries} from '../../redux/slices/appdataSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -31,6 +32,7 @@ const CompleteProfile = ({navigation}: Props) => {
   const countryList = [{id: 1, label: 'Saudi Arabia'}];
   const dispatch = useDispatch<AppDispatch>();
   const {userCode, loading} = useSelector((state: any) => state.auth);
+  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
 
   const [JopTypes4, SetJopTypes4] = React.useState([
     {id: '1', title: 'Bucher'},
@@ -62,7 +64,7 @@ const CompleteProfile = ({navigation}: Props) => {
     SetJopTypes4(prev => prev.filter((_, i) => i !== index));
     setcurrentSlectedindex(index);
   };
-
+  console.log('AllCountries*******' + JSON.stringify(allCountries));
   // Validate inputs
   const validateFields = () => {
     let newErrors: any = {};
@@ -99,7 +101,7 @@ const CompleteProfile = ({navigation}: Props) => {
             text2: 'Registration successful',
             type: 'success',
           });
-          navigation.replace(ScreenNames.Login);
+          navigation.replace(ScreenNames.BottomTabs);
         })
         .catch((err: any) => {
           Toast.show({
@@ -110,6 +112,18 @@ const CompleteProfile = ({navigation}: Props) => {
           console.log('signUpTwo error ', err);
         });
     }
+  };
+  const getallcountries = () => {
+    dispatch(getAllCountries());
+  };
+
+  React.useEffect(() => {
+    getallcountries();
+    getCities();
+  }, []);
+
+  const getCities = () => {
+    dispatch(getAllCities(187));
   };
 
   const renderItem6 = ({
@@ -155,7 +169,7 @@ const CompleteProfile = ({navigation}: Props) => {
           value={selectedLocation}
           setValue={setSelectedLocation}
           dropDownStyle={generalStyles.DropBorder}
-          list={countryList}
+          list={allCountries}
           containerStyle={{
             zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
           }}
@@ -163,6 +177,10 @@ const CompleteProfile = ({navigation}: Props) => {
           onDropdownOpen={isOpen =>
             handleDropdownOpen(isOpen ? 'dropdown1' : null)
           }
+          schema={{
+            label: 'name_en',
+            value: 'id',
+          }}
         />
         {errors.selectedLocation && (
           <CustomText
@@ -178,7 +196,7 @@ const CompleteProfile = ({navigation}: Props) => {
           value={selectedCity}
           setValue={setSelectedCity}
           dropDownStyle={generalStyles.DropBorder}
-          list={City}
+          list={allCities}
           containerStyle={{
             zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
           }}
@@ -186,6 +204,10 @@ const CompleteProfile = ({navigation}: Props) => {
           onDropdownOpen={isOpen =>
             handleDropdownOpen(isOpen ? 'dropdown2' : null)
           }
+          schema={{
+            label: 'name_en',
+            value: 'id',
+          }}
         />
         {errors.selectedCity && (
           <CustomText

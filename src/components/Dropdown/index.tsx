@@ -20,7 +20,7 @@ type Props = {
   isOpen?: boolean; // New prop to indicate if this dropdown is open
   onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
   labelStyle?: StyleProp<ViewStyle>;
-  schema: any;
+  schema?: any;
 };
 
 const Dropdown = ({

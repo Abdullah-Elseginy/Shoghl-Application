@@ -141,7 +141,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [selectedMinNetSalary, setSelectedMinNetSalary] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const [MinSalary, setMinSalary] = useState('');
-  const {loading, error} = useSelector((state: any) => state.auth);
+  const {loading} = useSelector((state: any) => state.auth);
   const formData = {
     career_level: [selectedId4],
     job_types: selectedIds,

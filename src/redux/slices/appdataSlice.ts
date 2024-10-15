@@ -1,6 +1,23 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Axios, {APIS} from '../../utils/Axios';
 // ========================== Helpers ========================
+type InitailStateTypes = {
+  //   login: string;
+  token: any;
+  user: any;
+  error: any;
+  loadingappdata: boolean;
+  allCountries: any;
+  allCities: any;
+};
+const initialState: InitailStateTypes = {
+  token: null,
+  loadingappdata: false,
+  user: null,
+  error: null,
+  allCountries: [],
+  allCities: [],
+};
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
   'auth/getAllCountries',
@@ -63,23 +80,6 @@ export const EditmyProfileOverview = createAsyncThunk(
   },
 );
 // ==============================================================
-type InitailStateTypes = {
-  //   login: string;
-  token: any;
-  user: any;
-  error: any;
-  loadingappdata: boolean;
-  allCountries: any;
-  allCities: any;
-};
-const initialState: InitailStateTypes = {
-  token: null,
-  loadingappdata: false,
-  user: null,
-  error: null,
-  allCountries: '',
-  allCities: [],
-};
 
 const appdataSlice = createSlice({
   name: 'appdataSlice',
@@ -89,32 +89,34 @@ const appdataSlice = createSlice({
     builder
       // ===================== Get All Countries =======================
       .addCase(getAllCountries.pending, state => {
-        state.loading = true;
+        state.loadingappdata = true;
         state.error = null;
       })
       .addCase(getAllCountries.fulfilled, (state, action) => {
-        state.loading = false;
-        state.allCountries = action.payload;
-        // console.log(action.payload);
+        state.loadingappdata = false;
+        const filterdCountries = action.payload?.filter(
+          (item: any) => item.id === 187,
+        );
+        state.allCountries = filterdCountries;
         state.error = null;
       })
       .addCase(getAllCountries.rejected, (state, action) => {
-        state.loading = false;
+        state.loadingappdata = false;
         state.error = action.payload;
       })
       // ===================== Get All Cities =======================
 
       .addCase(getAllCities.pending, state => {
-        state.loading = true;
+        state.loadingappdata = true;
         state.error = null;
       })
       .addCase(getAllCities.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loadingappdata = false;
         state.allCities = action.payload;
         state.error = null;
       })
       .addCase(getAllCities.rejected, (state, action) => {
-        state.loading = false;
+        state.loadingappdata = false;
         state.error = action.payload;
       })
       // =====================Post Profile overview =======================

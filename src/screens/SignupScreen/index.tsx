@@ -97,6 +97,7 @@ const SignupScreen = ({navigation}: Props) => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0 && !errBordername; // Ensure no errors
   };
+
   const handleSubmit = () => {
     if (validateForm()) {
       console.log('form data2', formData);
@@ -139,6 +140,8 @@ const SignupScreen = ({navigation}: Props) => {
         console.log('Sign Up Respone Data=>', res.data.phone);
         navigation.navigate(ScreenNames.SignUpStepTwoCandidate, {
           phone: res?.data?.phone,
+          name: res?.data?.first_name + ' ' + res?.data?.last_name,
+          borderno: BorderName,
         });
         // SetModlVisable(true);
       })

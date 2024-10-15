@@ -7,25 +7,31 @@ export type APIsTypes = {
   //   login: string;
   allCountries: string;
   allCities: string;
-  signUpOne: string;
+  signUpOneCandidat: string;
   signUpTwo: string;
   loginOne: string;
   loginTwo: string;
   signUpOneCorporate: string;
   signUpTwoCorporate: string;
+  LoginCompany: string;
   getMyProfile: string;
   myProfileOverview: string;
   signUpThreeCorporate: string;
   logoutCandidate: string;
   editAbout_charactaristic: string;
+  logoutCompany: string;
+  signUpTwoSendOTP: string;
+  signUpThreeVrifyOTP: string;
 };
 
 export const APIS: APIsTypes = {
   // =================== Helpers =================== //
-  allCountries: 'Helpers/Countries/All',
+  allCountries: '/API/Helpers/Countries/All',
   allCities: '/API/Helpers/Cities/',
   // =================== auth Candidate =================== //
-  signUpOne: '/API/LOW/Auth/Registration/One',
+  signUpOneCandidat: '/API/LOW/Auth/Registration/One',
+  signUpTwoSendOTP: '/API/LOW/Auth/Registration/Two',
+  signUpThreeVrifyOTP: '/API/LOW/Auth/Registration/Three',
   signUpTwo: '/API/LOW/Auth/Registration/Two',
   loginOne: '/API/LOW/Auth/Login/One',
   loginTwo: '/API/LOW/Auth/Login/Two',
@@ -35,6 +41,8 @@ export const APIS: APIsTypes = {
   signUpOneCorporate: '/API/COM/Auth/Registration/Form',
   signUpTwoCorporate: '/API/COM/Auth/Registration/Career-Interests',
   signUpThreeCorporate: '/API/COM/Auth/Registration/General-Info',
+  LoginCompany: '/API/COM/Auth/Login',
+  logoutCompany: '/API/COM/Auth/Logout',
 
   // =================== Profile =================== //
   getMyProfile: '/API/LOW/My/Profile',

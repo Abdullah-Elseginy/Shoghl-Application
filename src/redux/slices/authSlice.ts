@@ -1,7 +1,41 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Axios, {APIS} from '../../utils/Axios';
 // ========================== Helpers ========================
-
+type InitailStateTypes = {
+  //   login: string;
+  token: any;
+  user: any;
+  error: any;
+  userStatus: any;
+  openModalStatus: any;
+  allCountries: any;
+  allCities: any;
+  corpRegisterSteps: any;
+  registerationType: string;
+  loading: boolean;
+  userProfileData: any;
+  isSkipping: boolean;
+  userCode: any;
+  StepOneData: any;
+  StepTwoData: any;
+};
+const initialState: InitailStateTypes = {
+  token: null,
+  loading: false,
+  user: null,
+  error: null,
+  userStatus: null,
+  openModalStatus: null,
+  allCountries: null,
+  allCities: null,
+  corpRegisterSteps: null,
+  registerationType: '',
+  userProfileData: '',
+  isSkipping: false,
+  userCode: null,
+  StepOneData: '',
+  StepTwoData: '',
+};
 // ===================== Auth candidate ========================
 // ===================== SignUp One Action ========================
 export const signUpOne = createAsyncThunk(
@@ -11,7 +45,7 @@ export const signUpOne = createAsyncThunk(
     try {
       const res = await Axios({
         method: 'POST',
-        path: APIS.signUpOne,
+        path: APIS.signUpOneCandidat,
         data: data,
       });
       console.log('signUpOne', res?.data);
@@ -23,8 +57,8 @@ export const signUpOne = createAsyncThunk(
     }
   },
 );
-// ===================== SignUp Two Action ========================
-export const signUpTwo = createAsyncThunk(
+// ===================== SignUp company Action ========================
+export const signUpTwoComplateProfile = createAsyncThunk(
   'auth/signUpTwo',
   async (data, {rejectWithValue}) => {
     try {
@@ -42,7 +76,46 @@ export const signUpTwo = createAsyncThunk(
     }
   },
 );
-// ===================== Login One Action ========================
+// ===================== SignUp Two send OTP Action ========================
+export const signUpTwoSendOTP = createAsyncThunk(
+  'auth/signUpTwoSendOTP',
+  async (data, {rejectWithValue}) => {
+    console.log('signUpTwoSendOTP', data);
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.signUpTwoSendOTP,
+        data: data,
+      });
+      console.log('signUpOne', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('signUpTwoSendOTP Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== SignUp Two send OTP Action ========================
+export const signUpThreeVerifyOTP = createAsyncThunk(
+  'auth/signUpThreeVerifyOTP',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.signUpThreeVrifyOTP,
+        data: data,
+      });
+      console.log('signUpThreeVerifyOTP', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('signUpThreeVerifyOTP Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== Login One candidate Action ========================
 export const loginOne = createAsyncThunk(
   'auth/loginOne',
   async (data, {rejectWithValue}) => {
@@ -61,7 +134,7 @@ export const loginOne = createAsyncThunk(
     }
   },
 );
-// ===================== Login Two Action ========================
+// ===================== Login Two OTP Action ========================
 export const loginTwo = createAsyncThunk(
   'auth/loginTwo',
   async (data, {rejectWithValue}) => {
@@ -77,6 +150,46 @@ export const loginTwo = createAsyncThunk(
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
       console.log('loginTwo Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== Auth Company  ========================
+
+// ===================== Login Company ========================
+export const loginComapny = createAsyncThunk(
+  'auth/loginComapny',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.LoginCompany,
+        data: data,
+      });
+      console.log('loginComapny', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('loginComapny Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== Logout Company ========================
+export const logoutCompany = createAsyncThunk(
+  'auth/logoutCompany',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.logoutCompany,
+      });
+      console.log('logoutCompany', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('logoutCompany Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -101,25 +214,6 @@ export const logout = createAsyncThunk(
   },
 );
 
-// ======================== Get My Profile ===========================
-export const getMyProfile = createAsyncThunk(
-  'auth/getMyProfile',
-  async (_, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'GET',
-        path: APIS.getMyProfile,
-      });
-      console.log('getMyProfile', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('getMyProfile Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
 // ===================== Auth Company "Corporate" ========================
 // ======================== SignUp Company "Corporate"===========================
 export const signUpOneCorporate = createAsyncThunk(
@@ -226,42 +320,26 @@ export const myProfileOverview = createAsyncThunk(
     }
   },
 );
+// ======================== Get My Profile ===========================
+export const getMyProfile = createAsyncThunk(
+  'auth/getMyProfile',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getMyProfile,
+      });
+      console.log('getMyProfile', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getMyProfile Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
-type InitailStateTypes = {
-  //   login: string;
-  token: any;
-  user: any;
-  error: any;
-  userStatus: any;
-  openModalStatus: any;
-  allCountries: any;
-  allCities: any;
-  corpRegisterSteps: any;
-  registerationType: string;
-  loading: boolean;
-  userProfileData: any;
-  isSkipping: boolean;
-  userCode: any;
-  StepOneData: any;
-  StepTwoData: any;
-};
-const initialState: InitailStateTypes = {
-  token: null,
-  loading: false,
-  user: null,
-  error: null,
-  userStatus: null,
-  openModalStatus: null,
-  allCountries: null,
-  allCities: null,
-  corpRegisterSteps: null,
-  registerationType: '',
-  userProfileData: '',
-  isSkipping: false,
-  userCode: null,
-  StepOneData: '',
-  StepTwoData: '',
-};
 
 const authSlice = createSlice({
   name: 'auth',
@@ -289,7 +367,7 @@ const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      // ===================== signUpOne =======================
+      // ===================== signUpOne candidate =======================
       .addCase(signUpOne.pending, state => {
         state.loading = true;
         state.error = null;
@@ -297,28 +375,55 @@ const authSlice = createSlice({
       .addCase(signUpOne.fulfilled, (state, action) => {
         state.loading = false;
         state.userCode = action.payload.data.code;
-        console.log(action.payload.data.access_token);
-        state.token = action.payload.data.access_token;
         state.error = null;
       })
       .addCase(signUpOne.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      // ===================== signUpTwo =======================
-
-      .addCase(signUpTwo.pending, state => {
+      // ===================== signUpTwoSendOTP candidate =======================
+      .addCase(signUpTwoSendOTP.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(signUpTwo.fulfilled, (state, action) => {
+      .addCase(signUpTwoSendOTP.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        console.log(action.payload.data.access_token);
+        state.userCode = action.payload.data.code;
+        state.error = null;
+      })
+      .addCase(signUpTwoSendOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== signUpThreeVerifyOTP candidate =======================
+      .addCase(signUpThreeVerifyOTP.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signUpThreeVerifyOTP.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userCode = action.payload.data.code;
         state.token = action.payload.data.access_token;
         state.error = null;
       })
-      .addCase(signUpTwo.rejected, (state, action) => {
+      .addCase(signUpThreeVerifyOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== signUpTwo =======================
+
+      .addCase(signUpTwoComplateProfile.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signUpTwoComplateProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        // console.log(action.payload.data.access_token);
+        // state.token = action.payload.data.access_token;
+        state.error = null;
+      })
+      .addCase(signUpTwoComplateProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -361,6 +466,29 @@ const authSlice = createSlice({
         state.userCode = null;
       })
       .addCase(logout.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== Logout Company ========================
+      .addCase(logoutCompany.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutCompany.fulfilled, state => {
+        state.loading = false;
+        state.error = null;
+        state.token = null;
+        state.loading = false;
+        state.user = null;
+        state.userProfileData = null;
+        state.userStatus = null;
+        state.openModalStatus = null;
+        state.allCountries = null;
+        state.allCities = null;
+        state.corpRegisterSteps = null;
+        state.userCode = null;
+      })
+      .addCase(logoutCompany.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -435,6 +563,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.log('error signUpThreeCorporate FromSlice', action.payload);
+      })
+      // ===================== Login Company ========================
+      .addCase(loginComapny.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginComapny.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.data.access_token.access_token;
+        state.error = null;
+      })
+      .addCase(loginComapny.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       })
       // ===================== get My Profile ========================
       .addCase(getMyProfile.pending, state => {

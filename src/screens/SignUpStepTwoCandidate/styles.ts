@@ -20,6 +20,11 @@ export const styles = StyleSheet.create({
     color: COLORS.black,
     fontFamily: FONTS.Bold,
     marginTop: hp(1),
+    textAlign: 'center',
+  },
+  signupname: {
+    fontSize: wp(3.9),
+    fontFamily: FONTS.SemiBold,
   },
   error: {
     color: COLORS.danger,
@@ -45,8 +50,8 @@ export const styles = StyleSheet.create({
   edtittxt: {
     color: COLORS.primary,
     fontFamily: FONTS.Bold,
-    marginTop: hp(1),
     textAlign: 'right',
+    marginTop: hp(1),
   },
   btn: {
     marginTop: hp(5),

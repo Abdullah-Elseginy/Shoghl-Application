@@ -16,6 +16,7 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   changeRegisterationType,
+  loginComapny,
   loginOne,
 } from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
@@ -36,52 +37,41 @@ const LoginScreen = ({navigation}: Props) => {
     email: '',
     password: '',
     borderno: '',
-    otp: '',
   });
 
   const [errors, setError] = useState<any>({
     email: '',
     password: '',
     borderno: '',
-    Otp: '',
   });
   const clearFields = () => {
     SetInputVal({
       email: '',
       password: '',
       borderno: '',
-      otp: '',
     });
   };
   const handleLoginCorporateInputs = () => {
-    let valid = true;
-    setError({...errors, email: '', password: ''});
+    const errors2: {[key: string]: string} = {};
     if (!InputVal.email) {
-      setError((prev: any) => ({...prev, email: 'Email is required'}));
-      valid = false;
+      errors2.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(InputVal.email)) {
-      setError((prev: any) => ({...prev, email: 'Email is invalid'}));
-      valid = false;
+      errors2.email = 'Email is invalid';
     }
+
     if (!InputVal.password) {
-      setError((prev: any) => ({...prev, password: 'Password is required'}));
-      valid = false;
+      errors2.password = 'Password is required';
     } else if (
-      !/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(InputVal.password)
+      !/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/.test(InputVal.password)
     ) {
-      setError((prev: any) => ({
-        ...prev,
-        password:
-          'Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-      }));
-      valid = false;
+      errors2.password =
+        'Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character';
     }
-    if (valid) {
-      clearFields();
-      dispatch(changeRegisterationType('corporate'));
-      navigation.replace(ScreenNames.BottomTabs);
-    }
+    setError(errors2);
+
+    return Object.keys(errors2).length === 0;
   };
+
   const handleCandiditeInputsStep1 = () => {
     if (!InputVal.borderno) {
       setError((prev: any) => ({
@@ -102,10 +92,8 @@ const LoginScreen = ({navigation}: Props) => {
     }
   };
 
-  // const HandleLogins = () => {};
   const handleSubmit = () => {
     const isValid = handleCandiditeInputsStep1();
-    console.log('isvalid===' + isValid);
     if (isValid) {
       let candidateData = {
         border_number: InputVal.borderno,
@@ -124,7 +112,7 @@ const LoginScreen = ({navigation}: Props) => {
             navigation.navigate(ScreenNames.OTPScreen, {
               borderNo: InputVal.borderno,
             });
-          }, 1200);
+          }, 800);
           console.log('resoooo', res);
         })
         .catch((err: any) => {
@@ -138,6 +126,40 @@ const LoginScreen = ({navigation}: Props) => {
         });
     }
   };
+  // console.log('handlessss===' + handleLoginCorporateInputs());
+  const handleLoginCompany = () => {
+    if (handleLoginCorporateInputs()) {
+      let companydata = {
+        email: InputVal.email,
+        password: InputVal.password,
+      };
+      dispatch(loginComapny(companydata))
+        .unwrap()
+        .then(() => {
+          dispatch(changeRegisterationType('corporate'));
+          Toast.show({
+            type: 'success',
+            text1: 'Login suceess',
+            position: 'top',
+            visibilityTime: 1500,
+          });
+          clearFields();
+          setTimeout(() => {
+            navigation.replace(ScreenNames.BottomTabs);
+            clearFields();
+          }, 800);
+        })
+        .catch((err: any) => {
+          Toast.show({
+            type: 'error',
+            text1: err,
+            position: 'top',
+            visibilityTime: 2000,
+          });
+        });
+    }
+  };
+
   return (
     <AppScreenContainer style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -207,8 +229,11 @@ const LoginScreen = ({navigation}: Props) => {
               containerStyle={styles.inputContainerStyle}
               value={InputVal.email}
               onChangeText={val => SetInputVal({...InputVal, email: val})}
+              keyboardType="email-address"
             />
-            <CustomText text={errors.email} textStyle={styles.error} />
+            {errors.email && (
+              <CustomText text={errors.email} textStyle={styles.error} />
+            )}
             <AppInput
               placeholder="Enter Your Password"
               label="Password"
@@ -238,8 +263,9 @@ const LoginScreen = ({navigation}: Props) => {
             </View>
             <Button
               text="Login"
+              loading={loading}
               style={styles.Bottom}
-              onPress={handleLoginCorporateInputs}
+              onPress={() => handleLoginCompany()}
             />
           </View>
         )}

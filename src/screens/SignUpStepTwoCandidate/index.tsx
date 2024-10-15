@@ -11,6 +11,10 @@ import {ParamListBase} from '@react-navigation/native';
 import ScreenNames from '../../navigations/ScreenNames';
 import {PackSVG} from '../../assets';
 import {styles} from './styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../redux/store';
+import {signUpTwoSendOTP} from '../../redux/slices/authSlice';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -18,7 +22,9 @@ type Props = {
 };
 
 const SignUpStepTwoCandidate = ({route, navigation}: Props) => {
-  const {phone} = route.params;
+  const {phone, name, borderno} = route.params;
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading} = useSelector((state: any) => state.auth);
   console.log('signup Two====', phone);
   const [InputVal, SetInputVal] = useState({phone: phone});
   const [phoneError, setErrorPhone] = useState('');
@@ -38,10 +44,36 @@ const SignUpStepTwoCandidate = ({route, navigation}: Props) => {
   const handleSubmit = () => {
     const isValid = handlePhone();
     if (isValid) {
-      navigation.navigate(ScreenNames.OTPScreen, {
-        borderNo: InputVal.phone,
-        type: 'signup',
-      });
+      const datatosend = {
+        border_number: borderno,
+        phone: InputVal.phone,
+      };
+      dispatch(signUpTwoSendOTP(datatosend))
+        .unwrap()
+        .then(() => {
+          Toast.show({
+            text1: 'Success',
+            text2: 'Verification code sent to your mobile',
+            type: 'success',
+            position: 'top',
+            visibilityTime: 1500,
+            autoHide: true,
+          });
+          setTimeout(() => {
+            navigation.navigate(ScreenNames.OTPScreen, {
+              phoneNumber: InputVal.phone,
+              borderNoCandidateSignUp: borderno,
+              type: 'signup',
+            });
+          }, 1000);
+        })
+        .catch(err => {
+          Toast.show({
+            text1: 'Error',
+            text2: err,
+            type: 'error',
+          });
+        });
     }
   };
 
@@ -51,6 +83,7 @@ const SignUpStepTwoCandidate = ({route, navigation}: Props) => {
         <View style={styles.center}>
           <PackSVG />
           <CustomText text={`Mobile OTP`} textStyle={styles.signup} />
+          <CustomText text={`Welcome ${name}`} textStyle={styles.signupname} />
         </View>
         <View>
           <View>
@@ -63,17 +96,25 @@ const SignUpStepTwoCandidate = ({route, navigation}: Props) => {
               containerStyle={[editable ? '' : styles.editwable]}
               onChangeText={val => SetInputVal({...InputVal, phone: val})}
             />
-            <CustomText text={phoneError} textStyle={styles.errorText} />
+            {phoneError && (
+              <CustomText text={phoneError} textStyle={styles.errorText} />
+            )}
+
             <TouchableOpacity
               onPress={() => {
                 Seteditable(!editable);
               }}>
               <CustomText
-                text="Edit phone number?"
+                text={!editable ? 'Edit phone number?' : 'save this nomber?'}
                 textStyle={styles.edtittxt}
               />
             </TouchableOpacity>
-            <Button text="Get OTP In This Number" onPress={handleSubmit} style={styles.btn} />
+            <Button
+              text="Get OTP In This Number"
+              loading={loading}
+              onPress={handleSubmit}
+              style={styles.btn}
+            />
           </View>
         </View>
       </ScrollView>

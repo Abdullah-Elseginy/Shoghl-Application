@@ -3,6 +3,7 @@ import {
   AppInput,
   AppScreenContainer,
   Button,
+  CustomModal,
   CustomText,
 } from '../../components';
 import {styles} from './styles';
@@ -19,9 +20,14 @@ import {
 
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
-import {ParamListBase} from '@react-navigation/native';
+import {CommonActions, ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {JOBS} from '../../utils/Data';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../redux/store';
+import {logoutCompany} from '../../redux/slices/authSlice';
+import Toast from 'react-native-toast-message';
+import ScreenNames from '../../navigations/ScreenNames';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
@@ -91,7 +97,11 @@ const Job = ({item}: any) => {
   );
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading} = useSelector((state: any) => state.auth);
   const [Disapled, SetDisapled] = useState(false);
+  const [modalVisible, setmodalVisible] = useState(false);
+
   const [InputsData] = useState([
     {title: 'Location', type: 'text', value: '', error: '', hasError: false},
     {title: 'Founded', type: 'text', value: '', error: '', hasError: false},
@@ -121,6 +131,35 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       [FieldName]: val,
     }));
   };
+
+  const LogOut = () => {
+    dispatch(logoutCompany())
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          text1: 'Success',
+          text2: 'Loed out Success',
+          type: 'success',
+          visibilityTime: 1500,
+        });
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: ScreenNames.AuthStack}],
+          }),
+        );
+      })
+      .catch(err => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: err,
+          position: 'top',
+          visibilityTime: 1500,
+        });
+      });
+  };
+
   return (
     <AppScreenContainer>
       <ScrollView>
@@ -246,7 +285,33 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
             />
           </View>
         </View>
+        <View style={styles.Logout2}>
+          <Button
+            text="Log Out"
+            style={styles.Logout}
+            onPress={() => setmodalVisible(true)}
+          />
+        </View>
       </ScrollView>
+      {/*logout modal*/}
+      <CustomModal
+        modalVisible={modalVisible}
+        setModalVisible={setmodalVisible}
+        title="Are you sure you want to log out?"
+        children={
+          <>
+            <View>
+              <Button
+                style={styles.Logout}
+                text="Log Out"
+                loading={loading}
+                onPress={() => LogOut()}
+              />
+              <Button text="Cancel" onPress={() => setmodalVisible(false)} />
+            </View>
+          </>
+        }
+      />
     </AppScreenContainer>
   );
 };

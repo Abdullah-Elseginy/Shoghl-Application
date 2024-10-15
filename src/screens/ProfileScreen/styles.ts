@@ -242,4 +242,7 @@ export const styles = StyleSheet.create({
     borderRadius: wp(2),
     marginVertical: hp(3),
   },
+  linethrew: {
+    textDecorationLine: 'line-through',
+  },
 });
