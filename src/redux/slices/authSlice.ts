@@ -41,7 +41,6 @@ const initialState: InitailStateTypes = {
 export const signUpOne = createAsyncThunk(
   'auth/signUpOne',
   async (data, {rejectWithValue}) => {
-    console.log('dada', data);
     try {
       const res = await Axios({
         method: 'POST',
@@ -52,12 +51,12 @@ export const signUpOne = createAsyncThunk(
       return res.data;
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
-      console.log('loginOne Error', errorMessage);
+      console.log('signUpOne Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
 );
-// ===================== SignUp company Action ========================
+// ===================== SignUp Two Action ========================
 export const signUpTwoComplateProfile = createAsyncThunk(
   'auth/signUpTwo',
   async (data, {rejectWithValue}) => {
@@ -80,14 +79,13 @@ export const signUpTwoComplateProfile = createAsyncThunk(
 export const signUpTwoSendOTP = createAsyncThunk(
   'auth/signUpTwoSendOTP',
   async (data, {rejectWithValue}) => {
-    console.log('signUpTwoSendOTP', data);
     try {
       const res = await Axios({
         method: 'POST',
         path: APIS.signUpTwoSendOTP,
         data: data,
       });
-      console.log('signUpOne', res?.data);
+      console.log('signUpTwoSendOTP', res?.data);
       return res.data;
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
@@ -96,7 +94,7 @@ export const signUpTwoSendOTP = createAsyncThunk(
     }
   },
 );
-// ===================== SignUp Two send OTP Action ========================
+// ===================== SignUp Three verify OTP Action ========================
 export const signUpThreeVerifyOTP = createAsyncThunk(
   'auth/signUpThreeVerifyOTP',
   async (data, {rejectWithValue}) => {
@@ -134,7 +132,7 @@ export const loginOne = createAsyncThunk(
     }
   },
 );
-// ===================== Login Two OTP Action ========================
+// ===================== Login Two Action ========================
 export const loginTwo = createAsyncThunk(
   'auth/loginTwo',
   async (data, {rejectWithValue}) => {
@@ -261,7 +259,6 @@ export const signUpTwoCorporate = createAsyncThunk(
 export const signUpThreeCorporate = createAsyncThunk(
   'auth/signUpThreeCorporate',
   async (data, {rejectWithValue}) => {
-    // console.log('dada', data);
     try {
       const res = await Axios({
         method: 'POST',

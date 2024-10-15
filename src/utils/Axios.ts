@@ -4,7 +4,6 @@ import {store} from '../redux/store';
 const BASE_URL = 'https://shoghl.code-faster.giize.com';
 
 export type APIsTypes = {
-  //   login: string;
   allCountries: string;
   allCities: string;
   signUpOneCandidat: string;
@@ -74,7 +73,7 @@ const Axios = async ({
   params,
   header = {},
   pathParams = '',
-  isFormDate = false,
+  isFormData = false,
 }: {
   method: Method;
   path: string;
@@ -82,7 +81,7 @@ const Axios = async ({
   params?: any;
   pathParams?: string;
   header?: any;
-  isFormDate?: boolean;
+  isFormData?: boolean;
 }) => {
   const accessToken = store.getState().auth?.token;
 
@@ -98,7 +97,7 @@ const Axios = async ({
     data: data,
     params: params,
     headers: {
-      'Content-Type': isFormDate ? 'multipart/form-data' : 'application/json',
+      'Content-Type': isFormData ? 'multipart/form-data' : 'application/json',
       ...authHeder,
       ...header,
     },
