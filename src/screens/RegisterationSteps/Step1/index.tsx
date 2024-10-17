@@ -25,17 +25,17 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
 
 const Step1 = ({setCurrentPosition, currentPosition}: any) => {
-  const [JopTypes4, SetJopTypes4] = useState([
-    {id: '1', title: 'on site'},
-    {id: '2', title: 'remotly'},
-    {id: '3', title: 'hybrid'},
-  ]);
+  // const [JopTypes4, SetJopTypes4] = useState([
+  //   {id: '1', title: 'on site'},
+  //   {id: '2', title: 'remotly'},
+  //   {id: '3', title: 'hybrid'},
+  // ]);
   const dispatch = useDispatch<AppDispatch>();
   const [selectedId4, setSelectedId4] = useState([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedIds5, setSelectedIds5] = useState<string[]>([]);
-  const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
-  const [SelectedJops, SetSelectedJops] = useState([]);
+  // const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
+  // const [SelectedJops, SetSelectedJops] = useState([]);
   const [Checked, setChecked] = useState(false);
   const renderItem3 = ({item}: {item: {id: string; title: string}}) => {
     const isSelected = selectedIds.includes(item.title); // Check if item is selected
@@ -69,26 +69,26 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
       </Pressable>
     );
   };
-  const renderItem6 = ({
-    item,
-    index,
-  }: {
-    item: {id: string; title: string};
-    index: number;
-  }) => {
-    return (
-      <Pressable
-        onPress={() => {
-          hadleAddJobToinput(index, item.title);
-        }}
-        style={[styles.choise, styles.selected]}>
-        <CustomText
-          text={`${item.title}\t\t +`}
-          textStyle={styles.textSlected}
-        />
-      </Pressable>
-    );
-  };
+  // const renderItem6 = ({
+  //   item,
+  //   index,
+  // }: {
+  //   item: {id: string; title: string};
+  //   index: number;
+  // }) => {
+  //   return (
+  //     <Pressable
+  //       onPress={() => {
+  //         hadleAddJobToinput(index, item.title);
+  //       }}
+  //       style={[styles.choise, styles.selected]}>
+  //       <CustomText
+  //         text={`${item.title}\t\t +`}
+  //         textStyle={styles.textSlected}
+  //       />
+  //     </Pressable>
+  //   );
+  // };
   const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
     <Pressable
       style={[
@@ -124,11 +124,11 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
       setSelectedIds5(prevSelected => [...prevSelected, title]);
     }
   };
-  const hadleAddJobToinput = (index: number, item: any) => {
-    SetSelectedJops((prevState: any) => [...prevState, item]);
-    SetJopTypes4(prev => prev.filter((_, i) => i !== index));
-    setcurrentSlectedindex(index);
-  };
+  // const hadleAddJobToinput = (index: number, item: any) => {
+  //   SetSelectedJops((prevState: any) => [...prevState, item]);
+  //   SetJopTypes4(prev => prev.filter((_, i) => i !== index));
+  //   setcurrentSlectedindex(index);
+  // };
   const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
 
   const handleDropdownOpen = (dropdownId: any) => {
@@ -146,7 +146,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     career_level: [selectedId4],
     job_types: selectedIds,
     workspace_setting: selectedIds5,
-    job_titles: SelectedJops,
+    // job_titles: SelectedJops,
     minnuim_net_salary: Number(MinSalary),
     minnuim_net_salary_per: selectedMinNetSalary,
     minnuim_net_salary_currency: selectedCurrency,
@@ -156,7 +156,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     career_level: '',
     job_types: '',
     workspace_setting: '',
-    job_titles: '',
+    // job_titles: '',
     minnuim_net_salary: '',
     minnuim_net_salary_per: '',
     minnuim_net_salary_currency: '',
@@ -172,9 +172,9 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
       errors.job_types = 'Select at least one job title';
     if (!formData.workspace_setting?.length)
       errors.workspace_setting = 'Select at least one workspace';
-    if (!formData.job_titles?.length) {
-      errors.job_titles = 'add one or more job titles';
-    }
+    // if (!formData.job_titles?.length) {
+    //   errors.job_titles = 'add one or more job titles';
+    // }
     if (!formData.minnuim_net_salary) {
       errors.minnuim_net_salary = 'Enter Min netSalary';
     }
@@ -188,18 +188,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    // const formData2 = {
-    //   career_level: ['Experienced'],
-    //   job_types: ['Full time', 'Freelance/ project'],
-    //   workspace_setting: ['on site', 'hybrid'],
-    //   job_titles: ['on site', 'remotely'],
-    //   minnuim_net_salary: 55,
-    //   minnuim_net_salary_per: 'h',
-    //   minnuim_net_salary_currency: '1',
-    //   minnuim_net_salary_hide: 'no',
-    // };
     if (validateForm()) {
-      // console.log('formData=', formData);
       dispatch(signUpTwoCorporate(formData))
         .unwrap()
         .then(() => {
@@ -302,7 +291,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         />
       )}
       {/* select jobs*/}
-      <View style={styles.SectionBox}>
+      {/* <View style={styles.SectionBox}>
         <View style={generalStyles.rowwrap}>
           <CustomText
             text="What Type(S) Of job are you to? "
@@ -328,7 +317,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         )}
         <FlatList data={JopTypes4} numColumns={2} renderItem={renderItem6} />
-      </View>
+      </View> */}
       {/* minimum salary */}
       <View style={styles.SectionBox}>
         <View style={generalStyles.rowwrap}>
@@ -342,6 +331,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
           <AppInput
             containerStyle={styles.ContanerInput}
+            isNumericKeyboard
             placeholder="type your minnuim net salary"
             value={formData.minnuim_net_salary}
             onChangeText={val => setMinSalary(val)}

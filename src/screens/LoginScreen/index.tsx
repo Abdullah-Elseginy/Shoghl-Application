@@ -208,7 +208,10 @@ const LoginScreen = ({navigation}: Props) => {
                   textStyle={[generalStyles.marginLeft, styles.remember]}
                 />
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(ScreenNames.ForgetPassword);
+                }}>
                 <CustomText text="Forget Password?" />
               </TouchableOpacity>
             </View>

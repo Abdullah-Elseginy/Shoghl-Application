@@ -41,7 +41,7 @@ const SignupScreen = ({navigation}: Props) => {
     mobile_number: '',
     business_email: '',
     password: '',
-    // role: '',
+    hiring_for: '',
   });
   const [formErrors, setFormErrors] = React.useState({
     companyName: '',
@@ -50,13 +50,16 @@ const SignupScreen = ({navigation}: Props) => {
     mobileNumber: '',
     businessMail: '',
     password: '',
-    // role: '',
+    role: '',
   });
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData({...formData, [field]: value});
+    setFormData({
+      ...formData,
+      [field]: field === 'hiring_for' ? [value] : value,
+    });
   };
   const validateBorderNumber = () => {
     if (!BorderName) {
@@ -340,20 +343,20 @@ const SignupScreen = ({navigation}: Props) => {
                 />
               )}
 
-              {/* <AppInput
+              <AppInput
                 placeholder="Enter Your Role"
                 label="Which role are you applying for?"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
                 containerStyle={styles.inputContainerStyle}
-                value={formData.role}
-                onChangeText={value => handleInputChange('role', value)}
+                value={formData.hiring_for}
+                onChangeText={value => handleInputChange('hiring_for', value)}
               />
               {formErrors.role && (
                 <CustomText
                   textStyle={styles.ErrorMSG}
                   text={formErrors.role}
                 />
-              )} */}
+              )}
               <Button loading={loading} text="Submit" onPress={handleSubmit} />
             </>
           )}

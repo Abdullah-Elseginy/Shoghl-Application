@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ScreenNames from './ScreenNames';
 import {
   CompleteProfile,
+  ForgetPassword,
   LoginScreen,
   OnBoardingScreen,
   OTPScreen,
@@ -31,6 +32,10 @@ const AuthStack = () => {
       <Stack.Screen
         name={ScreenNames.SignUpStepTwoCandidate}
         component={SignUpStepTwoCandidate}
+      />
+      <Stack.Screen
+        name={ScreenNames.ForgetPassword}
+        component={ForgetPassword}
       />
     </Stack.Navigator>
   );

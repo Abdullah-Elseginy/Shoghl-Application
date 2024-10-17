@@ -517,9 +517,9 @@ const authSlice = createSlice({
       .addCase(signUpOneCorporate.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        state.token = action.payload.data.access_token;
+        state.token = action.payload.data.access_token.access_token;
         console.log(
-          'userTOKENsignUpOneCorporate===' + action.payload.data.access_token,
+          'userTOKENsignUpOneCorporate===' + action.payload.data.access_token.access_token,
         );
         state.error = null;
       })
