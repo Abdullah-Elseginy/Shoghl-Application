@@ -5,15 +5,15 @@ import React, {useEffect, useState} from 'react';
 import {AppInput, Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
-import {Nationality, Country, City, GenderList} from '../../../utils/Data';
+import {Nationality, GenderList} from '../../../utils/Data';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpThreeCorporate} from '../../../redux/slices/authSlice';
 import {AppDispatch} from '../../../redux/store';
 import {getAllCities} from '../../../redux/slices/appdataSlice';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
-  const {allCities} = useSelector((state: any) => state.appdata);
-  console.log('all cititw here=>', allCities);
+  const {allCities, allCountries} = useSelector((state: any) => state.appdata);
+  console.log(allCountries);
   // DropDwens
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
@@ -92,6 +92,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
+    setCurrentPosition(2);
     const concatFormData = {...formData, ...DropDwenValues};
     console.log('Concat sended', concatFormData);
     if (validateForm()) {
@@ -305,7 +306,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedCountry}
               setValue={setSelectedCountry}
               dropDownStyle={generalStyles.DropBorder2}
-              list={Country}
+              list={allCountries}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
               }}
@@ -313,6 +314,10 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown3' : null)
               }
+              schema={{
+                label: 'name_en',
+                value: 'id',
+              }}
             />
           </View>
           <View>
@@ -366,6 +371,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
           labelStyle={styles.LapelStyle}
           value={formData.phone}
           onChangeText={val => handleInputChange('phone', val)}
+          isNumericKeyboard
         />
         {formErrors.phone && (
           <CustomText text={formErrors.phone} textStyle={styles.ErrorMSG} />

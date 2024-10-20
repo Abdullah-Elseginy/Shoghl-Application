@@ -9,6 +9,7 @@ type InitailStateTypes = {
   loadingappdata: boolean;
   allCountries: any;
   allCities: any;
+  choicesStep3: any;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -17,6 +18,7 @@ const initialState: InitailStateTypes = {
   error: null,
   allCountries: [],
   allCities: [],
+  choicesStep3: [],
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -79,6 +81,51 @@ export const EditmyProfileOverview = createAsyncThunk(
     }
   },
 );
+// ========================== Choices ========================
+export const get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer =
+  createAsyncThunk(
+    'auth/get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer',
+    async (_, {rejectWithValue}) => {
+      try {
+        const res = await Axios({
+          method: 'GET',
+          path: APIS.get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per,
+        });
+        console.log(
+          'get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer',
+          res?.data,
+        );
+        return res.data;
+      } catch (error) {
+        const errorMessage =
+          error.response?.data?.errors?.message || error.message;
+        console.log(
+          'get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer Error',
+          errorMessage,
+        );
+        return rejectWithValue(errorMessage);
+      }
+    },
+  );
+// ========================== Choices Step 3 ========================
+export const GetChoicesStep3 = createAsyncThunk(
+  'auth/GetChoicesStep3',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.GetChoicesstep3,
+      });
+      console.log('GetChoicesStep3', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('GetChoicesStep3 Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const appdataSlice = createSlice({
@@ -120,7 +167,6 @@ const appdataSlice = createSlice({
         state.error = action.payload;
       })
       // =====================Post Profile overview =======================
-
       .addCase(EditmyProfileOverview.pending, state => {
         state.loadingappdata = true;
         state.error = null;
@@ -130,6 +176,42 @@ const appdataSlice = createSlice({
         state.error = null;
       })
       .addCase(EditmyProfileOverview.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================Get Choices Step 1 =======================
+      .addCase(
+        get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer.pending,
+        state => {
+          state.loadingappdata = true;
+          state.error = null;
+        },
+      )
+      .addCase(
+        get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer.fulfilled,
+        state => {
+          state.loadingappdata = false;
+          state.error = null;
+        },
+      )
+      .addCase(
+        get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer.rejected,
+        (state, action) => {
+          state.loadingappdata = false;
+          state.error = action.payload;
+        },
+      )
+      // =====================Get Choices Step 1 =======================
+      .addCase(GetChoicesStep3.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(GetChoicesStep3.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.choicesStep3 = action.payload.data;
+        state.error = null;
+      })
+      .addCase(GetChoicesStep3.rejected, (state, action) => {
         state.loadingappdata = false;
         state.error = action.payload;
       });

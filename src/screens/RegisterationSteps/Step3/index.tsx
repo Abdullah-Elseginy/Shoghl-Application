@@ -1,17 +1,28 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
 import {Alert, FlatList, Pressable, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
-import {CareerLevel2, FieldList, YearsExList} from '../../../utils/Data';
+import {FieldList} from '../../../utils/Data';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../../redux/store';
+import {GetChoicesStep3} from '../../../redux/slices/appdataSlice';
+import {signUpFourCorporate} from '../../../redux/slices/authSlice';
+import Toast from 'react-native-toast-message';
+import ScreenNames from '../../../navigations/ScreenNames';
+import {useNavigation} from '@react-navigation/native';
 
-const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
+const Step3 = ({currentPosition, setCurrentPosition}: any) => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch<AppDispatch>();
+  const {loading} = useSelector((state: any) => state.auth);
   const [SelectedProficiency, setselectedProficiency] = useState('');
   const [SelectedLanguage, setselectedLanguage] = useState('');
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
+  const {choicesStep3} = useSelector((state: any) => state.appdata);
   // dropDwens
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedYearEx, setSelectedYearEx] = useState('');
@@ -26,22 +37,29 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
       setOpenDropdown(dropdownId);
     }
   };
-  const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
+  // Year Options
+  const yearsArray = choicesStep3?.degree;
+  const yearOptions = yearsArray?.map((year: any) => ({
+    label: year.toString(),
+    value: year,
+  }));
+
+  const renderItem4 = ({item}: {item: {code: string; name_en: string}}) => (
     <Pressable
       style={[
         styles.Careerchoise,
-        selectedId4 === item.id ? styles.selected : styles.unselected,
+        selectedId4 === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId4(item.id)}>
+      onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.title}
+        text={item.name_en}
         textStyle={
-          selectedId4 === item.id ? styles.textSlected : styles.textunselected
+          selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
       />
     </Pressable>
   );
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState({name: '', type: '', uri: ''});
   const [slectedLang, setSelectedLang] = useState([]);
 
   const selectDocument = async () => {
@@ -52,9 +70,18 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
       setFile(res[0]);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
-        Alert.alert('Document selection was canceled');
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Document selection was canceled',
+        });
       } else {
-        Alert.alert('Unknown Error: ' + JSON.stringify(err));
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Unknown Error: ' + JSON.stringify(err),
+        });
+        // Alert.alert('Unknown Error: ' + JSON.stringify(err));
       }
     }
   };
@@ -62,7 +89,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
   const addedLanguge = () => {
     for (let i = 0; i < slectedLang.length; i++) {
       if (slectedLang[i]?.lang === SelectedLanguage) {
-        Alert.alert('You have already selected this language');
+        Toast.show({
+          text1: 'Error',
+          text2: 'You have already selected this language',
+        });
         return;
       }
     }
@@ -77,16 +107,16 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
     );
   };
   const formData = {
-    year_ex: selectedYearEx,
-    educational_Level: selectedId4,
-    feiled_study: selectedFeild,
-    Universty: selectedUniversty,
-    degree_date: selectedDegree,
+    experience_years: selectedYearEx,
+    educational_level: selectedId4,
+    fields_of_study: [selectedFeild],
+    university: selectedUniversty + 'scsc',
+    degree: selectedDegree,
     grade: selectedGrade,
-    language: SelectedLanguage,
-    profisincy: SelectedProficiency,
-    Cv_file: file,
-    skills: selectedGrade,
+    user_languages: [SelectedLanguage],
+    // profisincy: SelectedProficiency,
+    // cv: file,
+    skills: [selectedGrade],
   };
   const [formErrors, setFormErrors] = React.useState({
     year_ex: '',
@@ -102,28 +132,29 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
   });
   const validateForm = () => {
     const errors: {[key: string]: string} = {};
-    if (!formData.year_ex) {
+    if (!formData.experience_years) {
       errors.year_ex = 'Year Experience Required';
     }
-    if (!formData.educational_Level?.length)
+    if (!formData.educational_level?.length)
       errors.educational_Level = 'Educational Level Required';
-    if (!formData.feiled_study) errors.feiled_study = 'Feiled Study Required';
-    if (!formData.Universty) {
+    if (!formData.fields_of_study)
+      errors.feiled_study = 'Feiled Study Required';
+    if (!formData.university) {
       errors.Universty = 'Universty Required';
     }
-    if (!formData.degree_date) {
+    if (!formData.degree) {
       errors.degree_date = 'Degree Date Required';
     }
     if (!formData.grade) {
       errors.grade = 'Grade Required';
     }
-    if (!formData.language) {
+    if (!formData.user_languages) {
       errors.language = 'Language Required';
     }
-    if (!formData.profisincy) {
-      errors.profisincy = 'Profetiency Required';
-    }
-    if (!formData.Cv_file) {
+    // if (!formData.profisincy) {
+    //   errors.profisincy = 'Profetiency Required';
+    // }
+    if (!file.name?.length) {
       errors.Cv_file = 'CV Required';
     }
     if (!formData.skills) {
@@ -132,6 +163,53 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+  const GetChoices = () => {
+    dispatch(GetChoicesStep3());
+  };
+
+  useEffect(() => {
+    GetChoices();
+  }, []);
+
+  const handlesubmit = () => {
+    if (validateForm()) {
+      const CVFILE = new FormData();
+      CVFILE.append('file', {
+        uri: file.uri,
+        type: file.type,
+        name: file.name,
+      });
+      console.log('CVFILE===', CVFILE);
+      const formToSend = {
+        ...formData,
+        // cv: CVFILE,
+      };
+      dispatch(signUpFourCorporate(formToSend))
+        .unwrap()
+        .then(() => {
+          Toast.show({
+            text1: 'Success',
+            text2: 'SignUp Corporate Success',
+            type: 'success',
+            visibilityTime: 1500,
+          });
+          setTimeout(() => {
+            navigation.replace(ScreenNames.BottomTabs);
+          }, 1000);
+        })
+        .catch(err => {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: err,
+            position: 'top',
+            visibilityTime: 1500,
+          });
+        });
+    }
+  };
+
   return (
     <>
       {/*Personal Info */}
@@ -148,7 +226,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             value={selectedYearEx}
             setValue={setSelectedYearEx}
             dropDownStyle={generalStyles.DropBorder}
-            list={YearsExList}
+            list={choicesStep3?.experience_years}
             containerStyle={{
               zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
             }}
@@ -156,6 +234,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown1' : null)
             }
+            schema={{
+              label: 'name_en',
+              value: 'code',
+            }}
           />
         </View>
         {formErrors.year_ex && (
@@ -178,10 +260,9 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={CareerLevel2}
-            keyExtractor={item => item.id}
+            data={choicesStep3?.educational_level}
+            keyExtractor={item => item.code}
             renderItem={renderItem4}
-            extraData={selectedId4}
             numColumns={2}
           />
         </View>
@@ -262,7 +343,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             value={selectedDegree}
             setValue={setSelectedDegree}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={yearOptions}
             containerStyle={{
               zIndex: openDropdown === 'dropdown5' ? 10000 : 1,
             }}
@@ -270,6 +351,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown5' : null)
             }
+            schema={{
+              label: 'label',
+              value: 'value',
+            }}
           />
         </View>
         {formErrors.degree_date && (
@@ -290,7 +375,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             value={selectedGrade}
             setValue={setSelectedGrade}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={choicesStep3?.grade}
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
@@ -298,6 +383,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
             }
+            schema={{
+              label: 'name_en',
+              value: 'code',
+            }}
           />
         </View>
         {formErrors.grade && (
@@ -322,7 +411,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             value={SelectedLanguage}
             setValue={setselectedLanguage}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={choicesStep3?.languages}
             containerStyle={{
               zIndex: openDropdown === 'dropdown7' ? 10000 : 1,
             }}
@@ -330,6 +419,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown7' : null)
             }
+            schema={{
+              label: 'name_en',
+              value: 'code',
+            }}
           />
         </View>
         {formErrors.language && (
@@ -346,7 +439,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             value={SelectedProficiency}
             setValue={setselectedProficiency}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={choicesStep3?.languages_level}
             containerStyle={{
               zIndex: openDropdown === 'dropdown8' ? 10000 : 1,
             }}
@@ -354,6 +447,10 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown8' : null)
             }
+            schema={{
+              label: 'name_en',
+              value: 'code',
+            }}
           />
           {formErrors.profisincy && (
             <CustomText
@@ -427,20 +524,21 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
           }}
         />
         {JSON.stringify(file?.name) && (
-          <CustomText
-            text={JSON.stringify(file?.name)}
-            textStyle={styles.CVname}
-          />
+          <CustomText text={file?.name} textStyle={styles.CVname} />
         )}
         {formErrors.Cv_file && (
-          <CustomText text={formErrors.Cv_file} textStyle={[styles.ErrorMSG,styles.centerTExt]} />
+          <CustomText
+            text={formErrors.Cv_file}
+            textStyle={[styles.ErrorMSG, styles.centerTExt]}
+          />
         )}
       </View>
 
       <Button
         text={currentPosition === 2 ? 'Finsh' : 'Next'}
+        loading={loading}
         onPress={() => {
-          validateForm();
+          handlesubmit();
         }}
         style={styles.Bottom}
       />
@@ -448,7 +546,7 @@ const Step3 = ({navigation, currentPosition, setCurrentPosition}: any) => {
         <Button
           text={'Back'}
           onPress={() => {
-            setCurrentPosition(pre => pre - 1);
+            setCurrentPosition((pre: any) => pre - 1);
           }}
         />
       ) : (

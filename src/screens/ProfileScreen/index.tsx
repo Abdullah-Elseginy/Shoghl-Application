@@ -103,7 +103,20 @@ const ProfileScreen = () => {
       [key]: val,
     });
   };
-
+  console.log('overviewData============', overviewData);
+  React.useEffect(() => {
+    setoverviewData({
+      expected_salary: userProfileData?.data?.expected_salary,
+      hide_salary: userProfileData?.data?.hide_salary,
+      home_phone: userProfileData?.data?.home_phone,
+      mobile_phone: userProfileData?.data?.phone,
+      address: userProfileData?.data?.address,
+    });
+    setInputsData({
+      about_me: userProfileData?.data?.about_me,
+      personal_characteristics: userProfileData?.data?.personal_characteristics,
+    });
+  }, [userProfileData]);
   const handleInputsValOveriew = (key: any, val: any) => {
     setoverviewData({
       ...overviewData,
@@ -219,6 +232,9 @@ const ProfileScreen = () => {
   };
 
   const currentYear = new Date().getFullYear();
+  console.log(
+    'userProfileData?.data?.expected_salary====' + overviewData.expected_salary,
+  );
   return (
     <>
       {registerationType === 'candidate' ? (
@@ -363,7 +379,7 @@ const ProfileScreen = () => {
                     <View style={styles.overviewBox}>
                       <AppInput
                         placeholder="enter hourly rate"
-                        value={overviewData.expected_salary}
+                        value={overviewData.expected_salary + ''}
                         onChangeText={val =>
                           handleInputsValOveriew('expected_salary', val)
                         }

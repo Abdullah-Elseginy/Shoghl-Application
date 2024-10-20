@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
 import {
   AppInput,
@@ -12,17 +12,12 @@ import {
 } from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from '../styles';
-import {
-  CareerLevel2,
-  currency,
-  JopTypes3,
-  JopTypes8,
-  period,
-} from '../../../utils/Data';
+import {currency} from '../../../utils/Data';
 import Toast from 'react-native-toast-message';
 import {signUpTwoCorporate} from '../../../redux/slices/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
+import {get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer} from '../../../redux/slices/appdataSlice';
 
 const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   // const [JopTypes4, SetJopTypes4] = useState([
@@ -31,39 +26,42 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   //   {id: '3', title: 'hybrid'},
   // ]);
   const dispatch = useDispatch<AppDispatch>();
-  const [selectedId4, setSelectedId4] = useState([]);
+  const [selectedId4, setSelectedId4] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedIds5, setSelectedIds5] = useState<string[]>([]);
   // const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
   // const [SelectedJops, SetSelectedJops] = useState([]);
+  // console.log('career_level=' + selectedId4);
+  // console.log('job_types=' + selectedIds);
+  // console.log('workspace_setting=' + selectedIds5);
   const [Checked, setChecked] = useState(false);
-  const renderItem3 = ({item}: {item: {id: string; title: string}}) => {
-    const isSelected = selectedIds.includes(item.title); // Check if item is selected
+  const renderItem3 = ({item}: {item: {code: string; name_en: string}}) => {
+    const isSelected = selectedIds.includes(item.code); // Check if item is selected
     return (
       <Pressable
         style={[
           styles.choise,
           isSelected ? styles.selected : styles.unselected,
         ]}
-        onPress={() => handlePress(item.title)}>
+        onPress={() => handlePress(item.code)}>
         <CustomText
-          text={item.title}
+          text={item.name_en}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
     );
   };
-  const renderItem5 = ({item}: {item: {id: string; title: string}}) => {
-    const isSelected = selectedIds5.includes(item.title);
+  const renderItem5 = ({item}: {item: {code: string; name_en: string}}) => {
+    const isSelected = selectedIds5.includes(item.code);
     return (
       <Pressable
         style={[
           styles.choise,
           isSelected ? styles.selected : styles.unselected,
         ]}
-        onPress={() => handlePress5(item.title)}>
+        onPress={() => handlePress5(item.code)}>
         <CustomText
-          text={item.title}
+          text={item.name_en}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
@@ -89,39 +87,37 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   //     </Pressable>
   //   );
   // };
-  const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
+  const renderItem4 = ({item}: {item: {code: string; name_en: any}}) => (
     <Pressable
       style={[
         styles.Careerchoise,
-        selectedId4 === item.title ? styles.selected : styles.unselected,
+        selectedId4 === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId4(item.title)}>
+      onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.title}
+        text={item.name_en}
         textStyle={
-          selectedId4 === item.title
-            ? styles.textSlected
-            : styles.textunselected
+          selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
       />
     </Pressable>
   );
-  const handlePress = (title: string) => {
-    if (selectedIds.includes(title)) {
+  const handlePress = (code: string) => {
+    if (selectedIds.includes(code)) {
       setSelectedIds(prevSelected =>
-        prevSelected.filter(item => item !== title),
+        prevSelected.filter(item => item !== code),
       );
     } else {
-      setSelectedIds(prevSelected => [...prevSelected, title]);
+      setSelectedIds(prevSelected => [...prevSelected, code]);
     }
   };
-  const handlePress5 = (title: string) => {
-    if (selectedIds5.includes(title)) {
+  const handlePress5 = (code: string) => {
+    if (selectedIds5.includes(code)) {
       setSelectedIds5(prevSelected =>
-        prevSelected.filter(item => item !== title),
+        prevSelected.filter(item => item !== code),
       );
     } else {
-      setSelectedIds5(prevSelected => [...prevSelected, title]);
+      setSelectedIds5(prevSelected => [...prevSelected, code]);
     }
   };
   // const hadleAddJobToinput = (index: number, item: any) => {
@@ -141,9 +137,15 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [selectedMinNetSalary, setSelectedMinNetSalary] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const [MinSalary, setMinSalary] = useState('');
+  const [ChiceseData, setChiceseData] = useState({
+    career_level: [],
+    job_types: [],
+    workspace_setting: [],
+    minnuim_net_salary_per: [],
+  });
   const {loading} = useSelector((state: any) => state.auth);
   const formData = {
-    career_level: [selectedId4],
+    career_level: selectedId4,
     job_types: selectedIds,
     workspace_setting: selectedIds5,
     // job_titles: SelectedJops,
@@ -188,6 +190,8 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
+    setCurrentPosition(1);
+    console.log('formaaaaaaaaaa' + JSON.stringify(formData));
     if (validateForm()) {
       dispatch(signUpTwoCorporate(formData))
         .unwrap()
@@ -211,6 +215,20 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         });
     }
   };
+  const get_Choices = () => {
+    dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer())
+      .unwrap()
+      .then(({data}) => {
+        // console.log('my dataaaaaaaaaaa' + JSON.stringify(data));
+        setChiceseData(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    get_Choices();
+  }, []);
   return (
     <>
       <CustomText
@@ -228,8 +246,8 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={CareerLevel2}
-            keyExtractor={item => item.id}
+            data={ChiceseData?.career_level}
+            keyExtractor={item => item.code}
             renderItem={renderItem4}
             extraData={selectedId4}
             numColumns={2}
@@ -255,8 +273,8 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={JopTypes3}
-          keyExtractor={item => item.id}
+          data={ChiceseData?.job_types}
+          keyExtractor={item => item.code}
           renderItem={renderItem3}
           numColumns={2}
           // extraData={selectedId2}
@@ -278,8 +296,8 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={JopTypes8}
-          keyExtractor={item => item.id}
+          data={ChiceseData?.workspace_setting}
+          keyExtractor={item => item.code}
           renderItem={renderItem5}
           numColumns={2}
         />
@@ -348,7 +366,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedMinNetSalary}
               setValue={setSelectedMinNetSalary}
               dropDownStyle={generalStyles.DropBorder}
-              list={period}
+              list={ChiceseData.minnuim_net_salary_per}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }} // Manage zIndex
@@ -356,7 +374,9 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               } // Pass the current state
+              schema={{value: 'code', label: 'name_en'}}
             />
+
             {formErrors.minnuim_net_salary_per && (
               <CustomText
                 text={formErrors.minnuim_net_salary_per}

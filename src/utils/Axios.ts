@@ -16,11 +16,14 @@ export type APIsTypes = {
   getMyProfile: string;
   myProfileOverview: string;
   signUpThreeCorporate: string;
+  signUpFourCorporate: string;
   logoutCandidate: string;
   editAbout_charactaristic: string;
   logoutCompany: string;
   signUpTwoSendOTP: string;
   signUpThreeVrifyOTP: string;
+  get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per: string;
+  GetChoicesstep3: string;
 };
 
 export const APIS: APIsTypes = {
@@ -40,6 +43,7 @@ export const APIS: APIsTypes = {
   signUpOneCorporate: '/API/COM/Auth/Registration/Form',
   signUpTwoCorporate: '/API/COM/Auth/Registration/Career-Interests',
   signUpThreeCorporate: '/API/COM/Auth/Registration/General-Info',
+  signUpFourCorporate: '/API/COM/Auth/Registration/Professional-Info',
   LoginCompany: '/API/COM/Auth/Login',
   logoutCompany: '/API/COM/Auth/Logout',
 
@@ -47,6 +51,10 @@ export const APIS: APIsTypes = {
   getMyProfile: '/API/LOW/My/Profile',
   editAbout_charactaristic: '/API/LOW/My/About',
   myProfileOverview: '/API/LOW/My/Profile-Overview',
+  // ===================choices=================//
+  get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per:
+    '/API/COM/Auth/Registration/Career-Interests-Helpers',
+  GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
 };
 
 const axiosInstance = axios.create({

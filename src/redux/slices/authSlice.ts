@@ -275,6 +275,26 @@ export const signUpThreeCorporate = createAsyncThunk(
     }
   },
 );
+// ======================== SignUp Company step2 "Corporate"===========================
+export const signUpFourCorporate = createAsyncThunk(
+  'auth/signUpFourCorporate',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.signUpFourCorporate,
+        data: data,
+        isFormData: true,
+      });
+      console.log('signUpFourCorporate', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('signUpFourCorporate Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ===================== Data ========================
 // ======================== My About Me ===========================
 export const editAbout_charactaristic = createAsyncThunk(
@@ -519,7 +539,8 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.token = action.payload.data.access_token.access_token;
         console.log(
-          'userTOKENsignUpOneCorporate===' + action.payload.data.access_token.access_token,
+          'userTOKENsignUpOneCorporate===' +
+            action.payload.data.access_token.access_token,
         );
         state.error = null;
       })
@@ -560,6 +581,21 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         console.log('error signUpThreeCorporate FromSlice', action.payload);
+      })
+      // ===================== signUpFourCorporate ========================
+      .addCase(signUpFourCorporate.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signUpFourCorporate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+      .addCase(signUpFourCorporate.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        console.log('error signUpFourCorporate FromSlice', action.payload);
       })
       // ===================== Login Company ========================
       .addCase(loginComapny.pending, state => {
