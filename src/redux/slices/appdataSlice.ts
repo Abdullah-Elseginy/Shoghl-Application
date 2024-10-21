@@ -10,6 +10,7 @@ type InitailStateTypes = {
   allCountries: any;
   allCities: any;
   choicesStep3: any;
+  PostjobHelpers: any;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -19,6 +20,7 @@ const initialState: InitailStateTypes = {
   allCountries: [],
   allCities: [],
   choicesStep3: [],
+  PostjobHelpers: '',
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -126,6 +128,26 @@ export const GetChoicesStep3 = createAsyncThunk(
     }
   },
 );
+// ========================== Post Job======================
+// ==========================Post Job Helper======================
+export const PostJobHelpers = createAsyncThunk(
+  'auth/PostJobHelpers',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.PostJobHelpers,
+      });
+      console.log('PostJobHelpers', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('PostJobHelpers Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const appdataSlice = createSlice({
@@ -212,6 +234,20 @@ const appdataSlice = createSlice({
         state.error = null;
       })
       .addCase(GetChoicesStep3.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================Post job helpers=======================
+      .addCase(PostJobHelpers.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(PostJobHelpers.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.PostjobHelpers = action.payload.data;
+        state.error = null;
+      })
+      .addCase(PostJobHelpers.rejected, (state, action) => {
         state.loadingappdata = false;
         state.error = action.payload;
       });

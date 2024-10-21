@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, ScrollView, View} from 'react-native';
 import {
   AppHeader,
@@ -14,8 +14,6 @@ import {styles} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {generalStyles} from '../../constants';
 import {
-  JopTypes,
-  data2,
   JopTypes2,
   CareerLevel,
   City,
@@ -23,8 +21,19 @@ import {
   YEARSEXP,
   YEARSEXP2,
 } from '../../utils/Data';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../redux/store';
+import {
+  getAllCities,
+  getAllCountries,
+  PostJobHelpers,
+} from '../../redux/slices/appdataSlice';
 
 const JobPost = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {PostjobHelpers, allCountries, allCities} = useSelector(
+    (state: any) => state.appdata,
+  );
   const [JobOPtionData, setJobOPtionData] = useState([
     {
       id: '1',
@@ -63,6 +72,7 @@ const JobPost = () => {
   const [selectedYearEX2, setSelectedselectedYearEX2] = useState('');
   const [selectedVacancies, setSelectedselectedVacancies] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
+
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null);
@@ -70,6 +80,7 @@ const JobPost = () => {
       setOpenDropdown(dropdownId);
     }
   };
+
   const toggleSelection = (id: any, type: any) => {
     if (type === 'subjob') {
       setJobOSupPtionData(prevData =>
@@ -89,13 +100,15 @@ const JobPost = () => {
       );
     }
   };
+
   const clearSubSelction = (index: number) => {
-    if (index == 0) {
+    if (index === 0) {
       for (let i = 0; i < SubSlectionData.length; i++) {
         SubSlectionData[i].selected = false;
       }
     }
   };
+
   const handlePress = (id: string) => {
     if (selectedIds.includes(id)) {
       setSelectedIds(prevSelected => prevSelected.filter(item => item !== id));
@@ -103,70 +116,83 @@ const JobPost = () => {
       setSelectedIds(prevSelected => [...prevSelected, id]);
     }
   };
-  const renderItem = ({item}: {item: {id: string; title: string}}) => (
+
+  const renderItem = ({item}: {item: {code: string; name_en: string}}) => (
     <Pressable
       style={[
         styles.choise,
-        selectedId === item.id ? styles.selected : styles.unselected,
+        selectedId === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId(item.id)}>
+      onPress={() => setSelectedId(item.code)}>
       <CustomText
-        text={item.title}
+        text={item.name_en}
         textStyle={
-          selectedId === item.id ? styles.textSlected : styles.textunselected
+          selectedId === item.code ? styles.textSlected : styles.textunselected
         }
       />
     </Pressable>
   );
 
-  const renderItem2 = ({item}: {item: {id: string; title: string}}) => (
+  const renderItem2 = ({item}: {item: {code: string; name_en: string}}) => (
     <Pressable
       style={[
-        styles.choise,
-        selectedId2 === item.id ? styles.selected : styles.unselected,
+        styles.choise1,
+        selectedId2 === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId2(item.id)}>
+      onPress={() => setSelectedId2(item.code)}>
       <CustomText
-        text={item.title}
+        text={item.name_en}
         textStyle={
-          selectedId2 === item.id ? styles.textSlected : styles.textunselected
+          selectedId2 === item.code ? styles.textSlected : styles.textunselected
         }
       />
     </Pressable>
   );
 
-  const renderItem3 = ({item}: {item: {id: string; title: string}}) => {
-    const isSelected = selectedIds.includes(item.id); // Check if item is selected
-
+  const renderItem3 = ({item}: {item: {code: string; name_en: string}}) => {
+    const isSelected = selectedIds.includes(item.code);
     return (
       <Pressable
         style={[
           styles.choise,
           isSelected ? styles.selected : styles.unselected,
         ]}
-        onPress={() => handlePress(item.id)}>
+        onPress={() => handlePress(item.code)}>
         <CustomText
-          text={item.title}
+          text={item.name_en}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
     );
   };
-  const renderItem4 = ({item}: {item: {id: string; title: string}}) => (
+
+  const renderItem4 = ({item}: {item: {code: string; name_en: string}}) => (
     <Pressable
       style={[
         styles.Careerchoise,
-        selectedId4 === item.id ? styles.selected : styles.unselected,
+        selectedId4 === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId4(item.id)}>
+      onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.title}
+        text={item.name_en}
         textStyle={
-          selectedId4 === item.id ? styles.textSlected : styles.textunselected
+          selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
       />
     </Pressable>
   );
+
+  // -------------------------------APIs--------------------------
+  const PostJobhelpers = () => {
+    dispatch(PostJobHelpers());
+  };
+
+  useEffect(() => {
+    PostJobhelpers();
+    dispatch(getAllCities);
+    dispatch(getAllCountries);
+  }, []);
+
   return (
     <AppScreenContainer>
       <AppHeader arrowBack title="Jop Post" />
@@ -180,8 +206,8 @@ const JobPost = () => {
           <View>
             <CustomText text="Post Type" textStyle={styles.StepTitle} />
             <FlatList
-              data={data2}
-              keyExtractor={item => item.id}
+              data={PostjobHelpers?.post_type}
+              keyExtractor={item => item.code}
               renderItem={renderItem}
               horizontal={true}
               extraData={selectedId}
@@ -207,11 +233,11 @@ const JobPost = () => {
           <View style={styles.SectionBox}>
             <CustomText text="Job Type" textStyle={styles.StepTitle} />
             <FlatList
-              data={JopTypes}
-              keyExtractor={item => item.id}
+              data={PostjobHelpers?.job_types}
+              keyExtractor={item => item.code}
               renderItem={renderItem2}
-              horizontal={true}
               extraData={selectedId2}
+              numColumns={2}
             />
           </View>
           {/* Job type remotly */}
@@ -221,8 +247,8 @@ const JobPost = () => {
               textStyle={styles.StepTitle}
             />
             <FlatList
-              data={JopTypes2}
-              keyExtractor={item => item.id}
+              data={PostjobHelpers?.contract_type}
+              keyExtractor={item => item.code}
               renderItem={renderItem3}
               horizontal={true}
               extraData={selectedId2}
@@ -237,7 +263,7 @@ const JobPost = () => {
               value={selectedCountry}
               setValue={setSelectedCountry}
               dropDownStyle={generalStyles.DropBorder}
-              list={Country}
+              list={allCountries}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }}
@@ -245,6 +271,10 @@ const JobPost = () => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
+              schema={{
+                label: 'name_en',
+                value: 'code',
+              }}
             />
             <CustomText text="City" textStyle={styles.OptopnTExt} />
             <Dropdown
@@ -252,7 +282,7 @@ const JobPost = () => {
               value={selectedCity}
               setValue={setSelectedCity}
               dropDownStyle={generalStyles.DropBorder}
-              list={City}
+              list={allCities}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
               }}
@@ -260,6 +290,10 @@ const JobPost = () => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown2' : null)
               }
+              schema={{
+                label: 'name_en',
+                value: 'code',
+              }}
             />
           </View>
           {/* Career Level */}
@@ -267,8 +301,8 @@ const JobPost = () => {
             <CustomText text="Career Level" textStyle={styles.StepTitle} />
             <View style={styles.CareerLevel}>
               <FlatList
-                data={CareerLevel}
-                keyExtractor={item => item.id}
+                data={PostjobHelpers?.career_level}
+                keyExtractor={item => item.code}
                 renderItem={renderItem4}
                 //   horizontal={true}
                 extraData={selectedId4}

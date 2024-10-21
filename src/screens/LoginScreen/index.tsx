@@ -8,7 +8,7 @@ import {
 } from '../../components';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {COLORS, generalStyles} from '../../constants';
+import {generalStyles} from '../../constants';
 import {EyeOffSVG, EyeSVG, PackSVG} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -32,7 +32,8 @@ const LoginScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [showpass, setshowpass] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const {loading} = useSelector((state: any) => state.auth);
+  const {loading, user} = useSelector((state: any) => state.auth);
+  console.log('user-----------', JSON.stringify(user));
   const [InputVal, SetInputVal] = useState({
     email: '',
     password: '',
@@ -44,6 +45,7 @@ const LoginScreen = ({navigation}: Props) => {
     password: '',
     borderno: '',
   });
+
   const clearFields = () => {
     SetInputVal({
       email: '',
@@ -51,6 +53,7 @@ const LoginScreen = ({navigation}: Props) => {
       borderno: '',
     });
   };
+
   const handleLoginCorporateInputs = () => {
     const errors2: {[key: string]: string} = {};
     if (!InputVal.email) {
@@ -58,7 +61,6 @@ const LoginScreen = ({navigation}: Props) => {
     } else if (!/\S+@\S+\.\S+/.test(InputVal.email)) {
       errors2.email = 'Email is invalid';
     }
-
     if (!InputVal.password) {
       errors2.password = 'Password is required';
     } else if (
@@ -111,6 +113,8 @@ const LoginScreen = ({navigation}: Props) => {
           setTimeout(() => {
             navigation.navigate(ScreenNames.OTPScreen, {
               borderNo: InputVal.borderno,
+              type: 'Login',
+              phone: user?.data?.mobile_phone,
             });
           }, 800);
           console.log('resoooo', res);

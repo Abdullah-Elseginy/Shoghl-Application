@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
-import {Alert, FlatList, Pressable, View} from 'react-native';
+import {FlatList, Pressable, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {FieldList} from '../../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
@@ -30,6 +30,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const [selectedUniversty, setSelectedUniversty] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
+
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null);
@@ -39,6 +40,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   };
   // Year Options
   const yearsArray = choicesStep3?.degree;
+
   const yearOptions = yearsArray?.map((year: any) => ({
     label: year.toString(),
     value: year,
@@ -59,6 +61,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       />
     </Pressable>
   );
+
   const [file, setFile] = useState({name: '', type: '', uri: ''});
   const [slectedLang, setSelectedLang] = useState([]);
 
@@ -101,11 +104,13 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       {lang: SelectedLanguage, prof: SelectedProficiency},
     ]);
   };
+
   const deleteItemByIndex = (indexToDelete: number) => {
     setSelectedLang(prevLanguages =>
       prevLanguages.filter((_, index) => index !== indexToDelete),
     );
   };
+
   const formData = {
     experience_years: selectedYearEx,
     educational_level: selectedId4,
@@ -118,6 +123,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     // cv: file,
     skills: [selectedGrade],
   };
+
   const [formErrors, setFormErrors] = React.useState({
     year_ex: '',
     educational_Level: '',
@@ -130,6 +136,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     Cv_file: '',
     skills: '',
   });
+
   const validateForm = () => {
     const errors: {[key: string]: string} = {};
     if (!formData.experience_years) {
@@ -137,9 +144,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     }
     if (!formData.educational_level?.length)
       errors.educational_Level = 'Educational Level Required';
-    if (!formData.fields_of_study)
+    if (formData.fields_of_study.length === 0)
       errors.feiled_study = 'Feiled Study Required';
-    if (!formData.university) {
+    if (formData.university.length === 4) {
       errors.Universty = 'Universty Required';
     }
     if (!formData.degree) {
@@ -148,7 +155,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     if (!formData.grade) {
       errors.grade = 'Grade Required';
     }
-    if (!formData.user_languages) {
+    if (formData.user_languages.length === 0) {
       errors.language = 'Language Required';
     }
     // if (!formData.profisincy) {
@@ -157,7 +164,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     if (!file.name?.length) {
       errors.Cv_file = 'CV Required';
     }
-    if (!formData.skills) {
+    if (formData.skills.length === 0) {
       errors.skills = 'Skills Required';
     }
     setFormErrors(errors);
@@ -174,17 +181,20 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
 
   const handlesubmit = () => {
     if (validateForm()) {
-      const CVFILE = new FormData();
-      CVFILE.append('file', {
+      const formToSend = new FormData();
+      formToSend.append('cv', {
         uri: file.uri,
         type: file.type,
         name: file.name,
       });
-      console.log('CVFILE===', CVFILE);
-      const formToSend = {
-        ...formData,
-        // cv: CVFILE,
-      };
+      formToSend.append('experience_years', selectedYearEx);
+      formToSend.append('educational_level', selectedId4);
+      formToSend.append('fields_of_study[]', [selectedFeild]);
+      formToSend.append('university', selectedUniversty + 'scsc');
+      formToSend.append('degree', selectedDegree);
+      formToSend.append('grade', selectedGrade);
+      formToSend.append('user_languages[]', [SelectedLanguage]);
+      formToSend.append('skills[]', [selectedGrade]);
       dispatch(signUpFourCorporate(formToSend))
         .unwrap()
         .then(() => {
@@ -523,7 +533,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             selectDocument();
           }}
         />
-        {JSON.stringify(file?.name) && (
+        {file?.name && (
           <CustomText text={file?.name} textStyle={styles.CVname} />
         )}
         {formErrors.Cv_file && (

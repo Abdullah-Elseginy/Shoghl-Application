@@ -10,10 +10,13 @@ import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpThreeCorporate} from '../../../redux/slices/authSlice';
 import {AppDispatch} from '../../../redux/store';
-import {getAllCities} from '../../../redux/slices/appdataSlice';
+import {
+  getAllCities,
+  getAllCountries,
+} from '../../../redux/slices/appdataSlice';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   const {allCities, allCountries} = useSelector((state: any) => state.appdata);
-  console.log(allCountries);
+
   // DropDwens
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
@@ -22,6 +25,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   const [selectedNationality, setSelectedNationality] = useState<number>();
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null); // Close it if it's already open
@@ -29,6 +33,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
       setOpenDropdown(dropdownId); // Open the new dropdown
     }
   };
+
   const [formData, SetformData] = useState({
     first_name: '',
     last_name: '',
@@ -37,6 +42,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     birth_day: '',
     phone: '',
   });
+
   const [formErrors, setFormErrors] = React.useState({
     first_name: '',
     last_name: '',
@@ -49,13 +55,14 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     country: '',
     city: '',
   });
+
   const DropDwenValues = {
     gendar: selectedGender,
     nationality: Number(selectedNationality),
     country: selectedCountry,
     city: selectedCity,
   };
-  console.log('nationality', selectedNationality);
+
   const handleInputChange = (field: string, value: string) => {
     SetformData({...formData, [field]: value});
   };
@@ -92,14 +99,12 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    setCurrentPosition(2);
+    // setCurrentPosition(2);
     const concatFormData = {...formData, ...DropDwenValues};
-    console.log('Concat sended', concatFormData);
     if (validateForm()) {
       dispatch(signUpThreeCorporate(concatFormData))
         .unwrap()
-        .then((res: any) => {
-          console.log('signUpTwoCorporate Success==' + res);
+        .then(() => {
           Toast.show({
             text1: 'Success',
             text2: 'Good Step Two Complated',
@@ -116,9 +121,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
             position: 'top',
             visibilityTime: 1500,
           });
-          console.log('dataaaaaaaaaa=', concatFormData);
-          console.error('SignUpCorporateTWO ERROR=== ', err);
-          // setCurrentPosition(1);
         });
     }
   };
@@ -129,6 +131,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
 
   useEffect(() => {
     getCities();
+    dispatch(getAllCountries());
   }, []);
   return (
     <>

@@ -61,9 +61,9 @@ const SignUpStepTwoCandidate = ({route, navigation}: Props) => {
           });
           setTimeout(() => {
             navigation.navigate(ScreenNames.OTPScreen, {
-              phoneNumber: InputVal.phone,
-              borderNoCandidateSignUp: borderno,
+              borderNo: borderno,
               type: 'signup',
+              phone: InputVal.phone,
             });
           }, 1000);
         })

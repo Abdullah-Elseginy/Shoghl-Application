@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   changeRegisterationType,
   loginTwo,
+  ResendOTP,
   signUpThreeVerifyOTP,
 } from '../../redux/slices/authSlice';
 import {OtpInput} from 'react-native-otp-entry';
@@ -24,12 +25,13 @@ type Props = {
 
 const OTPScreen = ({route, navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {loading} = useSelector((state: any) => state.auth);
+  const {loading, loadingResendOTP} = useSelector((state: any) => state.auth);
   const [InputVal, SetInputVal] = useState({
     otp: '',
   });
   const [errorOTP, seterrorOTP] = useState('');
-  const {borderNo, type, borderNoCandidateSignUp} = route.params;
+  const {borderNo, type, phone} = route.params;
+  console.log('Phoneeee-----', phone);
   const handleCandiditeInputsStep2 = () => {
     if (!InputVal.otp) {
       seterrorOTP('OTP Required');
@@ -79,11 +81,12 @@ const OTPScreen = ({route, navigation}: Props) => {
         });
     }
   };
+
   const handlesubmitSignUpCandidate = () => {
     const isValid = handleCandiditeInputsStep2();
     if (isValid) {
       const candidateDataSignUp = {
-        border_number: borderNoCandidateSignUp,
+        border_number: borderNo,
         otp: InputVal.otp,
       };
       dispatch(signUpThreeVerifyOTP(candidateDataSignUp))
@@ -113,15 +116,41 @@ const OTPScreen = ({route, navigation}: Props) => {
         });
     }
   };
+  const RESENDOTP = () => {
+    const ResenData = {
+      border_number: borderNo,
+      phone: phone,
+    };
+    console.log('RESEND DATA----', ResenData);
+    dispatch(ResendOTP(ResenData))
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          text1: 'OTP sent successfully',
+          type: 'success',
+          position: 'top',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
+      })
+      .catch(err => {
+        Toast.show({
+          text2: err,
+          text1: 'Error',
+          type: 'error',
+          position: 'top',
+          visibilityTime: 1500,
+          autoHide: true,
+        });
+      });
+  };
+
   return (
     <AppScreenContainer style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.center}>
           <PackSVG />
-          <CustomText
-            text={`Enter OTP To ${type}`}
-            textStyle={styles.signup}
-          />
+          <CustomText text={`Enter OTP To ${type}`} textStyle={styles.signup} />
         </View>
         {/* candidate section */}
         <View>
@@ -153,8 +182,16 @@ const OTPScreen = ({route, navigation}: Props) => {
                 }}>
                 <CustomText text="Change Number?" textStyle={styles.Resend} />
               </TouchableOpacity>
-              <TouchableOpacity>
-                <CustomText text="Resend OTP?" textStyle={styles.Resend} />
+              <TouchableOpacity
+                disabled={loadingResendOTP}
+                onPress={() => {
+                  RESENDOTP();
+                }}>
+                {loadingResendOTP ? (
+                  <CustomText text="Sending otp..." textStyle={styles.Resend} />
+                ) : (
+                  <CustomText text="Resend OTP?" textStyle={styles.Resend} />
+                )}
               </TouchableOpacity>
             </View>
           </>

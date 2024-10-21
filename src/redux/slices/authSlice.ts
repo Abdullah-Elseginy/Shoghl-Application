@@ -18,6 +18,7 @@ type InitailStateTypes = {
   userCode: any;
   StepOneData: any;
   StepTwoData: any;
+  loadingResendOTP: boolean;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -35,6 +36,7 @@ const initialState: InitailStateTypes = {
   userCode: null,
   StepOneData: '',
   StepTwoData: '',
+  loadingResendOTP: false,
 };
 // ===================== Auth candidate ========================
 // ===================== SignUp One Action ========================
@@ -52,6 +54,25 @@ export const signUpOne = createAsyncThunk(
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
       console.log('signUpOne Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== SignUp One Action ========================
+export const signUpTwocandidate = createAsyncThunk(
+  'auth/signUpTwocandidate',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.SignUpTwocandidate,
+        data: data,
+      });
+      console.log('signUpTwocandidate', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('signUpTwocandidate Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -90,6 +111,25 @@ export const signUpTwoSendOTP = createAsyncThunk(
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
       console.log('signUpTwoSendOTP Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ===================== Resend OTP ========================
+export const ResendOTP = createAsyncThunk(
+  'auth/ResendOTP',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.resendOTP,
+        data: data,
+      });
+      console.log('ResendOTP', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('ResendOTP Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -398,6 +438,20 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // ===================== signUpTwocandidate candidate =======================
+      .addCase(signUpTwocandidate.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(signUpTwocandidate.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userCode = action.payload.data.code;
+        state.error = null;
+      })
+      .addCase(signUpTwocandidate.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
       // ===================== signUpTwoSendOTP candidate =======================
       .addCase(signUpTwoSendOTP.pending, state => {
         state.loading = true;
@@ -442,6 +496,25 @@ const authSlice = createSlice({
       })
       .addCase(signUpTwoComplateProfile.rejected, (state, action) => {
         state.loading = false;
+        state.error = action.payload;
+      })
+      // ===================== RESEND OTP ========================
+
+      .addCase(ResendOTP.pending, state => {
+        state.loadingResendOTP = true;
+        state.error = null;
+      })
+      .addCase(ResendOTP.fulfilled, (state, action) => {
+        state.loadingResendOTP = false;
+        state.user = action.payload;
+        state.token = action.payload.data.access_token;
+        console.log(
+          'userTOKEN from loginone=' + action.payload.data.access_token,
+        );
+        state.error = null;
+      })
+      .addCase(ResendOTP.rejected, (state, action) => {
+        state.loadingResendOTP = false;
         state.error = action.payload;
       })
       // ===================== Login One ========================

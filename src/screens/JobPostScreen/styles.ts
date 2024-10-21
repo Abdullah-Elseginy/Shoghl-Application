@@ -34,6 +34,15 @@ export const styles = StyleSheet.create({
     borderRadius: wp(2),
     marginTop: hp(2),
   },
+  choise1: {
+    width: wp(43),
+    padding: hp(0.8),
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: wp(2),
+    borderRadius: wp(2),
+    marginTop: hp(2),
+  },
   selected: {
     backgroundColor: COLORS.primary,
   },

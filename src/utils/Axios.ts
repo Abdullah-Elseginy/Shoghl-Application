@@ -24,6 +24,9 @@ export type APIsTypes = {
   signUpThreeVrifyOTP: string;
   get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per: string;
   GetChoicesstep3: string;
+  resendOTP: string;
+  SignUpTwocandidate: string;
+  PostJobHelpers: string;
 };
 
 export const APIS: APIsTypes = {
@@ -37,6 +40,7 @@ export const APIS: APIsTypes = {
   signUpTwo: '/API/LOW/Auth/Registration/Two',
   loginOne: '/API/LOW/Auth/Login/One',
   loginTwo: '/API/LOW/Auth/Login/Two',
+  SignUpTwocandidate: '/API/LOW/Auth/Registration/Four',
   // ================= Logout Candidate==================//
   logoutCandidate: '/API/LOW/Auth/Logout',
   // =================== auth Company =================== //
@@ -46,6 +50,7 @@ export const APIS: APIsTypes = {
   signUpFourCorporate: '/API/COM/Auth/Registration/Professional-Info',
   LoginCompany: '/API/COM/Auth/Login',
   logoutCompany: '/API/COM/Auth/Logout',
+  resendOTP: '/API/LOW/Auth/Registration/Two-Resend-Otp',
 
   // =================== Profile =================== //
   getMyProfile: '/API/LOW/My/Profile',
@@ -55,6 +60,8 @@ export const APIS: APIsTypes = {
   get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per:
     '/API/COM/Auth/Registration/Career-Interests-Helpers',
   GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
+  // =================POST JOB=====================//
+  PostJobHelpers: '/API/COM/Jobs/Post-New-Helper',
 };
 
 const axiosInstance = axios.create({

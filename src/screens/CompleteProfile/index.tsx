@@ -17,21 +17,19 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {FlatList} from 'react-native-gesture-handler';
-import {City} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpTwo} from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import {AppDispatch} from '../../redux/store';
 import {getAllCities, getAllCountries} from '../../redux/slices/appdataSlice';
+import {signUpTwocandidate} from '../../redux/slices/authSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const CompleteProfile = ({navigation}: Props) => {
-  const countryList = [{id: 1, label: 'Saudi Arabia'}];
   const dispatch = useDispatch<AppDispatch>();
-  const {userCode, loading} = useSelector((state: any) => state.auth);
+  const {loading} = useSelector((state: any) => state.auth);
   const {allCountries, allCities} = useSelector((state: any) => state.appdata);
 
   const [JopTypes4, SetJopTypes4] = React.useState([
@@ -64,7 +62,6 @@ const CompleteProfile = ({navigation}: Props) => {
     SetJopTypes4(prev => prev.filter((_, i) => i !== index));
     setcurrentSlectedindex(index);
   };
-  console.log('AllCountries*******' + JSON.stringify(allCountries));
   // Validate inputs
   const validateFields = () => {
     let newErrors: any = {};
@@ -84,15 +81,21 @@ const CompleteProfile = ({navigation}: Props) => {
   const handlesubmit = () => {
     if (validateFields()) {
       const data = {
-        user_code: userCode,
         country: countryID,
         city: 2,
-        phone: phone,
+        mobile_phone: '01014216378',
         expected_salary: Number(expectedSalary),
         hide_salary: isSalaryHidden ? 'yes' : 'no',
-        jobs: JSON.stringify(SelectedJops),
+        jobs: SelectedJops,
+        gendar: 'm',
+        first_name: 'ahmed',
+        last_name: 'mohamed',
+        birth_year: 2000,
+        birth_month: 5,
+        birth_day: 10,
+        nationality: 5,
       };
-      dispatch(signUpTwo(data))
+      dispatch(signUpTwocandidate(data))
         .unwrap()
         .then((res: any) => {
           console.log('ressignUpTwo=', res);

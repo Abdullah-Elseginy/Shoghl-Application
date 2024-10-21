@@ -98,7 +98,8 @@ const Job = ({item}: any) => {
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {loading} = useSelector((state: any) => state.auth);
+  const {loading, user} = useSelector((state: any) => state.auth);
+  const companyDataProfile = user?.data;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
 
@@ -117,7 +118,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   ]);
 
   const [InpusValues, SetInpusValues] = useState<any>({
-    Location: 'Egypt',
+    Location: companyDataProfile?.country.name_en,
     Founded: '2020',
     'Company Size': '50-100 employeee',
     Specialties: 'Technology, Innovation',
@@ -160,6 +161,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       });
   };
 
+  console.log('USER---------' + JSON.stringify(user));
   return (
     <AppScreenContainer>
       <ScrollView>
@@ -171,20 +173,24 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
             </View>
             <View style={styles.TextsBox}>
               <CustomText
-                text="Raya Contact Center"
+                text={companyDataProfile?.company_name}
                 textStyle={styles.coverText}
               />
               <View style={[generalStyles.row]}>
                 <Location />
                 <CustomText
-                  text="Consumer Electronics . Retail . Cairo, Egypt . 501-1000 employees"
+                  text={
+                    companyDataProfile?.city?.name_en +
+                    ' , ' +
+                    companyDataProfile?.country?.name_en
+                  }
                   textStyle={styles.subText2}
                 />
               </View>
               <View style={[generalStyles.row]}>
                 <Globaly />
                 <CustomText
-                  text="www.Rayacorp.com"
+                  text={companyDataProfile?.business_email}
                   textStyle={styles.subText2}
                 />
               </View>
