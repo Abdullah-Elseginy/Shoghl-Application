@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
-import {FlatList, Pressable, View} from 'react-native';
+import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import {FieldList} from '../../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
@@ -26,10 +26,13 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   // dropDwens
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedYearEx, setSelectedYearEx] = useState('');
-  const [selectedFeild, setSelectedFeild] = useState('');
+  const [selectedFeild, setSelectedFeild] = useState([]);
   const [selectedUniversty, setSelectedUniversty] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
+  const [selectedSkills, setSelectedSkills] = useState([]);
+
+  console.log('selectedFeild---' + JSON.stringify(selectedFeild));
 
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
@@ -95,15 +98,19 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
         Toast.show({
           text1: 'Error',
           text2: 'You have already selected this language',
+          type: 'error',
         });
         return;
       }
     }
     setSelectedLang([
       ...slectedLang,
-      {lang: SelectedLanguage, prof: SelectedProficiency},
+      {lang: SelectedLanguage, level: SelectedProficiency},
     ]);
+    setselectedLanguage('');
+    setselectedProficiency('');
   };
+  console.log('-----------' + JSON.stringify(slectedLang));
 
   const deleteItemByIndex = (indexToDelete: number) => {
     setSelectedLang(prevLanguages =>
@@ -114,14 +121,14 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const formData = {
     experience_years: selectedYearEx,
     educational_level: selectedId4,
-    fields_of_study: [selectedFeild],
+    fields_of_study: selectedFeild,
     university: selectedUniversty + 'scsc',
     degree: selectedDegree,
     grade: selectedGrade,
     user_languages: [SelectedLanguage],
     // profisincy: SelectedProficiency,
     // cv: file,
-    skills: [selectedGrade],
+    skills: selectedGrade,
   };
 
   const [formErrors, setFormErrors] = React.useState({
@@ -189,12 +196,12 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       });
       formToSend.append('experience_years', selectedYearEx);
       formToSend.append('educational_level', selectedId4);
-      formToSend.append('fields_of_study[]', [selectedFeild]);
+      formToSend.append('fields_of_study[]', selectedFeild);
       formToSend.append('university', selectedUniversty + 'scsc');
       formToSend.append('degree', selectedDegree);
       formToSend.append('grade', selectedGrade);
       formToSend.append('user_languages[]', [SelectedLanguage]);
-      formToSend.append('skills[]', [selectedGrade]);
+      formToSend.append('skills[]', selectedSkills);
       dispatch(signUpFourCorporate(formToSend))
         .unwrap()
         .then(() => {
@@ -220,6 +227,19 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     }
   };
 
+  const transformedSelected = slectedLang.map(sel => {
+    const language = choicesStep3?.languages?.find(
+      (lang: any) => lang.code === sel?.lang,
+    )?.name_en;
+    const level = choicesStep3?.languages_level?.find(
+      level => level.code === sel.level,
+    )?.name_en;
+
+    return {
+      lang: language,
+      level: level,
+    };
+  });
   return (
     <>
       {/*Personal Info */}
@@ -301,6 +321,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             setValue={setSelectedFeild}
             dropDownStyle={generalStyles.DropBorder}
             list={FieldList}
+            multiBle={true}
+            min={0}
+            max={3}
             containerStyle={{
               zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
             }}
@@ -469,6 +492,26 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             />
           )}
 
+          <FlatList
+            data={transformedSelected}
+            keyExtractor={item => item?.lang}
+            horizontal
+            renderItem={({item, index}) => (
+              <View style={[generalStyles.row, styles.conlang]}>
+                <CustomText
+                  text={item.lang + ' : '}
+                  textStyle={styles.Langtxt}
+                />
+                <CustomText text={item.level} textStyle={styles.Langtxt2} />
+
+                <TouchableOpacity
+                  onPress={() => deleteItemByIndex(index)}
+                  style={[styles.delate]}>
+                  <CustomText text="x" textStyle={styles.texdel} />
+                </TouchableOpacity>
+              </View>
+            )}
+          />
           <Button
             text="Add"
             isDisapled={SelectedLanguage && SelectedProficiency ? false : true}
@@ -477,21 +520,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onPress={() => {
               addedLanguge();
             }}
-          />
-          <FlatList
-            data={slectedLang}
-            keyExtractor={item => item?.lang}
-            renderItem={({item, index}) => (
-              <View style={[generalStyles.rowBetween]}>
-                <CustomText text={item.lang} textStyle={styles.Langtxt} />
-                <CustomText text={item.prof} textStyle={styles.Langtxt} />
-                <Button
-                  text="Delate"
-                  onPress={() => deleteItemByIndex(index)}
-                  style={[styles.delate]}
-                />
-              </View>
-            )}
           />
         </View>
       </View>
@@ -504,13 +532,16 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           />
           <Dropdown
             placeholder="Skills"
-            value={selectedGrade}
-            setValue={setSelectedGrade}
+            value={selectedSkills}
+            setValue={setSelectedSkills}
             dropDownStyle={generalStyles.DropBorder}
             list={FieldList}
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
+            multiBle={true}
+            min={0}
+            max={10}
             isOpen={openDropdown === 'dropdown6'}
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
@@ -524,10 +555,13 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       {/* Upload your CV */}
       <View style={styles.SectionBox}>
         <View style={generalStyles.rowwrap}>
-          <CustomText text="Upload your CV" textStyle={styles.StepTitle} />
+          <CustomText
+            text="Upload your Document"
+            textStyle={styles.StepTitle}
+          />
         </View>
         <Button
-          text="Upload CV"
+          text="Upload Document"
           style={styles.CV}
           onPress={() => {
             selectDocument();

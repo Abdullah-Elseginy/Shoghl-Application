@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.primaryMoreLight,
     borderRadius: 10,
     paddingHorizontal: wp(1.5),
+    marginBottom: hp(0.5),
   },
   selectedItemLabelStyle: {
     color: COLORS.black,
@@ -45,4 +46,5 @@ export const styles = StyleSheet.create({
     fontSize: hp(2),
     fontFamily: FONTS.Medium,
   },
+  bagetextStyle: {color: COLORS.gray},
 });

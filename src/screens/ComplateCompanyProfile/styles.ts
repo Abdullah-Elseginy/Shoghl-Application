@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {COLORS, FONTS, hp, wp} from '../../constants';
 
 export const styles = StyleSheet.create({
@@ -184,5 +184,18 @@ export const styles = StyleSheet.create({
   },
   Logout2: {
     marginHorizontal: wp(4),
+  },
+
+  container: {
+    height: 400,
+    backgroundColor: '#0dd',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 25,
+  },
+  pdf: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });

@@ -7,7 +7,7 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {View} from 'react-native';
+import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
 import {
   Cash,
   Crown,
@@ -17,6 +17,8 @@ import {
   Location,
   Raya,
 } from '../../assets';
+import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
 
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
@@ -28,6 +30,7 @@ import {AppDispatch} from '../../redux/store';
 import {logoutCompany} from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
+import WebView from 'react-native-webview';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
@@ -162,6 +165,83 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   };
 
   console.log('USER---------' + JSON.stringify(user));
+  // ----------------------------------show PDF-------------------------------------------------------
+  const [doenloadPDF, setdoenloadPDF] = useState(false);
+  const pdfUrl =
+    'https://shoghl.code-faster.giize.com/media/Users/C/aa9dec0c-ed57-4c58-a2cb-cbd6c9ca8895/cv.pdf'; // Your PDF URL
+  // const [downloadedPath, setDownloadedPath] = useState(null); // To store the file path after downloading
+
+  // Function to request storage permissions (Android only)
+  // const requestStoragePermission = async () => {
+  //   if (Platform.OS === 'android') {
+  //     try {
+  //       const granted = await PermissionsAndroid.request(
+  //         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+  //         {
+  //           title: 'Storage Permission',
+  //           message: 'This app needs access to your storage to download files',
+  //           buttonNeutral: 'Ask Me Later',
+  //           buttonNegative: 'Cancel',
+  //           buttonPositive: 'OK',
+  //         },
+  //       );
+  //       return granted === PermissionsAndroid.RESULTS.GRANTED;
+  //     } catch (err) {
+  //       console.warn(err);
+  //       console.log('er----------' + err);
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // };
+
+  // // Function to download the PDF
+  // const downloadPdf = async () => {
+  //   const hasPermission = await requestStoragePermission();
+  //   if (!hasPermission) {
+  //     Alert.alert(
+  //       'Permission denied',
+  //       'Cannot download file without storage permission.',
+  //     );
+  //     return;
+  //   }
+
+  //   const fileName = pdfUrl.split('/').pop(); // Extract file name from URL
+  //   const localFilePath = `${RNFS.DocumentDirectoryPath}/${fileName}`; // Save in device storage
+
+  //   try {
+  //     // Download the PDF
+  //     const downloadResult = await RNFS.downloadFile({
+  //       fromUrl: pdfUrl,
+  //       toFile: localFilePath,
+  //     }).promise;
+
+  //     if (downloadResult.statusCode === 200) {
+  //       Alert.alert('Download complete', 'The PDF has been downloaded.');
+  //       setDownloadedPath(localFilePath); // Store the local file path
+  //     } else {
+  //       Alert.alert('Download failed', 'Failed to download the PDF.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error downloading PDF:', error);
+  //     Alert.alert('Error', 'Failed to download the PDF.');
+  //   }
+  // };
+
+  // // Function to view the downloaded PDF
+  // const viewPdf = async () => {
+  //   if (downloadedPath) {
+  //     try {
+  //       await FileViewer.open(downloadedPath); // Open the PDF using the default viewer
+  //     } catch (error) {
+  //       console.error('Error opening PDF:', error);
+  //       Alert.alert('Error', 'Failed to open the PDF.');
+  //     }
+  //   } else {
+  //     Alert.alert('File not downloaded', 'Please download the file first.');
+  //   }
+  // };
+
   return (
     <AppScreenContainer>
       <ScrollView>
@@ -245,6 +325,31 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 </View>
               )}
             />
+          </View>
+          {/* Uploaded CV */}
+          {/* <View style={styles.container}> */}
+          {/* <Button text="Download PDF" onPress={downloadPdf} /> */}
+          {/* <Button
+              text="View PDF"
+              onPress={viewPdf}
+              isDisapled={!downloadedPath}
+            /> */}
+
+          {/* </View> */}
+          <View style={styles.HringBox}>
+            <CustomText text="Your Document" textStyle={styles.TextTitle} />
+            <CustomText
+              text={companyDataProfile?.cv}
+              textStyle={styles.subText}
+            />
+            <Button
+              onPress={() => {
+                setdoenloadPDF(prev => !prev);
+              }}
+              text="Doenload PDF"
+              style={styles.bottomStyle}
+            />
+            {doenloadPDF && <WebView source={{uri: companyDataProfile?.cv}} />}
           </View>
           {/* hiring */}
           <View style={styles.HringBox}>

@@ -75,7 +75,7 @@ export const styles = StyleSheet.create({
     marginTop: hp(3),
   },
   CV: {
-    width: wp(30),
+    width: wp(42),
     alignSelf: 'center',
   },
   CVname: {
@@ -83,15 +83,21 @@ export const styles = StyleSheet.create({
   },
   Langtxt: {
     fontFamily: FONTS.SemiBold,
-    fontSize: wp(3.5),
-    width: wp(30),
-    marginRight: wp(2),
+    fontSize: wp(2.5),
+  },
+  Langtxt2: {
+    fontFamily: FONTS.SemiBold,
+    fontSize: wp(2.5),
+    marginRight: wp(1.5),
+    color: COLORS.primary,
   },
   delate: {
     backgroundColor: COLORS.danger,
-    width: wp(20),
-    height: hp(4.5),
-    alignSelf: 'flex-end',
+    width: wp(5.5),
+    height: hp(2.6),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: wp(50),
   },
   margnbtn: {
     marginBottom: hp(1),
@@ -105,5 +111,16 @@ export const styles = StyleSheet.create({
   },
   centerTExt: {
     textAlign: 'center',
+  },
+  conlang: {
+    backgroundColor: COLORS.primaryMoreLight,
+    borderRadius: wp(2),
+    marginBottom: wp(1),
+    marginRight: wp(1),
+    padding: wp(1),
+    marginTop: hp(1),
+  },
+  texdel: {
+    color: COLORS.white,
   },
 });

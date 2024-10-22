@@ -27,6 +27,7 @@ export type APIsTypes = {
   resendOTP: string;
   SignUpTwocandidate: string;
   PostJobHelpers: string;
+  postNewJob: string;
 };
 
 export const APIS: APIsTypes = {
@@ -62,6 +63,7 @@ export const APIS: APIsTypes = {
   GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
   // =================POST JOB=====================//
   PostJobHelpers: '/API/COM/Jobs/Post-New-Helper',
+  postNewJob: '/API/COM/Jobs/Post-New',
 };
 
 const axiosInstance = axios.create({

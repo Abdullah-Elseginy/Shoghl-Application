@@ -99,7 +99,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    // setCurrentPosition(2);
+    setCurrentPosition(2);
     const concatFormData = {...formData, ...DropDwenValues};
     if (validateForm()) {
       dispatch(signUpThreeCorporate(concatFormData))

@@ -159,4 +159,8 @@ export const styles = StyleSheet.create({
   subcheckText: {
     marginLeft: wp(2),
   },
+  ErrorMSG: {
+    color: COLORS.danger,
+    marginTop: hp(0.5),
+  },
 });

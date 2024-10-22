@@ -21,6 +21,9 @@ type Props = {
   onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
   labelStyle?: StyleProp<ViewStyle>;
   schema?: any;
+  multiBle?: boolean;
+  min?: number;
+  max?: number;
 };
 
 const Dropdown = ({
@@ -40,6 +43,9 @@ const Dropdown = ({
   onDropdownOpen,
   labelStyle,
   schema,
+  multiBle = false,
+  min,
+  max,
 }: Props) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -72,6 +78,12 @@ const Dropdown = ({
           styles.dropDownContainerStyle,
           ModalContainerStyle,
         ]}
+        multiple={multiBle}
+        mode={'BADGE'}
+        // badgeColors={COLORS.primaryLight}
+        badgeTextStyle={styles.bagetextStyle}
+        min={min}
+        max={max}
         containerStyle={[
           styles.dropDownContainerStyle,
           containerStyle,

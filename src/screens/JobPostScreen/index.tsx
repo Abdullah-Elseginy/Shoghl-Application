@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {Pressable, ScrollView, View} from 'react-native';
@@ -27,7 +28,9 @@ import {
   getAllCities,
   getAllCountries,
   PostJobHelpers,
+  PostNewJob,
 } from '../../redux/slices/appdataSlice';
+import Toast from 'react-native-toast-message';
 
 const JobPost = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -61,6 +64,7 @@ const JobPost = () => {
     },
   ]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedType, setSelectedType] = useState<string>('Job');
   const [selectedId2, setSelectedId2] = useState<string | null>(null);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -123,7 +127,10 @@ const JobPost = () => {
         styles.choise,
         selectedId === item.code ? styles.selected : styles.unselected,
       ]}
-      onPress={() => setSelectedId(item.code)}>
+      onPress={() => {
+        setSelectedId(item.code);
+        setSelectedType(item.name_en);
+      }}>
       <CustomText
         text={item.name_en}
         textStyle={
@@ -181,7 +188,102 @@ const JobPost = () => {
       />
     </Pressable>
   );
+  //--------------------------------Validation----------------
+  const formData = {
+    is_high_job: 'no',
+    post_type: selectedId,
+    title: '',
+    job_types: '',
+    contract_type: '',
+    country: '',
+    salary_currency: '',
+    city: '',
+    career_level: '',
+    experience_from: '',
+    experience_to: '',
+    salary_from: '',
+    salary_to: '',
+    salary_hide: '',
+    number_of_vacancies: '',
+    job_description: '',
+    job_requirements: '',
+    keywords: '',
+    keep_company_confidintial: '',
+    send_emails_notification: '',
+  };
 
+  const [formErrors, setFormErrors] = React.useState({
+    is_high_job: 'no',
+    post_type: selectedId,
+    title: '',
+    job_types: '',
+    contract_type: '',
+    country: '',
+    salary_currency: '',
+    city: '',
+    career_level: '',
+    experience_from: '',
+    experience_to: '',
+    salary_from: '',
+    salary_to: '',
+    salary_hide: '',
+    number_of_vacancies: '',
+    job_description: '',
+    job_requirements: '',
+    keywords: '',
+    keep_company_confidintial: '',
+    send_emails_notification: '',
+  });
+
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    if (!formData.post_type) {
+      errors.post_type = 'Post Type Required';
+    }
+    if (!formData.title) errors.title = 'Title Required';
+    if (!formData.job_types) errors.job_types = 'Job Types Required';
+    if (!formData.contract_type) {
+      errors.contract_type = 'Contract Type Required';
+    }
+    if (!formData.country) {
+      errors.country = 'Country Required';
+    }
+    if (!formData.salary_currency) {
+      errors.salary_currency = 'Salary Currency Required';
+    }
+    if (!formData.city) {
+      errors.city = 'City Required';
+    }
+    if (!formData.career_level) {
+      errors.career_level = 'Career Level Required';
+    }
+    if (!formData.experience_from) {
+      errors.experience_from = 'Required';
+    }
+    if (!formData.experience_to) {
+      errors.experience_to = 'Required';
+    }
+    if (!formData.salary_from) {
+      errors.salary_from = 'Required';
+    }
+    if (!formData.salary_to) {
+      errors.salary_to = 'Required';
+    }
+    if (!formData.number_of_vacancies) {
+      errors.number_of_vacancies = 'Required';
+    }
+    if (!formData.job_description) {
+      errors.job_description = 'Required';
+    }
+    if (!formData.job_requirements) {
+      errors.job_requirements = 'Required';
+    }
+    if (!formData.keywords) {
+      errors.number_of_vacancies = 'Required';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   // -------------------------------APIs--------------------------
   const PostJobhelpers = () => {
     dispatch(PostJobHelpers());
@@ -193,6 +295,24 @@ const JobPost = () => {
     dispatch(getAllCountries);
   }, []);
 
+  const PostJob = () => {
+    dispatch(PostNewJob())
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          text1: 'Success',
+          text2: 'Job Posted Successfully',
+          type: 'success',
+        });
+      })
+      .catch(err => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
+        });
+      });
+  };
   return (
     <AppScreenContainer>
       <AppHeader arrowBack title="Jop Post" />
@@ -210,28 +330,48 @@ const JobPost = () => {
               keyExtractor={item => item.code}
               renderItem={renderItem}
               horizontal={true}
-              extraData={selectedId}
             />
           </View>
+          {formErrors.post_type && (
+            <CustomText
+              text={formErrors.post_type}
+              textStyle={styles.ErrorMSG}
+            />
+          )}
           {/* job title */}
           <View style={styles.SectionBox}>
-            <CustomText text="job title" textStyle={styles.StepTitle} />
+            <CustomText
+              text={selectedType + ' title'}
+              textStyle={styles.StepTitle}
+            />
             <AppInput
               containerStyle={styles.ContanerInput}
-              placeholder="job title"
+              placeholder={selectedType + ' title'}
             />
           </View>
+          {formErrors.title && (
+            <CustomText text={formErrors.title} textStyle={styles.ErrorMSG} />
+          )}
           {/* job Caregory */}
           <View style={styles.SectionBox}>
-            <CustomText text="job Caregory" textStyle={styles.StepTitle} />
+            <CustomText
+              text={selectedType + ' Caregory'}
+              textStyle={styles.StepTitle}
+            />
             <AppInput
               containerStyle={styles.ContanerInput}
-              placeholder="job Caregory"
+              placeholder={selectedType + ' Caregory'}
             />
           </View>
+          {/* {formErrors.title && (
+            <CustomText text={formErrors.title} textStyle={styles.ErrorMSG} />
+          )} */}
           {/* Job type */}
           <View style={styles.SectionBox}>
-            <CustomText text="Job Type" textStyle={styles.StepTitle} />
+            <CustomText
+              text={selectedType + ' Type'}
+              textStyle={styles.StepTitle}
+            />
             <FlatList
               data={PostjobHelpers?.job_types}
               keyExtractor={item => item.code}
@@ -240,10 +380,16 @@ const JobPost = () => {
               numColumns={2}
             />
           </View>
+          {formErrors.job_types && (
+            <CustomText
+              text={formErrors.job_types}
+              textStyle={styles.ErrorMSG}
+            />
+          )}
           {/* Job type remotly */}
           <View style={styles.SectionBox}>
             <CustomText
-              text="what Type(s) of job are you open to "
+              text={`what Type(s) of ${selectedType} are you open to `}
               textStyle={styles.StepTitle}
             />
             <FlatList
@@ -254,6 +400,12 @@ const JobPost = () => {
               extraData={selectedId2}
             />
           </View>
+          {formErrors.job_types && (
+            <CustomText
+              text={formErrors.job_types}
+              textStyle={styles.ErrorMSG}
+            />
+          )}
           {/* Location */}
           <View style={styles.SectionBox}>
             <CustomText text="Your Location" textStyle={styles.StepTitle} />
@@ -318,36 +470,10 @@ const JobPost = () => {
             />
             <View style={generalStyles.row}>
               <View>
-                <Dropdown
-                  placeholder="MIN"
-                  value={selectedYearEX}
-                  setValue={setSelectedselectedYearEX}
-                  dropDownStyle={styles.DropStyles}
-                  list={YEARSEXP}
-                  containerStyle={{
-                    zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
-                  }}
-                  isOpen={openDropdown === 'dropdown3'}
-                  onDropdownOpen={isOpen =>
-                    handleDropdownOpen(isOpen ? 'dropdown3' : null)
-                  }
-                />
+                <AppInput containerStyle={styles.InputBox} placeholder="MIN" />
               </View>
-              <View style={styles.ContaibYear}>
-                <Dropdown
-                  placeholder="MAX"
-                  value={selectedYearEX2}
-                  setValue={setSelectedselectedYearEX2}
-                  dropDownStyle={styles.DropStyles}
-                  list={YEARSEXP2}
-                  containerStyle={{
-                    zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
-                  }}
-                  isOpen={openDropdown === 'dropdown4'}
-                  onDropdownOpen={isOpen =>
-                    handleDropdownOpen(isOpen ? 'dropdown4' : null)
-                  }
-                />
+              <View>
+                <AppInput containerStyle={styles.InputBox} placeholder="MAx" />
               </View>
             </View>
           </View>
@@ -381,25 +507,12 @@ const JobPost = () => {
               text="Number of Vacancies"
               textStyle={[styles.StepTitle, styles.StepText]}
             />
-            <Dropdown
-              placeholder="Vacancies"
-              value={selectedVacancies}
-              setValue={setSelectedselectedVacancies}
-              dropDownStyle={generalStyles.DropBorder}
-              list={YEARSEXP}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown5' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown5'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown5' : null)
-              }
-            />
+            <AppInput placeholder="Enter Number" isNumericKeyboard />
           </View>
           {/*About Job */}
           <View style={[styles.SectionBox]}>
             <CustomText
-              text="About Job"
+              text={'About ' + selectedType}
               textStyle={[styles.StepTitle, styles.StepText]}
             />
             <View>
@@ -408,7 +521,7 @@ const JobPost = () => {
                 containerStyle={styles.JobDEs}
                 multiline={true}
                 inputStyle={styles.inputstyle}
-                label="Job description"
+                label={selectedType + ' description'}
               />
             </View>
             <View>
@@ -417,7 +530,7 @@ const JobPost = () => {
                 containerStyle={styles.JobDEs}
                 multiline={true}
                 inputStyle={styles.inputstyle}
-                label="Job requirements"
+                label={selectedType + ' requirement'}
               />
             </View>
           </View>
@@ -442,7 +555,7 @@ const JobPost = () => {
           {/* Job Option */}
           <View style={[styles.SectionBox]}>
             <CustomText
-              text="Job Option"
+              text={`${selectedType} Option`}
               textStyle={[styles.StepTitle, styles.StepText]}
             />
             <FlatList
@@ -500,7 +613,11 @@ const JobPost = () => {
           </View>
 
           {/* SAve */}
-          <Button text="Post Now" style={styles.Buttom} onPress={() => {}} />
+          <Button
+            text="Post Now"
+            style={styles.Buttom}
+            onPress={validateForm}
+          />
         </ScrollView>
       </View>
     </AppScreenContainer>
