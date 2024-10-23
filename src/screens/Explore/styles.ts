@@ -57,6 +57,7 @@ export const styles = StyleSheet.create({
     marginBottom: hp(1),
     borderRadius: hp(1),
     padding: hp(1),
+    marginTop: hp(3),
   },
   contencontainer: {paddingLeft: 20},
   filterChoices: {

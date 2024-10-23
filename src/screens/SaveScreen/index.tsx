@@ -63,15 +63,15 @@ const SaveScreen = ({navigation}: any) => {
       {/* <AppHeader arrowBack={true} title="Saved" /> */}
       <ScrollView contentContainerStyle={styles.container}>
         {/* Section1 Search Title */}
-        <View style={styles.Secion1Box}>
+        {/* <View style={styles.Secion1Box}>
           <CustomText
             text="Senior Management Jobs in Saudi Arabia"
             textStyle={styles.sectionTitle}
           />
           <CustomText text="123 jobs found" textStyle={styles.jobsNumber} />
-        </View>
+        </View> */}
         {/* Jobs*/}
-        <View>
+        <View style={styles.contanBox}>
           <FlatList
             data={JOBS3}
             keyExtractor={item => item.id.toString()}

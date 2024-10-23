@@ -7,11 +7,12 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './style';
-import {CompanyLAnding,  SavaTime} from '../../assets';
+import {CompanyLAnding, SavaTime} from '../../assets';
 import {hp, wp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {CAROUSELDATA, PARTENERS} from '../../utils/Data';
+import ScreenNames from '../../navigations/ScreenNames';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
@@ -36,7 +37,7 @@ const ForEmployee = ({navigation}: Props) => {
           />
           <Button
             text="Hire Now"
-            onPress={() => navigation.navigate('WelcomeEmployee')}
+            onPress={() => navigation.navigate(ScreenNames.WelcomeEmployee)}
           />
         </View>
         {/* Join Saudi Top Companies */}

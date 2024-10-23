@@ -73,6 +73,7 @@ const BottomTabNavigator = () => {
       })}>
       {registerationType === 'candidate' ? (
         <>
+          <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
           <Tab.Screen name={ScreenNames.ExploreScreen} component={Explore} />
           <Tab.Screen
             name={ScreenNames.Applications}
@@ -83,7 +84,6 @@ const BottomTabNavigator = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name={ScreenNames.Home} component={HomeScreen} />
           <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
           <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
           <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />

@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   CoverBackgroud: {
     backgroundColor: COLORS.white,
     height: hp(15),
-    flexDirection: 'row',
+    // flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: wp(4),
   },
@@ -21,14 +21,16 @@ export const styles = StyleSheet.create({
   },
   ProfilePhotoBox: {
     backgroundColor: COLORS.white,
-    marginBottom: hp(2),
-    marginLeft: hp(2),
+    marginBottom: hp(0.5),
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp(12),
+    // height: hp(12),
+    marginTop: hp(3),
   },
   TextsBox: {
-    alignItems: 'flex-start',
+    // alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   HringBox: {
     borderWidth: wp(0.1),
@@ -51,11 +53,10 @@ export const styles = StyleSheet.create({
   },
   subText2: {
     color: COLORS.grayLight,
-    marginLeft: wp(1),
-    width: wp(60),
   },
   Container: {
     paddingHorizontal: hp(2),
+    marginTop: hp(2),
   },
   Section: {
     marginVertical: wp(8),
@@ -197,5 +198,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  PDFVEw: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

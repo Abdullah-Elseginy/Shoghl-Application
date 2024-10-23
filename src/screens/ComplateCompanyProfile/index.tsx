@@ -7,7 +7,7 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {Alert, PermissionsAndroid, Platform, View} from 'react-native';
+import {View} from 'react-native';
 import {
   Cash,
   Crown,
@@ -15,10 +15,13 @@ import {
   ExitXicon,
   Globaly,
   Location,
+  PDF,
   Raya,
 } from '../../assets';
-import RNFS from 'react-native-fs';
-import FileViewer from 'react-native-file-viewer';
+import DocumentPicker from 'react-native-document-picker';
+
+// import RNFS, {downloadFile} from 'react-native-fs';
+// import FileViewer from 'react-native-file-viewer';
 
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
@@ -105,6 +108,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const companyDataProfile = user?.data;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
+  const [editDoc, setesitDoc] = useState(false);
 
   const [InputsData] = useState([
     {title: 'Location', type: 'text', value: '', error: '', hasError: false},
@@ -167,8 +171,13 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   console.log('USER---------' + JSON.stringify(user));
   // ----------------------------------show PDF-------------------------------------------------------
   const [doenloadPDF, setdoenloadPDF] = useState(false);
-  const pdfUrl =
-    'https://shoghl.code-faster.giize.com/media/Users/C/aa9dec0c-ed57-4c58-a2cb-cbd6c9ca8895/cv.pdf'; // Your PDF URL
+  const [DocumentURL, setDocumentURL] = useState(companyDataProfile?.cv);
+  if (doenloadPDF) {
+    setTimeout(() => {
+      setdoenloadPDF(false);
+    }, 1000);
+  }
+  // const pdfUrl ='https://shoghl.code-faster.giize.com/media/Users/C/aa9dec0c-ed57-4c58-a2cb-cbd6c9ca8895/cv.pdf'; // Your PDF URL
   // const [downloadedPath, setDownloadedPath] = useState(null); // To store the file path after downloading
 
   // Function to request storage permissions (Android only)
@@ -241,6 +250,32 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   //     Alert.alert('File not downloaded', 'Please download the file first.');
   //   }
   // };
+
+  //--------------------------------Upload File--------------------------
+  const [file, setFile] = useState({name: '', type: '', uri: ''});
+  const selectDocument = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
+      });
+      setFile(res[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Document selection was canceled',
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Unknown Error: ' + JSON.stringify(err),
+        });
+        // Alert.alert('Unknown Error: ' + JSON.stringify(err));
+      }
+    }
+  };
 
   return (
     <AppScreenContainer>
@@ -337,19 +372,51 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
 
           {/* </View> */}
           <View style={styles.HringBox}>
-            <CustomText text="Your Document" textStyle={styles.TextTitle} />
-            <CustomText
-              text={companyDataProfile?.cv}
-              textStyle={styles.subText}
-            />
-            <Button
-              onPress={() => {
-                setdoenloadPDF(prev => !prev);
-              }}
-              text="Doenload PDF"
-              style={styles.bottomStyle}
-            />
-            {doenloadPDF && <WebView source={{uri: companyDataProfile?.cv}} />}
+            <View style={generalStyles.rowBetween}>
+              <CustomText text="Your Document" textStyle={styles.TextTitle} />
+              {editDoc ? (
+                <Button
+                  text="save"
+                  style={styles.EditBtn}
+                  onPress={() => {
+                    setesitDoc(false);
+                    setDocumentURL(file.uri);
+                  }}
+                />
+              ) : (
+                <Button
+                  text="+ Edit"
+                  style={styles.EditBtn}
+                  onPress={() => setesitDoc(true)}
+                />
+              )}
+            </View>
+            <View style={styles.PDFVEw}>
+              <PDF />
+            </View>
+            {editDoc ? (
+              <Button
+                onPress={() => {
+                  selectDocument();
+                }}
+                text="Upload New Document"
+                style={styles.bottomStyle}
+              />
+            ) : (
+              <Button
+                onPress={() => {
+                  setdoenloadPDF(prev => !prev);
+                }}
+                text="Doenload PDF"
+                style={styles.bottomStyle}
+              />
+            )}
+            {doenloadPDF && (
+              <WebView
+                source={{uri: DocumentURL}}
+                downloadingMessage="Dowenloaded successfully"
+              />
+            )}
           </View>
           {/* hiring */}
           <View style={styles.HringBox}>

@@ -76,13 +76,13 @@ const Explore = ({navigation}: Props) => {
       {/* <AppHeader arrowBack={true} title="Search jobs" /> */}
       <ScrollView contentContainerStyle={styles.container}>
         {/* Section1 Search Title */}
-        <View style={styles.Secion1Box}>
+        {/* <View style={styles.Secion1Box}>
           <CustomText
             text="Senior Management Jobs in Saudi Arabia"
             textStyle={styles.sectionTitle}
           />
           <CustomText text="123 jobs found" textStyle={styles.jobsNumber} />
-        </View>
+        </View> */}
         {/* Section2 Filter */}
         <TouchableOpacity
           onPress={() => SetOpenSheet(true)}

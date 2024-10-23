@@ -19,7 +19,7 @@ const ScreenNames = {
   RegisterationSteps: 'RegisterationSteps',
   SearchCV: 'SearchCV',
   ComplateSearchedCv: 'ComplateSearchedCv',
-  Applications: 'Applications',
+  Applications: 'Apps',
   SaveScreen: 'Save',
   ExploreScreen: 'Explore',
   OTPScreen: 'OTPScreen',

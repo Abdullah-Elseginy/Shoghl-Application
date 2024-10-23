@@ -14,10 +14,10 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {WelComJOBS} from '../../utils/Data';
+import {useSelector} from 'react-redux';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
-
 const Job = ({item}: any) => {
   return (
     <Pressable onPress={() => {}} style={[styles.jobBox]}>
@@ -83,13 +83,18 @@ const Job = ({item}: any) => {
   );
 };
 const WelcomeEmployee = ({navigation}: Props) => {
+  const {user} = useSelector((state: any) => state.auth);
+
   return (
     <AppScreenContainer>
-      <AppHeader arrowBack={true} title="Welcome Ahmed" />
+      <AppHeader arrowBack={true} title={'Welcome ' + user?.data?.first_name} />
       <View style={styles.AppContainer}>
         {/* welcome and post job */}
         <View style={generalStyles.rowCenter}>
-          <CustomText text="Welcome Ahmed " textStyle={styles.WelcomeTExt} />
+          <CustomText
+            text={'Welcome ' + user?.data?.first_name}
+            textStyle={styles.WelcomeTExt}
+          />
           <Button
             onPress={() => navigation.navigate(ScreenNames.JobPost)}
             style={{

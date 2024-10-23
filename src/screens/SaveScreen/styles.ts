@@ -108,5 +108,8 @@ const styles = StyleSheet.create({
   jobsNumber: {
     color: COLORS.grayLight,
   },
+  contanBox: {
+    marginTop: hp(5),
+  },
 });
 export default styles;
