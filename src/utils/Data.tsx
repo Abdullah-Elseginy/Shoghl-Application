@@ -103,99 +103,7 @@ const QUETIONS = [
     text: 'What are the top 10 popular jobs in Saudi Arabia Now?',
   },
 ];
-const Optionsdata = [
-  {
-    id: '1',
-    title: 'Workplace',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '2',
 
-    title: 'Country',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '3',
-    title: 'City',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    title: 'Career Level',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-  {
-    id: '5',
-    title: 'Area',
-    options: [
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-      {
-        title: 'choice1',
-        selected: false,
-      },
-    ],
-  },
-];
 const PARTENERS = [
   {
     id: 1,
@@ -1095,7 +1003,6 @@ const JOBS3 = [
 export {
   JOBS,
   QUETIONS,
-  Optionsdata,
   PARTENERS,
   CAROUSELDATA,
   WelComJOBS,

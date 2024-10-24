@@ -28,6 +28,11 @@ export type APIsTypes = {
   SignUpTwocandidate: string;
   PostJobHelpers: string;
   postNewJob: string;
+  // ----jobs slice
+  SearchJobs: string;
+  getCategoryWithSearch: string;
+  getJobsDetails: string;
+  getAllHelperJobs: string;
 };
 
 export const APIS: APIsTypes = {
@@ -61,9 +66,15 @@ export const APIS: APIsTypes = {
   get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per:
     '/API/COM/Auth/Registration/Career-Interests-Helpers',
   GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
-  // =================POST JOB=====================//
+  // =================jobs slice=====================//
+  // ----------------Post jobs-------------------
   PostJobHelpers: '/API/COM/Jobs/Post-New-Helper',
   postNewJob: '/API/COM/Jobs/Post-New',
+  // ----------------search jobs-------------------
+  SearchJobs: '/API/LOW/Jobs/All',
+  getCategoryWithSearch: '/API/LOW/Jobs/Categorys',
+  getJobsDetails: '/API/LOW/Jobs/Details',
+  getAllHelperJobs: '/API/LOW/Jobs/All-Helper',
 };
 
 const axiosInstance = axios.create({

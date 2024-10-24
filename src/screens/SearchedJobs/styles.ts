@@ -65,18 +65,33 @@ export const styles = StyleSheet.create({
     marginBottom: hp(1),
   },
   ItemText: {marginLeft: hp(0.8)},
+  quetionBox: {
+    padding: hp(2),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    borderWidth: wp(0.1),
+    borderColor: COLORS.grayLight,
+    alignItems: 'center',
+    marginBottom: hp(2),
+    borderRadius: hp(1),
+  },
+  btn: {
+    marginTop: hp(2),
+  },
+
   jobBox: {
     borderWidth: hp(0.1),
     borderColor: COLORS.grayLight,
     borderRadius: hp(1),
     marginBottom: hp(3),
+    minHeight: hp(28),
   },
   jobTopBox: {
     paddingHorizontal: wp(6),
-    paddingVertical: hp(5),
+    paddingTop: hp(3),
   },
   jobTopContent: {
-    marginStart: wp(8),
+    marginStart: wp(5),
   },
   status: {
     color: COLORS.grayLight,
@@ -103,6 +118,7 @@ export const styles = StyleSheet.create({
     fontSize: hp(1.8),
     textTransform: 'capitalize',
     alignSelf: 'center',
+    maxWidth: wp(28),
   },
   period2: {
     backgroundColor: COLORS.blueLight,
@@ -116,6 +132,12 @@ export const styles = StyleSheet.create({
     fontSize: hp(1.8),
     textTransform: 'capitalize',
     alignSelf: 'center',
+    maxWidth: wp(28),
+  },
+  period3: {
+    backgroundColor: COLORS.danger,
+    color: COLORS.red,
+    borderColor: COLORS.red,
   },
   jobBottomBox: {
     paddingHorizontal: wp(6),
@@ -130,17 +152,23 @@ export const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   LocationIcon: {marginStart: wp(20)},
-  quetionBox: {
-    padding: hp(2),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderWidth: wp(0.1),
-    borderColor: COLORS.grayLight,
-    alignItems: 'center',
-    marginBottom: hp(2),
-    borderRadius: hp(1),
+  im: {
+    width: wp(20),
+    height: hp(10),
+    borderRadius: wp(10),
   },
-  btn: {
-    marginTop: hp(2),
+  Conten: {
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  Count: {
+    fontFamily: FONTS.Bold,
+  },
+  countBox: {
+    borderRadius: wp(50),
+    backgroundColor: COLORS.blueLight,
+    color: COLORS.black,
+    marginLeft: wp(4),
+    padding: wp(1),
   },
 });

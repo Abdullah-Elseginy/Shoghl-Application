@@ -216,4 +216,16 @@ export const styles = StyleSheet.create({
     marginLeft: wp(1),
     fontFamily: FONTS.Bold,
   },
+  SerchRow: {
+    marginBottom: hp(1),
+  },
+  namesearch: {
+    fontFamily: FONTS.SemiBold,
+  },
+  serchBox: {
+    borderWidth: wp(0.1),
+    borderColor: COLORS.primary,
+    borderRadius: wp(2),
+    padding: wp(2),
+  },
 });

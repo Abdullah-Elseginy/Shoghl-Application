@@ -14,29 +14,18 @@ import {
 import {styles} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {generalStyles} from '../../constants';
-import {
-  JopTypes2,
-  CareerLevel,
-  City,
-  Country,
-  YEARSEXP,
-  YEARSEXP2,
-} from '../../utils/Data';
+
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
-import {
-  getAllCities,
-  getAllCountries,
-  PostJobHelpers,
-  PostNewJob,
-} from '../../redux/slices/appdataSlice';
+import {getAllCities, getAllCountries} from '../../redux/slices/appdataSlice';
+
 import Toast from 'react-native-toast-message';
+import {PostJobHelpers, PostNewJob} from '../../redux/slices/JobsSlice';
 
 const JobPost = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const {PostjobHelpers, allCountries, allCities} = useSelector(
-    (state: any) => state.appdata,
-  );
+  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
+  const {PostjobHelpers} = useSelector((state: any) => state.jobs);
   const [JobOPtionData, setJobOPtionData] = useState([
     {
       id: '1',

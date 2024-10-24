@@ -16,6 +16,7 @@ export const COLORS = {
   GreenSmothy: '#53b427',
   GreenSmothy2: '#54b42734',
   danger: '#e51b1168',
+  red: '#d52828',
   Overlay: '#00000031',
   gray: '#949393',
 };

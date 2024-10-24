@@ -11,7 +11,7 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
-import {Cancel, Cash, Crown, Help, Location, UploadDoc} from '../../assets';
+import {Cash, Crown, Help, Location, UploadDoc} from '../../assets';
 import {generalStyles, hp, wp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -23,14 +23,25 @@ import {
   PARTENERS,
   BROWESLOCATION,
 } from '../../utils/Data';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../redux/store';
+import {getCategoryWithSearch, SearchJobs} from '../../redux/slices/JobsSlice';
+import Toast from 'react-native-toast-message';
+import ScreenNames from '../../navigations/ScreenNames';
+import {getAllCities} from '../../redux/slices/appdataSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const HomeScreen = ({navigation}: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const {loadinJobs, allCategories} = useSelector((state: any) => state.jobs);
+  const {allCities} = useSelector((state: any) => state.appdata);
   const [city, setCity] = React.useState('');
   const [modalVisible, SetModalVisable] = React.useState(true);
+  const [CategoryVal, setCategoryVal] = React.useState('');
+  const [ShowSearch, setShowSearch] = React.useState(false);
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -90,12 +101,25 @@ const HomeScreen = ({navigation}: Props) => {
       </View>
     );
   };
+
   const BrowesLocation = ({item}: any) => {
     return (
       <View style={styles.SearchByLocation}>
         {item.imag}
         <CustomText text={item.title} textStyle={styles.BrowseLocationTitle} />
       </View>
+    );
+  };
+  const SearchItems = ({item}: any) => {
+    return (
+      <TouchableOpacity
+        style={styles.SerchRow}
+        onPress={() => {
+          setCategoryVal(item.name_en);
+          setShowSearch(false);
+        }}>
+        <CustomText text={item.name_en} textStyle={styles.namesearch} />
+      </TouchableOpacity>
     );
   };
   const ModalContent = () => {
@@ -181,6 +205,36 @@ const HomeScreen = ({navigation}: Props) => {
       setOpenDropdown(dropdownId);
     }
   };
+  // ----------------------------APIs-----------------------------------------
+  const SerchJobs = () => {
+    const paramsdata = {
+      city: city,
+    };
+    dispatch(SearchJobs(paramsdata))
+      .unwrap()
+      .then(() => {
+        navigation.navigate(ScreenNames.SearchedJobs);
+      })
+      .catch(err => {
+        Toast.show({
+          text2: err,
+          type: 'error',
+          text1: 'ERROR',
+        });
+      });
+  };
+
+  const SuugestionsCategory = (val: any) => {
+    const dataTofilter = {
+      Name: val,
+    };
+    dispatch(getCategoryWithSearch(dataTofilter));
+  };
+
+  React.useEffect(() => {
+    dispatch(getAllCities(187));
+  }, []);
+
   return (
     <AppScreenContainer style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -198,24 +252,41 @@ const HomeScreen = ({navigation}: Props) => {
             placeholder="City"
             value={city}
             setValue={setCity}
-            dropDownStyle={[generalStyles.DropBorder, styles.containerStyle]}
-            list={City}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown1'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown1' : null)
-            }
+            dropDownStyle={[generalStyles.DropBorder]}
+            list={allCities}
+            schema={{value: 'code', label: 'name_en'}}
           />
           <AppInput
             placeholder="All Categories"
             appInputStyle={styles.containerStyle}
+            value={CategoryVal}
+            onChangeText={val => {
+              setCategoryVal(val);
+              SuugestionsCategory(val);
+              if (val) {
+                setShowSearch(true);
+              } else {
+                setShowSearch(false);
+              }
+            }}
           />
+          {ShowSearch ? (
+            <View style={styles.serchBox}>
+              <FlatList
+                data={allCategories?.data?.data}
+                renderItem={({item, index}) => (
+                  <SearchItems item={item} index={index} />
+                )}
+              />
+            </View>
+          ) : (
+            ''
+          )}
           <Button
+            loading={loadinJobs}
             text="search"
             style={styles.btn}
-            onPress={() => navigation.navigate('SearchedJobs')}
+            onPress={() => SerchJobs()}
           />
         </View>
         <View style={styles.HowItWorkSection}>
