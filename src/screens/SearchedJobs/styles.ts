@@ -87,15 +87,15 @@ export const styles = StyleSheet.create({
     minHeight: hp(28),
   },
   jobTopBox: {
-    paddingHorizontal: wp(6),
+    paddingHorizontal: wp(5),
     paddingTop: hp(3),
   },
   jobTopContent: {
     marginStart: wp(5),
   },
   status: {
-    color: COLORS.grayLight,
-    fontSize: hp(1.8),
+    color: COLORS.primary,
+    fontSize: hp(1.3),
     textTransform: 'capitalize',
     marginBottom: hp(0.5),
   },
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
     marginBottom: hp(0.5),
     fontFamily: FONTS.Medium,
   },
-  PeriodBox: {width: wp(50)},
+  PeriodBox: {width: wp(55)},
   period: {
     backgroundColor: COLORS.yellowlight,
     borderColor: COLORS.yellow,
@@ -135,15 +135,20 @@ export const styles = StyleSheet.create({
     maxWidth: wp(28),
   },
   period3: {
-    backgroundColor: COLORS.danger,
+    backgroundColor: COLORS.dangerLight,
     color: COLORS.red,
     borderColor: COLORS.red,
+  },
+  period4: {
+    backgroundColor: COLORS.primaryMoreLight,
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
   },
   jobBottomBox: {
     paddingHorizontal: wp(6),
     paddingVertical: hp(3),
   },
-  JocBttomBox: {marginBottom: hp(2)},
+  JocBttomBox: {marginBottom: hp(2), flexWrap: 'wrap'},
   btnIcon: {
     marginEnd: wp(1.5),
   },
@@ -151,9 +156,9 @@ export const styles = StyleSheet.create({
     fontSize: hp(1.8),
     textTransform: 'capitalize',
   },
-  LocationIcon: {marginStart: wp(20)},
+  // LocationIcon: {marginStart: wp(20)},
   im: {
-    width: wp(20),
+    minWidth: wp(20),
     height: hp(10),
     borderRadius: wp(10),
   },
@@ -165,10 +170,13 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.Bold,
   },
   countBox: {
-    borderRadius: wp(50),
+    borderRadius: wp(2),
     backgroundColor: COLORS.blueLight,
     color: COLORS.black,
     marginLeft: wp(4),
-    padding: wp(1),
+    paddingVertical: wp(1),
+    width: wp(7),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -86,3 +86,5 @@ export {default as Save} from './svg/save-as-svgrepo-com.svg';
 export {default as Saudi} from './svg/flag-for-flag-saudi-arabia-svgrepo-com.svg';
 export {default as SaveEdits} from './svg/saveedit.svg';
 export {default as PDF} from './svg/PDF.svg';
+export {default as SAVEJOB} from './svg/SaveJob.svg';
+export {default as Delate} from './svg/delete-note-svgrepo-com.svg';

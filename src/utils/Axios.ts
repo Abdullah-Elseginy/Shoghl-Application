@@ -33,6 +33,9 @@ export type APIsTypes = {
   getCategoryWithSearch: string;
   getJobsDetails: string;
   getAllHelperJobs: string;
+  saveJob: string;
+  getSavedJobs: string;
+  unSaveJob: string;
 };
 
 export const APIS: APIsTypes = {
@@ -75,6 +78,10 @@ export const APIS: APIsTypes = {
   getCategoryWithSearch: '/API/LOW/Jobs/Categorys',
   getJobsDetails: '/API/LOW/Jobs/Details',
   getAllHelperJobs: '/API/LOW/Jobs/All-Helper',
+  // -------------save apply job-----------
+  saveJob: '/API/LOW/Jobs/Save',
+  getSavedJobs: '/API/LOW/Jobs/All-Saved',
+  unSaveJob: '/API/LOW/Jobs/Un-Save',
 };
 
 const axiosInstance = axios.create({

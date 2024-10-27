@@ -20,7 +20,7 @@ import {
   Location,
   UpperArrow2,
 } from '../../assets';
-import {generalStyles, hp, IMAGES, wp} from '../../constants';
+import {generalStyles, hp, wp} from '../../constants';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {QUETIONS} from '../../utils/Data';
@@ -36,20 +36,26 @@ type Props = {
 const Job = ({item, navigation}: Props) => {
   return (
     <Pressable
-      onPress={() => navigation.navigate(ScreenNames.JobDetails)}
+      onPress={() =>
+        navigation.navigate(ScreenNames.JobDetails, {
+          jobCode: item?.code,
+        })
+      }
       style={[styles.jobBox, {backgroundColor: item.color}]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
           <View>
             <Image
-              source={IMAGES.companyProfile}
+              source={{uri: item?.company?.company_logo}}
               style={styles.im}
               resizeMode="cover"
             />
           </View>
           <View style={styles.jobTopContent}>
-            <CustomText text={item.since} textStyle={styles.status} />
-            <CustomText text={item.title} textStyle={styles.job} />
+            <View style={generalStyles.rowBetween}>
+              <CustomText text={item.title} textStyle={styles.job} />
+              <CustomText text={item.since} textStyle={styles.status} />
+            </View>
             <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
               <FlatList
                 data={item?.job_types?.en}
@@ -57,12 +63,23 @@ const Job = ({item, navigation}: Props) => {
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
                   item == 'Full Time' ? (
-                    <CustomText text={item} textStyle={[styles.period2]} />
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period2]}
+                    />
                   ) : item == 'Shift based' ? (
-                    <CustomText text={item} textStyle={[styles.period]} />
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period]}
+                    />
+                  ) : item == 'Part Time' ? (
+                    <CustomText
+                      text={item.slice(0, 12)}
+                      textStyle={[styles.period, styles.period4]}
+                    />
                   ) : (
                     <CustomText
-                      text={item}
+                      text={item.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -73,19 +90,34 @@ const Job = ({item, navigation}: Props) => {
         </View>
       </View>
       <View style={styles.jobBottomBox}>
-        <View style={[generalStyles.row, styles.JocBttomBox]}>
-          <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
-          <Location
-            width={hp(2)}
-            height={hp(2)}
-            style={[styles.btnIcon, styles.LocationIcon]}
-          />
-          <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
+        <View style={[generalStyles.rowBetween, styles.JocBttomBox]}>
+          <View style={generalStyles.row}>
+            <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+            <CustomText
+              text={item?.company?.company_name}
+              textStyle={styles.jobBottomTxt}
+            />
+          </View>
+          <View style={generalStyles.row}>
+            <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
+            <CustomText
+              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              textStyle={styles.jobBottomTxt}
+            />
+          </View>
         </View>
         <View style={generalStyles.row}>
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.price} textStyle={styles.jobBottomTxt} />
+          <CustomText
+            text={
+              item?.contract_type?.en +
+              ' | ' +
+              item?.career_level?.en +
+              ' | ' +
+              item?.category_name?.en
+            }
+            textStyle={styles.jobBottomTxt}
+          />
         </View>
       </View>
     </Pressable>

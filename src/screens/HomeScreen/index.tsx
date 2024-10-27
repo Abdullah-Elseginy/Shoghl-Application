@@ -258,7 +258,7 @@ const HomeScreen = ({navigation}: Props) => {
           />
           <AppInput
             placeholder="All Categories"
-            appInputStyle={styles.containerStyle}
+            appInputStyle={styles.containerStyle1}
             value={CategoryVal}
             onChangeText={val => {
               setCategoryVal(val);
@@ -274,6 +274,7 @@ const HomeScreen = ({navigation}: Props) => {
             <View style={styles.serchBox}>
               <FlatList
                 data={allCategories?.data?.data}
+                showsVerticalScrollIndicator={true}
                 renderItem={({item, index}) => (
                   <SearchItems item={item} index={index} />
                 )}

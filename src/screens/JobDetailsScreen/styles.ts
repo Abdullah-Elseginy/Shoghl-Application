@@ -36,6 +36,12 @@ export const styles = StyleSheet.create({
   },
   ApplicationNumber: {
     fontFamily: FONTS.Bold,
+    fontSize: wp(4.5),
+    backgroundColor: COLORS.blueLight,
+    borderRadius: wp(5),
+    width: wp(7),
+    textAlign: 'center',
+    marginRight: wp(1),
   },
   Line: {
     height: hp(8),
@@ -71,6 +77,7 @@ export const styles = StyleSheet.create({
 
   textRequrments: {flex: 3},
   textRequrments2: {flex: 1},
+  textRequrments3: {flex: 4},
   SkillsBox: {
     backgroundColor: COLORS.white,
     padding: hp(2),
@@ -106,6 +113,7 @@ export const styles = StyleSheet.create({
   },
   days: {
     fontFamily: FONTS.ExtraLight,
+    color: COLORS.blue,
   },
   SimilarFuncDetails: {
     width: '100%',
@@ -117,6 +125,28 @@ export const styles = StyleSheet.create({
   },
   relatedjobText: {
     fontFamily: FONTS.Bold,
-    color:COLORS.primary
+    color: COLORS.primary,
+  },
+  LoaderBox: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  Time: {
+    color: COLORS.blue,
+  },
+  aplay: {
+    width: wp(35),
+    height: hp(4),
+    marginRight: wp(4),
+  },
+  SavBox: {
+    backgroundColor: COLORS.blueLight,
+    padding: wp(1),
+    borderRadius: wp(2),
+  },
+  similarIm: {
+    width: wp(22),
+    height: hp(10),
   },
 });

@@ -36,10 +36,13 @@ export const styles = StyleSheet.create({
   containerStyle: {
     marginVertical: hp(2),
   },
+  containerStyle1: {
+    marginTop: hp(2),
+  },
   btn: {
     width: wp(50),
     alignSelf: 'center',
-    marginTop: hp(2),
+    marginTop: hp(4),
     marginBottom: hp(3),
   },
   jobBox: {
