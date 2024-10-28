@@ -27,7 +27,8 @@ import {QUETIONS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import ScreenNames from '../../navigations/ScreenNames';
 import {AppDispatch} from '../../redux/store';
-import {getAllHelperJobs} from '../../redux/slices/JobsSlice';
+import {getAllHelperJobs, SearchJobs} from '../../redux/slices/JobsSlice';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
@@ -126,12 +127,25 @@ const Job = ({item, navigation}: Props) => {
 const FilterSection = ({
   item,
   onSelectionChange,
+  index,
+  expanded,
+  setExpanded,
+  setfilterdcount,
+  myfilterData,
 }: {
   item: any;
   onSelectionChange: (category: string, selectedOptions: string[]) => void;
+  index: any;
+  expanded: any;
+  setExpanded: any;
+  setfilterdcount: any;
+  filterdcount: any;
+  myfilterData: any;
 }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [FilterOptions, setOptions] = useState<Array<any>>(item.options);
+  const [FilterOptions, setOptions] = useState<Array<any>>(item.options ?? []);
+  const [expanded1, setExpanded1] = useState(false);
+
+  // Toggle selection for individual checkbox
   const toggleCheckbox = (index: number) => {
     setOptions(prevOptions =>
       prevOptions.map((opt: any, i: number) =>
@@ -139,47 +153,66 @@ const FilterSection = ({
       ),
     );
   };
-
+  setfilterdcount(
+    myfilterData?.career_level?.length +
+      myfilterData?.city?.length +
+      myfilterData?.contract_type?.length,
+  );
   useEffect(() => {
     const selectedOptions = FilterOptions.filter(opt => opt.selected).map(
-      opt => opt.code || opt.name_en,
+      opt => opt.id || opt.code,
     );
-    onSelectionChange(item.title, selectedOptions);
+    onSelectionChange(item.title2, selectedOptions);
   }, [FilterOptions]);
+
+  useEffect(() => {
+    if (!expanded) {
+      setOptions(prevOptions =>
+        (prevOptions ?? []).map(opt => ({...opt, selected: false})),
+      );
+      setExpanded1(false);
+    }
+  }, [expanded1, expanded]);
+
   return (
     <View>
       <View style={styles.Line} />
       <TouchableOpacity
         style={[styles.filtersSections, generalStyles.rowBetween]}
-        onPress={() => setExpanded(!expanded)}>
+        onPress={() => {
+          setExpanded1(!expanded1);
+          setExpanded(true);
+        }}>
         <View style={generalStyles.row}>
           <CustomText text={item.title} textStyle={styles.filtersText} />
           <View style={styles.countBox}>
             <CustomText
-              text={FilterOptions.length + ''}
+              text={FilterOptions?.length + ''}
               textStyle={styles.Count}
             />
           </View>
         </View>
-        {expanded ? <UpperArrow2 /> : <DowenArrow />}
+        {expanded1 ? <UpperArrow2 /> : <DowenArrow />}
       </TouchableOpacity>
-      {expanded && (
+      {expanded1 && expanded ? (
         <FlatList
           data={FilterOptions}
           keyExtractor={(option, index) => index.toString()}
           contentContainerStyle={styles.contencontainer}
           renderItem={({item, index}) => (
-            <View>
-              <View style={styles.filterChoices}>
-                <Checkbox
-                  isChecked={item.selected}
-                  setIsChecked={() => toggleCheckbox(index)}
-                />
+            <View style={styles.filterChoices}>
+              <Checkbox
+                isChecked={item.selected}
+                setIsChecked={() => toggleCheckbox(index)}
+              />
+              <TouchableOpacity onPress={() => toggleCheckbox(index)}>
                 <CustomText text={item.name_en} textStyle={styles.ItemText} />
-              </View>
+              </TouchableOpacity>
             </View>
           )}
         />
+      ) : (
+        ''
       )}
     </View>
   );
@@ -195,34 +228,37 @@ const Quetions = ({item}: any) => {
 };
 const SearchedJobs = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {allJobs, helpersJobs} = useSelector((state: any) => state.jobs);
+  const {allJobs, helpersJobs, loadinJobs} = useSelector(
+    (state: any) => state.jobs,
+  );
   const {allCities} = useSelector((state: any) => state.appdata);
-  console.log('Helperrssss------' + JSON.stringify(helpersJobs));
   const [openSheet, SetOpenSheet] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [filterdcount, setfilterdcount] = useState(0);
+
   // const [Count, SetCount] = useState(0);
   const Optionsdata = [
     {
       id: '1',
       title: 'Workplace',
+      title2: 'contract_type',
       options: [...helpersJobs?.contract_type],
     },
     {
       id: '3',
       title: 'City',
+      title2: 'city',
       options: [...allCities],
     },
     {
       id: '5',
       title: 'Career Level',
+      title2: 'career_level',
       options: [...helpersJobs?.career_level],
     },
   ];
   // ---------------------------filter-----------------------
-  const [myfilterData, setMyfilterData] = useState({
-    careerLevelData: [],
-    cityData: [],
-    contractType: [],
-  });
+  const [myfilterData, setMyfilterData] = useState({});
 
   console.log('MyFliterDAtaa-----', myfilterData);
 
@@ -237,9 +273,30 @@ const SearchedJobs = ({navigation}: Props) => {
   };
 
   // -----------------------------------API-----------------------------
+  const FilterJobs = () => {
+    const paramsdata = {
+      ...myfilterData,
+    };
+
+    console.log('paramsdata======', paramsdata);
+    dispatch(SearchJobs(paramsdata))
+      .unwrap()
+      .then(() => {
+        SetOpenSheet(false);
+      })
+      .catch(err => {
+        Toast.show({
+          text2: err,
+          type: 'error',
+          text1: 'ERROR',
+        });
+      });
+  };
+
   useEffect(() => {
     dispatch(getAllHelperJobs());
   }, []);
+
   return (
     <AppScreenContainer>
       <AppHeader arrowBack={true} title="Search jobs" />
@@ -265,37 +322,40 @@ const SearchedJobs = ({navigation}: Props) => {
           children={
             <ScrollView contentContainerStyle={styles.buttomSheetScroll}>
               <View style={styles.FilterBox}>
+                <View
+                  style={[styles.filtersSections, generalStyles.rowBetween]}>
+                  <CustomText
+                    text={filterdcount + ' Filters'}
+                    textStyle={styles.filtersText}
+                  />
+                  <TouchableOpacity onPress={() => setExpanded(false)}>
+                    <CustomText
+                      text="Clear all filters"
+                      textStyle={styles.PrimaryColor}
+                    />
+                  </TouchableOpacity>
+                </View>
                 <FlatList
                   data={Optionsdata}
                   keyExtractor={item => item.id}
-                  ListHeaderComponent={
-                    <View style={styles.filtersSections}>
-                      <CustomText
-                        text="Filters"
-                        textStyle={styles.filtersText}
-                      />
-                      <View style={generalStyles.rowBetween}>
-                        <CustomText text={'  filterd selection'} />
-                        <TouchableOpacity>
-                          <CustomText
-                            text="clear all filters"
-                            textStyle={styles.PrimaryColor}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  }
-                  renderItem={({item}) => (
+                  renderItem={({item, index}) => (
                     <FilterSection
                       item={item}
+                      index={index}
                       onSelectionChange={handleSelectionChange}
+                      expanded={expanded}
+                      setExpanded={setExpanded}
+                      setfilterdcount={setfilterdcount}
+                      filterdcount={filterdcount}
+                      myfilterData={myfilterData}
                     />
                   )}
                 />
               </View>
               <Button
                 text="done"
-                onPress={() => SetOpenSheet(false)}
+                loading={loadinJobs}
+                onPress={() => FilterJobs()}
                 style={styles.btn}
               />
             </ScrollView>

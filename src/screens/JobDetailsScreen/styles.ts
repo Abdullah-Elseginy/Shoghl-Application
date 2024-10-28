@@ -142,8 +142,11 @@ export const styles = StyleSheet.create({
   },
   SavBox: {
     backgroundColor: COLORS.blueLight,
-    padding: wp(1),
     borderRadius: wp(2),
+    width: wp(8),
+    height: hp(4),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   similarIm: {
     width: wp(22),

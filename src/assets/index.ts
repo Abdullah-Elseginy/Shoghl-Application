@@ -88,3 +88,4 @@ export {default as SaveEdits} from './svg/saveedit.svg';
 export {default as PDF} from './svg/PDF.svg';
 export {default as SAVEJOB} from './svg/SaveJob.svg';
 export {default as Delate} from './svg/delete-note-svgrepo-com.svg';
+export {default as Unsave} from './svg/save.svg';

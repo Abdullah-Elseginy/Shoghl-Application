@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
     marginStart: wp(4),
   },
   status: {
-    color: COLORS.grayLight,
-    fontSize: hp(1.8),
+    color: COLORS.primary,
+    fontSize: hp(1.3),
     textTransform: 'capitalize',
     marginBottom: hp(0.5),
   },
@@ -167,6 +167,25 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
     fontFamily: FONTS.Bold,
     marginBottom: hp(0.8),
+  },
+  Conten: {
+    justifyContent: 'space-between',
+    width: wp(58),
+  },
+  period3: {
+    backgroundColor: COLORS.dangerLight,
+    color: COLORS.red,
+    borderColor: COLORS.red,
+  },
+  period4: {
+    backgroundColor: COLORS.primaryMoreLight,
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  im: {
+    minWidth: wp(20),
+    height: hp(10),
+    borderRadius: wp(10),
   },
 });
 export default styles;

@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {AppScreenContainer, CustomText} from '../../components';
 import styles from './styles';
 import {COLORS, generalStyles, hp, wp} from '../../constants';
 import {Add, Cash, Crown, Delate, Location} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {ParamListBase} from '@react-navigation/native';
+import {ParamListBase, useFocusEffect} from '@react-navigation/native';
 import {JOBS3, QUETIONS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
@@ -171,41 +171,35 @@ const SaveScreen = ({navigation}: any) => {
       });
   };
 
-  useEffect(() => {
-    getSAVEDJOBS();
-  }, [dispatch]);
+  useFocusEffect(
+    useCallback(() => {
+      getSAVEDJOBS();
+    }, []),
+  );
+
   return (
     <AppScreenContainer>
       {/* <AppHeader arrowBack={true} title="Saved" /> */}
-      {!loadinJobs ? (
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.contanBox}>
-            <FlatList
-              data={SavedJobs}
-              keyExtractor={item => item?.job?.code}
-              renderItem={({item}) => (
-                <Job
-                  navigation={navigation}
-                  item={item}
-                  UnSaveJob={UnSaveJob}
-                />
-              )}
-            />
-          </View>
-          {/* َQuetions */}
-          <View>
-            <FlatList
-              data={QUETIONS}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => <Quetions item={item} />}
-            />
-          </View>
-        </ScrollView>
-      ) : (
-        <View style={styles.LoadingBox}>
-          <ActivityIndicator size={'large'} color={COLORS.primary} />
+
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.contanBox}>
+          <FlatList
+            data={SavedJobs}
+            keyExtractor={item => item?.job?.code}
+            renderItem={({item}) => (
+              <Job navigation={navigation} item={item} UnSaveJob={UnSaveJob} />
+            )}
+          />
         </View>
-      )}
+        {/* َQuetions */}
+        <View>
+          <FlatList
+            data={QUETIONS}
+            keyExtractor={item => item.id.toString()}
+            renderItem={({item}) => <Quetions item={item} />}
+          />
+        </View>
+      </ScrollView>
     </AppScreenContainer>
   );
 };

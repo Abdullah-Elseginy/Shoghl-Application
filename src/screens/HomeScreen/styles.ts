@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
     width: wp(50),
     alignSelf: 'center',
     marginTop: hp(4),
-    marginBottom: hp(3),
+    marginBottom: hp(1),
   },
   jobBox: {
     borderWidth: hp(0.1),
@@ -230,5 +230,10 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderRadius: wp(2),
     padding: wp(2),
+  },
+  ErrorMSG: {
+    color: COLORS.danger,
+    marginTop: hp(0.5),
+    textAlign: 'center',
   },
 });

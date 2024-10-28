@@ -10,23 +10,38 @@ import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {COLORS, generalStyles, hp, IMAGES, wp} from '../../constants';
 import {ActivityIndicator, Image, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {Documentation, Location, SAVEJOB, SaveJob, Temlid} from '../../assets';
+import {
+  Documentation,
+  Location,
+  SAVEJOB,
+  SaveJob,
+  Temlid,
+  Unsave,
+} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {SIMILARFUNCTIONS, SIMILARJOBS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
 import {
+  applyJob,
   getJobsDetails,
   getSavedJobs,
   saveJob,
+  unApplyJob,
+  unSaveJob,
 } from '../../redux/slices/JobsSlice';
 import ScreenNames from '../../navigations/ScreenNames';
 import Toast from 'react-native-toast-message';
 
-const SimilarJobs = ({item}: any) => {
+const SimilarJobs = ({item, setjobcode, GETGobDtetails}: any) => {
   return (
-    <View style={styles.SimilarJobBoxs}>
+    <TouchableOpacity
+      onPress={() => {
+        setjobcode(item?.code);
+        GETGobDtetails(item?.code);
+      }}
+      style={styles.SimilarJobBoxs}>
       <Image
         source={{uri: item?.company?.company_logo}}
         style={styles.similarIm}
@@ -41,16 +56,21 @@ const SimilarJobs = ({item}: any) => {
         textStyle={styles.location}
       />
       <CustomText text={item?.since} textStyle={styles.days} />
-    </View>
+    </TouchableOpacity>
   );
 };
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
   route: any;
 };
-const SimilarFunctions = ({item}: any) => {
+const SimilarFunctions = ({item, setjobcode, GETGobDtetails}: any) => {
   return (
-    <View style={styles.SimilarJobBoxs}>
+    <TouchableOpacity
+      onPress={() => {
+        setjobcode(item?.code);
+        GETGobDtetails(item?.code);
+      }}
+      style={styles.SimilarJobBoxs}>
       <Image
         source={{uri: item?.company?.company_logo}}
         style={styles.similarIm}
@@ -81,50 +101,98 @@ const SimilarFunctions = ({item}: any) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 const JobDetailsScreen = ({route, navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {jobDetails, loadinJobs, saveloading} = useSelector(
+  const {jobDetails, loadinJobs, saveloading, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
   const {jobCode} = route.params;
-  const [Saved, seSaved] = useState(false);
+  const [jobcode, setjobcode] = useState(jobCode);
   //--------------------------Job Deutails API------------
-  const GETGobDtetails = () => {
+  const GETGobDtetails = (code: any) => {
     const codeToSend = {
-      job_code: jobCode,
+      job_code: code,
     };
     dispatch(getJobsDetails(codeToSend));
   };
 
-  const SAVEJob = () => {
+  const SAVEJob = (code: any) => {
     const job_Code = {
-      job_code: jobCode,
+      job_code: code,
     };
     dispatch(saveJob(job_Code))
       .unwrap()
-      .then(res => {
-        Toast.show({
-          text1: 'Success',
-          text2: res.message,
-          type: 'success',
-        });
-        seSaved(true);
-        dispatch(getSavedJobs());
+      .then(() => {
+        GETGobDtetails(code);
       })
       .catch(err => {
         Toast.show({
           text1: 'Error',
           text2: err,
-          type: 'danger',
+          type: 'error',
+        });
+      });
+  };
+
+  const UNSAVEJob = (code: any) => {
+    const job_Code = {
+      job_code: code,
+    };
+    dispatch(unSaveJob(job_Code))
+      .unwrap()
+      .then(() => {
+        GETGobDtetails(code);
+      })
+      .catch(err => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
+        });
+      });
+  };
+
+  const ApplyJob = (code: any) => {
+    const job_Code = {
+      job_code: code,
+    };
+    dispatch(applyJob(job_Code))
+      .unwrap()
+      .then(() => {
+        GETGobDtetails(code);
+      })
+      .catch(err => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
+        });
+      });
+  };
+
+  const UnApplyJob = (code: any) => {
+    const job_Code = {
+      job_code: code,
+    };
+    dispatch(unApplyJob(job_Code))
+      .unwrap()
+      .then(() => {
+        GETGobDtetails(code);
+      })
+      .catch(err => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
         });
       });
   };
 
   useEffect(() => {
-    GETGobDtetails();
+    GETGobDtetails(jobcode);
   }, []);
 
   return (
@@ -201,18 +269,34 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
               </View>
             </View>
             <View style={generalStyles.row}>
-              <Button
-                text="Apply for Job"
-                style={styles.aplay}
-                onPress={() => null}
-              />
+              {!jobDetails?.is_applied ? (
+                <Button
+                  text="Apply for Job"
+                  loading={lodingApply}
+                  style={styles.aplay}
+                  onPress={() => ApplyJob(jobcode)}
+                />
+              ) : (
+                <Button
+                  text="Cancel Apply?"
+                  style={styles.aplay}
+                  loading={lodingApply}
+                  onPress={() => UnApplyJob(jobcode)}
+                />
+              )}
               {!saveloading ? (
-                Saved ? (
-                  <CustomText text="Saved" />
+                jobDetails?.is_saved ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      UNSAVEJob(jobcode);
+                    }}
+                    style={styles.SavBox}>
+                    <Unsave width={wp(8)} height={hp(4)} />
+                  </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
                     onPress={() => {
-                      SAVEJob();
+                      SAVEJob(jobcode);
                     }}
                     style={styles.SavBox}>
                     <SAVEJOB width={wp(8)} height={hp(4)} />
@@ -370,7 +454,14 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
               horizontal
               data={jobDetails?.similar_jobs}
               keyExtractor={item => item.code}
-              renderItem={({item}) => <SimilarJobs item={item} />}
+              renderItem={({item}) => (
+                <SimilarJobs
+                  item={item}
+                  dispatch={dispatch}
+                  setjobcode={setjobcode}
+                  GETGobDtetails={GETGobDtetails}
+                />
+              )}
             />
             <Button text="Search other opportunities" onPress={() => null} />
           </View>
@@ -383,7 +474,13 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
               horizontal
               data={jobDetails?.similar_functions}
               keyExtractor={item => item.code}
-              renderItem={({item}) => <SimilarFunctions item={item} />}
+              renderItem={({item}) => (
+                <SimilarFunctions
+                  item={item}
+                  setjobcode={setjobcode}
+                  GETGobDtetails={GETGobDtetails}
+                />
+              )}
             />
             <Button
               text="See All Financial Mangment Jobs"

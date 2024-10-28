@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
   },
   PrimaryColor: {
     color: COLORS.primary,
+    fontFamily: FONTS.SemiBold,
   },
   filterBottm: {
     alignSelf: 'flex-end',

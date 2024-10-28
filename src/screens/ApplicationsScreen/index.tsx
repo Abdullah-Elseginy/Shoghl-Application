@@ -1,12 +1,32 @@
 /* eslint-disable react-native/no-inline-styles */
-import {FlatList, Pressable, ScrollView, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useCallback, useState} from 'react';
 import {AppScreenContainer, CustomText, Dropdown} from '../../components';
 import styles from './style';
 import {generalStyles, hp, wp} from '../../constants';
-import {Add, Eye, Lock, Search} from '../../assets';
+import {
+  Add,
+  Cash,
+  Crown,
+  Delate,
+  Eye,
+  Location,
+  Lock,
+  Search,
+} from '../../assets';
 import {JOBS, QUETIONS} from '../../utils/Data';
-import Job from '../../components/Jobs';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch} from '../../redux/store';
+import {getAllApplied} from '../../redux/slices/JobsSlice';
+import {useFocusEffect} from '@react-navigation/native';
+import ScreenNames from '../../navigations/ScreenNames';
 
 const Quetions = ({item}: any) => {
   return (
@@ -16,7 +36,103 @@ const Quetions = ({item}: any) => {
     </View>
   );
 };
+
+const Job = ({item, navigation}: any) => {
+  return (
+    <Pressable
+      onPress={() =>
+        navigation.navigate(ScreenNames.JobDetails, {
+          jobCode: item?.job?.code,
+        })
+      }
+      style={[styles.jobBox, {backgroundColor: item.color}]}>
+      <View style={styles.jobTopBox}>
+        <View style={generalStyles.row}>
+          <Image
+            source={{uri: item?.job?.company?.company_logo}}
+            style={styles.im}
+          />
+          <View style={styles.jobTopContent}>
+            <View style={generalStyles.rowBetween}>
+              <CustomText text={item?.job?.title} textStyle={styles.job} />
+              <CustomText text={item?.job?.since} textStyle={styles.status} />
+            </View>
+            <View style={[generalStyles.rowBetween]}>
+              <FlatList
+                data={item?.job?.job_types?.en}
+                horizontal
+                contentContainerStyle={styles.Conten}
+                renderItem={({item}: any) =>
+                  item == 'Full Time' ? (
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period2]}
+                    />
+                  ) : item == 'Shift based' ? (
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period]}
+                    />
+                  ) : item == 'Part Time' ? (
+                    <CustomText
+                      text={item.slice(0, 12)}
+                      textStyle={[styles.period, styles.period4]}
+                    />
+                  ) : (
+                    <CustomText
+                      text={item.slice(0, 12) + '..'}
+                      textStyle={[styles.period, styles.period3]}
+                    />
+                  )
+                }
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View style={styles.jobBottomBox}>
+        <View style={[generalStyles.rowBetween, styles.JocBttomBox]}>
+          <View style={generalStyles.row}>
+            <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+            <CustomText
+              text={item?.job?.company?.company_name}
+              textStyle={styles.jobBottomTxt}
+            />
+          </View>
+          <View style={generalStyles.row}>
+            <Location
+              width={hp(2)}
+              height={hp(2)}
+              style={[styles.btnIcon, styles.LocationIcon]}
+            />
+            <CustomText
+              text={
+                item?.job?.country?.name_en + ' | ' + item?.job?.city?.name_en
+              }
+              textStyle={styles.jobBottomTxt}
+            />
+          </View>
+        </View>
+        <View style={generalStyles.row}>
+          <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+          <CustomText
+            text={
+              item?.job?.category_name?.en +
+              ' | ' +
+              item?.job?.career_level?.en +
+              ' | ' +
+              item?.job?.contract_type?.en
+            }
+            textStyle={styles.jobBottomTxt}
+          />
+        </View>
+      </View>
+    </Pressable>
+  );
+};
 const Applications = ({navigation}: any) => {
+  const {appliedJobs, lodingApply} = useSelector((state: any) => state.jobs);
+  const dispatch = useDispatch<AppDispatch>();
   const [selected, setSelected] = useState<String>('Application');
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedCountr, setSelectedCountry] = useState('');
@@ -30,6 +146,18 @@ const Applications = ({navigation}: any) => {
   const handlePress = (choice: string) => {
     setSelected(choice);
   };
+  const GETALLAPPLIED = () => {
+    dispatch(getAllApplied());
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      GETALLAPPLIED();
+    }, []),
+  );
+
+  console.log('Applied Jobsss------', appliedJobs);
+
   return (
     <AppScreenContainer style={styles.maincontainer}>
       {/* <AppHeader arrowBack title="Applications" /> */}
@@ -48,6 +176,7 @@ const Applications = ({navigation}: any) => {
               textStyle={styles.appication}
             />
           </Pressable>
+
           <Pressable
             onPress={() => handlePress('Archive')}
             style={
@@ -117,8 +246,8 @@ const Applications = ({navigation}: any) => {
           {/* Jobs*/}
           <View style={styles.marTop}>
             <FlatList
-              data={JOBS}
-              keyExtractor={item => item.id.toString()}
+              data={appliedJobs}
+              keyExtractor={item => item?.job?.code}
               renderItem={({item}) => (
                 <Job navigation={navigation} item={item} />
               )}

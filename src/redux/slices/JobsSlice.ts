@@ -11,8 +11,10 @@ type InitailStateTypes = {
   helpersJobs: any;
   allCategories: any;
   saveloading: boolean;
-  SavedJobs: any;
+  SavedJobs: Array<any>;
   lodingUnsave: boolean;
+  lodingApply: boolean;
+  appliedJobs: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -27,6 +29,8 @@ const initialState: InitailStateTypes = {
   saveloading: false,
   SavedJobs: [],
   lodingUnsave: false,
+  lodingApply: false,
+  appliedJobs: [],
 };
 // ========================== Post Job======================
 // ==========================Post Job Helper======================
@@ -77,7 +81,15 @@ export const SearchJobs = createAsyncThunk(
       const res = await Axios({
         method: 'GET',
         path: APIS.SearchJobs,
-        params: data && data,
+        pathParams: data
+          ? `?contract_type=${JSON.stringify(
+              data.contract_type,
+            )}&city=${JSON.stringify(
+              data.city || [],
+            )}&career_level=${JSON.stringify(
+              data.career_level || [],
+            )}&category=${data.category || []}&title=${data.title || ''}`
+          : '',
       });
       console.log('Search---Jobs----', res?.data);
       return res.data;
@@ -89,6 +101,7 @@ export const SearchJobs = createAsyncThunk(
     }
   },
 );
+
 // ==========================Search Jobs======================
 export const getCategoryWithSearch = createAsyncThunk(
   'auth/getCategoryWithSearch',
@@ -203,6 +216,66 @@ export const unSaveJob = createAsyncThunk(
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('unSaveJob Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ==========================Aplly Job ======================
+export const applyJob = createAsyncThunk(
+  'auth/applyJob',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.applyJob,
+        data: data,
+      });
+      console.log('applyJob----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('applyJob Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ==========================Get All Applied Job ======================
+export const getAllApplied = createAsyncThunk(
+  'auth/getAllApplied',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getAllApplied,
+        data: data,
+      });
+      console.log('getAllApplied----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getAllApplied Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== UnAplly Job ======================
+export const unApplyJob = createAsyncThunk(
+  'auth/unApplyJob',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.unApplyJob,
+        data: data,
+      });
+      console.log('unApplyJob----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('unApplyJob Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -331,12 +404,52 @@ const JobsSlice = createSlice({
         state.lodingUnsave = true;
         state.error = null;
       })
-      .addCase(unSaveJob.fulfilled, (state, action) => {
+      .addCase(unSaveJob.fulfilled, state => {
         state.lodingUnsave = false;
         state.error = null;
       })
       .addCase(unSaveJob.rejected, (state, action) => {
         state.lodingUnsave = false;
+        state.error = action.payload;
+      })
+      // ======================apply jobs=======================
+      .addCase(applyJob.pending, state => {
+        state.lodingApply = true;
+        state.error = null;
+      })
+      .addCase(applyJob.fulfilled, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(applyJob.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================apply jobs=======================
+      .addCase(unApplyJob.pending, state => {
+        state.lodingApply = true;
+        state.error = null;
+      })
+      .addCase(unApplyJob.fulfilled, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(unApplyJob.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================Get All Applied jobs=======================
+      .addCase(getAllApplied.pending, state => {
+        state.lodingApply = true;
+        state.error = null;
+      })
+      .addCase(getAllApplied.fulfilled, (state, action) => {
+        state.lodingApply = false;
+        state.appliedJobs = action.payload?.data?.data;
+        state.error = null;
+      })
+      .addCase(getAllApplied.rejected, (state, action) => {
+        state.lodingApply = false;
         state.error = action.payload;
       });
   },

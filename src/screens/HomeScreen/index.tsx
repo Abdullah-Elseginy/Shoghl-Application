@@ -39,9 +39,11 @@ const HomeScreen = ({navigation}: Props) => {
   const {loadinJobs, allCategories} = useSelector((state: any) => state.jobs);
   const {allCities} = useSelector((state: any) => state.appdata);
   const [city, setCity] = React.useState('');
-  const [modalVisible, SetModalVisable] = React.useState(true);
+  const [title, setTitle] = React.useState('');
   const [CategoryVal, setCategoryVal] = React.useState('');
+  const [modalVisible, SetModalVisable] = React.useState(true);
   const [ShowSearch, setShowSearch] = React.useState(false);
+  console.log('Cityyy-----' + city);
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -196,32 +198,45 @@ const HomeScreen = ({navigation}: Props) => {
       </>
     );
   };
-  const [openDropdown, setOpenDropdown] = React.useState(null);
-
-  const handleDropdownOpen = (dropdownId: any) => {
-    if (openDropdown === dropdownId) {
-      setOpenDropdown(null);
-    } else {
-      setOpenDropdown(dropdownId);
+  const [formErrors, setFormErrors] = React.useState({
+    search: '',
+  });
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    if (!city?.length && !CategoryVal?.length && !title?.length) {
+      errors.search = 'Select at least one to search ';
     }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+  const ClearInputs = () => {
+    setCity('');
+    setTitle('');
+    setCategoryVal('');
   };
   // ----------------------------APIs-----------------------------------------
   const SerchJobs = () => {
     const paramsdata = {
-      city: city,
+      title: title,
+      city: [city],
+      category: CategoryVal,
     };
-    dispatch(SearchJobs(paramsdata))
-      .unwrap()
-      .then(() => {
-        navigation.navigate(ScreenNames.SearchedJobs);
-      })
-      .catch(err => {
-        Toast.show({
-          text2: err,
-          type: 'error',
-          text1: 'ERROR',
+    console.log('paaa----' + paramsdata);
+    if (validateForm()) {
+      dispatch(SearchJobs(paramsdata))
+        .unwrap()
+        .then(() => {
+          navigation.navigate(ScreenNames.SearchedJobs);
+          ClearInputs();
+        })
+        .catch(err => {
+          Toast.show({
+            text2: err,
+            type: 'error',
+            text1: 'ERROR',
+          });
         });
-      });
+    }
   };
 
   const SuugestionsCategory = (val: any) => {
@@ -247,6 +262,8 @@ const HomeScreen = ({navigation}: Props) => {
           <AppInput
             placeholder="Job Tittle, Skill, Industry"
             appInputStyle={styles.containerStyle}
+            value={title}
+            onChangeText={val => setTitle(val)}
           />
           <Dropdown
             placeholder="City"
@@ -254,7 +271,7 @@ const HomeScreen = ({navigation}: Props) => {
             setValue={setCity}
             dropDownStyle={[generalStyles.DropBorder]}
             list={allCities}
-            schema={{value: 'code', label: 'name_en'}}
+            schema={{value: 'id', label: 'name_en'}}
           />
           <AppInput
             placeholder="All Categories"
@@ -283,12 +300,16 @@ const HomeScreen = ({navigation}: Props) => {
           ) : (
             ''
           )}
+
           <Button
             loading={loadinJobs}
             text="search"
             style={styles.btn}
             onPress={() => SerchJobs()}
           />
+          {formErrors.search && (
+            <CustomText text={formErrors.search} textStyle={styles.ErrorMSG} />
+          )}
         </View>
         <View style={styles.HowItWorkSection}>
           <CustomText text="Recent Jobs" textStyle={styles.sectionTitle} />
