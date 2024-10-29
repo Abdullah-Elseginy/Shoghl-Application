@@ -92,7 +92,7 @@ const Job = ({item, navigation}: any) => {
       </View>
       <View style={styles.jobBottomBox}>
         <View style={[generalStyles.rowBetween, styles.JocBttomBox]}>
-          <View style={generalStyles.row}>
+          <View style={[generalStyles.row,styles.marginT]}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
               text={item?.job?.company?.company_name}
@@ -100,11 +100,7 @@ const Job = ({item, navigation}: any) => {
             />
           </View>
           <View style={generalStyles.row}>
-            <Location
-              width={hp(2)}
-              height={hp(2)}
-              style={[styles.btnIcon, styles.LocationIcon]}
-            />
+            <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
               text={
                 item?.job?.country?.name_en + ' | ' + item?.job?.city?.name_en

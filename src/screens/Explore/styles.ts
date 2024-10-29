@@ -26,9 +26,9 @@ export const styles = StyleSheet.create({
     padding: hp(2),
     borderWidth: wp(0.1),
     borderRadius: wp(1),
+    // borderColor: COLORS.grayLight,
   },
   buttomSheetScroll: {
-    // backgroundColor:"#cce",
     paddingBottom: hp(10),
     marginTop: hp(2),
   },
@@ -70,18 +70,19 @@ export const styles = StyleSheet.create({
     borderWidth: hp(0.1),
     borderColor: COLORS.grayLight,
     borderRadius: hp(1),
-    marginBottom: hp(3),
+    marginBottom: hp(2),
+    padding: wp(4),
   },
   jobTopBox: {
-    paddingHorizontal: wp(6),
-    paddingVertical: hp(5),
+    // paddingHorizontal: wp(6),
+    paddingVertical: hp(2),
   },
   jobTopContent: {
-    marginStart: wp(8),
+    marginStart: wp(4),
   },
   status: {
-    color: COLORS.grayLight,
-    fontSize: hp(1.8),
+    color: COLORS.primary,
+    fontSize: hp(1.3),
     textTransform: 'capitalize',
     marginBottom: hp(0.5),
   },
@@ -119,10 +120,10 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   jobBottomBox: {
-    paddingHorizontal: wp(6),
-    paddingVertical: hp(3),
+    paddingTop: hp(1),
+    marginBottom: hp(1),
   },
-  JocBttomBox: {marginBottom: hp(2)},
+  JocBttomBox: {marginBottom: hp(2), flexWrap: 'wrap'},
   btnIcon: {
     marginEnd: wp(1.5),
   },
@@ -142,6 +143,28 @@ export const styles = StyleSheet.create({
     borderRadius: hp(1),
   },
   btn: {
+    marginTop: hp(2),
+  },
+  im: {
+    minWidth: wp(20),
+    height: hp(10),
+    borderRadius: wp(10),
+  },
+  Conten: {
+    justifyContent: 'space-between',
+    width: wp(58),
+  },
+  period3: {
+    backgroundColor: COLORS.dangerLight,
+    color: COLORS.red,
+    borderColor: COLORS.red,
+  },
+  period4: {
+    backgroundColor: COLORS.primaryMoreLight,
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  marginT: {
     marginTop: hp(2),
   },
 });

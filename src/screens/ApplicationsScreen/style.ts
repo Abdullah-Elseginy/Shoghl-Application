@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   jobBottomBox: {
     paddingHorizontal: wp(6),
-    paddingVertical: hp(3),
+    paddingVertical: hp(2),
   },
   JocBttomBox: {marginBottom: hp(2)},
   btnIcon: {
@@ -146,7 +146,6 @@ const styles = StyleSheet.create({
     fontSize: hp(1.8),
     textTransform: 'capitalize',
   },
-  LocationIcon: {marginStart: wp(20)},
   quetionBox: {
     padding: hp(2),
     flexDirection: 'row',
@@ -186,6 +185,9 @@ const styles = StyleSheet.create({
     minWidth: wp(20),
     height: hp(10),
     borderRadius: wp(10),
+  },
+  marginT: {
+    marginTop: hp(2),
   },
 });
 export default styles;

@@ -336,6 +336,77 @@ const GenderList = [
     id: 'f',
   },
 ];
+const Optionsdata = [
+  {
+    id: '1',
+    title: 'Workplace',
+    title2: 'contract_type',
+    options: [
+      {
+        label: 'Full Time',
+        id: '1',
+      },
+      {
+        label: 'Part Time',
+        id: '2',
+      },
+      {
+        label: 'Internship',
+        id: '3',
+      },
+      {
+        label: 'Freelance',
+        id: '4',
+      },
+    ],
+  },
+  {
+    id: '3',
+    title: 'City',
+    title2: 'city',
+    options: [
+      {
+        label: 'Riyadh',
+        id: '1',
+      },
+      {
+        label: 'Makkah',
+        id: '2',
+      },
+      {
+        label: 'Madinah',
+        id: '3',
+      },
+      {
+        label: 'Dammam',
+        id: '4',
+      },
+      {
+        label: 'Jeddah',
+        id: '5',
+      },
+    ],
+  },
+  {
+    id: '5',
+    title: 'Career Level',
+    title2: 'career_level',
+    options: [
+      {
+        label: 'Entry Level',
+        id: '1',
+      },
+      {
+        label: 'Mid Level',
+        id: '2',
+      },
+      {
+        label: 'Senior Level',
+        id: '3',
+      },
+    ],
+  },
+];
 const Nationality = [
   {
     label: 'Saudi',
@@ -1034,4 +1105,5 @@ export {
   YearsExList,
   JOBS3,
   currency,
+  Optionsdata
 };

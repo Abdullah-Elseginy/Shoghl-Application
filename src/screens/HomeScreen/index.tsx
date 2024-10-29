@@ -218,25 +218,25 @@ const HomeScreen = ({navigation}: Props) => {
   const SerchJobs = () => {
     const paramsdata = {
       title: title,
-      city: [city],
+      city: city && [city],
       category: CategoryVal,
     };
     console.log('paaa----' + paramsdata);
-    if (validateForm()) {
-      dispatch(SearchJobs(paramsdata))
-        .unwrap()
-        .then(() => {
-          navigation.navigate(ScreenNames.SearchedJobs);
-          ClearInputs();
-        })
-        .catch(err => {
-          Toast.show({
-            text2: err,
-            type: 'error',
-            text1: 'ERROR',
-          });
+    // if (!validateForm()) {
+    dispatch(SearchJobs(paramsdata))
+      .unwrap()
+      .then(() => {
+        navigation.navigate(ScreenNames.SearchedJobs);
+        ClearInputs();
+      })
+      .catch(err => {
+        Toast.show({
+          text2: err,
+          type: 'error',
+          text1: 'ERROR',
         });
-    }
+      });
+    // }
   };
 
   const SuugestionsCategory = (val: any) => {

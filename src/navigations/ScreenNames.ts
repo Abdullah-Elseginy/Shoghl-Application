@@ -4,7 +4,7 @@ const ScreenNames = {
   Login: 'Login',
   Splash: 'Splash',
   BottomTabs: 'BottomTabs',
-  Jobs: 'Jobs',
+  Jobs: 'Applicants',
   Signup: 'Signup',
   CompleteProfile: 'CompleteProfile',
   Profile: 'Profile',

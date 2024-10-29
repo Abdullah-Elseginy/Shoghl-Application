@@ -4,7 +4,23 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ScreenNames from './ScreenNames';
 import {Platform, StyleSheet, View} from 'react-native';
 import {FONTS} from '../constants/Fonts';
-import {HomeSVG} from '../assets';
+import {
+  ApplicantsActive,
+  ApplicantsUnactive,
+  AppsActive,
+  AppsUnActive,
+  EmployeeActive,
+  EmployeeUnactive,
+  ExploreActive,
+  ExploreUnActive,
+  HomeActive,
+  HomeSVG,
+  HomeUnActive,
+  ProfileActive,
+  ProfileUnActive,
+  SaveActive,
+  SaveUnActive,
+} from '../assets';
 import {hp, wp} from '../constants/Dimensions';
 import {COLORS} from '../constants/COLORS';
 import {
@@ -12,7 +28,7 @@ import {
   Explore,
   ForEmployee,
   HomeScreen,
-  JobsScreen,
+  Applicants,
   ProfileScreen,
   Save,
 } from '../screens';
@@ -46,25 +62,56 @@ const BottomTabNavigator = () => {
         tabBarIcon: ({focused}) => {
           let Icon;
           if (route.name === ScreenNames.Home) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <HomeActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <HomeUnActive width={wp(6.5)} height={hp(3)} />
+            );
           }
           if (route.name === ScreenNames.Jobs) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <ApplicantsActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <ApplicantsUnactive width={wp(6.5)} height={hp(3)} />
+            );
           }
           if (route.name === ScreenNames.Profile) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <ProfileActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <ProfileUnActive width={wp(6.5)} height={hp(3)} />
+            );
           }
           if (route.name === ScreenNames.ForEmployee) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <EmployeeActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <EmployeeUnactive width={wp(6.5)} height={hp(3)} />
+            );
           }
           if (route.name === ScreenNames.ExploreScreen) {
             Icon = focused ? <HomeSVG /> : <HomeSVG />;
           }
           if (route.name === ScreenNames.Applications) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <AppsActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <AppsUnActive width={wp(6.5)} height={hp(3)} />
+            );
           }
           if (route.name === ScreenNames.SaveScreen) {
-            Icon = focused ? <HomeSVG /> : <HomeSVG />;
+            Icon = focused ? (
+              <SaveActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <SaveUnActive width={wp(6.5)} height={hp(3)} />
+            );
+          }
+          if (route.name === ScreenNames.ExploreScreen) {
+            Icon = focused ? (
+              <ExploreActive width={wp(6.5)} height={hp(3)} />
+            ) : (
+              <ExploreUnActive width={wp(6.5)} height={hp(3)} />
+            );
           }
           return Icon;
         },
@@ -84,7 +131,7 @@ const BottomTabNavigator = () => {
         </>
       ) : (
         <>
-          <Tab.Screen name={ScreenNames.Jobs} component={JobsScreen} />
+          <Tab.Screen name={ScreenNames.Jobs} component={Applicants} />
           <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
           <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
         </>

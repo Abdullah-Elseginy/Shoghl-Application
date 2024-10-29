@@ -30,6 +30,7 @@ import {
   saveJob,
   unApplyJob,
   unSaveJob,
+  ViewedJobs,
 } from '../../redux/slices/JobsSlice';
 import ScreenNames from '../../navigations/ScreenNames';
 import Toast from 'react-native-toast-message';
@@ -112,6 +113,7 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
   const {jobCode} = route.params;
   const [jobcode, setjobcode] = useState(jobCode);
   //--------------------------Job Deutails API------------
+
   const GETGobDtetails = (code: any) => {
     const codeToSend = {
       job_code: code,
@@ -193,6 +195,10 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
 
   useEffect(() => {
     GETGobDtetails(jobcode);
+    const CODE = {
+      job_code: jobcode,
+    };
+    dispatch(ViewedJobs(CODE));
   }, []);
 
   return (

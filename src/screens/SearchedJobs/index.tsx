@@ -124,7 +124,7 @@ const Job = ({item, navigation}: Props) => {
     </Pressable>
   );
 };
-const FilterSection = ({
+export const FilterSection = ({
   item,
   onSelectionChange,
   index,
@@ -277,7 +277,6 @@ const SearchedJobs = ({navigation}: Props) => {
     const paramsdata = {
       ...myfilterData,
     };
-
     console.log('paramsdata======', paramsdata);
     dispatch(SearchJobs(paramsdata))
       .unwrap()

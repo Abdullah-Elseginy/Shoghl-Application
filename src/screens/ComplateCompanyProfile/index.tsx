@@ -122,7 +122,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   ]);
 
   const [InpusValues, SetInpusValues] = useState<any>({
-    Location: companyDataProfile?.country.name_en,
+    Location: companyDataProfile?.country?.name_en,
     Founded: '2020',
     'Company Size': '50-100 employeee',
     Specialties: 'Technology, Innovation',

@@ -280,6 +280,26 @@ export const unApplyJob = createAsyncThunk(
     }
   },
 );
+// ========================== Viewed Jobs  ======================
+export const ViewedJobs = createAsyncThunk(
+  'auth/ViewedJobs',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.ViewedJobs,
+        data: data,
+      });
+      console.log('ViewedJobs----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('ViewedJobs Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const JobsSlice = createSlice({
@@ -449,6 +469,19 @@ const JobsSlice = createSlice({
         state.error = null;
       })
       .addCase(getAllApplied.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================Viewwd jobs=======================
+      .addCase(ViewedJobs.pending, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(ViewedJobs.fulfilled, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(ViewedJobs.rejected, (state, action) => {
         state.lodingApply = false;
         state.error = action.payload;
       });

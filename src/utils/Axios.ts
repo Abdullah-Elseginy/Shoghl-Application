@@ -39,6 +39,7 @@ export type APIsTypes = {
   applyJob: string;
   unApplyJob: string;
   getAllApplied: string;
+  ViewedJobs: string;
 };
 
 export const APIS: APIsTypes = {
@@ -88,6 +89,7 @@ export const APIS: APIsTypes = {
   applyJob: '/API/LOW/Jobs/Apply',
   unApplyJob: '/API/LOW/Jobs/Un-Apply',
   getAllApplied: '/API/LOW/Jobs/All-Applied',
+  ViewedJobs: '/API/LOW/Jobs/View',
 };
 
 const axiosInstance = axios.create({
