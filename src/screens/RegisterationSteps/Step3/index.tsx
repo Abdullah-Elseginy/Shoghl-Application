@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
@@ -31,8 +31,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
   const [selectedSkills, setSelectedSkills] = useState([]);
-
-  console.log('selectedFeild---' + JSON.stringify(selectedFeild));
 
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
@@ -68,29 +66,29 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const [file, setFile] = useState({name: '', type: '', uri: ''});
   const [slectedLang, setSelectedLang] = useState([]);
 
-  const selectDocument = async () => {
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
-      });
-      setFile(res[0]);
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'Document selection was canceled',
-        });
-      } else {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: 'Unknown Error: ' + JSON.stringify(err),
-        });
-        // Alert.alert('Unknown Error: ' + JSON.stringify(err));
-      }
-    }
-  };
+  // const selectDocument = async () => {
+  //   try {
+  //     const res = await DocumentPicker.pick({
+  //       type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
+  //     });
+  //     setFile(res[0]);
+  //   } catch (err) {
+  //     if (DocumentPicker.isCancel(err)) {
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'Error',
+  //         text2: 'Document selection was canceled',
+  //       });
+  //     } else {
+  //       Toast.show({
+  //         type: 'error',
+  //         text1: 'Error',
+  //         text2: 'Unknown Error: ' + JSON.stringify(err),
+  //       });
+  //       // Alert.alert('Unknown Error: ' + JSON.stringify(err));
+  //     }
+  //   }
+  // };
 
   const addedLanguge = () => {
     for (let i = 0; i < slectedLang.length; i++) {
@@ -110,7 +108,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     setselectedLanguage('');
     setselectedProficiency('');
   };
-  console.log('-----------' + JSON.stringify(slectedLang));
 
   const deleteItemByIndex = (indexToDelete: number) => {
     setSelectedLang(prevLanguages =>
@@ -179,7 +176,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   };
 
   const GetChoices = () => {
-    dispatch(GetChoicesStep3());
+    dispatch(GetChoicesStep3()).unwrap();
   };
 
   useEffect(() => {
@@ -226,22 +223,21 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
         });
     }
   };
-
-  const transformedSelected = slectedLang.map(sel => {
-    const language = choicesStep3?.languages?.find(
-      (lang: any) => lang.code === sel?.lang,
-    )?.name_en;
-    const level = choicesStep3?.languages_level?.find(
-      level => level.code === sel.level,
-    )?.name_en;
-
-    return {
-      lang: language,
-      level: level,
-    };
-  });
+  const transformedSelected = useMemo(
+    () =>
+      slectedLang.map(sel => {
+        const language = choicesStep3?.languages?.find(
+          lang => lang.code === sel?.lang,
+        )?.name_en;
+        const level = choicesStep3?.languages_level?.find(
+          level => level.code === sel.level,
+        )?.name_en;
+        return {lang: language, level: level};
+      }),
+    [slectedLang, choicesStep3],
+  );
   return (
-    <>
+    <View>
       {/*Personal Info */}
       <View style={[styles.SectionBox]}>
         <View style={generalStyles.row}>
@@ -321,9 +317,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             setValue={setSelectedFeild}
             dropDownStyle={generalStyles.DropBorder}
             list={FieldList}
-            multiBle={true}
-            min={0}
-            max={3}
+            // multiBle={true}
+            // min={0}
+            // max={3}
             containerStyle={{
               zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
             }}
@@ -539,9 +535,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
-            multiBle={true}
-            min={0}
-            max={10}
+            // multiBle={true}
+            // min={0}
+            // max={10}
             isOpen={openDropdown === 'dropdown6'}
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
@@ -560,17 +556,17 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             textStyle={styles.StepTitle}
           />
         </View>
-        <Button
+        {/* <Button
           text="Upload Document"
           style={styles.CV}
           onPress={() => {
             selectDocument();
           }}
-        />
-        {file?.name && (
+        /> */}
+        {/* {file?.name && (
           <CustomText text={file?.name} textStyle={styles.CVname} />
-        )}
-        {formErrors.Cv_file && (
+        )} */}
+        {formErrors?.Cv_file && (
           <CustomText
             text={formErrors.Cv_file}
             textStyle={[styles.ErrorMSG, styles.centerTExt]}
@@ -596,7 +592,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       ) : (
         ''
       )}
-    </>
+    </View>
   );
 };
 

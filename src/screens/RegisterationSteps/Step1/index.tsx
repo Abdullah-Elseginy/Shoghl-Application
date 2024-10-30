@@ -351,7 +351,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             containerStyle={styles.ContanerInput}
             isNumericKeyboard
             placeholder="type your minnuim net salary"
-            value={formData.minnuim_net_salary}
+            value={formData.minnuim_net_salary + ''}
             onChangeText={val => setMinSalary(val)}
           />
           {formErrors.minnuim_net_salary && (

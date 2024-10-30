@@ -64,7 +64,7 @@ const LoginScreen = ({navigation}: Props) => {
     if (!InputVal.password) {
       errors2.password = 'Password is required';
     } else if (
-      !/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/.test(InputVal.password)
+      !/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/.test(InputVal.password)
     ) {
       errors2.password =
         'Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character';
