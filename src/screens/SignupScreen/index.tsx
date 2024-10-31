@@ -115,6 +115,7 @@ const SignupScreen = ({navigation}: Props) => {
             type: 'success',
             visibilityTime: 2500,
           });
+
           navigation.replace(ScreenNames.RegisterationSteps);
         })
         .catch(err => {

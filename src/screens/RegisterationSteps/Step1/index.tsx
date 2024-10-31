@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
 import {
   AppInput,
@@ -17,7 +17,6 @@ import Toast from 'react-native-toast-message';
 import {signUpTwoCorporate} from '../../../redux/slices/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
-import {get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer} from '../../../redux/slices/appdataSlice';
 
 const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   // const [JopTypes4, SetJopTypes4] = useState([
@@ -210,14 +209,26 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         });
     }
   };
-  const get_Choices = () => {
-    dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer());
-  };
-  useEffect(() => {
-    get_Choices();
-  }, []);
+  // const get_Choices = () => {
+  //   dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer());
+  // };
+  // useEffect(() => {
+  //   const get_Choices = () => {
+  //     dispatch(
+  //       get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer(),
+  //     );
+  //   };
+
+  //   get_Choices(); // Run only once on mount
+  // }, [dispatch]); // Dependency on dispatch only
+  // const netSalaryList = choicesStep1?.minnuim_net_salary_per;
+  const memoizedChoicesStep1 = React.useMemo(
+    () => choicesStep1?.minnuim_net_salary_per || [],
+    [choicesStep1],
+  );
+
   return (
-    <>
+    <View>
       <CustomText
         textStyle={styles.Lapesstyle}
         text="Providing this information enables us to recomend better opportunities to you"
@@ -264,7 +275,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           keyExtractor={item => item.code}
           renderItem={renderItem3}
           numColumns={2}
-          // extraData={selectedId2}
         />
         {formErrors.job_types && (
           <CustomText text={formErrors.job_types} textStyle={styles.ErrorMSG} />
@@ -353,7 +363,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedMinNetSalary}
               setValue={setSelectedMinNetSalary}
               dropDownStyle={generalStyles.DropBorder}
-              list={choicesStep1.minnuim_net_salary_per}
+              list={memoizedChoicesStep1}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }} // Manage zIndex
@@ -361,7 +371,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               } // Pass the current state
-              schema={{value: 'code', label: 'name_en'}}
             />
 
             {formErrors.minnuim_net_salary_per && (
@@ -430,7 +439,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
       ) : (
         ''
       )}
-    </>
+    </View>
   );
 };
 

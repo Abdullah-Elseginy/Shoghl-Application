@@ -43,7 +43,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const yearsArray = choicesStep3?.degree;
 
   const yearOptions = yearsArray?.map((year: any) => ({
-    label: year.toString(),
+    label: year?.toString(),
     value: year,
   }));
 
@@ -175,13 +175,13 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
 
-  const GetChoices = () => {
-    dispatch(GetChoicesStep3()).unwrap();
-  };
+  // const GetChoices = () => {
+  //   dispatch(GetChoicesStep3());
+  // };
 
-  useEffect(() => {
-    GetChoices();
-  }, []);
+  // useEffect(() => {
+  //   GetChoices();
+  // }, []);
 
   const handlesubmit = () => {
     if (validateForm()) {
