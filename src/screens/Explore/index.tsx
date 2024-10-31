@@ -15,7 +15,7 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {Add, Cash, Crown, Filte, Location} from '../../assets';
+import {Add, Cash, Crown, Filte, Location, NotFound} from '../../assets';
 import {generalStyles, hp, wp} from '../../constants';
 import {ParamListBase, useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -138,6 +138,9 @@ const Explore = ({navigation}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [filterdcount, setfilterdcount] = useState(0);
   const [openSheet, SetOpenSheet] = useState(false);
+  console.log(
+    'helperFilterrrrrr--------------------------------' + helpersJobs,
+  );
   const Optionsdata = [
     {
       id: '1',
@@ -259,13 +262,22 @@ const Explore = ({navigation}: Props) => {
           }
         />
         {/* Jobs*/}
-        <View>
-          <FlatList
-            data={allJobs}
-            keyExtractor={item => item.code.toString()}
-            renderItem={({item}) => <Job navigation={navigation} item={item} />}
-          />
-        </View>
+        {allJobs?.length === 0 ? (
+          <View style={styles.noJobs}>
+            <CustomText text="No Jobs Founded" textStyle={styles.nottext} />
+            <NotFound />
+          </View>
+        ) : (
+          <View>
+            <FlatList
+              data={allJobs}
+              keyExtractor={item => item.code.toString()}
+              renderItem={({item}) => (
+                <Job navigation={navigation} item={item} />
+              )}
+            />
+          </View>
+        )}
         {/* َQuetions */}
         <View>
           <FlatList

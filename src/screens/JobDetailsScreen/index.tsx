@@ -377,7 +377,7 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
               />
             </View>
             <View style={styles.SkillsBox}>
-              {jobDetails?.keywords.map((item: any) => (
+              {jobDetails?.keywords?.map((item: any) => (
                 <CustomText text={item} textStyle={styles.JobsiteText} />
               ))}
             </View>
@@ -395,7 +395,7 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
                 textStyle={styles.textRequrments}
               />
               <CustomText
-                text={`${jobDetails?.salary_from} - ${jobDetails?.salary_to} ${jobDetails?.country?.currency} / ${jobDetails?.salary_per.en}`}
+                text={`${jobDetails?.salary_from} - ${jobDetails?.salary_to} ${jobDetails?.country?.currency} / ${jobDetails?.salary_per?.en}`}
                 textStyle={styles.textRequrments3}
               />
             </View>
@@ -406,7 +406,7 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
                 textStyle={styles.textRequrments}
               />
               <CustomText
-                text={jobDetails?.contract_type.en}
+                text={jobDetails?.contract_type?.en}
                 textStyle={styles.textRequrments3}
               />
             </View>

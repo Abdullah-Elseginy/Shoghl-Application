@@ -92,7 +92,7 @@ const Job = ({item, navigation}: any) => {
       </View>
       <View style={styles.jobBottomBox}>
         <View style={[generalStyles.rowBetween, styles.JocBttomBox]}>
-          <View style={[generalStyles.row,styles.marginT]}>
+          <View style={[generalStyles.row, styles.marginT]}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
               text={item?.job?.company?.company_name}
@@ -197,6 +197,10 @@ const Applications = ({navigation}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
+              schema={{
+                label: 'label',
+                value: 'id',
+              }}
             />
           </View>
         </View>

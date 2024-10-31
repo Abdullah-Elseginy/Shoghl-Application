@@ -180,4 +180,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  noJobs: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nottext: {
+    fontFamily: FONTS.SemiBold,
+    color: COLORS.primary,
+  },
 });

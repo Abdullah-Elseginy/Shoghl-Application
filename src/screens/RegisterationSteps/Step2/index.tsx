@@ -255,6 +255,10 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
+              schema={{
+                label: 'label',
+                value: 'id',
+              }}
             />
           </View>
           <View>
@@ -275,6 +279,10 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown2' : null)
               }
+              schema={{
+                label: 'label',
+                value: 'id',
+              }}
             />
           </View>
         </View>

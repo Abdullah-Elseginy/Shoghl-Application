@@ -25,7 +25,11 @@ import {
 } from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
-import {getCategoryWithSearch, SearchJobs} from '../../redux/slices/JobsSlice';
+import {
+  getAllHelperJobs,
+  getCategoryWithSearch,
+  SearchJobs,
+} from '../../redux/slices/JobsSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
 import {getAllCities} from '../../redux/slices/appdataSlice';
@@ -248,6 +252,11 @@ const HomeScreen = ({navigation}: Props) => {
 
   React.useEffect(() => {
     dispatch(getAllCities(187));
+  }, []);
+
+  // this for Explore Screen and filter
+  React.useEffect(() => {
+    dispatch(getAllHelperJobs());
   }, []);
 
   return (

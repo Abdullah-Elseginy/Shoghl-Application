@@ -41,6 +41,11 @@ const BottomTabNavigator = () => {
   const {registerationType} = useSelector((state: any) => state.auth);
   return (
     <Tab.Navigator
+      initialRouteName={
+        registerationType === 'candidate'
+          ? ScreenNames.Home
+          : ScreenNames.Profile
+      }
       screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
         tabBarLabel: ({focused}) => {

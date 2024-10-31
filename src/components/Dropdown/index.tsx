@@ -100,8 +100,8 @@ const Dropdown = ({
           schema
             ? schema
             : {
-                label: 'label',
-                value: 'id',
+                label: 'name_en',
+                value: 'code',
               }
         }
       />

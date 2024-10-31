@@ -19,6 +19,7 @@ type InitailStateTypes = {
   StepOneData: any;
   StepTwoData: any;
   loadingResendOTP: boolean;
+  ShowOnBoarding: boolean;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -37,6 +38,7 @@ const initialState: InitailStateTypes = {
   StepOneData: '',
   StepTwoData: '',
   loadingResendOTP: false,
+  ShowOnBoarding: true,
 };
 // ===================== Auth candidate ========================
 // ===================== SignUp One Action ========================
@@ -219,7 +221,7 @@ export const logoutCompany = createAsyncThunk(
   async (_, {rejectWithValue}) => {
     try {
       const res = await Axios({
-        method: 'POST',
+        method: 'GET',
         path: APIS.logoutCompany,
       });
       console.log('logoutCompany', res?.data);
@@ -420,6 +422,9 @@ const authSlice = createSlice({
       state.allCities = null;
       state.corpRegisterSteps = null;
       state.userCode = null;
+    },
+    SetShowOnBoarding: (state, action) => {
+      state.ShowOnBoarding = action.payload;
     },
   },
   extraReducers: builder => {
@@ -731,6 +736,6 @@ const authSlice = createSlice({
   },
 });
 
-export const {changeIsSkipping, changeRegisterationType, logoutSuccess} =
+export const {changeIsSkipping, changeRegisterationType, logoutSuccess,SetShowOnBoarding} =
   authSlice.actions;
 export default authSlice.reducer;

@@ -18,6 +18,7 @@ import {
   DowenArrow,
   Filte,
   Location,
+  NotFound,
   UpperArrow2,
 } from '../../assets';
 import {generalStyles, hp, wp} from '../../constants';
@@ -361,6 +362,12 @@ const SearchedJobs = ({navigation}: Props) => {
           }
         />
         {/* Jobs*/}
+        {allJobs?.length === 0 && (
+          <View style={styles.noJobs}>
+            <CustomText text="No Jobs Founded" textStyle={styles.nottext} />
+            <NotFound />
+          </View>
+        )}
         <View>
           <FlatList
             data={allJobs}

@@ -15,7 +15,10 @@ import {useDispatch} from 'react-redux';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {COLORS, hp, wp} from '../../constants';
-import {changeIsSkipping} from '../../redux/slices/authSlice';
+import {
+  changeIsSkipping,
+  SetShowOnBoarding,
+} from '../../redux/slices/authSlice';
 import ScreenNames from '../../navigations/ScreenNames';
 import {Button, CustomText} from '../../components';
 import styles from './styles';
@@ -72,6 +75,7 @@ const OnBoardingScreen = ({navigation}: Props) => {
     const offset = lastSlideIndex * width;
     ref?.current.scrollToOffset({offset});
     setCurrentSlideIndex(lastSlideIndex);
+    dispatch(SetShowOnBoarding(false));
   };
 
   const Footer = () => {
@@ -113,6 +117,7 @@ const OnBoardingScreen = ({navigation}: Props) => {
                 style={styles.btn_start}
                 onPress={() => {
                   dispatch(changeIsSkipping());
+                  dispatch(SetShowOnBoarding(false));
                   navigation.replace(ScreenNames.Login);
                 }}>
                 <CustomText text="start" textStyle={styles.startNowBtn} />

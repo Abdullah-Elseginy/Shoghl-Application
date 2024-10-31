@@ -66,29 +66,29 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const [file, setFile] = useState({name: '', type: '', uri: ''});
   const [slectedLang, setSelectedLang] = useState([]);
 
-  // const selectDocument = async () => {
-  //   try {
-  //     const res = await DocumentPicker.pick({
-  //       type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
-  //     });
-  //     setFile(res[0]);
-  //   } catch (err) {
-  //     if (DocumentPicker.isCancel(err)) {
-  //       Toast.show({
-  //         type: 'error',
-  //         text1: 'Error',
-  //         text2: 'Document selection was canceled',
-  //       });
-  //     } else {
-  //       Toast.show({
-  //         type: 'error',
-  //         text1: 'Error',
-  //         text2: 'Unknown Error: ' + JSON.stringify(err),
-  //       });
-  //       // Alert.alert('Unknown Error: ' + JSON.stringify(err));
-  //     }
-  //   }
-  // };
+  const selectDocument = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf, DocumentPicker.types.plainText],
+      });
+      setFile(res[0]);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Document selection was canceled',
+        });
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Unknown Error: ' + JSON.stringify(err),
+        });
+        // Alert.alert('Unknown Error: ' + JSON.stringify(err));
+      }
+    }
+  };
 
   const addedLanguge = () => {
     for (let i = 0; i < slectedLang.length; i++) {
@@ -236,6 +236,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       }),
     [slectedLang, choicesStep3],
   );
+
+  // console.log('choiceeeesssss-----' + JSON.stringify(choicesStep3));
   return (
     <View>
       {/*Personal Info */}
@@ -260,10 +262,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown1' : null)
             }
-            schema={{
-              label: 'name_en',
-              value: 'code',
-            }}
           />
         </View>
         {formErrors.year_ex && (
@@ -317,9 +315,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             setValue={setSelectedFeild}
             dropDownStyle={generalStyles.DropBorder}
             list={FieldList}
-            // multiBle={true}
-            // min={0}
-            // max={3}
+            multiBle={true}
+            min={0}
+            max={3}
             containerStyle={{
               zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
             }}
@@ -327,6 +325,10 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown3' : null)
             }
+            schema={{
+              label: 'label',
+              value: 'id',
+            }}
           />
         </View>
         {formErrors.feiled_study && (
@@ -355,6 +357,10 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown4' : null)
             }
+            schema={{
+              label: 'label',
+              value: 'id',
+            }}
           />
         </View>
         {formErrors.Universty && (
@@ -412,10 +418,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
             }
-            schema={{
-              label: 'name_en',
-              value: 'code',
-            }}
           />
         </View>
         {formErrors.grade && (
@@ -448,10 +450,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown7' : null)
             }
-            schema={{
-              label: 'name_en',
-              value: 'code',
-            }}
           />
         </View>
         {formErrors.language && (
@@ -470,11 +468,11 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             dropDownStyle={generalStyles.DropBorder}
             list={choicesStep3?.languages_level}
             containerStyle={{
-              zIndex: openDropdown === 'dropdown8' ? 10000 : 1,
+              zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
             }}
-            isOpen={openDropdown === 'dropdown8'}
+            isOpen={openDropdown === 'dropdown12'}
             onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown8' : null)
+              handleDropdownOpen(isOpen ? 'dropdown12' : null)
             }
             schema={{
               label: 'name_en',
@@ -535,13 +533,17 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
-            // multiBle={true}
-            // min={0}
-            // max={10}
+            multiBle={true}
+            min={0}
+            max={10}
             isOpen={openDropdown === 'dropdown6'}
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
             }
+            schema={{
+              label: 'label',
+              value: 'id',
+            }}
           />
         </View>
         {formErrors.skills && (
@@ -556,16 +558,16 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             textStyle={styles.StepTitle}
           />
         </View>
-        {/* <Button
+        <Button
           text="Upload Document"
           style={styles.CV}
           onPress={() => {
             selectDocument();
           }}
-        /> */}
-        {/* {file?.name && (
+        />
+        {file?.name && (
           <CustomText text={file?.name} textStyle={styles.CVname} />
-        )} */}
+        )}
         {formErrors?.Cv_file && (
           <CustomText
             text={formErrors.Cv_file}

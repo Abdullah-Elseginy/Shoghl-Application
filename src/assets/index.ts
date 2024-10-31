@@ -105,3 +105,4 @@ export {default as EmployeeActive} from './svg/EmployeeActive.svg';
 export {default as EmployeeUnactive} from './svg/EmployeeUnactive.svg';
 export {default as Skills} from './svg/Skills.svg';
 export {default as JobTitle} from './svg/JobTitle.svg';
+export {default as NotFound} from './svg/NotFound.svg';

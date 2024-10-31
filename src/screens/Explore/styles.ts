@@ -167,4 +167,12 @@ export const styles = StyleSheet.create({
   marginT: {
     marginTop: hp(2),
   },
+  noJobs: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nottext: {
+    fontFamily: FONTS.SemiBold,
+    color: COLORS.primary,
+  },
 });

@@ -10,14 +10,19 @@ import {
   SignupScreen,
   SignUpStepTwoCandidate,
 } from '../screens';
+import {useSelector} from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
+  const {ShowOnBoarding} = useSelector((state: any) => state.auth);
+
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
-      initialRouteName={ScreenNames.OnBoarding}>
+      initialRouteName={
+        ShowOnBoarding ? ScreenNames.OnBoarding : ScreenNames.Login
+      }>
       <Stack.Screen
         name={ScreenNames.OnBoarding}
         component={OnBoardingScreen}

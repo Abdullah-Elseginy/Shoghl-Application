@@ -31,7 +31,7 @@ const SignupScreen = ({navigation}: Props) => {
   const [LoginType, SetLoginType] = React.useState('candidate');
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
-  const {loading, error} = useSelector((state: any) => state.auth);
+  const {loading} = useSelector((state: any) => state.auth);
   // const [modalVisable, SetModlVisable] = React.useState(false);
   // console.log('phone', candidatePhone);
   const [formData, setFormData] = React.useState({
@@ -113,7 +113,7 @@ const SignupScreen = ({navigation}: Props) => {
             text1: 'Success',
             text2: 'Registration successful',
             type: 'success',
-            visibilityTime: 1500,
+            visibilityTime: 2500,
           });
           navigation.replace(ScreenNames.RegisterationSteps);
         })
@@ -123,7 +123,7 @@ const SignupScreen = ({navigation}: Props) => {
             text1: 'Error',
             text2: err,
             position: 'top',
-            visibilityTime: 1500,
+            visibilityTime: 3500,
           });
           console.error('SignUpCorporate ERROR=== ', err);
         });
@@ -141,11 +141,26 @@ const SignupScreen = ({navigation}: Props) => {
           type: 'success',
         });
         console.log('Sign Up Respone Data=>', res.data.phone);
-        navigation.navigate(ScreenNames.SignUpStepTwoCandidate, {
-          phone: res?.data?.phone,
-          name: res?.data?.first_name + ' ' + res?.data?.last_name,
-          borderno: BorderName,
+
+        // navigation.replace(ScreenNames.SignUpStepTwoCandidate, {
+        //   phone: res?.data?.phone,
+        //   name: res?.data?.first_name + ' ' + res?.data?.last_name,
+        //   borderno: BorderName,
+        // });
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: ScreenNames.SignUpStepTwoCandidate,
+              params: {
+                phone: res?.data?.phone,
+                name: res?.data?.first_name + ' ' + res?.data?.last_name,
+                borderno: BorderName,
+              },
+            },
+          ],
         });
+
         // SetModlVisable(true);
       })
       .catch(err => {

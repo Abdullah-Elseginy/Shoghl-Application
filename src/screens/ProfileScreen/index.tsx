@@ -8,7 +8,6 @@ import {
   Checkbox,
   CustomModal,
   CustomText,
-  GeneralModal,
   SwitchButton,
 } from '../../components';
 import {styles} from './styles';
@@ -135,7 +134,7 @@ const ProfileScreen = () => {
           text1: 'Success',
           text2: 'Loed out Success',
           type: 'success',
-          visibilityTime: 1500,
+          visibilityTime: 3000,
         });
         navigation.dispatch(
           CommonActions.reset({
@@ -193,7 +192,7 @@ const ProfileScreen = () => {
     if (!overviewData.address?.length) {
       errors.address = 'please enter your address';
     }
-    if (!overviewData.expected_salary?.length)
+    if (!overviewData?.expected_salary)
       errors.expected_salary = ' enter expected salary';
     if (!overviewData.home_phone?.length)
       errors.home_phone = 'please enter your home phone';
@@ -379,7 +378,7 @@ const ProfileScreen = () => {
                     <View style={styles.overviewBox}>
                       <AppInput
                         placeholder="enter hourly rate"
-                        value={overviewData.expected_salary + ''}
+                        value={overviewData.expected_salary.toString()}
                         onChangeText={val =>
                           handleInputsValOveriew('expected_salary', val)
                         }
@@ -477,7 +476,10 @@ const ProfileScreen = () => {
                 {!editProgileOverview ? (
                   <>
                     <CustomText
-                      text={userProfileData?.data?.home_phone}
+                      text={
+                        userProfileData?.data?.home_phone ||
+                        'edit to add home phone'
+                      }
                       textStyle={styles.contactData}
                     />
                   </>
@@ -506,7 +508,10 @@ const ProfileScreen = () => {
                 <Home width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
                 {!editProgileOverview ? (
                   <CustomText
-                    text={userProfileData?.data.address}
+                    text={
+                      userProfileData?.data.address ||
+                      'edit to add your address'
+                    }
                     textStyle={styles.contactData}
                   />
                 ) : (
@@ -672,7 +677,7 @@ const ProfileScreen = () => {
                 />
               ) : (
                 <CustomText
-                  text={userProfileData?.data?.about_me}
+                  text={userProfileData?.data?.about_me || 'edit to add about '}
                   textStyle={{color: COLORS.grayLight}}
                 />
               )}
@@ -693,7 +698,10 @@ const ProfileScreen = () => {
                 />
               ) : (
                 <CustomText
-                  text={userProfileData?.data?.personal_characteristics}
+                  text={
+                    userProfileData?.data?.personal_characteristics ||
+                    'edit to add personal characteristics'
+                  }
                   textStyle={{color: COLORS.grayLight}}
                 />
               )}

@@ -7,16 +7,17 @@ import {styles} from './styles';
 import {LogoCircleSVG, LogoShoglSVG, SplashTxtSVG} from '../../assets';
 import {hp} from '../../constants';
 import ScreenNames from '../../navigations/ScreenNames';
+import {useSelector} from 'react-redux';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
 
 const SplashScreen = ({navigation}: Props) => {
+  const {token} = useSelector((state: any) => state.auth);
   useEffect(() => {
-    const user = false;
     setTimeout(() => {
-      if (user) {
+      if (token) {
         navigation.replace(ScreenNames.BottomTabs);
       } else {
         navigation.replace(ScreenNames.AuthStack);

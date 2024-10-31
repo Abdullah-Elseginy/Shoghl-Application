@@ -25,6 +25,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   //   {id: '2', title: 'remotly'},
   //   {id: '3', title: 'hybrid'},
   // ]);
+  const {choicesStep1} = useSelector((state: any) => state.appdata);
   const dispatch = useDispatch<AppDispatch>();
   const [selectedId4, setSelectedId4] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -137,12 +138,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [selectedMinNetSalary, setSelectedMinNetSalary] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState('');
   const [MinSalary, setMinSalary] = useState('');
-  const [ChiceseData, setChiceseData] = useState({
-    career_level: [],
-    job_types: [],
-    workspace_setting: [],
-    minnuim_net_salary_per: [],
-  });
   const {loading} = useSelector((state: any) => state.auth);
   const formData = {
     career_level: selectedId4,
@@ -216,15 +211,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     }
   };
   const get_Choices = () => {
-    dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer())
-      .unwrap()
-      .then(({data}) => {
-        // console.log('my dataaaaaaaaaaa' + JSON.stringify(data));
-        setChiceseData(data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer());
   };
   useEffect(() => {
     get_Choices();
@@ -246,7 +233,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={ChiceseData?.career_level}
+            data={choicesStep1?.career_level}
             keyExtractor={item => item.code}
             renderItem={renderItem4}
             extraData={selectedId4}
@@ -273,7 +260,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={ChiceseData?.job_types}
+          data={choicesStep1?.job_types}
           keyExtractor={item => item.code}
           renderItem={renderItem3}
           numColumns={2}
@@ -296,7 +283,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={ChiceseData?.workspace_setting}
+          data={choicesStep1?.workspace_setting}
           keyExtractor={item => item.code}
           renderItem={renderItem5}
           numColumns={2}
@@ -366,7 +353,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedMinNetSalary}
               setValue={setSelectedMinNetSalary}
               dropDownStyle={generalStyles.DropBorder}
-              list={ChiceseData.minnuim_net_salary_per}
+              list={choicesStep1.minnuim_net_salary_per}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }} // Manage zIndex
@@ -397,6 +384,10 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown2' : null)
             } // Pass the current state
+            schema={{
+              label: 'label',
+              value: 'id',
+            }}
           />
           <View>
             {formErrors.minnuim_net_salary_currency && (

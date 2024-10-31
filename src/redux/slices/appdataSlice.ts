@@ -10,6 +10,7 @@ type InitailStateTypes = {
   allCountries: any;
   allCities: any;
   choicesStep3: any;
+  choicesStep1: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -19,6 +20,7 @@ const initialState: InitailStateTypes = {
   allCountries: [],
   allCities: [],
   choicesStep3: [],
+  choicesStep1: [],
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -191,8 +193,9 @@ const appdataSlice = createSlice({
       )
       .addCase(
         get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer.fulfilled,
-        state => {
+        (state, action) => {
           state.loadingappdata = false;
+          state.choicesStep1 = action.payload.data;
           state.error = null;
         },
       )
