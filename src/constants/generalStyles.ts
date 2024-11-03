@@ -91,4 +91,8 @@ export const generalStyles = StyleSheet.create({
     color: COLORS.danger,
     marginTop: hp(0.5),
   },
+  textArea: {
+    textAlignVertical: 'top',
+    height: hp(20),
+  },
 });

@@ -9,6 +9,7 @@ import {
   Pressable,
 } from 'react-native';
 import {
+  Apploader,
   AppScreenContainer,
   Button,
   CustomBottomSheet,
@@ -262,7 +263,9 @@ const Explore = ({navigation}: Props) => {
           }
         />
         {/* Jobs*/}
-        {allJobs?.length === 0 ? (
+        {loadinJobs ? (
+          <Apploader message="loading jobs...." visible={loadinJobs} />
+        ) : allJobs?.length === 0 ? (
           <View style={styles.noJobs}>
             <CustomText text="No Jobs Founded" textStyle={styles.nottext} />
             <NotFound />
@@ -278,6 +281,7 @@ const Explore = ({navigation}: Props) => {
             />
           </View>
         )}
+
         {/* َQuetions */}
         <View>
           <FlatList

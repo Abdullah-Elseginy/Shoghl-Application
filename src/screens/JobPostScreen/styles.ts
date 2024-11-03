@@ -103,6 +103,10 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
   },
+  errorView: {
+    width: wp(40),
+    marginRight: wp(6),
+  },
   DropBorder: {
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
@@ -122,13 +126,9 @@ export const styles = StyleSheet.create({
   JobDEs: {
     height: hp(20),
     marginTop: hp(1),
-    marginBottom: hp(2),
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
-  },
-  inputstyle: {
-    textAlignVertical: 'top',
   },
   KetWords: {
     marginTop: hp(1),
@@ -162,5 +162,8 @@ export const styles = StyleSheet.create({
   ErrorMSG: {
     color: COLORS.danger,
     marginTop: hp(0.5),
+  },
+  mt: {
+    marginTop: hp(2),
   },
 });

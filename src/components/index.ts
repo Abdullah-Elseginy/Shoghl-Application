@@ -11,3 +11,4 @@ export {default as CustomBottomSheet} from './CustomBottomSheet';
 export {default as CaroselComponent} from './Carousel';
 export {default as StepIndecater} from './StepIndicator';
 export {default as CustomModal} from './CustomModal';
+export {default as Apploader} from './AppLoader';

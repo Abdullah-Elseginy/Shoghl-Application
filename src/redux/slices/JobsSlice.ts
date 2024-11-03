@@ -55,18 +55,19 @@ export const PostJobHelpers = createAsyncThunk(
 // ==========================Post New Job======================
 export const PostNewJob = createAsyncThunk(
   'auth/PostNewJob',
-  async (_, {rejectWithValue}) => {
+  async (data, {rejectWithValue}) => {
     try {
       const res = await Axios({
-        method: 'GET',
+        method: 'POST',
         path: APIS.postNewJob,
+        data: data,
         isFormData: true,
       });
       console.log('PostNewJob', res?.data);
       return res.data;
     } catch (error) {
       const errorMessage =
-        error.response?.data?.errors?.message || error.message;
+        error.response?.data?.message || error.message;
       console.log('PostNewJob Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
