@@ -102,7 +102,7 @@ const Job = ({item}: any) => {
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading, user} = useSelector((state: any) => state.auth);
-  const companyDataProfile = user?.data;
+  const companyDataProfile = user;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
   const [editDoc, setesitDoc] = useState(false);

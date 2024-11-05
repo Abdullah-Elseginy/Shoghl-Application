@@ -651,7 +651,7 @@ const authSlice = createSlice({
       })
       .addCase(signUpThreeCorporate.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
+        state.user = action.payload.data;
         state.StepTwoData = action.payload.data;
         state.error = null;
       })
@@ -683,7 +683,7 @@ const authSlice = createSlice({
       .addCase(loginComapny.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.data.access_token.access_token;
-        state.user = action.payload;
+        state.user = action.payload.data.user;
         state.error = null;
       })
       .addCase(loginComapny.rejected, (state, action) => {
@@ -736,6 +736,10 @@ const authSlice = createSlice({
   },
 });
 
-export const {changeIsSkipping, changeRegisterationType, logoutSuccess,SetShowOnBoarding} =
-  authSlice.actions;
+export const {
+  changeIsSkipping,
+  changeRegisterationType,
+  logoutSuccess,
+  SetShowOnBoarding,
+} = authSlice.actions;
 export default authSlice.reducer;

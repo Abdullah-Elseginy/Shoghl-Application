@@ -13,19 +13,27 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
-import {generalStyles} from '../../constants';
+import {generalStyles, wp} from '../../constants';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
-import {getAllCities, getAllCountries} from '../../redux/slices/appdataSlice';
+import {
+  getAllCities,
+  getAllCountries,
+  GetSalaryCurrency,
+} from '../../redux/slices/appdataSlice';
 
 import Toast from 'react-native-toast-message';
 import {PostJobHelpers, PostNewJob} from '../../redux/slices/JobsSlice';
 import ScreenNames from '../../navigations/ScreenNames';
+import {Country, currency} from '../../utils/Data';
 
-const JobPost = ({navigation}) => {
+const JobPost = ({navigation}: any) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
+  const {user} = useSelector((state: any) => state.auth);
+  const {allCountries, allCities, Currency} = useSelector(
+    (state: any) => state.appdata,
+  );
   const {PostjobHelpers, loadinJobs} = useSelector((state: any) => state.jobs);
   const [JobOPtionData, setJobOPtionData] = useState([
     {
@@ -57,9 +65,9 @@ const JobPost = ({navigation}) => {
   const [Title, setTitle] = useState<string>('');
   const [Category, setCategory] = useState<string>('');
   const [selectedType, setSelectedType] = useState<string>('Job');
-  const [selectedId2, setSelectedId2] = useState<string | null>(null);
+  const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string>('');
   const [Checked, setChecked] = useState<boolean>(false);
   const [exp_From, setExpFrom] = useState('');
   const [exp_To, setExpTo] = useState('');
@@ -69,17 +77,20 @@ const JobPost = ({navigation}) => {
   const [Description, setDescription] = useState('');
   const [Requirment, setRequirment] = useState('');
   const [keyWords, setKeyWords] = useState('');
-  const [Email, setEmail] = useState('');
+  const [Email, setEmail] = useState(user?.business_email);
   // dropdwens
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedSalaryPer, SetSelectedSalaryPer] = useState('');
+  const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
-  console.log('Job Type---: ' + selectedId);
-  console.log('Job Typessss---: ' + selectedId2);
-  console.log('Contract types---: ' + JSON.stringify(selectedIds));
-  console.log('Country Code---: ' + selectedCountry);
-  console.log('City Code---: ' + selectedCity);
-  console.log('career Level---: ' + selectedId4);
+
+  // console.log('Job Type---: ' + selectedId);
+  console.log('Job Typessss---: ' + selectedJobTypes);
+  console.log('Contract types---: ' + selectedIds);
+  // console.log('Country Code---: ' + selectedCountry);
+  // console.log('City Code---: ' + selectedCity);
+  console.log('salary per---: ' + selectedSalaryPer);
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null);
@@ -116,14 +127,6 @@ const JobPost = ({navigation}) => {
     }
   };
 
-  const handlePress = (id: string) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(prevSelected => prevSelected.filter(item => item !== id));
-    } else {
-      setSelectedIds(prevSelected => [...prevSelected, id]);
-    }
-  };
-
   const renderItem = ({item}: {item: {code: string; name_en: string}}) => (
     <Pressable
       style={[
@@ -147,13 +150,17 @@ const JobPost = ({navigation}) => {
     <Pressable
       style={[
         styles.choise1,
-        selectedId2 === item.code ? styles.selected : styles.unselected,
+        selectedJobTypes.includes(item.code)
+          ? styles.selected
+          : styles.unselected,
       ]}
-      onPress={() => setSelectedId2(item.code)}>
+      onPress={() => handleSelectedJobsType(item.code)}>
       <CustomText
         text={item.name_en}
         textStyle={
-          selectedId2 === item.code ? styles.textSlected : styles.textunselected
+          selectedJobTypes.includes(item.code)
+            ? styles.textSlected
+            : styles.textunselected
         }
       />
     </Pressable>
@@ -167,7 +174,7 @@ const JobPost = ({navigation}) => {
           styles.choise,
           isSelected ? styles.selected : styles.unselected,
         ]}
-        onPress={() => handlePress(item.code)}>
+        onPress={() => setSelectedIds(item.code)}>
         <CustomText
           text={item.name_en}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
@@ -191,17 +198,27 @@ const JobPost = ({navigation}) => {
       />
     </Pressable>
   );
+
+  const handleSelectedJobsType = (code: string) => {
+    setSelectedJobTypes(prevSelectedCodes => {
+      if (prevSelectedCodes.includes(code)) {
+        return prevSelectedCodes.filter(selectedCode => selectedCode !== code);
+      } else {
+        return [...prevSelectedCodes, code];
+      }
+    });
+  };
   //--------------------------------Validation----------------
   const formData = {
     is_high_job: 'no',
     post_type: selectedId,
     title: Title,
     category: Number(Category),
-    job_types: [selectedId2],
-    contract_type: 1,
+    job_types: selectedJobTypes,
+    contract_type: selectedIds,
     country: selectedCountry,
     salary_currency: 5,
-    salary_per: 1,
+    salary_per: selectedSalaryPer,
     city: selectedCity,
     career_level: Number(selectedId4),
     experience_from: Number(exp_From),
@@ -217,9 +234,6 @@ const JobPost = ({navigation}) => {
     send_emails_notification_per: '',
     send_emails_notification_to: Email,
   };
-  const ClearFields=()=>{
-    
-  }
 
   const [formErrors, setFormErrors] = React.useState({
     is_high_job: 'no',
@@ -373,6 +387,11 @@ const JobPost = ({navigation}) => {
         });
     }
   };
+  useEffect(() => {
+    dispatch(GetSalaryCurrency());
+  }, []);
+
+  console.log('Currency-------', Currency);
   return (
     <AppScreenContainer>
       <AppHeader arrowBack title="Jop Post" />
@@ -606,6 +625,40 @@ const JobPost = ({navigation}) => {
                   value={salary_To}
                   onChangeText={val => setSalaryTo(val)}
                   isNumericKeyboard
+                />
+              </View>
+            </View>
+            <View style={[generalStyles.row, styles.DrobOx]}>
+              <View>
+                <Dropdown
+                  placeholder="Currency"
+                  value={selectedSalaryCurrency}
+                  setValue={SetSelectedSalaryCurrency}
+                  dropDownStyle={styles.drop}
+                  list={Currency}
+                  containerStyle={{
+                    zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
+                  }}
+                  isOpen={openDropdown === 'dropdown12'}
+                  onDropdownOpen={isOpen =>
+                    handleDropdownOpen(isOpen ? 'dropdown12' : null)
+                  }
+                />
+              </View>
+              <View>
+                <Dropdown
+                  placeholder="Salary Per"
+                  value={selectedSalaryPer}
+                  setValue={SetSelectedSalaryPer}
+                  dropDownStyle={styles.drop}
+                  list={PostjobHelpers?.salary_per}
+                  containerStyle={{
+                    zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+                  }}
+                  isOpen={openDropdown === 'dropdown2'}
+                  onDropdownOpen={isOpen =>
+                    handleDropdownOpen(isOpen ? 'dropdown2' : null)
+                  }
                 />
               </View>
             </View>

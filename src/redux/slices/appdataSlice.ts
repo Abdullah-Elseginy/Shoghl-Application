@@ -11,6 +11,7 @@ type InitailStateTypes = {
   allCities: any;
   choicesStep3: any;
   choicesStep1: Array<any>;
+  Currency: any;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -21,6 +22,7 @@ const initialState: InitailStateTypes = {
   allCities: [],
   choicesStep3: [],
   choicesStep1: [],
+  Currency: '',
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -128,7 +130,25 @@ export const GetChoicesStep3 = createAsyncThunk(
     }
   },
 );
-// ========================== Post Job======================
+// ========================== Choices Step 3 ========================
+export const GetSalaryCurrency = createAsyncThunk(
+  'auth/GetSalaryCurrency',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.GetSalaryCurrency,
+      });
+      console.log('GetSalaryCurrency', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('GetSalaryCurrency Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 
 // ==============================================================
 
@@ -217,6 +237,20 @@ const appdataSlice = createSlice({
         state.error = null;
       })
       .addCase(GetChoicesStep3.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================Get Salary Currency =======================
+      .addCase(GetSalaryCurrency.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(GetSalaryCurrency.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.Currency = action.payload.data;
+        state.error = null;
+      })
+      .addCase(GetSalaryCurrency.rejected, (state, action) => {
         state.loadingappdata = false;
         state.error = action.payload;
       });

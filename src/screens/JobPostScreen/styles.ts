@@ -103,6 +103,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
   },
+
   errorView: {
     width: wp(40),
     marginRight: wp(6),
@@ -165,5 +166,15 @@ export const styles = StyleSheet.create({
   },
   mt: {
     marginTop: hp(2),
+  },
+  DrobOx: {
+    marginTop: hp(2),
+  },
+  drop: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+    width: wp(40),
+    marginRight: wp(6),
   },
 });

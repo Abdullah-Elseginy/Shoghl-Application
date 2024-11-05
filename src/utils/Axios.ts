@@ -40,12 +40,14 @@ export type APIsTypes = {
   unApplyJob: string;
   getAllApplied: string;
   ViewedJobs: string;
+  GetSalaryCurrency: string;
 };
 
 export const APIS: APIsTypes = {
   // =================== Helpers =================== //
   allCountries: '/API/Helpers/Countries/All',
   allCities: '/API/Helpers/Cities/',
+  GetSalaryCurrency: '/API/Helpers/Currency/All',
   // =================== auth Candidate =================== //
   signUpOneCandidat: '/API/LOW/Auth/Registration/One',
   signUpTwoSendOTP: '/API/LOW/Auth/Registration/Two',
