@@ -1,7 +1,7 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {Pressable, ScrollView, View} from 'react-native';
+import {Pressable, ScrollView, TouchableOpacity, View} from 'react-native';
 import {
   AppHeader,
   AppInput,
@@ -13,7 +13,7 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {FlatList} from 'react-native-gesture-handler';
-import {generalStyles, wp} from '../../constants';
+import {COLORS, generalStyles, wp} from '../../constants';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
@@ -24,9 +24,12 @@ import {
 } from '../../redux/slices/appdataSlice';
 
 import Toast from 'react-native-toast-message';
-import {PostJobHelpers, PostNewJob} from '../../redux/slices/JobsSlice';
+import {
+  PostJobCategories,
+  PostJobHelpers,
+  PostNewJob,
+} from '../../redux/slices/JobsSlice';
 import ScreenNames from '../../navigations/ScreenNames';
-import {Country, currency} from '../../utils/Data';
 
 const JobPost = ({navigation}: any) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,36 +37,25 @@ const JobPost = ({navigation}: any) => {
   const {allCountries, allCities, Currency} = useSelector(
     (state: any) => state.appdata,
   );
-  const {PostjobHelpers, loadinJobs} = useSelector((state: any) => state.jobs);
-  const [JobOPtionData, setJobOPtionData] = useState([
+  const {PostjobHelpers, loadinJobs, PostCategoryes} = useSelector(
+    (state: any) => state.jobs,
+  );
+  const JobOPtionData = [
     {
-      id: '1',
+      code: '1',
       title: 'Keep Company Confidintial',
       subTitle: 'Hide Company name , logo and profile',
-      selected: false,
     },
     {
-      id: '2',
+      code: '2',
       title: 'Send me emails notifications when there are good candidates',
       subTitle: '',
-      selected: false,
     },
-  ]);
-  const [SubSlectionData, setJobOSupPtionData] = useState([
-    {
-      id: '1',
-      title: 'Daily',
-      selected: false,
-    },
-    {
-      id: '2',
-      title: 'Weekly',
-      selected: false,
-    },
-  ]);
+  ];
+
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [Title, setTitle] = useState<string>('');
-  const [Category, setCategory] = useState<string>('');
+  const [Category, setCategory] = useState('');
   const [selectedType, setSelectedType] = useState<string>('Job');
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
@@ -84,46 +76,39 @@ const JobPost = ({navigation}: any) => {
   const [selectedSalaryPer, SetSelectedSalaryPer] = useState('');
   const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState('');
   const [openDropdown, setOpenDropdown] = useState(null);
-
+  const [KeyWpordsArray, setKeyWpordsArray] = useState([]);
   // console.log('Job Type---: ' + selectedId);
-  console.log('Job Typessss---: ' + selectedJobTypes);
-  console.log('Contract types---: ' + selectedIds);
+  // console.log('Job Typessss---: ' + selectedJobTypes);
+  // console.log('Contract types---: ' + selectedIds);
   // console.log('Country Code---: ' + selectedCountry);
   // console.log('City Code---: ' + selectedCity);
-  console.log('salary per---: ' + selectedSalaryPer);
+  // console.log('salary per---: ' + selectedSalaryCurrency);
+
+  const deleteItemByIndex = (indexToDelete: number) => {
+    setKeyWpordsArray(prevLanguages =>
+      prevLanguages.filter((_, index) => index !== indexToDelete),
+    );
+  };
+  const addedLanguge = () => {
+    for (let i = 0; i < KeyWpordsArray.length; i++) {
+      if (KeyWpordsArray[i] === keyWords) {
+        Toast.show({
+          text1: 'Error',
+          text2: 'You have already added this keyword',
+          type: 'error',
+        });
+        return;
+      }
+    }
+    setKeyWpordsArray([...KeyWpordsArray, keyWords]);
+    setKeyWords('');
+  };
+
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
       setOpenDropdown(null);
     } else {
       setOpenDropdown(dropdownId);
-    }
-  };
-
-  const toggleSelection = (id: any, type: any) => {
-    if (type === 'subjob') {
-      setJobOSupPtionData(prevData =>
-        prevData.map(option =>
-          option.id === id
-            ? {...option, selected: !option.selected}
-            : {...option, selected: false},
-        ),
-      );
-    } else {
-      setJobOPtionData(prevData =>
-        prevData.map(option =>
-          option.id === id
-            ? {...option, selected: !option.selected}
-            : {...option, selected: false},
-        ),
-      );
-    }
-  };
-
-  const clearSubSelction = (index: number) => {
-    if (index === 0) {
-      for (let i = 0; i < SubSlectionData.length; i++) {
-        SubSlectionData[i].selected = false;
-      }
     }
   };
 
@@ -198,6 +183,16 @@ const JobPost = ({navigation}: any) => {
       />
     </Pressable>
   );
+  const keyWordsrenderItem = ({item, index}: any) => (
+    <View style={[generalStyles.row, styles.conlang]}>
+      <CustomText text={item} textStyle={styles.Langtxt} />
+      <TouchableOpacity
+        onPress={() => deleteItemByIndex(index)}
+        style={[styles.delate]}>
+        <CustomText text="x" textStyle={styles.texdel} />
+      </TouchableOpacity>
+    </View>
+  );
 
   const handleSelectedJobsType = (code: string) => {
     setSelectedJobTypes(prevSelectedCodes => {
@@ -208,6 +203,20 @@ const JobPost = ({navigation}: any) => {
       }
     });
   };
+  // -------------------------options------------------------
+  const [selectedJobOption, setSelectedJobOption] = useState(null);
+  const [selectedSubOption, setSelectedSubOption] = useState(null);
+
+  // Function to handle selection in the first FlatList
+  const toggleSelection = (code: any) => {
+    setSelectedJobOption(prevCode => (prevCode === code ? null : code));
+    setSelectedSubOption(null); // Reset sub-selection when main selection changes
+  };
+
+  // Function to handle selection in the second FlatList
+  const toggleSubSelection = (code: any) => {
+    setSelectedSubOption(prevCode => (prevCode === code ? null : code));
+  };
   //--------------------------------Validation----------------
   const formData = {
     is_high_job: 'no',
@@ -217,7 +226,7 @@ const JobPost = ({navigation}: any) => {
     job_types: selectedJobTypes,
     contract_type: selectedIds,
     country: selectedCountry,
-    salary_currency: 5,
+    salary_currency: selectedSalaryCurrency,
     salary_per: selectedSalaryPer,
     city: selectedCity,
     career_level: Number(selectedId4),
@@ -229,9 +238,9 @@ const JobPost = ({navigation}: any) => {
     number_of_vacancies: Number(numberOFVacancies),
     job_description: Description,
     job_requirements: Requirment,
-    keywords: [keyWords, 'key 02'],
-    option: 1,
-    send_emails_notification_per: '',
+    keywords: KeyWpordsArray,
+    option: selectedJobOption,
+    send_emails_notification_per: selectedSubOption,
     send_emails_notification_to: Email,
   };
 
@@ -335,8 +344,8 @@ const JobPost = ({navigation}: any) => {
 
   useEffect(() => {
     PostJobhelpers();
-    dispatch(getAllCities);
-    dispatch(getAllCountries);
+    dispatch(getAllCities(187));
+    dispatch(getAllCountries());
   }, []);
 
   const PostJob = () => {
@@ -387,11 +396,26 @@ const JobPost = ({navigation}: any) => {
         });
     }
   };
-  useEffect(() => {
+  const getCurrency = async () => {
     dispatch(GetSalaryCurrency());
+  };
+
+  useEffect(() => {
+    if (!Currency) {
+      getCurrency();
+    }
+    if (!PostCategoryes) {
+      dispatch(PostJobCategories());
+    }
   }, []);
 
-  console.log('Currency-------', Currency);
+  // ----memos
+  const CurrencyMemo = React.useMemo(() => Currency || [], [Currency]);
+  const CategoryMemo = React.useMemo(
+    () => PostCategoryes || [],
+    [PostCategoryes],
+  );
+
   return (
     <AppScreenContainer>
       <AppHeader arrowBack title="Jop Post" />
@@ -437,14 +461,28 @@ const JobPost = ({navigation}: any) => {
           <View style={styles.SectionBox}>
             <CustomText
               text={selectedType + ' Caregory'}
-              textStyle={styles.StepTitle}
+              textStyle={[styles.StepTitle, styles.MB]}
             />
-            <AppInput
-              containerStyle={styles.ContanerInput}
-              placeholder={selectedType + ' Caregory'}
-              value={Category}
-              onChangeText={val => setCategory(val)}
-            />
+            <View>
+              <Dropdown
+                placeholder="Select Category"
+                value={Category}
+                setValue={setCategory}
+                dropDownStyle={generalStyles.DropBorder}
+                list={CategoryMemo}
+                containerStyle={{
+                  zIndex: openDropdown === 'dropdown77' ? 10000 : 1,
+                }}
+                isOpen={openDropdown === 'dropdown77'}
+                onDropdownOpen={isOpen =>
+                  handleDropdownOpen(isOpen ? 'dropdown77' : null)
+                }
+                schema={{
+                  label: 'name_en',
+                  value: 'id',
+                }}
+              />
+            </View>
           </View>
           {formErrors.category && (
             <CustomText
@@ -635,14 +673,20 @@ const JobPost = ({navigation}: any) => {
                   value={selectedSalaryCurrency}
                   setValue={SetSelectedSalaryCurrency}
                   dropDownStyle={styles.drop}
-                  list={Currency}
+                  list={CurrencyMemo}
                   containerStyle={{
                     zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
+                    width: wp(40),
+                    marginRight: wp(6),
                   }}
                   isOpen={openDropdown === 'dropdown12'}
                   onDropdownOpen={isOpen =>
                     handleDropdownOpen(isOpen ? 'dropdown12' : null)
                   }
+                  schema={{
+                    label: 'currency',
+                    value: 'id',
+                  }}
                 />
               </View>
               <View>
@@ -654,6 +698,7 @@ const JobPost = ({navigation}: any) => {
                   list={PostjobHelpers?.salary_per}
                   containerStyle={{
                     zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+                    width: wp(40),
                   }}
                   isOpen={openDropdown === 'dropdown2'}
                   onDropdownOpen={isOpen =>
@@ -776,6 +821,20 @@ const JobPost = ({navigation}: any) => {
                   textStyle={styles.ErrorMSG}
                 />
               )}
+              <Button
+                text="Add"
+                isDisapled={KeyWpordsArray && KeyWpordsArray ? false : true}
+                disabledBGColor={COLORS.grayLight}
+                style={styles.Add}
+                onPress={() => {
+                  addedLanguge();
+                }}
+              />
+              <FlatList
+                data={KeyWpordsArray}
+                horizontal
+                renderItem={keyWordsrenderItem}
+              />
             </View>
           </View>
           {/* Job Option */}
@@ -784,58 +843,52 @@ const JobPost = ({navigation}: any) => {
               text={`${selectedType} Option`}
               textStyle={[styles.StepTitle, styles.StepText]}
             />
-            <FlatList
-              data={JobOPtionData}
-              keyExtractor={item => item.id}
-              renderItem={({item, index}) => (
-                <>
+            <View>
+              {/* First FlatList */}
+              <FlatList
+                data={JobOPtionData}
+                keyExtractor={item => item.code}
+                renderItem={({item}) => (
                   <View style={[generalStyles.row, styles.JopOptionsupbox]}>
                     <View>
                       <Checkbox
-                        isChecked={item.selected}
-                        setIsChecked={() => {
-                          toggleSelection(item.id, '');
-                          clearSubSelction(index);
-                        }}
+                        isChecked={selectedJobOption === item.code}
+                        setIsChecked={() => toggleSelection(item.code)}
                       />
                     </View>
                     <View style={styles.TexyBox}>
                       <CustomText text={item.title} />
-                      {item.subTitle.length ? (
+                      {item.subTitle.length > 0 && (
                         <CustomText
                           text={item.subTitle}
                           textStyle={styles.TextKeywords}
                         />
-                      ) : (
-                        ''
                       )}
                     </View>
                   </View>
-                </>
-              )}
-            />
-            {JobOPtionData[1].selected === true ? (
-              <FlatList
-                data={SubSlectionData}
-                keyExtractor={item => item.id}
-                renderItem={({item}) => (
-                  <View style={[generalStyles.row, styles.SubCheckBox]}>
-                    <Checkbox
-                      isChecked={item.selected}
-                      setIsChecked={() => {
-                        toggleSelection(item.id, 'subjob');
-                      }}
-                    />
-                    <CustomText
-                      text={item.title}
-                      textStyle={styles.subcheckText}
-                    />
-                  </View>
                 )}
               />
-            ) : (
-              ''
-            )}
+
+              {/* Second FlatList (shown only if code '2' is selected in the first list) */}
+              {selectedJobOption === '2' && (
+                <FlatList
+                  data={PostjobHelpers?.send_emails_notification_per}
+                  keyExtractor={item => item.code}
+                  renderItem={({item}) => (
+                    <View style={[generalStyles.row, styles.SubCheckBox]}>
+                      <Checkbox
+                        isChecked={selectedSubOption === item.code}
+                        setIsChecked={() => toggleSubSelection(item.code)}
+                      />
+                      <CustomText
+                        text={item.name_en}
+                        textStyle={styles.subcheckText}
+                      />
+                    </View>
+                  )}
+                />
+              )}
+            </View>
           </View>
           <View>
             <CustomText

@@ -3,6 +3,7 @@ import React from 'react';
 
 import CustomText from '../CustomText';
 import styles from './styles';
+import {COLORS} from '../../constants';
 
 type Props = {
   message: string;
@@ -18,7 +19,7 @@ const Apploader = ({message = 'loading...', visible}: Props) => {
       onRequestClose={() => {}}>
       <View style={styles.overlay}>
         <View style={styles.modalContent}>
-          <ActivityIndicator size="large" color="#4C1B1B" />
+          <ActivityIndicator size="large" color={COLORS.primary} />
           <CustomText textStyle={styles.message} text={message} />
         </View>
       </View>

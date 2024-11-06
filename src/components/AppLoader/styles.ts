@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import {COLORS, hp, wp} from '../../constants';
 
 const styles = StyleSheet.create({
   overlay: {
@@ -10,14 +11,15 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
+    padding: wp(4),
+    borderRadius: wp(2),
     alignItems: 'center',
+    paddingHorizontal: wp(8),
   },
   message: {
-    marginTop: 15,
-    fontSize: 16,
-    color: '#333',
+    marginTop: hp(2),
+    fontSize: wp(3),
+    color: COLORS.black,
     textAlign: 'center',
   },
 });

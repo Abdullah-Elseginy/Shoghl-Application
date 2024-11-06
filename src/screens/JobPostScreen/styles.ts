@@ -175,6 +175,39 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
     width: wp(40),
-    marginRight: wp(6),
+    // marginRight: wp(6),
+  },
+  MB: {
+    marginBottom: hp(1),
+  },
+  conlang: {
+    backgroundColor: COLORS.primaryMoreLight,
+    borderRadius: wp(2),
+    marginBottom: wp(1),
+    marginRight: wp(1),
+    padding: wp(1),
+    marginTop: hp(1),
+  },
+  texdel: {
+    color: COLORS.white,
+  },
+  Langtxt: {
+    fontFamily: FONTS.SemiBold,
+    fontSize: wp(2.5),
+    marginRight: wp(2),
+  },
+  delate: {
+    backgroundColor: COLORS.danger,
+    width: wp(5.5),
+    height: hp(2.6),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: wp(50),
+  },
+  Add: {
+    width: wp(20),
+    height: hp(4.5),
+    alignSelf: 'flex-end',
+    marginTop: hp(2),
   },
 });

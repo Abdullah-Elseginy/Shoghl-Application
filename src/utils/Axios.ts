@@ -41,6 +41,8 @@ export type APIsTypes = {
   getAllApplied: string;
   ViewedJobs: string;
   GetSalaryCurrency: string;
+  PostJobCategories: string;
+  companyPostedJobs: string;
 };
 
 export const APIS: APIsTypes = {
@@ -79,6 +81,8 @@ export const APIS: APIsTypes = {
   // ----------------Post jobs-------------------
   PostJobHelpers: '/API/COM/Jobs/Post-New-Helper',
   postNewJob: '/API/COM/Jobs/Post-New',
+  PostJobCategories: '/API/COM/Jobs/Categorys?Name=TK',
+  companyPostedJobs: '/API/COM/Jobs/My',
   // ----------------search jobs-------------------
   SearchJobs: '/API/LOW/Jobs/All',
   getCategoryWithSearch: '/API/LOW/Jobs/Categorys',

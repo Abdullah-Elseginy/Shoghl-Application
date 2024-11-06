@@ -8,7 +8,12 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useState} from 'react';
-import {AppScreenContainer, CustomText, Dropdown} from '../../components';
+import {
+  Apploader,
+  AppScreenContainer,
+  CustomText,
+  Dropdown,
+} from '../../components';
 import styles from './style';
 import {generalStyles, hp, wp} from '../../constants';
 import {
@@ -157,6 +162,9 @@ const Applications = ({navigation}: any) => {
   return (
     <AppScreenContainer style={styles.maincontainer}>
       {/* <AppHeader arrowBack title="Applications" /> */}
+      {lodingApply && (
+        <Apploader visible={lodingApply} message="loading..." />
+      )}
       <View style={styles.container}>
         <View style={styles.MAinheader}>
           <Pressable

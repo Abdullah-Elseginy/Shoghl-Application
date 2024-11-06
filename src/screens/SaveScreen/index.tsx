@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, {useCallback, useEffect} from 'react';
-import {AppScreenContainer, CustomText} from '../../components';
+import {Apploader, AppScreenContainer, CustomText} from '../../components';
 import styles from './styles';
 import {COLORS, generalStyles, hp, wp} from '../../constants';
 import {Add, Cash, Crown, Delate, Location} from '../../assets';
@@ -180,7 +180,9 @@ const SaveScreen = ({navigation}: any) => {
   return (
     <AppScreenContainer>
       {/* <AppHeader arrowBack={true} title="Saved" /> */}
-
+      {/* {loadinJobs && (
+        <Apploader message="loading.." visible={loadinJobs} />
+      )} */}
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.contanBox}>
           <FlatList

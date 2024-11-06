@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     borderRadius: hp(1),
     marginBottom: hp(3),
     backgroundColor: COLORS.grayMoreLight,
-    height: hp(31),
+    minHeight: hp(32),
   },
   jobTopBox: {
     paddingHorizontal: wp(6),
@@ -82,8 +82,8 @@ export const styles = StyleSheet.create({
     marginStart: wp(8),
   },
   status: {
-    color: COLORS.grayLight,
-    fontSize: hp(1.8),
+    color: COLORS.primary,
+    fontSize: hp(1.3),
     textTransform: 'capitalize',
     marginBottom: hp(0.5),
   },
@@ -202,5 +202,22 @@ export const styles = StyleSheet.create({
   PDFVEw: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  im: {
+    minWidth: wp(15),
+    height: wp(15),
+    borderRadius: wp(60),
+  },
+  Conten: {
+    justifyContent: 'space-between',
+    width: wp(58),
+  },
+  period4: {
+    backgroundColor: COLORS.primaryMoreLight,
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  marginT: {
+    marginTop: hp(2),
   },
 });

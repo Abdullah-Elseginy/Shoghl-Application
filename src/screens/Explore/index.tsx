@@ -131,7 +131,7 @@ const Quetions = ({item}: any) => {
   );
 };
 const Explore = ({navigation}: Props) => {
-  const {allJobs, helpersJobs, loadinJobs} = useSelector(
+  const {allJobs, helpersJobs, loadinJobs, companyPostedJobs} = useSelector(
     (state: any) => state.jobs,
   );
   const {allCities} = useSelector((state: any) => state.appdata);
@@ -206,6 +206,7 @@ const Explore = ({navigation}: Props) => {
       dispatch(SearchJobs());
     }, []),
   );
+
   return (
     <AppScreenContainer>
       {/* <AppHeader arrowBack={true} title="Search jobs" /> */}
@@ -255,7 +256,7 @@ const Explore = ({navigation}: Props) => {
               </View>
               <Button
                 text="done"
-                loading={loadinJobs}
+                isDisapled={loadinJobs}
                 onPress={() => FilterJobs()}
                 style={styles.btn}
               />
@@ -264,7 +265,7 @@ const Explore = ({navigation}: Props) => {
         />
         {/* Jobs*/}
         {loadinJobs ? (
-          <Apploader message="loading jobs...." visible={loadinJobs} />
+          <Apploader message="loading..." visible={loadinJobs} />
         ) : allJobs?.length === 0 ? (
           <View style={styles.noJobs}>
             <CustomText text="No Jobs Founded" textStyle={styles.nottext} />

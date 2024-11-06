@@ -311,7 +311,7 @@ const HomeScreen = ({navigation}: Props) => {
           )}
 
           <Button
-            loading={loadinJobs}
+            isDisapled={loadinJobs}
             text="search"
             style={styles.btn}
             onPress={() => SerchJobs()}

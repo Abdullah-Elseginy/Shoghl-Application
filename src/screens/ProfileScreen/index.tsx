@@ -3,6 +3,7 @@
 import * as React from 'react';
 import {
   AppInput,
+  Apploader,
   AppScreenContainer,
   Button,
   Checkbox,
@@ -859,9 +860,7 @@ const ProfileScreen = () => {
             />
           </AppScreenContainer>
         ) : (
-          <View style={styles.loadinbox}>
-            <ActivityIndicator size={'large'} color={COLORS.primary} />
-          </View>
+          <Apploader message="Loading" visible={loading} />
         )
       ) : (
         <ComplateCompanyProfile navigation={navigation} />

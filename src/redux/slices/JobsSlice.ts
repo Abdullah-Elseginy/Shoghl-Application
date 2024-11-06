@@ -15,6 +15,8 @@ type InitailStateTypes = {
   lodingUnsave: boolean;
   lodingApply: boolean;
   appliedJobs: Array<any>;
+  PostCategoryes: Array<any>;
+  companyPostedJobs: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -31,6 +33,8 @@ const initialState: InitailStateTypes = {
   lodingUnsave: false,
   lodingApply: false,
   appliedJobs: [],
+  PostCategoryes: [],
+  companyPostedJobs: [],
 };
 // ========================== Post Job======================
 // ==========================Post Job Helper======================
@@ -66,8 +70,7 @@ export const PostNewJob = createAsyncThunk(
       console.log('PostNewJob', res?.data);
       return res.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || error.message;
+      const errorMessage = error.response?.data?.message || error.message;
       console.log('PostNewJob Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
@@ -301,6 +304,44 @@ export const ViewedJobs = createAsyncThunk(
     }
   },
 );
+// ========================== Viewed Jobs  ======================
+export const PostJobCategories = createAsyncThunk(
+  'auth/PostJobCategories',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.PostJobCategories,
+      });
+      console.log('PostJobCategories----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('PostJobCategories Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== compantPostedJobs Jobs  ======================
+export const getCompanyPostedJobs = createAsyncThunk(
+  'auth/getCompanyPostedJobs',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.companyPostedJobs,
+      });
+      console.log('getCompanyPostedJobs----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getCompanyPostedJobs Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const JobsSlice = createSlice({
@@ -483,6 +524,34 @@ const JobsSlice = createSlice({
         state.error = null;
       })
       .addCase(ViewedJobs.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================PostJobCategories jobs=======================
+      .addCase(PostJobCategories.pending, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(PostJobCategories.fulfilled, (state, action) => {
+        state.lodingApply = false;
+        state.PostCategoryes = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(PostJobCategories.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================company Posted  jobs=======================
+      .addCase(getCompanyPostedJobs.pending, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(getCompanyPostedJobs.fulfilled, (state, action) => {
+        state.lodingApply = false;
+        state.companyPostedJobs = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getCompanyPostedJobs.rejected, (state, action) => {
         state.lodingApply = false;
         state.error = action.payload;
       });

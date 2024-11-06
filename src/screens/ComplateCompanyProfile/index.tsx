@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   AppInput,
   AppScreenContainer,
@@ -7,7 +7,7 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {View} from 'react-native';
+import {Image, View} from 'react-native';
 import {
   Cash,
   Crown,
@@ -22,7 +22,11 @@ import DocumentPicker from 'react-native-document-picker';
 
 import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
-import {CommonActions, ParamListBase} from '@react-navigation/native';
+import {
+  CommonActions,
+  ParamListBase,
+  useFocusEffect,
+} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {JOBS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
@@ -31,60 +35,91 @@ import {logoutCompany} from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
 import WebView from 'react-native-webview';
+import {getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
 
-const Job = ({item}: any) => {
+const Job = ({item, navigation, companyName}: any) => {
   return (
-    <Pressable onPress={() => {}} style={[styles.jobBox]}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate(ScreenNames.JobDetails, {
+          jobCode: item?.code,
+        })
+      }
+      style={[styles.jobBox, {backgroundColor: item.color}]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
-          {item.img}
+          <View>
+            <Image
+              source={{
+                uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              }}
+              style={styles.im}
+              resizeMode="cover"
+            />
+          </View>
           <View style={styles.jobTopContent}>
-            <CustomText text={item.status} textStyle={styles.status} />
-            <CustomText text={item.job} textStyle={styles.job} />
-            <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
-              {item.period ? (
-                <CustomText text={item.period} textStyle={styles.period} />
-              ) : (
-                ''
-              )}
-              {item.intern ? (
-                <CustomText text={item.intern} textStyle={[styles.period2]} />
-              ) : (
-                ''
-              )}
-              {item.freelance ? (
-                <CustomText
-                  text={item.freelance}
-                  textStyle={[styles.period3]}
-                />
-              ) : (
-                ''
-              )}
+            <View style={generalStyles.rowBetween}>
+              <CustomText text={item.title} textStyle={styles.job} />
+              <CustomText text={item.since} textStyle={styles.status} />
+            </View>
+            <View style={[generalStyles.rowBetween]}>
+              <FlatList
+                data={item?.job_types?.en}
+                horizontal
+                contentContainerStyle={styles.Conten}
+                renderItem={({item}: any) =>
+                  item == 'Full Time' ? (
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period2]}
+                    />
+                  ) : item == 'Shift based' ? (
+                    <CustomText
+                      text={item.slice(0, 9)}
+                      textStyle={[styles.period]}
+                    />
+                  ) : item == 'Part Time' ? (
+                    <CustomText
+                      text={item.slice(0, 12)}
+                      textStyle={[styles.period, styles.period4]}
+                    />
+                  ) : (
+                    <CustomText
+                      text={item.slice(0, 12) + '..'}
+                      textStyle={[styles.period, styles.period3]}
+                    />
+                  )
+                }
+              />
             </View>
           </View>
         </View>
       </View>
       <View style={styles.jobBottomBox}>
-        <View style={[generalStyles.row, styles.JocBttomBox]}>
-          <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
-          <Location
-            width={hp(2)}
-            height={hp(2)}
-            style={[styles.btnIcon, styles.LocationIcon]}
-          />
-          <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
+        <View style={[generalStyles.rowBetween, styles.JocBttomBox]}>
+          <View style={generalStyles.row}>
+            <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+            <CustomText text={companyName} textStyle={styles.jobBottomTxt} />
+          </View>
+          <View style={[generalStyles.row, styles.marginT]}>
+            <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
+            <CustomText
+              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              textStyle={styles.jobBottomTxt}
+            />
+          </View>
         </View>
         <View style={generalStyles.row}>
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-          <CustomText text={item.price} textStyle={styles.jobBottomTxt} />
+          <CustomText
+            text={item?.contract_type?.en + ' | ' + item?.career_level?.en}
+            textStyle={styles.jobBottomTxt}
+          />
         </View>
-
-        {/* Edit DEllate */}
-        <View style={generalStyles.rowBetween}>
+        <View style={[generalStyles.rowBetween, styles.marginT]}>
           <Pressable style={[generalStyles.row, styles.editDelateBox]}>
             <ExitXicon />
             <CustomText text="Delete" />
@@ -102,6 +137,7 @@ const Job = ({item}: any) => {
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading, user} = useSelector((state: any) => state.auth);
+  const {companyPostedJobs} = useSelector((state: any) => state.jobs);
   const companyDataProfile = user;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
@@ -200,7 +236,11 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       }
     }
   };
-
+  useFocusEffect(
+    useCallback(() => {
+      dispatch(getCompanyPostedJobs());
+    }, []),
+  );
   return (
     <AppScreenContainer>
       <ScrollView>
@@ -364,17 +404,21 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
           {/* Recent Jobs At Raya */}
           <View style={styles.Section}>
             <CustomText
-              text="Recent Jobs At Raya "
+              text={'Recent Jobs At  ' + companyDataProfile?.company_name}
               textStyle={styles.SectionTXT}
             />
           </View>
           {/* Jobs*/}
           <View style={styles.FlatBox}>
             <FlatList
-              data={JOBS}
-              keyExtractor={item => item.id.toString()}
+              data={companyPostedJobs}
+              keyExtractor={item => item.code.toString()}
               renderItem={({item}) => (
-                <Job navigation={navigation} item={item} />
+                <Job
+                  navigation={navigation}
+                  item={item}
+                  companyName={companyDataProfile?.company_name}
+                />
               )}
             />
           </View>
