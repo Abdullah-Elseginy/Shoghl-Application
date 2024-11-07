@@ -43,6 +43,10 @@ export type APIsTypes = {
   GetSalaryCurrency: string;
   PostJobCategories: string;
   companyPostedJobs: string;
+  deleteJob: string;
+  editBob: string;
+  getAllAppliedUsers: string;
+  getSearchedCVs: string;
 };
 
 export const APIS: APIsTypes = {
@@ -96,6 +100,13 @@ export const APIS: APIsTypes = {
   unApplyJob: '/API/LOW/Jobs/Un-Apply',
   getAllApplied: '/API/LOW/Jobs/All-Applied',
   ViewedJobs: '/API/LOW/Jobs/View',
+  //-------------edtit delete job --------------------
+  deleteJob: '/API/COM/Jobs/Delete',
+  editBob: '/API/COM/Jobs/Edit',
+  //-------get applied users --------------------
+  getAllAppliedUsers: '/API/COM/Jobs/All-Applied-Users',
+  // get cvs users --------------------
+  getSearchedCVs: '/API/COM/Users/L/All',
 };
 
 const axiosInstance = axios.create({

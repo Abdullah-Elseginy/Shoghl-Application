@@ -7,7 +7,7 @@ import {
   CustomText,
 } from '../../components';
 import {styles} from './styles';
-import {Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {
   Cash,
   Crown,
@@ -20,7 +20,7 @@ import {
 } from '../../assets';
 import DocumentPicker from 'react-native-document-picker';
 
-import {FlatList, Pressable, ScrollView} from 'react-native-gesture-handler';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {generalStyles, hp} from '../../constants';
 import {
   CommonActions,
@@ -28,26 +28,26 @@ import {
   useFocusEffect,
 } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {JOBS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
 import {logoutCompany} from '../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
 import WebView from 'react-native-webview';
-import {getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
+import {deleteJob, getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
 
-const Job = ({item, navigation, companyName}: any) => {
+const Job = ({item, navigation, companyName, deletejob, lodingApply}: any) => {
   return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate(ScreenNames.JobDetails, {
-          jobCode: item?.code,
-        })
-      }
+    <TouchableOpacity
+      // onPress={() =>
+      //   navigation.navigate(ScreenNames.JobDetails, {
+      //     jobCode: item?.code,
+      //   })
+      // }
+      activeOpacity={0.8}
       style={[styles.jobBox, {backgroundColor: item.color}]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
@@ -120,24 +120,45 @@ const Job = ({item, navigation, companyName}: any) => {
           />
         </View>
         <View style={[generalStyles.rowBetween, styles.marginT]}>
-          <Pressable style={[generalStyles.row, styles.editDelateBox]}>
-            <ExitXicon />
-            <CustomText text="Delete" />
-          </Pressable>
-          <Pressable
-            style={[generalStyles.row, styles.editDelateBox, styles.Color]}>
+          {!lodingApply  ? (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={[generalStyles.row, styles.editDelateBox]}
+              onPress={() => {
+                deletejob(item.code);
+                console.log('item.code' + item.code);
+              }}>
+              <ExitXicon />
+              <CustomText text="Delete" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={0.5}
+              disabled={true}
+              style={[generalStyles.row, styles.editDelateBox]}>
+              <CustomText text="deleting.." />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity
+            style={[generalStyles.row, styles.editDelateBox, styles.Color]}
+            activeOpacity={0.5}
+            onPress={() => {
+              navigation.navigate(ScreenNames.JobPost, {jobData: item});
+            }}>
             <Edit />
             <CustomText text="Edit" />
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading, user} = useSelector((state: any) => state.auth);
-  const {companyPostedJobs} = useSelector((state: any) => state.jobs);
+  const {companyPostedJobs, lodingApply} = useSelector(
+    (state: any) => state.jobs,
+  );
   const companyDataProfile = user;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
@@ -236,11 +257,39 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       }
     }
   };
+
+  // ----------------APIs----------------------------------
+
+  const DELETEJOB = (jobCode: any) => {
+    const codeToSent = {
+      job_code: jobCode,
+    };
+    console.log('code to send----' + JSON.stringify(codeToSent));
+    dispatch(deleteJob(codeToSent))
+      .unwrap()
+      .then(res => {
+        Toast.show({
+          text1: 'Success',
+          text2: res,
+          type: 'success',
+        });
+        dispatch(getCompanyPostedJobs());
+      })
+      .catch(err => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: err,
+        });
+      });
+  };
+
   useFocusEffect(
     useCallback(() => {
       dispatch(getCompanyPostedJobs());
     }, []),
   );
+
   return (
     <AppScreenContainer>
       <ScrollView>
@@ -417,6 +466,8 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 <Job
                   navigation={navigation}
                   item={item}
+                  deletejob={DELETEJOB}
+                  lodingApply={lodingApply}
                   companyName={companyDataProfile?.company_name}
                 />
               )}

@@ -264,9 +264,9 @@ const Explore = ({navigation}: Props) => {
           }
         />
         {/* Jobs*/}
-        {loadinJobs ? (
-          <Apploader message="loading..." visible={loadinJobs} />
-        ) : allJobs?.length === 0 ? (
+        {loadinJobs && <Apploader message="loading..." visible={loadinJobs} />}
+
+        {allJobs?.length === 0 ? (
           <View style={styles.noJobs}>
             <CustomText text="No Jobs Founded" textStyle={styles.nottext} />
             <NotFound />

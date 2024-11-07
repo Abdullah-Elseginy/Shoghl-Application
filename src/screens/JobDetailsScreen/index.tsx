@@ -1,33 +1,23 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   AppHeader,
-  Apploader,
   AppScreenContainer,
   Button,
   CustomText,
 } from '../../components';
 import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import {COLORS, generalStyles, hp, IMAGES, wp} from '../../constants';
+import {COLORS, generalStyles, hp, wp} from '../../constants';
 import {ActivityIndicator, Image, TouchableOpacity, View} from 'react-native';
 import {styles} from './styles';
-import {
-  Documentation,
-  Location,
-  SAVEJOB,
-  SaveJob,
-  Temlid,
-  Unsave,
-} from '../../assets';
+import {Documentation, Location, SAVEJOB, Temlid, Unsave} from '../../assets';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
-import {SIMILARFUNCTIONS, SIMILARJOBS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
 import {
   applyJob,
   getJobsDetails,
-  getSavedJobs,
   saveJob,
   unApplyJob,
   unSaveJob,
@@ -108,18 +98,29 @@ const SimilarFunctions = ({item, setjobcode, GETGobDtetails}: any) => {
 };
 const JobDetailsScreen = ({route, navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {jobDetails, loadinJobs, saveloading, lodingApply} = useSelector(
+  const {jobDetails, saveloading, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
   const {jobCode} = route.params;
   const [jobcode, setjobcode] = useState(jobCode);
+  const scrollViewRef = useRef(null);
+  const scrollToTop = () => {
+    if (scrollViewRef?.current) {
+      scrollViewRef?.current?.scrollTo({y: 0, animated: true});
+    }
+  };
   //--------------------------Job Deutails API------------
 
   const GETGobDtetails = (code: any) => {
     const codeToSend = {
       job_code: code,
     };
-    dispatch(getJobsDetails(codeToSend));
+    dispatch(getJobsDetails(codeToSend))
+      .unwrap()
+      .then(() => {
+        scrollToTop();
+      })
+      .catch(err => {});
   };
 
   const SAVEJob = (code: any) => {
@@ -205,7 +206,9 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
   return (
     <AppScreenContainer style={{flex: 1}}>
       <AppHeader arrowBack={true} title="Job Details" />
-      <ScrollView contentContainerStyle={generalStyles.container}>
+      <ScrollView
+        contentContainerStyle={generalStyles.container}
+        ref={scrollViewRef}>
         {/* Section1 company Profle */}
         <View style={styles.profileBox}>
           <TouchableOpacity

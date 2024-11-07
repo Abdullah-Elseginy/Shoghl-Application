@@ -17,6 +17,8 @@ type InitailStateTypes = {
   appliedJobs: Array<any>;
   PostCategoryes: Array<any>;
   companyPostedJobs: Array<any>;
+  aplliedUsers: Array<any>;
+  userCvs: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -35,6 +37,8 @@ const initialState: InitailStateTypes = {
   appliedJobs: [],
   PostCategoryes: [],
   companyPostedJobs: [],
+  aplliedUsers: [],
+  userCvs: [],
 };
 // ========================== Post Job======================
 // ==========================Post Job Helper======================
@@ -342,6 +346,85 @@ export const getCompanyPostedJobs = createAsyncThunk(
     }
   },
 );
+// ========================== Delete Jobs  ======================
+export const deleteJob = createAsyncThunk(
+  'auth/deleteJob',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'DELETE',
+        path: APIS.deleteJob,
+        params: data,
+      });
+      console.log('deleteJob----', res?.data);
+      return res.data.message;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('deleteJob Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== Edit Jobs  ======================
+export const editBob = createAsyncThunk(
+  'auth/editBob',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.editBob,
+        params: data,
+      });
+      console.log('editBob----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('editBob Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== getAllAppliedUsers Jobs  ======================
+export const getAllAppliedUsers = createAsyncThunk(
+  'auth/getAllAppliedUsers',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getAllAppliedUsers,
+      });
+      console.log('getAllAppliedUsers----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getAllAppliedUsers Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Searched CVs Jobs  ======================
+export const getSearchedCVs = createAsyncThunk(
+  'auth/getSearchedCVs',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getSearchedCVs,
+        params: data,
+      });
+      console.log('getSearchedCVs----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getSearchedCVs Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const JobsSlice = createSlice({
@@ -553,6 +636,60 @@ const JobsSlice = createSlice({
       })
       .addCase(getCompanyPostedJobs.rejected, (state, action) => {
         state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================Delete My Posted jobs=======================
+      .addCase(deleteJob.pending, state => {
+        state.lodingApply = true;
+        state.error = null;
+      })
+      .addCase(deleteJob.fulfilled, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(deleteJob.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================edit jBob=======================
+      .addCase(editBob.pending, state => {
+        state.lodingApply = true;
+        state.error = null;
+      })
+      .addCase(editBob.fulfilled, state => {
+        state.lodingApply = false;
+        state.error = null;
+      })
+      .addCase(editBob.rejected, (state, action) => {
+        state.lodingApply = false;
+        state.error = action.payload;
+      })
+      // ======================get all applied users=======================
+      .addCase(getAllAppliedUsers.pending, state => {
+        state.loadinJobs = true;
+        state.error = null;
+      })
+      .addCase(getAllAppliedUsers.fulfilled, (state, action) => {
+        state.loadinJobs = false;
+        state.aplliedUsers = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getAllAppliedUsers.rejected, (state, action) => {
+        state.loadinJobs = false;
+        state.error = action.payload;
+      })
+      // ======================get all Cvs users=======================
+      .addCase(getSearchedCVs.pending, state => {
+        state.loadinJobs = true;
+        state.error = null;
+      })
+      .addCase(getSearchedCVs.fulfilled, (state, action) => {
+        state.loadinJobs = false;
+        state.userCvs = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getSearchedCVs.rejected, (state, action) => {
+        state.loadinJobs = false;
         state.error = action.payload;
       });
   },

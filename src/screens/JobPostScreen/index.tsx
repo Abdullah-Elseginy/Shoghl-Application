@@ -25,19 +25,23 @@ import {
 
 import Toast from 'react-native-toast-message';
 import {
+  editBob,
   PostJobCategories,
   PostJobHelpers,
   PostNewJob,
 } from '../../redux/slices/JobsSlice';
 import ScreenNames from '../../navigations/ScreenNames';
 
-const JobPost = ({navigation}: any) => {
+const JobPost = ({navigation, route}: any) => {
+  const {jobData} = route.params || {};
+  console.log('jobPostData----------' + JSON.stringify(jobData));
+  console.log('career_level----------' + [jobData?.career_level?.en]);
   const dispatch = useDispatch<AppDispatch>();
   const {user} = useSelector((state: any) => state.auth);
   const {allCountries, allCities, Currency} = useSelector(
     (state: any) => state.appdata,
   );
-  const {PostjobHelpers, loadinJobs, PostCategoryes} = useSelector(
+  const {PostjobHelpers, loadinJobs, PostCategoryes, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
   const JobOPtionData = [
@@ -52,31 +56,71 @@ const JobPost = ({navigation}: any) => {
       subTitle: '',
     },
   ];
+  console.log('jobData?.job_types---' + jobData?.job_types);
+  const returnCode = (selectedtypes: any, alltypes: any) => {
+    let job_types = selectedtypes;
+    let mainData = alltypes;
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [Title, setTitle] = useState<string>('');
+    // Filter mainData and get the codes for matching job_types
+    let codes = mainData
+      .filter((item: any) => job_types?.includes(item.name_en))
+      .map((item: any) => item.code);
+
+    return codes;
+  };
+
+  // console.log('codeeeeeeeeeeesss------' + returnCode());
+
+  const [selectedId, setSelectedId] = useState<string | null>(
+    jobData?.post_type?.en === 'Job' ? '1' : '2' || null,
+  );
+  const [Title, setTitle] = useState<string>(jobData?.title || '');
   const [Category, setCategory] = useState('');
   const [selectedType, setSelectedType] = useState<string>('Job');
-  const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>([]);
-  const [selectedId4, setSelectedId4] = useState<string | null>(null);
-  const [selectedIds, setSelectedIds] = useState<string>('');
-  const [Checked, setChecked] = useState<boolean>(false);
-  const [exp_From, setExpFrom] = useState('');
-  const [exp_To, setExpTo] = useState('');
-  const [salary_From, setSalaryFrom] = useState('');
-  const [salary_To, setSalaryTo] = useState('');
-  const [numberOFVacancies, setnumberOFVacancies] = useState('');
-  const [Description, setDescription] = useState('');
-  const [Requirment, setRequirment] = useState('');
+  const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
+    returnCode(jobData?.job_types?.en, PostjobHelpers?.job_types) || [],
+  );
+  const [selectedId4, setSelectedId4] = useState<string | null>(
+    returnCode([jobData?.career_level?.en], PostjobHelpers?.career_level) +
+      '' || null,
+  );
+  const [selectedIds, setSelectedIds] = useState<string>(
+    returnCode([jobData?.contract_type?.en], PostjobHelpers?.contract_type) ||
+      '',
+  );
+  const [Checked, setChecked] = useState<boolean>(
+    jobData?.salary_hide || false,
+  );
+  const [exp_From, setExpFrom] = useState(jobData?.experience_from + '' || '');
+  const [exp_To, setExpTo] = useState(jobData?.experience_to + '' || '');
+  const [salary_From, setSalaryFrom] = useState(
+    jobData?.salary_from.toString() || '',
+  );
+  const [salary_To, setSalaryTo] = useState(
+    jobData?.salary_to.toString() || '',
+  );
+  const [numberOFVacancies, setnumberOFVacancies] = useState(
+    jobData?.number_of_vacancies || '',
+  );
+  const [Description, setDescription] = useState(
+    jobData?.job_description || '',
+  );
+  const [Requirment, setRequirment] = useState(jobData?.job_requirements || '');
   const [keyWords, setKeyWords] = useState('');
-  const [Email, setEmail] = useState(user?.business_email);
+  const [Email, setEmail] = useState(user?.business_email || '');
   // dropdwens
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedSalaryPer, SetSelectedSalaryPer] = useState('');
-  const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState('');
+  const [selectedCity, setSelectedCity] = useState(jobData?.city?.id || '');
+  const [selectedCountry, setSelectedCountry] = useState(
+    jobData?.country?.id || '',
+  );
+  const [selectedSalaryPer, SetSelectedSalaryPer] = useState(
+    jobData?.salary_per?.code || '',
+  );
+  const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState(
+    jobData?.salary_currency?.id || '',
+  );
   const [openDropdown, setOpenDropdown] = useState(null);
-  const [KeyWpordsArray, setKeyWpordsArray] = useState([]);
+  const [KeyWpordsArray, setKeyWpordsArray] = useState(jobData?.keywords || []);
   // console.log('Job Type---: ' + selectedId);
   // console.log('Job Typessss---: ' + selectedJobTypes);
   // console.log('Contract types---: ' + selectedIds);
@@ -204,8 +248,12 @@ const JobPost = ({navigation}: any) => {
     });
   };
   // -------------------------options------------------------
-  const [selectedJobOption, setSelectedJobOption] = useState(null);
-  const [selectedSubOption, setSelectedSubOption] = useState(null);
+  const [selectedJobOption, setSelectedJobOption] = useState(
+    jobData?.keep_company_confidential || null,
+  );
+  const [selectedSubOption, setSelectedSubOption] = useState(
+    jobData?.send_emails_notification || null,
+  );
 
   // Function to handle selection in the first FlatList
   const toggleSelection = (code: any) => {
@@ -246,7 +294,7 @@ const JobPost = ({navigation}: any) => {
 
   const [formErrors, setFormErrors] = React.useState({
     is_high_job: 'no',
-    post_type: selectedId,
+    post_type: '',
     title: '',
     job_types: '',
     contract_type: '',
@@ -396,6 +444,34 @@ const JobPost = ({navigation}: any) => {
         });
     }
   };
+
+  const EDITJOB = () => {
+    console.log('Folrm Edit Job--------' + JSON.stringify(formData));
+    const EditedDataToSend = {
+      ...formData,
+      job_code: jobData?.code,
+    };
+    if (validateForm()) {
+      dispatch(editBob(EditedDataToSend))
+        .unwrap()
+        .then(() => {
+          Toast.show({
+            text1: 'Success',
+            text2: 'Job Edited Successfully',
+            type: 'success',
+          });
+          navigation.navigate(ScreenNames.BottomTabs);
+        })
+        .catch(err => {
+          Toast.show({
+            text1: 'Error',
+            text2: err,
+            type: 'error',
+          });
+        });
+    }
+  };
+
   const getCurrency = async () => {
     dispatch(GetSalaryCurrency());
   };
@@ -907,12 +983,21 @@ const JobPost = ({navigation}: any) => {
           </View>
 
           {/* SAve */}
-          <Button
-            text="Post Now"
-            style={styles.Buttom}
-            onPress={PostJob}
-            loading={loadinJobs}
-          />
+          {jobData ? (
+            <Button
+              text="Edit Job"
+              style={styles.Buttom}
+              onPress={EDITJOB}
+              loading={lodingApply}
+            />
+          ) : (
+            <Button
+              text="Post Now"
+              style={styles.Buttom}
+              onPress={PostJob}
+              loading={loadinJobs}
+            />
+          )}
         </ScrollView>
       </View>
     </AppScreenContainer>

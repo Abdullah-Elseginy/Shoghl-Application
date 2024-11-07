@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Apploader,
   AppScreenContainer,
   Button,
   Checkbox,
@@ -20,6 +21,10 @@ import {
   UpperArrow2,
 } from '../../assets';
 import ScreenNames from '../../navigations/ScreenNames';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAllAppliedUsers} from '../../redux/slices/JobsSlice';
+import {useFocusEffect} from '@react-navigation/native';
+import {AppDispatch} from '../../redux/store';
 const applicantsItems = ({item, navigation}: any) => (
   <TouchableOpacity
     onPress={() => {
@@ -32,15 +37,18 @@ const applicantsItems = ({item, navigation}: any) => (
     </View>
     <View style={styles.SkillsBox}>
       <JobTitle width={wp(6)} height={hp(2.5)} />
-      <CustomText text={item.title} textStyle={styles.title} />
+      <CustomText
+        text={item.job_titles?.join(' | ') || 'no job title '}
+        textStyle={styles.title}
+      />
     </View>
     <View style={styles.SkillsBox}>
       <Skills width={wp(6)} height={hp(2.5)} />
-      <CustomText text={item.skills.toString()} />
+      <CustomText text={item.job_titles?.toString() || 'no job titles '} />
     </View>
     <View style={styles.SkillsBox}>
       <Location width={wp(6)} height={hp(2.5)} />
-      <CustomText text={item.location} />
+      <CustomText text={item?.country_name?.en + ',' + item?.city_name?.en} />
     </View>
   </TouchableOpacity>
 );
@@ -162,6 +170,8 @@ const ApplicantsDAta = [
   },
 ];
 const Applicants = ({navigation}) => {
+  const {loadinJobs, aplliedUsers} = useSelector((state: any) => state.jobs);
+  const dispatch = useDispatch<AppDispatch>();
   // ----------Filter ------------------
   const [openSheet, SetOpenSheet] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -177,60 +187,71 @@ const Applicants = ({navigation}) => {
       [category]: selectedOptions,
     }));
   };
+  console.log('applied users---' + JSON.stringify(aplliedUsers));
+  useFocusEffect(
+    React.useCallback(() => {
+      dispatch(getAllAppliedUsers());
+    }, []),
+  );
+
   return (
     <AppScreenContainer style={styles.container}>
-      <TouchableOpacity
-        onPress={() => SetOpenSheet(true)}
-        style={styles.filterBottm}>
-        <Filte width={wp(5.5)} height={hp(4)} />
-      </TouchableOpacity>
-      <FlatList
-        data={ApplicantsDAta}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => applicantsItems({item, navigation})}
-      />
+      {loadinJobs && <Apploader message="loading.." visible={loadinJobs} />}
+      <ScrollView>
+        <TouchableOpacity
+          onPress={() => SetOpenSheet(true)}
+          style={styles.filterBottm}>
+          <Filte width={wp(5.5)} height={hp(4)} />
+        </TouchableOpacity>
+        <FlatList
+          data={aplliedUsers}
+          keyExtractor={item => item.code}
+          renderItem={({item}) => applicantsItems({item, navigation})}
+        />
 
-      {/* Fitlter */}
-      <CustomBottomSheet
-        isOpen={openSheet}
-        height={hp(50)}
-        onClose={() => SetOpenSheet(false)}
-        children={
-          <ScrollView contentContainerStyle={styles.buttomSheetScroll}>
-            <View style={styles.FilterBox}>
-              <View style={[styles.filtersSections, generalStyles.rowBetween]}>
-                <CustomText
-                  text={filterdcount + ' Filters'}
-                  textStyle={styles.filtersText}
-                />
-                <TouchableOpacity onPress={() => setExpanded(false)}>
+        {/* Fitlter */}
+        <CustomBottomSheet
+          isOpen={openSheet}
+          height={hp(50)}
+          onClose={() => SetOpenSheet(false)}
+          children={
+            <ScrollView contentContainerStyle={styles.buttomSheetScroll}>
+              <View style={styles.FilterBox}>
+                <View
+                  style={[styles.filtersSections, generalStyles.rowBetween]}>
                   <CustomText
-                    text="Clear all filters"
-                    textStyle={styles.PrimaryColor}
+                    text={filterdcount + ' Filters'}
+                    textStyle={styles.filtersText}
                   />
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setExpanded(false)}>
+                    <CustomText
+                      text="Clear all filters"
+                      textStyle={styles.PrimaryColor}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <FlatList
+                  data={Optionsdata}
+                  keyExtractor={item => item.id}
+                  renderItem={({item, index}) => (
+                    <FilterSection
+                      item={item}
+                      index={index}
+                      onSelectionChange={handleSelectionChange}
+                      expanded={expanded}
+                      setExpanded={setExpanded}
+                      setfilterdcount={setfilterdcount}
+                      filterdcount={filterdcount}
+                      myfilterData={myfilterData}
+                    />
+                  )}
+                />
               </View>
-              <FlatList
-                data={Optionsdata}
-                keyExtractor={item => item.id}
-                renderItem={({item, index}) => (
-                  <FilterSection
-                    item={item}
-                    index={index}
-                    onSelectionChange={handleSelectionChange}
-                    expanded={expanded}
-                    setExpanded={setExpanded}
-                    setfilterdcount={setfilterdcount}
-                    filterdcount={filterdcount}
-                    myfilterData={myfilterData}
-                  />
-                )}
-              />
-            </View>
-            <Button text="done" onPress={() => null} style={styles.btn} />
-          </ScrollView>
-        }
-      />
+              <Button text="done" onPress={() => null} style={styles.btn} />
+            </ScrollView>
+          }
+        />
+      </ScrollView>
     </AppScreenContainer>
   );
 };

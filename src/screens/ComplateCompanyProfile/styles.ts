@@ -148,10 +148,10 @@ export const styles = StyleSheet.create({
   LocationIcon: {marginStart: wp(20)},
   FlatBox: {marginTop: hp(0)},
   editDelateBox: {
-    width: wp(16),
+    width: wp(20),
     backgroundColor: COLORS.danger,
     padding: hp(0.5),
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     marginTop: hp(1),
     borderRadius: hp(1),
     height: hp(4),

@@ -12,18 +12,20 @@ type Props = {
 
 const Apploader = ({message = 'loading...', visible}: Props) => {
   return (
-    <Modal
-      transparent
-      animationType="fade"
-      visible={visible}
-      onRequestClose={() => {}}>
-      <View style={styles.overlay}>
-        <View style={styles.modalContent}>
-          <ActivityIndicator size="large" color={COLORS.primary} />
-          <CustomText textStyle={styles.message} text={message} />
+    <View>
+      <Modal
+        transparent
+        animationType="fade"
+        visible={visible}
+        onRequestClose={() => {}}>
+        <View style={styles.overlay}>
+          <View style={styles.modalContent}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
+            <CustomText textStyle={styles.message} text={message} />
+          </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+    </View>
   );
 };
 
