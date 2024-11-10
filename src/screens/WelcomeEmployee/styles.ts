@@ -40,12 +40,7 @@ export const styles = StyleSheet.create({
   jobTopContent: {
     marginStart: wp(8),
   },
-  status: {
-    color: COLORS.grayLight,
-    fontSize: hp(1.8),
-    textTransform: 'capitalize',
-    marginBottom: hp(0.5),
-  },
+
   job: {
     fontSize: hp(1.8),
     textTransform: 'capitalize',
@@ -106,18 +101,42 @@ export const styles = StyleSheet.create({
   },
   LocationIcon: {marginStart: wp(20)},
   FlatBox: {marginTop: hp(4), marginBottom: hp(15)},
-  editDelateBox: {
-    width: wp(16),
-    backgroundColor: COLORS.danger,
-    padding: hp(0.5),
-    justifyContent: 'space-between',
-    marginTop: hp(1),
-    borderRadius: hp(1),
-  },
   Color: {
     backgroundColor: COLORS.primaryMoreLight,
   },
   Scroll: {
     // marginBottom: hp(50),
+  },
+  im: {
+    minWidth: wp(15),
+    height: wp(15),
+    borderRadius: wp(60),
+  },
+  Conten: {
+    justifyContent: 'space-between',
+    width: wp(58),
+  },
+  period4: {
+    backgroundColor: COLORS.primaryMoreLight,
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  marginT: {
+    marginTop: hp(2),
+  },
+  status: {
+    color: COLORS.primary,
+    fontSize: hp(1.3),
+    textTransform: 'capitalize',
+    marginBottom: hp(0.5),
+  },
+  editDelateBox: {
+    width: wp(20),
+    backgroundColor: COLORS.danger,
+    padding: hp(0.5),
+    justifyContent: 'space-around',
+    marginTop: hp(1),
+    borderRadius: hp(1),
+    height: hp(4),
   },
 });

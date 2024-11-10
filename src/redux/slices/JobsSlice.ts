@@ -19,6 +19,7 @@ type InitailStateTypes = {
   companyPostedJobs: Array<any>;
   aplliedUsers: Array<any>;
   userCvs: Array<any>;
+  userDetailsData: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -39,6 +40,7 @@ const initialState: InitailStateTypes = {
   companyPostedJobs: [],
   aplliedUsers: [],
   userCvs: [],
+  userDetailsData: [],
 };
 // ========================== Post Job======================
 // ==========================Post Job Helper======================
@@ -425,6 +427,26 @@ export const getSearchedCVs = createAsyncThunk(
     }
   },
 );
+// ========================== get Cvs Details and Show User Profile  ======================
+export const getCvsDetailsShowUserProfile = createAsyncThunk(
+  'auth/getCvsDetailsShowUserProfile',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getCvsDetailsShowUserProfile,
+        params: data,
+      });
+      console.log('getCvsDetailsShowUserProfile----', res?.data);
+      return res.data;
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getCvsDetailsShowUserProfile Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const JobsSlice = createSlice({
@@ -689,6 +711,20 @@ const JobsSlice = createSlice({
         state.error = null;
       })
       .addCase(getSearchedCVs.rejected, (state, action) => {
+        state.loadinJobs = false;
+        state.error = action.payload;
+      })
+      // ======================get all Cvs users=======================
+      .addCase(getCvsDetailsShowUserProfile.pending, state => {
+        state.loadinJobs = true;
+        state.error = null;
+      })
+      .addCase(getCvsDetailsShowUserProfile.fulfilled, (state, action) => {
+        state.loadinJobs = false;
+        state.userDetailsData = action.payload.data;
+        state.error = null;
+      })
+      .addCase(getCvsDetailsShowUserProfile.rejected, (state, action) => {
         state.loadinJobs = false;
         state.error = action.payload;
       });

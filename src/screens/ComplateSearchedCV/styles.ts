@@ -236,4 +236,18 @@ export const styles = StyleSheet.create({
     borderWidth: wp(0.1),
     borderColor: COLORS.blue,
   },
+  im: {
+    width: wp(15),
+    height: wp(15),
+    borderRadius: wp(60),
+  },
+  noJobs: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(20),
+  },
+  nottext: {
+    fontFamily: FONTS.SemiBold,
+    color: COLORS.primary,
+  },
 });

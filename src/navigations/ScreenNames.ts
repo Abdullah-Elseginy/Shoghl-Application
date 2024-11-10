@@ -25,6 +25,7 @@ const ScreenNames = {
   OTPScreen: 'OTPScreen',
   SignUpStepTwoCandidate: 'SignUpStepTwoCandidate',
   ForgetPassword: 'ForgetPassword',
+  CVProfile: 'CVProfile',
 };
 
 export default Object.freeze(ScreenNames);

@@ -33,4 +33,7 @@ export const styles = StyleSheet.create({
     width: wp(20),
     height: hp(4),
   },
+  errorText: {
+    color: COLORS.danger,
+  },
 });

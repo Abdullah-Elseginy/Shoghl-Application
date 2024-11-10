@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {
   AppInput,
+  Apploader,
   AppScreenContainer,
   Button,
   CustomModal,
@@ -42,11 +43,6 @@ type Props = {
 const Job = ({item, navigation, companyName, deletejob, lodingApply}: any) => {
   return (
     <TouchableOpacity
-      // onPress={() =>
-      //   navigation.navigate(ScreenNames.JobDetails, {
-      //     jobCode: item?.code,
-      //   })
-      // }
       activeOpacity={0.8}
       style={[styles.jobBox, {backgroundColor: item.color}]}>
       <View style={styles.jobTopBox}>
@@ -120,25 +116,17 @@ const Job = ({item, navigation, companyName, deletejob, lodingApply}: any) => {
           />
         </View>
         <View style={[generalStyles.rowBetween, styles.marginT]}>
-          {!lodingApply  ? (
-            <TouchableOpacity
-              activeOpacity={0.5}
-              style={[generalStyles.row, styles.editDelateBox]}
-              onPress={() => {
-                deletejob(item.code);
-                console.log('item.code' + item.code);
-              }}>
-              <ExitXicon />
-              <CustomText text="Delete" />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity
-              activeOpacity={0.5}
-              disabled={true}
-              style={[generalStyles.row, styles.editDelateBox]}>
-              <CustomText text="deleting.." />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity
+            activeOpacity={0.5}
+            style={[generalStyles.row, styles.editDelateBox]}
+            onPress={() => {
+              deletejob(item.code);
+              console.log('item.code' + item.code);
+            }}>
+            <ExitXicon />
+            <CustomText text="Delete" />
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={[generalStyles.row, styles.editDelateBox, styles.Color]}
             activeOpacity={0.5}
@@ -294,6 +282,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
     <AppScreenContainer>
       <ScrollView>
         {/* Profile Cover and photo */}
+        {lodingApply && <Apploader />}
         <View>
           <View style={styles.CoverBackgroud}>
             <View style={styles.ProfilePhotoBox}>

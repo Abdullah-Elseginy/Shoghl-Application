@@ -232,9 +232,6 @@ const ProfileScreen = () => {
   };
 
   const currentYear = new Date().getFullYear();
-  console.log(
-    'userProfileData?.data?.expected_salary====' + overviewData.expected_salary,
-  );
   return (
     <>
       {registerationType === 'candidate' ? (

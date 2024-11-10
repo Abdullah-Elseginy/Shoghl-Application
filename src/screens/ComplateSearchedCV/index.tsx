@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {
   AppHeader,
   AppInput,
+  Apploader,
   AppScreenContainer,
   Button,
   Checkbox,
@@ -10,6 +11,7 @@ import {
 } from '../../components';
 import {
   FlatList,
+  Image,
   ScrollView,
   SectionList,
   TouchableOpacity,
@@ -22,6 +24,7 @@ import {
   Filte,
   GraduteCap,
   Lock,
+  NotFound,
   Search,
   SendMSG,
   ShoglBag,
@@ -31,6 +34,16 @@ import {
 import {generalStyles, hp, wp} from '../../constants';
 import {styles} from './styles';
 import {FlatData, data} from '../../utils/Data';
+import {useDispatch, useSelector} from 'react-redux';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+import ScreenNames from '../../navigations/ScreenNames';
+import {AppDispatch} from '../../redux/store';
+import {
+  getCvsDetailsShowUserProfile,
+  getSearchedCVs,
+} from '../../redux/slices/JobsSlice';
+import Toast from 'react-native-toast-message';
 
 const FilterSection = ({item}: any) => {
   const [expanded, setExpanded] = useState(false);
@@ -150,92 +163,164 @@ const FilterSection = ({item}: any) => {
     </View>
   );
 };
-const renderItem = ({item}: any) => (
-  <View style={styles.Box}>
-    {/* pic and its row */}
-    <View style={generalStyles.row}>
-      <View style={{height: hp(13)}}>{item.img}</View>
-      <View style={styles.textsBox}>
-        <View style={[generalStyles.row, styles.namesbox]}>
-          <CustomText text="Abdullah Elseginy" textStyle={styles.name} />
-          <View style={styles.Lock}>
-            <Lock height={hp(1.8)} width={wp(3.7)} />
+const renderItem = ({item, getUserCVDetails}: any) => {
+  const currentYear = new Date().getFullYear();
+  return (
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={styles.Box}
+      onPress={() => {
+        getUserCVDetails(item.code);
+      }}>
+      {/* pic and its row */}
+      <View style={generalStyles.row}>
+        <View style={{height: hp(13)}}>
+          <Image
+            source={{
+              uri:
+                item.avatar ||
+                'https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            }}
+            style={styles.im}
+          />
+        </View>
+        <View style={styles.textsBox}>
+          <View style={[generalStyles.row, styles.namesbox]}>
+            <CustomText text={item.name} textStyle={styles.name} />
+            <View style={styles.Lock}>
+              <Lock height={hp(1.8)} width={wp(3.7)} />
+            </View>
+            <View style={[styles.Lock, styles.CVbg]}>
+              <CustomText text="CV" textStyle={[styles.CV]} />
+            </View>
           </View>
-          <View style={[styles.Lock, styles.CVbg]}>
-            <CustomText text="CV" textStyle={[styles.CV]} />
+          <CustomText
+            text={
+              item.city_name.en +
+              ',' +
+              item.country_name.en +
+              '- ' +
+              (Number(currentYear) - Number(item.birth_year)) +
+              ' years old'
+            }
+            textStyle={styles.supproftext}
+          />
+          <View style={generalStyles.rowBetween}>
+            <CustomText
+              text={'last active 28 days ago'}
+              textStyle={styles.lastseen}
+            />
           </View>
         </View>
-        <CustomText text={item.subText1} textStyle={styles.supproftext} />
-        <View style={generalStyles.rowBetween}>
-          <CustomText text={item.lastseen} textStyle={styles.lastseen} />
+      </View>
+      {/* other informations */}
+      <View style={styles.Sectionmeduim}>
+        <View style={generalStyles.row}>
+          <View style={{height: hp(6.22)}}>
+            <ShoglBag width={wp(5)} height={wp(4)} />
+          </View>
+          <View style={styles.medtexBox}>
+            <CustomText
+              text={'sales maneger at value'}
+              text2={'(2000-2009)'}
+              textStyle2={styles.tex2}
+              textStyle={styles.tex1}
+            />
+            <CustomText
+              text={'sales manger at monga'}
+              text2={'(2010-2015)'}
+              textStyle2={styles.tex2}
+              textStyle={styles.tex1}
+            />
+          </View>
+        </View>
+        <View style={generalStyles.row}>
+          <View style={{height: hp(4)}}>
+            <GraduteCap width={wp(5)} height={wp(4)} />
+          </View>
+          <View style={styles.medtexBox}>
+            <CustomText
+              text={'Job Titles:'}
+              text2={item.job_titles?.toString()}
+              textStyle2={styles.tex2}
+              textStyle={styles.tex1}
+            />
+          </View>
+        </View>
+        <View style={generalStyles.row}>
+          <View style={{height: hp(9.6)}}>
+            <Doc width={wp(5)} height={wp(4)} />
+          </View>
+          <View style={styles.medtexBox}>
+            <CustomText
+              text="Job Title:"
+              text2={item.job_titles?.toString()}
+              textStyle2={styles.jobtitle}
+              textStyle={styles.tex1}
+            />
+          </View>
         </View>
       </View>
-    </View>
-    {/* other informations */}
-    <View style={styles.Sectionmeduim}>
-      <View style={generalStyles.row}>
-        <View style={{height: hp(6.22)}}>
-          <ShoglBag width={wp(5)} height={wp(4)} />
+      {/* Footer */}
+      <View style={generalStyles.rowBetween}>
+        <View style={styles.immmediatstart}>
+          <CustomText text2="Immediate Start" textStyle={styles.Apply} />
         </View>
-        <View style={styles.medtexBox}>
-          <CustomText
-            text={item.subText3.slice(0, item.subText3.indexOf('('))}
-            text2={item.subText3.slice(item.subText3.indexOf('(')).trim()}
-            textStyle2={styles.tex2}
-            textStyle={styles.tex1}
-          />
-          <CustomText
-            text={item.subtext4.slice(0, item.subtext4.lastIndexOf('('))}
-            text2={item.subtext4.slice(item.subtext4.lastIndexOf('(')).trim()}
-            textStyle2={styles.tex2}
-            textStyle={styles.tex1}
-          />
-        </View>
+        <TouchableOpacity style={[generalStyles.row, styles.applyBox]}>
+          <SendMSG width={wp(3)} height={hp(2.5)} />
+          <CustomText text="invite to apply" textStyle={styles.Apply} />
+        </TouchableOpacity>
       </View>
-      <View style={generalStyles.row}>
-        <View style={{height: hp(4)}}>
-          <GraduteCap width={wp(5)} height={wp(4)} />
-        </View>
-        <View style={styles.medtexBox}>
-          <CustomText
-            text={item.subtext5.slice(0, item.subtext5.indexOf('('))}
-            text2={item.subtext5.slice(item.subtext5.indexOf('(')).trim()}
-            textStyle2={styles.tex2}
-            textStyle={styles.tex1}
-          />
-        </View>
-      </View>
-      <View style={generalStyles.row}>
-        <View style={{height: hp(9.6)}}>
-          <Doc width={wp(5)} height={wp(4)} />
-        </View>
-        <View style={styles.medtexBox}>
-          <CustomText
-            text="Job Title:"
-            text2={item.jobtitle}
-            textStyle2={styles.jobtitle}
-            textStyle={styles.tex1}
-          />
-        </View>
-      </View>
-    </View>
-    {/* Footer */}
-    <View style={generalStyles.rowBetween}>
-      <View style={styles.immmediatstart}>
-        <CustomText text2="Immediate Start" textStyle={styles.Apply} />
-      </View>
-      <TouchableOpacity style={[generalStyles.row, styles.applyBox]}>
-        <SendMSG width={wp(3)} height={hp(2.5)} />
-        <CustomText text="invite to apply" textStyle={styles.Apply} />
-      </TouchableOpacity>
-    </View>
-  </View>
-);
-const ComplateSearchedCv = () => {
+    </TouchableOpacity>
+  );
+};
+type Props = {
+  navigation: NativeStackNavigationProp<ParamListBase, string>;
+};
+const ComplateSearchedCv = ({navigation, route}: Props) => {
+  const {searchVal} = route.params;
+  const dispatch = useDispatch<AppDispatch>();
   const [OpenSheet, SetOpenSheet] = React.useState(false);
+  const {userCvs, loadinJobs} = useSelector((state: any) => state.jobs);
+  const [JobTitle, setJobTitle] = useState(searchVal || '');
+  const [error, setError] = useState('');
+  //-----------------------APIs----------------------------------------------------------------
+  const getUserCVDetails = (code: any) => {
+    const userCode = {
+      code: code,
+    };
+    dispatch(getCvsDetailsShowUserProfile(userCode))
+      .unwrap()
+      .then(() => {
+        navigation.navigate(ScreenNames.CVProfile);
+      })
+      .catch(() => {
+        Toast.show({
+          text2: 'Failed to fetch CV details',
+          text1: 'Error',
+          type: 'error',
+        });
+      });
+  };
+
+  const GETCVs = () => {
+    // Validate the input
+    if (!JobTitle.trim()) {
+      setError('Please enter a job title.');
+      return;
+    }
+    setError('');
+
+    const dataForSearch = {
+      job_title: JobTitle?.toLocaleLowerCase(),
+    };
+
+    dispatch(getSearchedCVs(dataForSearch));
+  };
   return (
     <AppScreenContainer>
       <AppHeader arrowBack={true} title="search result" />
+      {loadinJobs && <Apploader message="loading.." visible={loadinJobs} />}
       <ScrollView>
         <View style={[styles.MainHeader, styles.SeconBox]}>
           <View style={styles.headerBox}>
@@ -270,11 +355,17 @@ const ComplateSearchedCv = () => {
                 text="Search"
                 style={styles.Serxhbtn}
                 onPress={() => {
-                  // navigation.navigate(ScreenNames.ComplateSearchedCv);
+                  GETCVs();
                 }}
               />
             }
+            value={JobTitle}
+            onChangeText={val => setJobTitle(val)}
           />
+          {/* Error message */}
+          {error ? (
+            <CustomText text={error} textStyle={styles.errorText} />
+          ) : null}
           {/* Suggesion */}
           <View style={styles.SuggsionBox}>
             <View style={styles.Exit}>
@@ -297,11 +388,12 @@ const ComplateSearchedCv = () => {
             </View>
           </View>
           {/* search results */}
+
           <View style={styles.bg}>
             <View style={[styles.Exit, styles.nobg]}>
               <CustomText
                 text="Showing "
-                text2="45,458"
+                text2={userCvs?.length}
                 textStyle2={styles.tex2}
                 textStyle={styles.texone}
               />
@@ -311,12 +403,18 @@ const ComplateSearchedCv = () => {
               <CustomText text="+ Save This Search" textStyle={styles.tex2} />
             </TouchableOpacity>
           </View>
+          {userCvs?.length === 0 && (
+            <View style={styles.noJobs}>
+              <CustomText text="No CV's Founded" textStyle={styles.nottext} />
+              <NotFound />
+            </View>
+          )}
           {/* Serch results */}
           <View style={styles.MainBox}>
             <FlatList
-              data={data}
-              keyExtractor={item => item.id}
-              renderItem={renderItem}
+              data={userCvs}
+              keyExtractor={item => item.code}
+              renderItem={({item}) => renderItem({item, getUserCVDetails})}
             />
           </View>
         </View>

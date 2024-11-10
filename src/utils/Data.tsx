@@ -736,7 +736,7 @@ const data = [
       'senior sales advisorsenior sales consultantSales Manager (indirect and international ...sales team leaderSales ManagerSkillsSales PlanPreferred job titlessenior sales advisorPreferred job rolesSales/Retail',
   },
   {
-    id: '1',
+    id: '2',
     img: <ProfilePic width={wp(15)} height={hp(8)} />,
     name: 'Abdullah Elseginy',
     subText1:
@@ -751,7 +751,7 @@ const data = [
       'senior sales advisorsenior sales consultantSales Manager (indirect and international ...sales team leaderSales ManagerSkillsSales PlanPreferred job titlessenior sales advisorPreferred job rolesSales/Retail',
   },
   {
-    id: '1',
+    id: '3',
     img: <ProfilePic width={wp(15)} height={hp(8)} />,
     name: 'Abdullah Elseginy',
     subText1:

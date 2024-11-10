@@ -9,6 +9,7 @@ import {
   CompanyProfile,
   ComplateCompanyProfile,
   ComplateSearchedCv,
+  CVProfile,
   JobDetailsScreen,
   JobPost,
   RegisterationSteps,
@@ -66,6 +67,7 @@ const MainStack = () => {
           name={ScreenNames.Applications}
           component={Applications}
         />
+        <Stack.Screen name={ScreenNames.CVProfile} component={CVProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -22,13 +22,17 @@ import {
 } from '../../assets';
 import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAllAppliedUsers} from '../../redux/slices/JobsSlice';
+import {
+  getAllAppliedUsers,
+  getCvsDetailsShowUserProfile,
+} from '../../redux/slices/JobsSlice';
 import {useFocusEffect} from '@react-navigation/native';
 import {AppDispatch} from '../../redux/store';
-const applicantsItems = ({item, navigation}: any) => (
+import Toast from 'react-native-toast-message';
+const applicantsItems = ({item,getUserCVDetails}: any) => (
   <TouchableOpacity
     onPress={() => {
-      navigation.navigate(ScreenNames.ComplateSearchedCv);
+      getUserCVDetails(item.code);
     }}
     activeOpacity={0.5}
     style={styles.CardBox}>
@@ -146,30 +150,8 @@ const FilterSection = ({
     </View>
   );
 };
-const ApplicantsDAta = [
-  {
-    id: 1,
-    name: 'Abdullah Elseginy',
-    title: 'Front-End',
-    skills: ['PHP', 'React js', 'React Native', 'CSS3'],
-    location: 'Tanta,Egypt',
-  },
-  {
-    id: 2,
-    name: 'Mohamed Ahmed',
-    title: 'Back-End',
-    skills: ['Laravel', 'PHP', 'Node js', 'Python'],
-    location: 'Alex,Egypt',
-  },
-  {
-    id: 3,
-    name: 'Sama Elmohamady',
-    title: 'Testing Engineer',
-    skills: ['HTML5', 'CSS3', 'React Native', 'Hooks'],
-    location: 'Benha,Egypt',
-  },
-];
-const Applicants = ({navigation}) => {
+
+const Applicants = ({navigation}: any) => {
   const {loadinJobs, aplliedUsers} = useSelector((state: any) => state.jobs);
   const dispatch = useDispatch<AppDispatch>();
   // ----------Filter ------------------
@@ -187,7 +169,25 @@ const Applicants = ({navigation}) => {
       [category]: selectedOptions,
     }));
   };
-  console.log('applied users---' + JSON.stringify(aplliedUsers));
+
+  const getUserCVDetails = (code: any) => {
+    const userCode = {
+      code: code,
+    };
+    dispatch(getCvsDetailsShowUserProfile(userCode))
+      .unwrap()
+      .then(() => {
+        navigation.navigate(ScreenNames.CVProfile);
+      })
+      .catch(() => {
+        Toast.show({
+          text2: 'Failed to fetch CV details',
+          text1: 'Error',
+          type: 'error',
+        });
+      });
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       dispatch(getAllAppliedUsers());
@@ -206,7 +206,9 @@ const Applicants = ({navigation}) => {
         <FlatList
           data={aplliedUsers}
           keyExtractor={item => item.code}
-          renderItem={({item}) => applicantsItems({item, navigation})}
+          renderItem={({item}) =>
+            applicantsItems({item, navigation, getUserCVDetails})
+          }
         />
 
         {/* Fitlter */}

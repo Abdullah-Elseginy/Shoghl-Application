@@ -6,11 +6,11 @@ import styles from './styles';
 import {COLORS} from '../../constants';
 
 type Props = {
-  message: string;
-  visible: boolean;
+  message?: string;
+  visible?: boolean;
 };
 
-const Apploader = ({message = 'loading...', visible}: Props) => {
+const Apploader = ({message = 'loading..', visible}: Props) => {
   return (
     <View>
       <Modal

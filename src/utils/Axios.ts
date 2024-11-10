@@ -47,6 +47,7 @@ export type APIsTypes = {
   editBob: string;
   getAllAppliedUsers: string;
   getSearchedCVs: string;
+  getCvsDetailsShowUserProfile: string;
 };
 
 export const APIS: APIsTypes = {
@@ -107,6 +108,7 @@ export const APIS: APIsTypes = {
   getAllAppliedUsers: '/API/COM/Jobs/All-Applied-Users',
   // get cvs users --------------------
   getSearchedCVs: '/API/COM/Users/L/All',
+  getCvsDetailsShowUserProfile: '/API/COM/Users/L/Details',
 };
 
 const axiosInstance = axios.create({
