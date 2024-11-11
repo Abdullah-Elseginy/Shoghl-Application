@@ -167,11 +167,18 @@ export const styles = StyleSheet.create({
     width: wp(40),
     backgroundColor: COLORS.white,
     marginTop: hp(0.7),
+    marginBottom: hp(2),
   },
   InputContainerStyle2: {
     width: wp(40),
-    backgroundColor: COLORS.grayMoreLight,
+    backgroundColor: COLORS.blueMoresmothy,
     marginTop: hp(0.7),
+    borderWidth: 0,
+    marginBottom: hp(2),
+  },
+  box: {
+    padding: wp(3.8),
+    borderRadius: wp(2),
   },
   InputsSction: {
     marginTop: hp(2),
@@ -179,6 +186,10 @@ export const styles = StyleSheet.create({
   FlatBox2: {
     marginRight: wp(4),
     marginBottom: hp(2),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    flexWrap: 'wrap',
   },
   Logout: {
     backgroundColor: COLORS.danger,
@@ -219,5 +230,30 @@ export const styles = StyleSheet.create({
   },
   marginT: {
     marginTop: hp(2),
+  },
+  labelinput: {
+    textTransform: 'capitalize',
+    fontSize: hp(2),
+    fontFamily: FONTS.Medium,
+  },
+  DropBorder2: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+    width: wp(40),
+    marginBottom: hp(2),
+  },
+  flatsearch: {
+    borderRadius: wp(2),
+    borderWidth: wp(0.1),
+    borderColor: COLORS.primary,
+    padding: wp(2),
+    width: wp(40),
+    marginTop: hp(-2),
+  },
+  rowserch: {
+    marginVertical: hp(1),
+    backgroundColor: COLORS.blueLight,
+    borderRadius: wp(2),
   },
 });

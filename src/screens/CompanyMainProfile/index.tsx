@@ -1,4 +1,5 @@
-import React, {useCallback, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {
   AppInput,
   Apploader,
@@ -6,9 +7,10 @@ import {
   Button,
   CustomModal,
   CustomText,
+  Dropdown,
 } from '../../components';
 import {styles} from './styles';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image, Pressable, TouchableOpacity, View} from 'react-native';
 import {
   Cash,
   Crown,
@@ -36,11 +38,20 @@ import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
 import WebView from 'react-native-webview';
 import {deleteJob, getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
+import {
+  companyEmployeesRange,
+  editCompanyProfile,
+  getAllCountries,
+  getCompanyProfile,
+  getIndusterialSearch,
+  getSpecialtiesSearch,
+} from '../../redux/slices/appdataSlice';
+import {data} from '../../utils/Data';
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
 
-const Job = ({item, navigation, companyName, deletejob, lodingApply}: any) => {
+const Job = ({item, navigation, companyName, deletejob}: any) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -143,39 +154,43 @@ const Job = ({item, navigation, companyName, deletejob, lodingApply}: any) => {
 };
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {loading, user} = useSelector((state: any) => state.auth);
+  const {loading} = useSelector((state: any) => state.auth);
+  const {
+    loadingappdata,
+    CompanyDataProfile,
+    allCountries2,
+    loadingSaveEdit,
+    companyEmployeesRangedata,
+    Specialties,
+    industerial,
+  } = useSelector((state: any) => state.appdata);
   const {companyPostedJobs, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
-  const companyDataProfile = user;
+  const companyDataProfile = CompanyDataProfile;
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
   const [editDoc, setesitDoc] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [ShowSearch1, setShowSearch1] = useState(false);
+  const [ShowSearch2, setShowSearch2] = useState(false);
 
-  const [InputsData] = useState([
-    {title: 'Location', type: 'text', value: '', error: '', hasError: false},
-    {title: 'Founded', type: 'text', value: '', error: '', hasError: false},
-    {
-      title: 'Company Size',
-      type: 'text',
-      value: '',
-      error: '',
-      hasError: false,
-    },
-    {title: 'Specialties', type: 'text', value: '', error: '', hasError: false},
-    {title: 'Industry', type: 'text', value: '', error: '', hasError: false},
-  ]);
+  const [companyLocation, setLocation] = useState(
+    companyDataProfile?.country?.code || '',
+  );
+  const [companyRange, setCompanyRange] = useState('');
 
   const [InpusValues, SetInpusValues] = useState<any>({
-    Location: companyDataProfile?.country?.name_en,
-    Founded: '2020',
+    Founded: '1999',
     'Company Size': '50-100 employeee',
     Specialties: 'Technology, Innovation',
     Industry: 'Software Development',
   });
 
+  const [IndusteryCode, SetIndusteryCode] = useState('');
+  const [SpecialisesCode, setSpecialisesCode] = useState('');
+
   const OchangeInpus = (val: string, FieldName: string) => {
-    // Dynamically update the state for the corresponding field
     SetInpusValues((prevState: any) => ({
       ...prevState,
       [FieldName]: val,
@@ -210,7 +225,14 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       });
   };
 
-  console.log('USER---------' + JSON.stringify(user));
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null); // Close it if it's already open
+    } else {
+      setOpenDropdown(dropdownId); // Open the new dropdown
+    }
+  };
+
   // ----------------------------------show PDF-------------------------------------------------------
   const [doenloadPDF, setdoenloadPDF] = useState(false);
   const [DocumentURL, setDocumentURL] = useState(companyDataProfile?.cv);
@@ -272,17 +294,76 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       });
   };
 
+  const EditCompany = () => {
+    const datatosend = {
+      country: companyLocation,
+      company_year_founded: InpusValues.Founded,
+      company_employees_range: companyRange,
+      company_industry: IndusteryCode,
+      company_specialties: [SpecialisesCode],
+      company_about: 'test about',
+    };
+    dispatch(editCompanyProfile(datatosend))
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          text1: 'Success',
+          text2: 'Company Profile Edited Successfully',
+          type: 'success',
+        });
+        SetDisapled(false);
+        dispatch(getCompanyProfile());
+      })
+      .catch(err => {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: err,
+        });
+      });
+  };
+
+  const GetSpecialties = (searchKey: any) => {
+    const dataTosend = {
+      company_specialties_name: searchKey,
+    };
+    dispatch(getSpecialtiesSearch(dataTosend));
+  };
+
+  const Getindusterial = (searchKey: any) => {
+    const dataTosend2 = {
+      company_industry_name: searchKey,
+    };
+    dispatch(getIndusterialSearch(dataTosend2));
+  };
+  console.log('ss---' + JSON.stringify(Specialties));
+  console.log('ddd---' + JSON.stringify(industerial));
   useFocusEffect(
     useCallback(() => {
       dispatch(getCompanyPostedJobs());
+      dispatch(getCompanyProfile());
     }, []),
+  );
+
+  useEffect(() => {
+    if (!allCountries2 && !companyEmployeesRangedata) {
+      dispatch(getAllCountries());
+      dispatch(companyEmployeesRange());
+    }
+  }, []);
+
+  const memoLocation = useMemo(() => allCountries2 || [], [allCountries2]);
+
+  const memoCompanyRange = useMemo(
+    () => companyEmployeesRangedata?.company_employees_range || [],
+    [companyEmployeesRangedata],
   );
 
   return (
     <AppScreenContainer>
       <ScrollView>
         {/* Profile Cover and photo */}
-        {lodingApply && <Apploader />}
+        {loadingappdata && <Apploader />}
         <View>
           <View style={styles.CoverBackgroud}>
             <View style={styles.ProfilePhotoBox}>
@@ -326,10 +407,11 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
               {Disapled ? (
                 <Button
                   onPress={() => {
-                    SetDisapled(false);
+                    EditCompany();
                   }}
                   style={styles.EditBtn}
                   text={'Save'}
+                  loading={loadingSaveEdit}
                 />
               ) : (
                 <Button
@@ -341,27 +423,182 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 />
               )}
             </View>
-            <FlatList
-              data={InputsData}
-              numColumns={2}
-              keyExtractor={item => item.title}
-              renderItem={({item}) => (
-                <View style={styles.FlatBox2}>
-                  <CustomText text={item.title} />
-                  <AppInput
-                    value={InpusValues[item.title]}
-                    onChangeText={val => OchangeInpus(val, item.title)}
-                    containerStyle={[
-                      Disapled
-                        ? styles.InputContainerStyle
-                        : styles.InputContainerStyle2,
-                    ]}
-                    placeholder={item.title}
-                    editable={Disapled}
+
+            <View style={styles.FlatBox2}>
+              {!Disapled ? (
+                <View>
+                  <CustomText text="Location" textStyle={styles.labelinput} />
+                  <View style={[styles.InputContainerStyle2, styles.box]}>
+                    <CustomText text={companyDataProfile?.country?.name_en} />
+                  </View>
+                </View>
+              ) : (
+                <View>
+                  <Dropdown
+                    label="Location"
+                    placeholder="Location"
+                    value={companyLocation}
+                    setValue={setLocation}
+                    dropDownStyle={styles.DropBorder2}
+                    list={memoLocation}
+                    containerStyle={{
+                      zIndex: openDropdown === 'dropdown4' ? 100004444440 : 1,
+                    }}
+                    isOpen={openDropdown === 'dropdown4'}
+                    onDropdownOpen={isOpen =>
+                      handleDropdownOpen(isOpen ? 'dropdown4' : null)
+                    }
+                    schema={{
+                      label: 'name_en',
+                      value: 'id',
+                    }}
                   />
                 </View>
               )}
-            />
+              {!Disapled ? (
+                <View>
+                  <CustomText
+                    text="Company Size"
+                    textStyle={styles.labelinput}
+                  />
+                  <View style={[styles.InputContainerStyle2, styles.box]}>
+                    <CustomText text={InpusValues['Company Size']} />
+                  </View>
+                </View>
+              ) : (
+                <View>
+                  <Dropdown
+                    label="Company Size"
+                    placeholder="Company Size"
+                    value={companyRange}
+                    setValue={setCompanyRange}
+                    dropDownStyle={styles.DropBorder2}
+                    list={memoCompanyRange}
+                    containerStyle={{
+                      zIndex: openDropdown === 'dropdown4' ? 100004444440 : 1,
+                    }}
+                    isOpen={openDropdown === 'dropdown4'}
+                    onDropdownOpen={isOpen =>
+                      handleDropdownOpen(isOpen ? 'dropdown4' : null)
+                    }
+                  />
+                </View>
+              )}
+              <View>
+                <CustomText text="Specialties" textStyle={styles.labelinput} />
+                <AppInput
+                  value={InpusValues.Specialties}
+                  onChangeText={val => {
+                    OchangeInpus(val, 'Specialties');
+                    GetSpecialties(val);
+                    if (val) {
+                      setShowSearch1(true);
+                    } else {
+                      setShowSearch1(false);
+                    }
+                  }}
+                  containerStyle={[
+                    Disapled
+                      ? styles.InputContainerStyle
+                      : styles.InputContainerStyle2,
+                  ]}
+                  placeholder={'Specialties'}
+                  editable={Disapled}
+                />
+                {ShowSearch1 ? (
+                  Specialties?.length > 0 ? (
+                    <View style={styles.flatsearch}>
+                      <FlatList
+                        data={Specialties}
+                        keyExtractor={item => item.code}
+                        renderItem={({item}) => (
+                          <Pressable
+                            onPress={() => {
+                              OchangeInpus(item.name, 'Specialties');
+                              setSpecialisesCode(item.code);
+                              setShowSearch1(false);
+                            }}
+                            style={styles.rowserch}>
+                            <CustomText text={item.name} />
+                          </Pressable>
+                        )}
+                      />
+                    </View>
+                  ) : (
+                    <View style={styles.flatsearch}>
+                      <CustomText text="no suggetion" />
+                    </View>
+                  )
+                ) : (
+                  ''
+                )}
+              </View>
+              <View>
+                <CustomText text="Industry" textStyle={styles.labelinput} />
+
+                <AppInput
+                  value={InpusValues.Industry}
+                  onChangeText={val => {
+                    OchangeInpus(val, 'Industry');
+                    Getindusterial(val);
+                    if (val) {
+                      setShowSearch2(true);
+                    } else {
+                      setShowSearch2(false);
+                    }
+                  }}
+                  containerStyle={[
+                    Disapled
+                      ? styles.InputContainerStyle
+                      : styles.InputContainerStyle2,
+                  ]}
+                  placeholder={'Industry'}
+                  editable={Disapled}
+                />
+
+                {ShowSearch2 ? (
+                  industerial?.length > 0 ? (
+                    <View style={styles.flatsearch}>
+                      <FlatList
+                        data={industerial}
+                        keyExtractor={item => item.code}
+                        renderItem={({item}) => (
+                          <Pressable
+                            onPress={() => {
+                              OchangeInpus(item.name, 'Industry');
+                              SetIndusteryCode(item.code);
+                              setShowSearch2(false);
+                            }}
+                            style={styles.rowserch}>
+                            <CustomText text={item.name} />
+                          </Pressable>
+                        )}
+                      />
+                    </View>
+                  ) : (
+                    <View style={styles.flatsearch}>
+                      <CustomText text="no suggetion" />
+                    </View>
+                  )
+                ) : (
+                  ''
+                )}
+              </View>
+              <View>
+                <CustomText text="Founded" textStyle={styles.labelinput} />
+                <AppInput
+                  value={InpusValues.Founded}
+                  onChangeText={val => OchangeInpus(val, 'Founded')}
+                  containerStyle={[
+                    Disapled
+                      ? styles.InputContainerStyle
+                      : styles.InputContainerStyle2,
+                  ]}
+                  placeholder={'Founded'}
+                  editable={Disapled}
+                />
+              </View>
+            </View>
           </View>
 
           {/* </View> */}
@@ -434,7 +671,9 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
               textStyle={styles.subText}
             />
             <Button
-              onPress={() => {}}
+              onPress={() => {
+                navigation.navigate(ScreenNames.SearchCV);
+              }}
               text="Brows CVs"
               style={styles.bottomStyle}
             />

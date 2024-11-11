@@ -31,6 +31,7 @@ import {
   Applicants,
   ProfileScreen,
   Save,
+  CompanyMainProfile,
 } from '../screens';
 import {CustomText} from '../components';
 import {useSelector} from 'react-redux';
@@ -44,7 +45,7 @@ const BottomTabNavigator = () => {
       initialRouteName={
         registerationType === 'candidate'
           ? ScreenNames.Home
-          : ScreenNames.Profile
+          : ScreenNames.CompanyMainProfile
       }
       screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
@@ -138,7 +139,10 @@ const BottomTabNavigator = () => {
         <>
           <Tab.Screen name={ScreenNames.Jobs} component={Applicants} />
           <Tab.Screen name={ScreenNames.ForEmployee} component={ForEmployee} />
-          <Tab.Screen name={ScreenNames.Profile} component={ProfileScreen} />
+          <Tab.Screen
+            name={ScreenNames.CompanyMainProfile}
+            component={CompanyMainProfile}
+          />
         </>
       )}
     </Tab.Navigator>

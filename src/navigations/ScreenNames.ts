@@ -26,6 +26,7 @@ const ScreenNames = {
   SignUpStepTwoCandidate: 'SignUpStepTwoCandidate',
   ForgetPassword: 'ForgetPassword',
   CVProfile: 'CVProfile',
+  CompanyMainProfile: 'Profile',
 };
 
 export default Object.freeze(ScreenNames);

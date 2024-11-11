@@ -48,6 +48,11 @@ export type APIsTypes = {
   getAllAppliedUsers: string;
   getSearchedCVs: string;
   getCvsDetailsShowUserProfile: string;
+  getCompanyProfile: string;
+  editCompanyProfile: string;
+  companyEmployeesRange: string;
+  getIndusterialSearch: string;
+  getSpecialtiesSearch: string;
 };
 
 export const APIS: APIsTypes = {
@@ -74,10 +79,16 @@ export const APIS: APIsTypes = {
   logoutCompany: '/API/COM/Auth/Logout',
   resendOTP: '/API/LOW/Auth/Registration/Two-Resend-Otp',
 
-  // =================== Profile =================== //
+  // ===================candidate Profile =================== //
   getMyProfile: '/API/LOW/My/Profile',
   editAbout_charactaristic: '/API/LOW/My/About',
   myProfileOverview: '/API/LOW/My/Profile-Overview',
+  // ===================company Profile =================== //
+  getCompanyProfile: '/API/COM/My/Profile',
+  editCompanyProfile: '/API/COM/My/Edit-Profile',
+  companyEmployeesRange: '/API/COM/My/Edit-Profile-Helper',
+  getIndusterialSearch: '/API/COM/My/Industries-Search',
+  getSpecialtiesSearch: '/API/COM/My/Specialties-Search',
   // ===================choices=================//
   get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per:
     '/API/COM/Auth/Registration/Career-Interests-Helpers',

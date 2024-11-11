@@ -46,7 +46,7 @@ import {
 } from '../../assets';
 import {COLORS, generalStyles, hp} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
-import ComplateCompanyProfile from '../ComplateCompanyProfile';
+import ComplateCompanyProfile from '../CompanyMainProfile';
 import {
   editAbout_charactaristic,
   getMyProfile,
@@ -234,306 +234,290 @@ const ProfileScreen = () => {
   const currentYear = new Date().getFullYear();
   return (
     <>
-      {registerationType === 'candidate' ? (
-        userProfileData ? (
-          <AppScreenContainer style={{flex: 1}}>
-            <ScrollView contentContainerStyle={styles.container}>
-              <View style={styles.userInfoBox}>
-                {/* <ProfilePic width={100} height={100} /> */}
+      {userProfileData ? (
+        <AppScreenContainer style={{flex: 1}}>
+          <ScrollView contentContainerStyle={styles.container}>
+            <View style={styles.userInfoBox}>
+              {/* <ProfilePic width={100} height={100} /> */}
+              <CustomText
+                text={
+                  userProfileData?.data?.first_name +
+                  ' ' +
+                  userProfileData?.data?.last_name
+                }
+                textStyle={styles.username}
+              />
+              <CustomText
+                text={userProfileData?.data?.jobs?.toString()}
+                textStyle={styles.nickname}
+              />
+              <View style={[generalStyles.rowBetween, styles.infoBox]}>
                 <CustomText
-                  text={
-                    userProfileData?.data?.first_name +
-                    ' ' +
-                    userProfileData?.data?.last_name
-                  }
-                  textStyle={styles.username}
+                  text="Immediate start"
+                  textStyle={styles.starting}
                 />
-                <CustomText
-                  text={userProfileData?.data?.jobs?.toString()}
-                  textStyle={styles.nickname}
-                />
-                <View style={[generalStyles.rowBetween, styles.infoBox]}>
-                  <CustomText
-                    text="Immediate start"
-                    textStyle={styles.starting}
-                  />
-                  <View style={generalStyles.rowBetween}>
-                    <Saudi
-                      width={hp(2.5)}
-                      height={hp(2.5)}
-                      style={styles.btnIcon}
-                    />
-                    <CustomText text="KSA" textStyle={styles.country} />
-                  </View>
-                  <View style={generalStyles.rowBetween}>
-                    <Location
-                      width={hp(2)}
-                      height={hp(2)}
-                      style={styles.btnIcon}
-                    />
-                    <CustomText text="riyad" textStyle={styles.location} />
-                  </View>
-                </View>
                 <View style={generalStyles.rowBetween}>
-                  <Calender
-                    width={hp(2.2)}
-                    height={hp(2.2)}
+                  <Saudi
+                    width={hp(2.5)}
+                    height={hp(2.5)}
                     style={styles.btnIcon}
                   />
-                  <CustomText
-                    text={`${
-                      currentYear - userProfileData?.data?.birth_year
-                    } years ago`}
-                    textStyle={styles.age}
-                  />
+                  <CustomText text="KSA" textStyle={styles.country} />
                 </View>
-                <Button
-                  text="send message"
-                  buttonTextStyle={styles.btnTxt}
-                  onPress={() => null}
-                  leftIcon={
-                    <Message
-                      width={hp(2)}
-                      height={hp(2)}
-                      style={styles.btnIcon}
-                    />
-                  }
-                  style={styles.messageBtn}
+                <View style={generalStyles.rowBetween}>
+                  <Location
+                    width={hp(2)}
+                    height={hp(2)}
+                    style={styles.btnIcon}
+                  />
+                  <CustomText text="riyad" textStyle={styles.location} />
+                </View>
+              </View>
+              <View style={generalStyles.rowBetween}>
+                <Calender
+                  width={hp(2.2)}
+                  height={hp(2.2)}
+                  style={styles.btnIcon}
+                />
+                <CustomText
+                  text={`${
+                    currentYear - userProfileData?.data?.birth_year
+                  } years ago`}
+                  textStyle={styles.age}
                 />
               </View>
-              <View style={[generalStyles.rowBetween, styles.titleBox]}>
-                <CustomText
-                  text="profile overview"
-                  textStyle={styles.sectionTitle}
-                />
-                <View>
-                  {editProgileOverview ? (
-                    !loadingappdata ? (
-                      <Pressable
-                        onPress={() => {
-                          editPrifileOverView();
-                        }}>
-                        <SaveEdits
-                          width={hp(3)}
-                          height={hp(3)}
-                          style={styles.btnIcon}
-                        />
-                      </Pressable>
-                    ) : (
-                      <ActivityIndicator
-                        size="small"
-                        color={COLORS.grayLight}
-                      />
-                    )
-                  ) : (
-                    <Pressable onPress={() => setProgileOverview(true)}>
-                      <Edit
-                        width={hp(2.2)}
-                        height={hp(2.2)}
+              <Button
+                text="send message"
+                buttonTextStyle={styles.btnTxt}
+                onPress={() => null}
+                leftIcon={
+                  <Message
+                    width={hp(2)}
+                    height={hp(2)}
+                    style={styles.btnIcon}
+                  />
+                }
+                style={styles.messageBtn}
+              />
+            </View>
+            <View style={[generalStyles.rowBetween, styles.titleBox]}>
+              <CustomText
+                text="profile overview"
+                textStyle={styles.sectionTitle}
+              />
+              <View>
+                {editProgileOverview ? (
+                  !loadingappdata ? (
+                    <Pressable
+                      onPress={() => {
+                        editPrifileOverView();
+                      }}>
+                      <SaveEdits
+                        width={hp(3)}
+                        height={hp(3)}
                         style={styles.btnIcon}
                       />
                     </Pressable>
-                  )}
-                </View>
-              </View>
-              {!editProgileOverview ? (
-                <>
-                  <View style={generalStyles.rowBetween}>
-                    <View style={styles.overviewBox}>
-                      <CustomText
-                        text={
-                          userProfileData?.data?.hide_salary
-                            ? 'salary hide'
-                            : `$${userProfileData?.data?.expected_salary} `
-                        }
-                        textStyle={[
-                          styles.overviewData,
-                          !userProfileData?.data?.hide_salar &&
-                            styles.linethrew,
-                        ]}
-                      />
-                      <CustomText
-                        text="hourly rate"
-                        textStyle={styles.overviewDataTitle}
-                      />
-                    </View>
-
-                    <View style={styles.overviewBox}>
-                      <CustomText
-                        text={userProfileData?.data?.jobs || '0'}
-                        textStyle={styles.overviewData}
-                      />
-                      <CustomText
-                        text="jobs done"
-                        textStyle={styles.overviewDataTitle}
-                      />
-                    </View>
-                  </View>
-                </>
-              ) : (
-                <>
-                  <View style={generalStyles.rowBetween}>
-                    <View style={styles.overviewBox}>
-                      <AppInput
-                        placeholder="enter hourly rate"
-                        value={overviewData.expected_salary.toString()}
-                        onChangeText={val =>
-                          handleInputsValOveriew('expected_salary', val)
-                        }
-                        isNumericKeyboard
-                      />
-                    </View>
-                    <View style={styles.overviewBox}>
-                      <CustomText
-                        text={userProfileData?.data?.jobs}
-                        textStyle={styles.overviewData}
-                      />
-                      <CustomText
-                        text="jobs done"
-                        textStyle={styles.overviewDataTitle}
-                      />
-                    </View>
-                  </View>
-                  {!editProgileOverview ? (
-                    ''
                   ) : (
-                    <View style={generalStyles.rowBetween}>
-                      <View>
-                        <CustomText
-                          text={formErrors.expected_salary}
-                          textStyle={[styles.ErrorMSG, {paddingLeft: 0}]}
-                        />
-                        <View style={[generalStyles.row, styles.margintop]}>
-                          <Checkbox
-                            isChecked={overviewData.hide_salary}
-                            setIsChecked={() => {
-                              handleInputsValOveriew(
-                                'hide_salary',
-                                !overviewData.hide_salary,
-                              );
-                            }}
-                          />
-                          <CustomText
-                            text="Hide salary?"
-                            textStyle={generalStyles.marginLeft}
-                          />
-                        </View>
-                      </View>
-                    </View>
-                  )}
-                </>
-              )}
-
-              <View style={[generalStyles.rowBetween, styles.titleBox]}>
-                <CustomText
-                  text="contact details"
-                  textStyle={styles.sectionTitle}
-                />
-              </View>
-
-              <View style={[generalStyles.row]}>
-                <Mobile
-                  width={hp(2.2)}
-                  height={hp(2.2)}
-                  style={styles.btnIcon}
-                />
-                {!editProgileOverview ? (
-                  <>
-                    <CustomText
-                      text={userProfileData?.data?.mobile_phone}
-                      textStyle={styles.contactData}
-                    />
-                  </>
+                    <ActivityIndicator size="small" color={COLORS.grayLight} />
+                  )
                 ) : (
-                  <View>
-                    <AppInput
-                      containerStyle={styles.contactsBox}
-                      inputstyle={styles.inputStyle}
-                      placeholder="enter phone number"
-                      value={overviewData.mobile_phone}
-                      onChangeText={val =>
-                        handleInputsValOveriew('mobile_phone', val)
-                      }
-                      isNumericKeyboard
+                  <Pressable onPress={() => setProgileOverview(true)}>
+                    <Edit
+                      width={hp(2.2)}
+                      height={hp(2.2)}
+                      style={styles.btnIcon}
                     />
-                  </View>
+                  </Pressable>
                 )}
               </View>
-              {formErrors.mobile_phone && (
-                <CustomText
-                  text={formErrors.mobile_phone}
-                  textStyle={styles.ErrorMSG}
-                />
-              )}
-              <View style={[generalStyles.row, {marginTop: hp(1)}]}>
-                <Phone
-                  width={hp(2.2)}
-                  height={hp(2.2)}
-                  style={styles.btnIcon}
-                />
-                {!editProgileOverview ? (
-                  <>
+            </View>
+            {!editProgileOverview ? (
+              <>
+                <View style={generalStyles.rowBetween}>
+                  <View style={styles.overviewBox}>
                     <CustomText
                       text={
-                        userProfileData?.data?.home_phone ||
-                        'edit to add home phone'
+                        userProfileData?.data?.hide_salary
+                          ? 'salary hide'
+                          : `$${userProfileData?.data?.expected_salary} `
                       }
-                      textStyle={styles.contactData}
+                      textStyle={[
+                        styles.overviewData,
+                        !userProfileData?.data?.hide_salar && styles.linethrew,
+                      ]}
                     />
-                  </>
-                ) : (
-                  <View>
-                    <AppInput
-                      containerStyle={styles.contactsBox}
-                      inputstyle={styles.inputStyle}
-                      isNumericKeyboard
-                      placeholder="enter Home phone number"
-                      value={overviewData.home_phone}
-                      onChangeText={val =>
-                        handleInputsValOveriew('home_phone', val)
-                      }
+                    <CustomText
+                      text="hourly rate"
+                      textStyle={styles.overviewDataTitle}
                     />
                   </View>
-                )}
-              </View>
-              {formErrors.home_phone && (
-                <CustomText
-                  text={formErrors.home_phone}
-                  textStyle={styles.ErrorMSG}
-                />
-              )}
-              <View style={[generalStyles.row, {marginTop: hp(1)}]}>
-                <Home width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
+
+                  <View style={styles.overviewBox}>
+                    <CustomText
+                      text={userProfileData?.data?.jobs || '0'}
+                      textStyle={styles.overviewData}
+                    />
+                    <CustomText
+                      text="jobs done"
+                      textStyle={styles.overviewDataTitle}
+                    />
+                  </View>
+                </View>
+              </>
+            ) : (
+              <>
+                <View style={generalStyles.rowBetween}>
+                  <View style={styles.overviewBox}>
+                    <AppInput
+                      placeholder="enter hourly rate"
+                      value={overviewData.expected_salary.toString()}
+                      onChangeText={val =>
+                        handleInputsValOveriew('expected_salary', val)
+                      }
+                      isNumericKeyboard
+                    />
+                  </View>
+                  <View style={styles.overviewBox}>
+                    <CustomText
+                      text={userProfileData?.data?.jobs}
+                      textStyle={styles.overviewData}
+                    />
+                    <CustomText
+                      text="jobs done"
+                      textStyle={styles.overviewDataTitle}
+                    />
+                  </View>
+                </View>
                 {!editProgileOverview ? (
+                  ''
+                ) : (
+                  <View style={generalStyles.rowBetween}>
+                    <View>
+                      <CustomText
+                        text={formErrors.expected_salary}
+                        textStyle={[styles.ErrorMSG, {paddingLeft: 0}]}
+                      />
+                      <View style={[generalStyles.row, styles.margintop]}>
+                        <Checkbox
+                          isChecked={overviewData.hide_salary}
+                          setIsChecked={() => {
+                            handleInputsValOveriew(
+                              'hide_salary',
+                              !overviewData.hide_salary,
+                            );
+                          }}
+                        />
+                        <CustomText
+                          text="Hide salary?"
+                          textStyle={generalStyles.marginLeft}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                )}
+              </>
+            )}
+
+            <View style={[generalStyles.rowBetween, styles.titleBox]}>
+              <CustomText
+                text="contact details"
+                textStyle={styles.sectionTitle}
+              />
+            </View>
+
+            <View style={[generalStyles.row]}>
+              <Mobile width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
+              {!editProgileOverview ? (
+                <>
+                  <CustomText
+                    text={userProfileData?.data?.mobile_phone}
+                    textStyle={styles.contactData}
+                  />
+                </>
+              ) : (
+                <View>
+                  <AppInput
+                    containerStyle={styles.contactsBox}
+                    inputstyle={styles.inputStyle}
+                    placeholder="enter phone number"
+                    value={overviewData.mobile_phone}
+                    onChangeText={val =>
+                      handleInputsValOveriew('mobile_phone', val)
+                    }
+                    isNumericKeyboard
+                  />
+                </View>
+              )}
+            </View>
+            {formErrors.mobile_phone && (
+              <CustomText
+                text={formErrors.mobile_phone}
+                textStyle={styles.ErrorMSG}
+              />
+            )}
+            <View style={[generalStyles.row, {marginTop: hp(1)}]}>
+              <Phone width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
+              {!editProgileOverview ? (
+                <>
                   <CustomText
                     text={
-                      userProfileData?.data.address ||
-                      'edit to add your address'
+                      userProfileData?.data?.home_phone ||
+                      'edit to add home phone'
                     }
                     textStyle={styles.contactData}
                   />
-                ) : (
-                  <View>
-                    <AppInput
-                      containerStyle={styles.contactsBox}
-                      inputstyle={styles.inputStyle}
-                      placeholder="enter address"
-                      value={overviewData.address}
-                      onChangeText={val =>
-                        handleInputsValOveriew('address', val)
-                      }
-                    />
-                  </View>
-                )}
-              </View>
-              {formErrors.address && (
-                <CustomText
-                  text={formErrors.address}
-                  textStyle={styles.ErrorMSG}
-                />
+                </>
+              ) : (
+                <View>
+                  <AppInput
+                    containerStyle={styles.contactsBox}
+                    inputstyle={styles.inputStyle}
+                    isNumericKeyboard
+                    placeholder="enter Home phone number"
+                    value={overviewData.home_phone}
+                    onChangeText={val =>
+                      handleInputsValOveriew('home_phone', val)
+                    }
+                  />
+                </View>
               )}
-              {/* social profiles */}
-              {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
+            </View>
+            {formErrors.home_phone && (
+              <CustomText
+                text={formErrors.home_phone}
+                textStyle={styles.ErrorMSG}
+              />
+            )}
+            <View style={[generalStyles.row, {marginTop: hp(1)}]}>
+              <Home width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
+              {!editProgileOverview ? (
+                <CustomText
+                  text={
+                    userProfileData?.data.address || 'edit to add your address'
+                  }
+                  textStyle={styles.contactData}
+                />
+              ) : (
+                <View>
+                  <AppInput
+                    containerStyle={styles.contactsBox}
+                    inputstyle={styles.inputStyle}
+                    placeholder="enter address"
+                    value={overviewData.address}
+                    onChangeText={val => handleInputsValOveriew('address', val)}
+                  />
+                </View>
+              )}
+            </View>
+            {formErrors.address && (
+              <CustomText
+                text={formErrors.address}
+                textStyle={styles.ErrorMSG}
+              />
+            )}
+            {/* social profiles */}
+            {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
               <CustomText
                 text="social profiles"
                 textStyle={styles.sectionTitle}
@@ -567,144 +551,134 @@ const ProfileScreen = () => {
                 textStyle={styles.checkTxt}
               />
             </View> */}
-              <View style={styles.titleBox}>
-                <CustomText
-                  text="bookmarks & share"
-                  textStyle={styles.sectionTitle}
-                />
-              </View>
-              <View style={generalStyles.rowStart}>
-                <CustomText
-                  text="Login to bookmark"
-                  textStyle={styles.starting}
-                />
-              </View>
-              <LinearGradient
-                colors={[
-                  COLORS.primary,
-                  COLORS.blue,
-                  COLORS.danger,
-                  COLORS.yellow,
-                ]}
-                style={styles.gradient}>
-                <AppInput
-                  placeholder="https://shoghl.com/resume/peterwaldo"
-                  value={txtToCopy}
-                  onChangeText={val => setTxtToCopy(val)}
-                  appInputStyle={[generalStyles.rowBetween, styles.copyBox]}
-                  containerStyle={styles.copyInputContainer}
-                  rightIcon={
-                    <View style={styles.copyIconBox}>
-                      <Copy
-                        width={hp(2)}
-                        height={hp(2)}
-                        style={styles.btnIcon}
-                      />
-                    </View>
-                  }
-                  onRightIconPress={() => null}
-                />
-              </LinearGradient>
-              <View style={generalStyles.row}>
-                <Pressable style={styles.shareBox}>
-                  <Share width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-                </Pressable>
-                <CustomText text="Interesting?" textStyle={styles.shareTxt} />
-                <CustomText text="Share It!" textStyle={styles.shareIt} />
-              </View>
-              <View style={[generalStyles.rowStart, {marginTop: hp(3)}]}>
-                <SwitchButton
-                  isChecked={isPublic}
-                  setIsChecked={setIsPublic}
-                  size="medium"
-                />
-                <CustomText
-                  text="Public Profile"
-                  textStyle={styles.switchTxt}
-                />
-              </View>
-              <View style={[generalStyles.rowStart, {marginTop: hp(2)}]}>
-                <SwitchButton
-                  isChecked={isFindEasily}
-                  setIsChecked={setIsFindEasily}
-                  size="medium"
-                />
-                <CustomText
-                  text="Let people find me easily"
-                  textStyle={styles.switchTxt}
-                />
-              </View>
-              <View style={[generalStyles.rowBetween, styles.titleBox]}>
-                <CustomText text="about me" textStyle={styles.about} />
-                <View>
-                  {editaboutme ? (
-                    !loading ? (
-                      <Pressable
-                        onPress={() => {
-                          editaboutAndcharactaristic();
-                        }}>
-                        <SaveEdits
-                          width={hp(3)}
-                          height={hp(3)}
-                          style={styles.btnIcon}
-                        />
-                      </Pressable>
-                    ) : (
-                      <ActivityIndicator
-                        size="small"
-                        color={COLORS.grayLight}
-                      />
-                    )
-                  ) : (
-                    <Pressable onPress={() => seteditaboutme(true)}>
-                      <Edit
-                        width={hp(2.2)}
-                        height={hp(2.2)}
+            <View style={styles.titleBox}>
+              <CustomText
+                text="bookmarks & share"
+                textStyle={styles.sectionTitle}
+              />
+            </View>
+            <View style={generalStyles.rowStart}>
+              <CustomText
+                text="Login to bookmark"
+                textStyle={styles.starting}
+              />
+            </View>
+            <LinearGradient
+              colors={[
+                COLORS.primary,
+                COLORS.blue,
+                COLORS.danger,
+                COLORS.yellow,
+              ]}
+              style={styles.gradient}>
+              <AppInput
+                placeholder="https://shoghl.com/resume/peterwaldo"
+                value={txtToCopy}
+                onChangeText={val => setTxtToCopy(val)}
+                appInputStyle={[generalStyles.rowBetween, styles.copyBox]}
+                containerStyle={styles.copyInputContainer}
+                rightIcon={
+                  <View style={styles.copyIconBox}>
+                    <Copy width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+                  </View>
+                }
+                onRightIconPress={() => null}
+              />
+            </LinearGradient>
+            <View style={generalStyles.row}>
+              <Pressable style={styles.shareBox}>
+                <Share width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+              </Pressable>
+              <CustomText text="Interesting?" textStyle={styles.shareTxt} />
+              <CustomText text="Share It!" textStyle={styles.shareIt} />
+            </View>
+            <View style={[generalStyles.rowStart, {marginTop: hp(3)}]}>
+              <SwitchButton
+                isChecked={isPublic}
+                setIsChecked={setIsPublic}
+                size="medium"
+              />
+              <CustomText text="Public Profile" textStyle={styles.switchTxt} />
+            </View>
+            <View style={[generalStyles.rowStart, {marginTop: hp(2)}]}>
+              <SwitchButton
+                isChecked={isFindEasily}
+                setIsChecked={setIsFindEasily}
+                size="medium"
+              />
+              <CustomText
+                text="Let people find me easily"
+                textStyle={styles.switchTxt}
+              />
+            </View>
+            <View style={[generalStyles.rowBetween, styles.titleBox]}>
+              <CustomText text="about me" textStyle={styles.about} />
+              <View>
+                {editaboutme ? (
+                  !loading ? (
+                    <Pressable
+                      onPress={() => {
+                        editaboutAndcharactaristic();
+                      }}>
+                      <SaveEdits
+                        width={hp(3)}
+                        height={hp(3)}
                         style={styles.btnIcon}
                       />
                     </Pressable>
-                  )}
-                </View>
+                  ) : (
+                    <ActivityIndicator size="small" color={COLORS.grayLight} />
+                  )
+                ) : (
+                  <Pressable onPress={() => seteditaboutme(true)}>
+                    <Edit
+                      width={hp(2.2)}
+                      height={hp(2.2)}
+                      style={styles.btnIcon}
+                    />
+                  </Pressable>
+                )}
               </View>
-              {editaboutme ? (
-                <AppInput
-                  containerStyle={styles.aboutmeInput}
-                  value={InputsData.about_me}
-                  onChangeText={val => handleInputsVal('about_me', val)}
-                  multiline
-                />
-              ) : (
-                <CustomText
-                  text={userProfileData?.data?.about_me || 'edit to add about '}
-                  textStyle={{color: COLORS.grayLight}}
-                />
-              )}
-              <View style={styles.titleBox}>
-                <CustomText
-                  text="Personal Characteristics:"
-                  textStyle={styles.characteristics}
-                />
-              </View>
-              {editaboutme ? (
-                <AppInput
-                  containerStyle={styles.aboutmeInput}
-                  value={InputsData.personal_characteristics}
-                  onChangeText={val =>
-                    handleInputsVal('personal_characteristics', val)
-                  }
-                  multiline
-                />
-              ) : (
-                <CustomText
-                  text={
-                    userProfileData?.data?.personal_characteristics ||
-                    'edit to add personal characteristics'
-                  }
-                  textStyle={{color: COLORS.grayLight}}
-                />
-              )}
+            </View>
+            {editaboutme ? (
+              <AppInput
+                containerStyle={styles.aboutmeInput}
+                value={InputsData.about_me}
+                onChangeText={val => handleInputsVal('about_me', val)}
+                multiline
+              />
+            ) : (
+              <CustomText
+                text={userProfileData?.data?.about_me || 'edit to add about '}
+                textStyle={{color: COLORS.grayLight}}
+              />
+            )}
+            <View style={styles.titleBox}>
+              <CustomText
+                text="Personal Characteristics:"
+                textStyle={styles.characteristics}
+              />
+            </View>
+            {editaboutme ? (
+              <AppInput
+                containerStyle={styles.aboutmeInput}
+                value={InputsData.personal_characteristics}
+                onChangeText={val =>
+                  handleInputsVal('personal_characteristics', val)
+                }
+                multiline
+              />
+            ) : (
+              <CustomText
+                text={
+                  userProfileData?.data?.personal_characteristics ||
+                  'edit to add personal characteristics'
+                }
+                textStyle={{color: COLORS.grayLight}}
+              />
+            )}
 
-              {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
+            {/* <View style={[generalStyles.rowBetween, styles.titleBox]}>
               <CustomText text="portfolio" textStyle={styles.sectionTitle} />
               <Pressable>
                 <Edit width={hp(2.2)} height={hp(2.2)} style={styles.btnIcon} />
@@ -826,41 +800,38 @@ const ProfileScreen = () => {
               text="Due to the task"
               textStyle={styles.portfolioSubTxt}
             /> */}
-              {/* <CustomModal/> */}
-              <Button
-                text="Log Out"
-                style={styles.Logout}
-                onPress={() => setmodalVisible(true)}
-              />
-            </ScrollView>
-            {/*logout modal*/}
-            <CustomModal
-              modalVisible={modalVisible}
-              setModalVisible={setmodalVisible}
-              title="Are you sure you want to log out?"
-              children={
-                <>
-                  <View>
-                    <Button
-                      style={styles.Logout}
-                      text="Log Out"
-                      loading={loading}
-                      onPress={() => LogOut()}
-                    />
-                    <Button
-                      text="Cancel"
-                      onPress={() => setmodalVisible(false)}
-                    />
-                  </View>
-                </>
-              }
+            {/* <CustomModal/> */}
+            <Button
+              text="Log Out"
+              style={styles.Logout}
+              onPress={() => setmodalVisible(true)}
             />
-          </AppScreenContainer>
-        ) : (
-          <Apploader message="Loading" visible={loading} />
-        )
+          </ScrollView>
+          {/*logout modal*/}
+          <CustomModal
+            modalVisible={modalVisible}
+            setModalVisible={setmodalVisible}
+            title="Are you sure you want to log out?"
+            children={
+              <>
+                <View>
+                  <Button
+                    style={styles.Logout}
+                    text="Log Out"
+                    loading={loading}
+                    onPress={() => LogOut()}
+                  />
+                  <Button
+                    text="Cancel"
+                    onPress={() => setmodalVisible(false)}
+                  />
+                </View>
+              </>
+            }
+          />
+        </AppScreenContainer>
       ) : (
-        <ComplateCompanyProfile navigation={navigation} />
+        <Apploader message="Loading" visible={loading} />
       )}
     </>
   );

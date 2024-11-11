@@ -215,6 +215,7 @@ export const styles = StyleSheet.create({
   },
   Sectionmeduim: {
     marginLeft: wp(4),
+    marginTop: hp(2),
   },
   medtexBox: {
     marginTop: hp(0.5),
@@ -249,5 +250,11 @@ export const styles = StyleSheet.create({
   nottext: {
     fontFamily: FONTS.SemiBold,
     color: COLORS.primary,
+  },
+  errorText: {
+    color: COLORS.danger,
+  },
+  foterCvcard: {
+    marginTop: hp(2),
   },
 });

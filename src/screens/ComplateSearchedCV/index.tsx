@@ -174,7 +174,7 @@ const renderItem = ({item, getUserCVDetails}: any) => {
       }}>
       {/* pic and its row */}
       <View style={generalStyles.row}>
-        <View style={{height: hp(13)}}>
+        <View>
           <Image
             source={{
               uri:
@@ -216,44 +216,25 @@ const renderItem = ({item, getUserCVDetails}: any) => {
       {/* other informations */}
       <View style={styles.Sectionmeduim}>
         <View style={generalStyles.row}>
-          <View style={{height: hp(6.22)}}>
+          <View>
             <ShoglBag width={wp(5)} height={wp(4)} />
           </View>
           <View style={styles.medtexBox}>
             <CustomText
-              text={'sales maneger at value'}
+              text={'10 Jobs Done : '}
               text2={'(2000-2009)'}
               textStyle2={styles.tex2}
               textStyle={styles.tex1}
             />
-            <CustomText
-              text={'sales manger at monga'}
-              text2={'(2010-2015)'}
-              textStyle2={styles.tex2}
-              textStyle={styles.tex1}
-            />
           </View>
         </View>
         <View style={generalStyles.row}>
-          <View style={{height: hp(4)}}>
-            <GraduteCap width={wp(5)} height={wp(4)} />
-          </View>
-          <View style={styles.medtexBox}>
-            <CustomText
-              text={'Job Titles:'}
-              text2={item.job_titles?.toString()}
-              textStyle2={styles.tex2}
-              textStyle={styles.tex1}
-            />
-          </View>
-        </View>
-        <View style={generalStyles.row}>
-          <View style={{height: hp(9.6)}}>
+          <View>
             <Doc width={wp(5)} height={wp(4)} />
           </View>
           <View style={styles.medtexBox}>
             <CustomText
-              text="Job Title:"
+              text="Job Title : "
               text2={item.job_titles?.toString()}
               textStyle2={styles.jobtitle}
               textStyle={styles.tex1}
@@ -262,7 +243,7 @@ const renderItem = ({item, getUserCVDetails}: any) => {
         </View>
       </View>
       {/* Footer */}
-      <View style={generalStyles.rowBetween}>
+      <View style={[generalStyles.rowBetween, styles.foterCvcard]}>
         <View style={styles.immmediatstart}>
           <CustomText text2="Immediate Start" textStyle={styles.Apply} />
         </View>

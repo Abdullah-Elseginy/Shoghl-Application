@@ -126,7 +126,6 @@ const SignupScreen = ({navigation}: Props) => {
             position: 'top',
             visibilityTime: 3500,
           });
-          console.error('SignUpCorporate ERROR=== ', err);
         });
     }
   };
