@@ -336,8 +336,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
     };
     dispatch(getIndusterialSearch(dataTosend2));
   };
-  console.log('ss---' + JSON.stringify(Specialties));
-  console.log('ddd---' + JSON.stringify(industerial));
+
   useFocusEffect(
     useCallback(() => {
       dispatch(getCompanyPostedJobs());
@@ -636,7 +635,8 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
             ) : (
               <Button
                 onPress={() => {
-                  setdoenloadPDF(prev => !prev);
+                  setdoenloadPDF(true);
+                  console.log('dowenloads--' + DocumentURL);
                 }}
                 text="Doenload PDF"
                 style={styles.bottomStyle}

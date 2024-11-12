@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Button, CustomText, Dropdown} from '../../../components';
 import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
@@ -9,7 +9,6 @@ import DocumentPicker from 'react-native-document-picker';
 import {FieldList} from '../../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
-import {GetChoicesStep3} from '../../../redux/slices/appdataSlice';
 import {signUpFourCorporate} from '../../../redux/slices/authSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../../navigations/ScreenNames';
@@ -197,7 +196,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       formToSend.append('university', selectedUniversty + 'scsc');
       formToSend.append('degree', selectedDegree);
       formToSend.append('grade', selectedGrade);
-      formToSend.append('user_languages[]', [SelectedLanguage]);
+      formToSend.append('user_languages[]', SelectedLanguage);
       formToSend.append('skills[]', selectedSkills);
       dispatch(signUpFourCorporate(formToSend))
         .unwrap()
@@ -218,7 +217,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             text1: 'Error',
             text2: err,
             position: 'top',
-            visibilityTime: 1500,
+            visibilityTime: 3000,
           });
         });
     }

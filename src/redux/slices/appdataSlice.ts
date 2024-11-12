@@ -97,6 +97,26 @@ export const EditmyProfileOverview = createAsyncThunk(
     }
   },
 );
+// ========================== edit candidate profile header OverView ========================
+export const editCandidateProfileHeader = createAsyncThunk(
+  'auth/editCandidateProfileHeader',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.editCandidateProfileHeader,
+        data: data,
+      });
+      console.log('editCandidateProfileHeader', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('editCandidateProfileHeader Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ========================== Choices ========================
 export const get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer =
   createAsyncThunk(
@@ -432,6 +452,19 @@ const appdataSlice = createSlice({
         state.error = null;
       })
       .addCase(getSpecialtiesSearch.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================edit candidate profile header =======================
+      .addCase(editCandidateProfileHeader.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(editCandidateProfileHeader.fulfilled, state => {
+        state.loadingappdata = false;
+        state.error = null;
+      })
+      .addCase(editCandidateProfileHeader.rejected, (state, action) => {
         state.loadingappdata = false;
         state.error = action.payload;
       });

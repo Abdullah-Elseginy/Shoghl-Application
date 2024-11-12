@@ -14,11 +14,14 @@ export const styles = StyleSheet.create({
     fontSize: hp(2.5),
     fontFamily: FONTS.Medium,
     textTransform: 'capitalize',
+    textAlign: 'center',
   },
   nickname: {
-    fontSize: hp(2),
-    fontFamily: FONTS.Medium,
+    fontSize: hp(1.8),
+    fontFamily: FONTS.Regular,
     textTransform: 'capitalize',
+    color: COLORS.gray,
+    textAlign: 'center',
   },
   infoBox: {
     width: wp(85),
@@ -28,7 +31,7 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.grayMoreLight,
     borderRadius: hp(1),
     padding: hp(0.5),
-    fontSize: hp(1.8),
+    fontSize: hp(1.5),
   },
   country: {
     fontSize: hp(1.8),
@@ -244,5 +247,52 @@ export const styles = StyleSheet.create({
   },
   linethrew: {
     textDecorationLine: 'line-through',
+  },
+  userheaderbox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  editBox: {
+    position: 'absolute',
+    top: hp(2.2),
+    right: 0,
+    zIndex: 216,
+  },
+  nameinput: {
+    width: wp(30),
+    height: hp(4.5),
+  },
+  inpStyle: {
+    height: hp(5),
+    fontSize: hp(1.5),
+  },
+  namesinputs: {
+    flexDirection: 'row',
+    width: '35%',
+    justifyContent: 'center',
+  },
+  DropBorder2: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+  },
+  inputsbox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    zIndex: 78,
+  },
+  margintop2: {
+    marginTop: hp(2),
+    width: wp(40),
+  },
+  dropcount: {
+    width: wp(33),
+    zIndex: 1,
+  },
+  DropBorder3: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
   },
 });

@@ -10,7 +10,13 @@ import {
   Dropdown,
 } from '../../components';
 import {styles} from './styles';
-import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Cash, Crown, Help, Location, UploadDoc} from '../../assets';
 import {generalStyles, hp, wp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -62,7 +68,11 @@ const HomeScreen = ({navigation}: Props) => {
   };
   const Job = ({item}: any) => {
     return (
-      <View style={styles.jobBox}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate(ScreenNames.JobDetails, {jobCode: '400'});
+        }}
+        style={styles.jobBox}>
         <View style={styles.jobTopBox}>
           <View style={generalStyles.row}>
             {item.img}
@@ -89,31 +99,46 @@ const HomeScreen = ({navigation}: Props) => {
             <CustomText text={item.price} textStyle={styles.jobBottomTxt} />
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
   const Parteners = ({item}: any) => {
-    return <View>{item.imag}</View>;
+    return (
+      <Pressable
+        onPress={() => {
+          navigation.navigate(ScreenNames.CompanyProfile);
+        }}>
+        {item.imag}
+      </Pressable>
+    );
   };
 
   const CareerLevels = ({item}: any) => {
     return (
-      <View style={styles.SearchByCareer}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate(ScreenNames.ComplateCompanyProfile);
+        }}
+        style={styles.SearchByCareer}>
         {item.imag}
         <CustomText
           text={item.title}
           textStyle={[styles.CareerLevelTitle, styles.sectionSubTitle]}
         />
-      </View>
+      </Pressable>
     );
   };
 
   const BrowesLocation = ({item}: any) => {
     return (
-      <View style={styles.SearchByLocation}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate(ScreenNames.JobDetails, {jobCode: '400'});
+        }}
+        style={styles.SearchByLocation}>
         {item.imag}
         <CustomText text={item.title} textStyle={styles.BrowseLocationTitle} />
-      </View>
+      </Pressable>
     );
   };
   const SearchItems = ({item}: any) => {
@@ -309,7 +334,6 @@ const HomeScreen = ({navigation}: Props) => {
           ) : (
             ''
           )}
-          
 
           <Button
             isDisapled={loadinJobs}

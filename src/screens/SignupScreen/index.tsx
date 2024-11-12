@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable curly */
 import * as React from 'react';
 import {
@@ -5,6 +6,7 @@ import {
   AppScreenContainer,
   Button,
   CustomText,
+  Dropdown,
 } from '../../components';
 import {styles} from './styles';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -22,7 +24,24 @@ import {
 } from '../../redux/slices/authSlice';
 import {AppDispatch} from '../../redux/store';
 import Toast from 'react-native-toast-message';
-
+const roleList = [
+  {
+    name_en: 'manger',
+    code: '1',
+  },
+  {
+    name_en: 'client',
+    code: '2',
+  },
+  {
+    name_en: 'kol',
+    code: '3',
+  },
+  {
+    name_en: 'giant',
+    code: '4',
+  },
+];
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
 };
@@ -32,8 +51,16 @@ const SignupScreen = ({navigation}: Props) => {
   const [BorderName, SetBorderName] = React.useState('');
   const [errBordername, setErrorBordername] = React.useState('');
   const {loading} = useSelector((state: any) => state.auth);
-  // const [modalVisable, SetModlVisable] = React.useState(false);
-  // console.log('phone', candidatePhone);
+  const [role, setrole] = React.useState([]);
+  const [openDropdown, setOpenDropdown] = React.useState(null);
+
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null);
+    } else {
+      setOpenDropdown(dropdownId);
+    }
+  };
   const [formData, setFormData] = React.useState({
     company_name: '',
     first_name: '',
@@ -41,7 +68,6 @@ const SignupScreen = ({navigation}: Props) => {
     mobile_number: '',
     business_email: '',
     password: '',
-    hiring_for: '',
   });
   const [formErrors, setFormErrors] = React.useState({
     companyName: '',
@@ -102,9 +128,13 @@ const SignupScreen = ({navigation}: Props) => {
   };
 
   const handleSubmit = () => {
+    const formToSend = {
+      ...formData,
+      hiring_for: role,
+    };
     if (validateForm()) {
-      console.log('form data2', formData);
-      dispatch(signUpOneCorporate(formData))
+      console.log('form data2----', formToSend);
+      dispatch(signUpOneCorporate(formToSend))
         .unwrap()
         .then((res: any) => {
           dispatch(changeRegisterationType('corporate'));
@@ -357,14 +387,24 @@ const SignupScreen = ({navigation}: Props) => {
                   text={formErrors.password}
                 />
               )}
-
-              <AppInput
-                placeholder="Enter Your Role"
-                label="Which role are you applying for?"
+              <Dropdown
+                placeholder="which role you are open to?"
+                label="which role you are open to?"
                 labelStyle={[styles.inputLabel, styles.CoporateInput]}
-                containerStyle={styles.inputContainerStyle}
-                value={formData.hiring_for}
-                onChangeText={value => handleInputChange('hiring_for', value)}
+                value={role}
+                setValue={setrole}
+                dropDownStyle={generalStyles.DropBorder}
+                list={roleList}
+                max={3}
+                min={1}
+                multiBle={true}
+                containerStyle={{
+                  zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+                }}
+                isOpen={openDropdown === 'dropdown1'}
+                onDropdownOpen={isOpen =>
+                  handleDropdownOpen(isOpen ? 'dropdown1' : null)
+                }
               />
               {formErrors.role && (
                 <CustomText
@@ -372,7 +412,12 @@ const SignupScreen = ({navigation}: Props) => {
                   text={formErrors.role}
                 />
               )}
-              <Button loading={loading} text="Submit" onPress={handleSubmit} />
+              <Button
+                loading={loading}
+                text="Submit"
+                onPress={handleSubmit}
+                style={styles.btn2}
+              />
             </>
           )}
         </View>

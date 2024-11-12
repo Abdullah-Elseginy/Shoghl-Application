@@ -53,6 +53,7 @@ export type APIsTypes = {
   companyEmployeesRange: string;
   getIndusterialSearch: string;
   getSpecialtiesSearch: string;
+  editCandidateProfileHeader: string;
 };
 
 export const APIS: APIsTypes = {
@@ -83,6 +84,7 @@ export const APIS: APIsTypes = {
   getMyProfile: '/API/LOW/My/Profile',
   editAbout_charactaristic: '/API/LOW/My/About',
   myProfileOverview: '/API/LOW/My/Profile-Overview',
+  editCandidateProfileHeader: '/API/LOW/My/Profile-Header',
   // ===================company Profile =================== //
   getCompanyProfile: '/API/COM/My/Profile',
   editCompanyProfile: '/API/COM/My/Edit-Profile',

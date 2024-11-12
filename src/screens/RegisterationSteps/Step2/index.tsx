@@ -35,12 +35,12 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   };
 
   const [formData, SetformData] = useState({
-    first_name: '',
-    last_name: '',
+    first_name: 'ahmed',
+    last_name: 'mohamed',
     birth_year: '',
     birth_month: '',
     birth_day: '',
-    phone: '',
+    phone: '01014216397',
   });
 
   const [formErrors, setFormErrors] = React.useState({
@@ -140,7 +140,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         <View style={generalStyles.row}>
           <CustomText text="Your Personal Info" textStyle={styles.StepTitle} />
         </View>
-        <View style={generalStyles.rowBetween}>
+        {/* <View style={generalStyles.rowBetween}>
           <View>
             <AppInput
               containerStyle={styles.ContanerInput}
@@ -175,7 +175,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               textStyle={[styles.ErrorMSG, styles.width]}
             />
           )}
-        </View>
+        </View> */}
         {/* BirhDay */}
         <View style={generalStyles.rowBetween}>
           <View>
@@ -371,7 +371,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
           )}
         </View>
       </View>
-      <View style={styles.SectionBox}>
+      {/* <View style={styles.SectionBox}>
         <View style={generalStyles.row}>
           <CustomText text="Contact Info" textStyle={styles.StepTitle} />
         </View>
@@ -387,7 +387,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         {formErrors.phone && (
           <CustomText text={formErrors.phone} textStyle={styles.ErrorMSG} />
         )}
-      </View>
+      </View> */}
       <Button
         text={currentPosition === 2 ? 'Finsh' : 'Next'}
         onPress={() => {

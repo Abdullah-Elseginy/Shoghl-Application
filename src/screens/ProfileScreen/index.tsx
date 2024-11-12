@@ -9,6 +9,7 @@ import {
   Checkbox,
   CustomModal,
   CustomText,
+  Dropdown,
   SwitchButton,
 } from '../../components';
 import {styles} from './styles';
@@ -56,9 +57,25 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {CommonActions, useNavigation} from '@react-navigation/native';
 import {AppDispatch} from '../../redux/store';
 import Toast from 'react-native-toast-message';
-import {EditmyProfileOverview} from '../../redux/slices/appdataSlice';
+import {
+  editCandidateProfileHeader,
+  EditmyProfileOverview,
+} from '../../redux/slices/appdataSlice';
 import LinearGradient from 'react-native-linear-gradient';
-
+const memoizedjobs = [
+  {
+    name_en: 'carpernter',
+    code: '1',
+  },
+  {
+    name_en: 'barber',
+    code: '2',
+  },
+  {
+    name_en: 'patient',
+    code: '3',
+  },
+];
 // const Progrss = ({item}: any) => {
 //   return (
 //     <View style={styles.progresscontainer}>
@@ -74,14 +91,21 @@ import LinearGradient from 'react-native-linear-gradient';
 const ProfileScreen = () => {
   // const [isLicence, setIsLicence] = React.useState(false);
   // const [isMotorCycle, setIsMotorCycle] = React.useState(false);
+  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
+  const {loading, userProfileData} = useSelector((state: any) => state.auth);
+  console.log('allCountries----' + JSON.stringify(allCountries));
   const [editaboutme, seteditaboutme] = React.useState(false);
+  const [editHeader, seteditHeader] = React.useState(false);
   const [editProgileOverview, setProgileOverview] = React.useState(false);
   const [modalVisible, setmodalVisible] = React.useState(false);
   const [txtToCopy, setTxtToCopy] = React.useState('');
   const [isPublic, setIsPublic] = React.useState(false);
   const [isFindEasily, setIsFindEasily] = React.useState(false);
-  const {registerationType, loading, userProfileData} = useSelector(
-    (state: any) => state.auth,
+  const [FirstName, setFirstName] = React.useState(
+    userProfileData?.data?.first_name,
+  );
+  const [LastName, setLastName] = React.useState(
+    userProfileData?.data?.last_name,
   );
   const {loadingappdata} = useSelector((state: any) => state.appdata);
   const navigation = useNavigation();
@@ -103,7 +127,17 @@ const ProfileScreen = () => {
       [key]: val,
     });
   };
-  console.log('overviewData============', overviewData);
+  const [openDropdown, setOpenDropdown] = React.useState(null); // Track the currently open dropdown
+  const [selctedjobs, setselctedjobs] = React.useState('');
+  const [selctedcountry, setselctedcountry] = React.useState('');
+  const [selctedcity, setselctedcity] = React.useState('');
+  const handleDropdownOpen = (dropdownId: any) => {
+    if (openDropdown === dropdownId) {
+      setOpenDropdown(null); // Close it if it's already open
+    } else {
+      setOpenDropdown(dropdownId); // Open the new dropdown
+    }
+  };
   React.useEffect(() => {
     setoverviewData({
       expected_salary: userProfileData?.data?.expected_salary,
@@ -112,6 +146,8 @@ const ProfileScreen = () => {
       mobile_phone: userProfileData?.data?.phone,
       address: userProfileData?.data?.address,
     });
+    setselctedcountry(userProfileData?.data?.country);
+    setselctedcity(userProfileData?.data?.city);
     setInputsData({
       about_me: userProfileData?.data?.about_me,
       personal_characteristics: userProfileData?.data?.personal_characteristics,
@@ -186,6 +222,10 @@ const ProfileScreen = () => {
     home_phone: '',
     mobile_phone: '',
     address: '',
+    fname: '',
+    lname: '',
+    country: '',
+    city: '',
   });
 
   const validateForm = () => {
@@ -204,6 +244,51 @@ const ProfileScreen = () => {
     return Object.keys(errors).length === 0;
   };
 
+  const validateFormheader = () => {
+    const errors: {[key: string]: string} = {};
+    if (!FirstName) {
+      errors.fname = 'enter First Name';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'First Name is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (!LastName) {
+      errors.lname = ' enter Last Name';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Last Name is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (selctedcity.length) {
+      errors.city = 'select city';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'City is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (selctedcountry.length) {
+      errors.country = 'select country';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'country is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   const editPrifileOverView = () => {
     if (validateForm()) {
       dispatch(EditmyProfileOverview(JSON.stringify(overviewData)))
@@ -231,38 +316,170 @@ const ProfileScreen = () => {
     }
   };
 
+  const editHeaderProfile = async () => {
+    const datatosend = {
+      first_name: FirstName,
+      last_name: LastName,
+      nickname: selctedjobs + 'hol',
+      country: selctedcountry,
+      city: selctedcity,
+      birth_year: 2000,
+      birth_month: 5,
+      birth_day: 6,
+      avatar: '',
+    };
+    if (validateFormheader()) {
+      dispatch(editCandidateProfileHeader(datatosend))
+        .unwrap()
+        .then(() => {
+          Toast.show({
+            text1: 'Success',
+            text2: 'Header Edited Successfully',
+            type: 'success',
+            visibilityTime: 1500,
+          });
+          dispatch(getMyProfile());
+          seteditHeader(false);
+        })
+        .catch(() => {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: 'Failed to edit header',
+            position: 'top',
+            visibilityTime: 3500,
+          });
+        });
+    }
+  };
+
   const currentYear = new Date().getFullYear();
   return (
     <>
       {userProfileData ? (
         <AppScreenContainer style={{flex: 1}}>
           <ScrollView contentContainerStyle={styles.container}>
+            {loadingappdata && <Apploader />}
             <View style={styles.userInfoBox}>
               {/* <ProfilePic width={100} height={100} /> */}
-              <CustomText
-                text={
-                  userProfileData?.data?.first_name +
-                  ' ' +
-                  userProfileData?.data?.last_name
-                }
-                textStyle={styles.username}
-              />
-              <CustomText
-                text={userProfileData?.data?.jobs?.toString()}
-                textStyle={styles.nickname}
-              />
+              {!editHeader ? (
+                <Pressable
+                  onPress={() => {
+                    seteditHeader(true);
+                  }}
+                  style={styles.editBox}>
+                  <Edit width={hp(2.2)} height={hp(2.2)} />
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => {
+                    editHeaderProfile();
+                  }}
+                  style={styles.editBox}>
+                  <SaveEdits width={hp(3)} height={hp(3)} />
+                </Pressable>
+              )}
+              {!editHeader ? (
+                <View style={styles.userheaderbox}>
+                  <View>
+                    <CustomText
+                      text={
+                        userProfileData?.data?.first_name +
+                        ' ' +
+                        userProfileData?.data?.last_name
+                      }
+                      textStyle={styles.username}
+                    />
+                    <CustomText
+                      text={
+                        userProfileData?.data?.jobs?.toString() ||
+                        'no jobs found'
+                      }
+                      textStyle={styles.nickname}
+                    />
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.inputsbox}>
+                  <View style={styles.namesinputs}>
+                    <AppInput
+                      containerStyle={styles.nameinput}
+                      placeholder="First name"
+                      inputstyle={styles.inpStyle}
+                      value={FirstName}
+                      onChangeText={val => {
+                        setFirstName(val);
+                      }}
+                    />
+
+                    <AppInput
+                      containerStyle={styles.nameinput}
+                      placeholder="Last name"
+                      inputstyle={styles.inpStyle}
+                      value={LastName}
+                      onChangeText={val => {
+                        setLastName(val);
+                      }}
+                    />
+                  </View>
+                  <View style={styles.margintop2}>
+                    <Dropdown
+                      placeholder="Selct job"
+                      value={selctedjobs}
+                      setValue={setselctedjobs}
+                      dropDownStyle={styles.DropBorder2}
+                      list={memoizedjobs}
+                      containerStyle={{
+                        zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
+                      }}
+                      isOpen={openDropdown === 'dropdown1'}
+                      onDropdownOpen={isOpen =>
+                        handleDropdownOpen(isOpen ? 'dropdown1' : null)
+                      }
+                    />
+                  </View>
+                </View>
+              )}
               <View style={[generalStyles.rowBetween, styles.infoBox]}>
-                <CustomText
-                  text="Immediate start"
-                  textStyle={styles.starting}
-                />
+                {!editHeader && (
+                  <CustomText
+                    text="Immediate start"
+                    textStyle={styles.starting}
+                  />
+                )}
                 <View style={generalStyles.rowBetween}>
                   <Saudi
                     width={hp(2.5)}
                     height={hp(2.5)}
                     style={styles.btnIcon}
                   />
-                  <CustomText text="KSA" textStyle={styles.country} />
+                  {!editHeader ? (
+                    <CustomText
+                      text={userProfileData?.data?.country}
+                      textStyle={styles.country}
+                    />
+                  ) : (
+                    <View style={styles.dropcount}>
+                      <Dropdown
+                        placeholder="country"
+                        value={selctedcountry}
+                        setValue={setselctedcountry}
+                        dropDownStyle={styles.DropBorder3}
+                        list={allCountries}
+                        containerStyle={{
+                          zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+                        }}
+                        isOpen={openDropdown === 'dropdown2'}
+                        onDropdownOpen={isOpen =>
+                          handleDropdownOpen(isOpen ? 'dropdown2' : null)
+                        }
+                        schema={{
+                          label: 'name_en',
+                          value: 'id',
+                        }}
+                      />
+                    </View>
+                  )}
                 </View>
                 <View style={generalStyles.rowBetween}>
                   <Location
@@ -270,7 +487,33 @@ const ProfileScreen = () => {
                     height={hp(2)}
                     style={styles.btnIcon}
                   />
-                  <CustomText text="riyad" textStyle={styles.location} />
+                  {!editHeader ? (
+                    <CustomText
+                      text={userProfileData?.data?.city * 1 || 'no city'}
+                      textStyle={styles.location}
+                    />
+                  ) : (
+                    <View style={styles.dropcount}>
+                      <Dropdown
+                        placeholder="city"
+                        value={selctedcity}
+                        setValue={setselctedcity}
+                        dropDownStyle={styles.DropBorder3}
+                        list={allCities}
+                        containerStyle={{
+                          zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
+                        }}
+                        isOpen={openDropdown === 'dropdown2'}
+                        onDropdownOpen={isOpen =>
+                          handleDropdownOpen(isOpen ? 'dropdown2' : null)
+                        }
+                        schema={{
+                          label: 'name_en',
+                          value: 'id',
+                        }}
+                      />
+                    </View>
+                  )}
                 </View>
               </View>
               <View style={generalStyles.rowBetween}>
@@ -286,7 +529,7 @@ const ProfileScreen = () => {
                   textStyle={styles.age}
                 />
               </View>
-              <Button
+              {/* <Button
                 text="send message"
                 buttonTextStyle={styles.btnTxt}
                 onPress={() => null}
@@ -298,7 +541,8 @@ const ProfileScreen = () => {
                   />
                 }
                 style={styles.messageBtn}
-              />
+              /> */}
+              <View style={generalStyles.line} />
             </View>
             <View style={[generalStyles.rowBetween, styles.titleBox]}>
               <CustomText
@@ -371,7 +615,7 @@ const ProfileScreen = () => {
                   <View style={styles.overviewBox}>
                     <AppInput
                       placeholder="enter hourly rate"
-                      value={overviewData.expected_salary.toString()}
+                      value={overviewData?.expected_salary?.toString()}
                       onChangeText={val =>
                         handleInputsValOveriew('expected_salary', val)
                       }

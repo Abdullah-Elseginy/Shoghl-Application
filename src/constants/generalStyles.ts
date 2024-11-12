@@ -95,4 +95,10 @@ export const generalStyles = StyleSheet.create({
     textAlignVertical: 'top',
     height: hp(20),
   },
+  line: {
+    marginVertical: hp(1),
+    backgroundColor: COLORS.grayLight,
+    height: hp(0.1),
+    width: '100%',
+  },
 });

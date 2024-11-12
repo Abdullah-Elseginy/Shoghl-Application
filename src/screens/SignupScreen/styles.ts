@@ -73,4 +73,7 @@ export const styles = StyleSheet.create({
   Bottom: {
     marginTop: hp(5),
   },
+  btn2: {
+    marginTop: hp(5),
+  },
 });
