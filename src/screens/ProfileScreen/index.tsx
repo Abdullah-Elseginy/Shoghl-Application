@@ -60,6 +60,7 @@ import Toast from 'react-native-toast-message';
 import {
   editCandidateProfileHeader,
   EditmyProfileOverview,
+  getAllCountries,
 } from '../../redux/slices/appdataSlice';
 import LinearGradient from 'react-native-linear-gradient';
 const memoizedjobs = [
@@ -93,7 +94,6 @@ const ProfileScreen = () => {
   // const [isMotorCycle, setIsMotorCycle] = React.useState(false);
   const {allCountries, allCities} = useSelector((state: any) => state.appdata);
   const {loading, userProfileData} = useSelector((state: any) => state.auth);
-  console.log('allCountries----' + JSON.stringify(allCountries));
   const [editaboutme, seteditaboutme] = React.useState(false);
   const [editHeader, seteditHeader] = React.useState(false);
   const [editProgileOverview, setProgileOverview] = React.useState(false);
@@ -164,6 +164,7 @@ const ProfileScreen = () => {
   };
   React.useEffect(() => {
     dispatch(getMyProfile());
+    dispatch(getAllCountries());
   }, [dispatch]);
 
   const LogOut = () => {
