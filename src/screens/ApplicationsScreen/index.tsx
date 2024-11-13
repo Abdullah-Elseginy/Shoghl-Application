@@ -162,9 +162,7 @@ const Applications = ({navigation}: any) => {
   return (
     <AppScreenContainer style={styles.maincontainer}>
       {/* <AppHeader arrowBack title="Applications" /> */}
-      {lodingApply && (
-        <Apploader visible={lodingApply} message="loading..." />
-      )}
+      {lodingApply && <Apploader visible={lodingApply} message="loading..." />}
       <View style={styles.container}>
         <View style={styles.MAinheader}>
           <Pressable
@@ -176,7 +174,7 @@ const Applications = ({navigation}: any) => {
             }>
             <CustomText
               text="Application"
-              text2="(50)"
+              text2={`(${appliedJobs?.length})`}
               textStyle={styles.appication}
             />
           </Pressable>

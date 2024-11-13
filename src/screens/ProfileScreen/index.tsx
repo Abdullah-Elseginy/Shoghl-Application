@@ -107,6 +107,9 @@ const ProfileScreen = () => {
   const [LastName, setLastName] = React.useState(
     userProfileData?.data?.last_name,
   );
+  const [year, setyear] = React.useState('');
+  const [month, setmonth] = React.useState('');
+  const [day, setday] = React.useState('');
   const {loadingappdata} = useSelector((state: any) => state.appdata);
   const navigation = useNavigation();
   const dispatch = useDispatch<AppDispatch>();
@@ -226,6 +229,9 @@ const ProfileScreen = () => {
     lname: '',
     country: '',
     city: '',
+    day: '',
+    month: '',
+    year: '',
   });
 
   const validateForm = () => {
@@ -252,6 +258,46 @@ const ProfileScreen = () => {
         type: 'error',
         text1: 'Error',
         text2: 'First Name is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (!LastName) {
+      errors.lname = ' enter Last Name';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'Last Name is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (!day) {
+      errors.day = ' day required';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'day is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (!month) {
+      errors.month = ' month required';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'month is required',
+        position: 'top',
+        visibilityTime: 2000,
+      });
+    }
+    if (!year) {
+      errors.month = 'year required';
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: 'year is required',
         position: 'top',
         visibilityTime: 2000,
       });
@@ -323,9 +369,9 @@ const ProfileScreen = () => {
       nickname: selctedjobs + 'hol',
       country: selctedcountry,
       city: selctedcity,
-      birth_year: 2000,
-      birth_month: 5,
-      birth_day: 6,
+      birth_year: year,
+      birth_month: month,
+      birth_day: day,
       avatar: '',
     };
     if (validateFormheader()) {
@@ -516,32 +562,51 @@ const ProfileScreen = () => {
                   )}
                 </View>
               </View>
-              <View style={generalStyles.rowBetween}>
-                <Calender
-                  width={hp(2.2)}
-                  height={hp(2.2)}
-                  style={styles.btnIcon}
-                />
-                <CustomText
-                  text={`${
-                    currentYear - userProfileData?.data?.birth_year
-                  } years ago`}
-                  textStyle={styles.age}
-                />
-              </View>
-              {/* <Button
-                text="send message"
-                buttonTextStyle={styles.btnTxt}
-                onPress={() => null}
-                leftIcon={
-                  <Message
-                    width={hp(2)}
-                    height={hp(2)}
+              {!editHeader ? (
+                <View style={[generalStyles.row, styles.agebox]}>
+                  <Calender
+                    width={hp(2.2)}
+                    height={hp(2.2)}
                     style={styles.btnIcon}
                   />
-                }
-                style={styles.messageBtn}
-              /> */}
+                  <CustomText
+                    text={`${
+                      currentYear - userProfileData?.data?.birth_year
+                    } years ago`}
+                    textStyle={styles.age}
+                  />
+                </View>
+              ) : (
+                <View style={styles.boxyear}>
+                  <View>
+                    <AppInput
+                      containerStyle={styles.inputsAge}
+                      inputstyle={styles.inpStyle}
+                      placeholder="day"
+                      value={day}
+                      onChangeText={val => setday(val)}
+                    />
+                  </View>
+                  <View>
+                    <AppInput
+                      containerStyle={styles.inputsAge}
+                      inputstyle={styles.inpStyle}
+                      placeholder="month"
+                      value={month}
+                      onChangeText={val => setmonth(val)}
+                    />
+                  </View>
+                  <View>
+                    <AppInput
+                      containerStyle={styles.inputsAge}
+                      inputstyle={styles.inpStyle}
+                      placeholder="year"
+                      value={year}
+                      onChangeText={val => setyear(val)}
+                    />
+                  </View>
+                </View>
+              )}
               <View style={generalStyles.line} />
             </View>
             <View style={[generalStyles.rowBetween, styles.titleBox]}>

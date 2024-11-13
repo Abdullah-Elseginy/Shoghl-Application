@@ -420,7 +420,7 @@ const appdataSlice = createSlice({
       .addCase(companyEmployeesRange.fulfilled, (state, action) => {
         state.loadingappdata = false;
         state.companyEmployeesRangedata =
-          action.payload.data?.company_employees_range;
+          action.payload.data;
         state.error = null;
       })
       .addCase(companyEmployeesRange.rejected, (state, action) => {

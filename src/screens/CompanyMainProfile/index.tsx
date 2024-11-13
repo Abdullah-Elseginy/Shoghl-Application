@@ -176,15 +176,15 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const [ShowSearch2, setShowSearch2] = useState(false);
 
   const [companyLocation, setLocation] = useState(
-    companyDataProfile?.country?.code || '',
+    companyDataProfile?.country?.id || '',
   );
   const [companyRange, setCompanyRange] = useState('');
 
   const [InpusValues, SetInpusValues] = useState<any>({
-    Founded: '1999',
-    'Company Size': '50-100 employeee',
-    Specialties: 'Technology, Innovation',
-    Industry: 'Software Development',
+    Founded: '',
+    'Company Size': '',
+    Specialties: '',
+    Industry: '',
   });
 
   const [IndusteryCode, SetIndusteryCode] = useState('');
@@ -345,10 +345,8 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   );
 
   useEffect(() => {
-    if (!allCountries2 && !companyEmployeesRangedata) {
-      dispatch(getAllCountries());
-      dispatch(companyEmployeesRange());
-    }
+    dispatch(getAllCountries());
+    dispatch(companyEmployeesRange());
   }, []);
 
   const memoLocation = useMemo(() => allCountries2 || [], [allCountries2]);
@@ -362,7 +360,8 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
     <AppScreenContainer>
       <ScrollView>
         {/* Profile Cover and photo */}
-        {loadingappdata && <Apploader />}
+        {/* AppLoader------ */}
+        <Apploader visible={lodingApply || loadingappdata} />
         <View>
           <View style={styles.CoverBackgroud}>
             <View style={styles.ProfilePhotoBox}>
@@ -461,7 +460,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     textStyle={styles.labelinput}
                   />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
-                    <CustomText text={InpusValues['Company Size']} />
+                    <CustomText text={companyRange + ''} />
                   </View>
                 </View>
               ) : (

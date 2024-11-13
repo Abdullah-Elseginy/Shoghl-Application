@@ -7,12 +7,12 @@ export const styles = StyleSheet.create({
     paddingTop: hp(1),
   },
   userInfoBox: {
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   username: {
     marginTop: hp(2),
-    fontSize: hp(2.5),
-    fontFamily: FONTS.Medium,
+    fontSize: hp(2.6),
+    fontFamily: FONTS.Bold,
     textTransform: 'capitalize',
     textAlign: 'center',
   },
@@ -294,5 +294,18 @@ export const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
+  },
+  agebox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  inputsAge: {
+    width: wp(28),
+    height: hp(4.5),
+  },
+  boxyear: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

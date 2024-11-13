@@ -63,8 +63,8 @@ const JobPost = ({navigation, route}: any) => {
 
     // Filter mainData and get the codes for matching job_types
     let codes = mainData
-      .filter((item: any) => job_types?.includes(item.name_en))
-      .map((item: any) => item.code);
+      ?.filter((item: any) => job_types?.includes(item.name_en))
+      ?.map((item: any) => item.code);
 
     return codes;
   };
@@ -80,6 +80,7 @@ const JobPost = ({navigation, route}: any) => {
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
     returnCode(jobData?.job_types?.en, PostjobHelpers?.job_types) || [],
   );
+  console.log('jobData?.job_types?.en==' + jobData?.job_types?.en);
   const [selectedId4, setSelectedId4] = useState<string | null>(
     returnCode([jobData?.career_level?.en], PostjobHelpers?.career_level) +
       '' || null,
@@ -91,8 +92,10 @@ const JobPost = ({navigation, route}: any) => {
   const [Checked, setChecked] = useState<boolean>(
     jobData?.salary_hide || false,
   );
-  const [exp_From, setExpFrom] = useState(jobData?.experience_from + '' || '');
-  const [exp_To, setExpTo] = useState(jobData?.experience_to + '' || '');
+  const [exp_From, setExpFrom] = useState(
+    jobData?.experience_from.to.toString() || '',
+  );
+  const [exp_To, setExpTo] = useState(jobData?.experience_to.toString() || '');
   const [salary_From, setSalaryFrom] = useState(
     jobData?.salary_from.toString() || '',
   );
@@ -129,8 +132,8 @@ const JobPost = ({navigation, route}: any) => {
   // console.log('salary per---: ' + selectedSalaryCurrency);
 
   const deleteItemByIndex = (indexToDelete: number) => {
-    setKeyWpordsArray(prevLanguages =>
-      prevLanguages.filter((_, index) => index !== indexToDelete),
+    setKeyWpordsArray((prevLanguages: any) =>
+      prevLanguages?.filter((_, index) => index !== indexToDelete),
     );
   };
   const addedLanguge = () => {
@@ -257,13 +260,13 @@ const JobPost = ({navigation, route}: any) => {
 
   // Function to handle selection in the first FlatList
   const toggleSelection = (code: any) => {
-    setSelectedJobOption(prevCode => (prevCode === code ? null : code));
+    setSelectedJobOption((prevCode: any) => (prevCode === code ? null : code));
     setSelectedSubOption(null); // Reset sub-selection when main selection changes
   };
 
   // Function to handle selection in the second FlatList
   const toggleSubSelection = (code: any) => {
-    setSelectedSubOption(prevCode => (prevCode === code ? null : code));
+    setSelectedSubOption((prevCode: any) => (prevCode === code ? null : code));
   };
   //--------------------------------Validation----------------
   const formData = {
@@ -272,7 +275,7 @@ const JobPost = ({navigation, route}: any) => {
     title: Title,
     category: Number(Category),
     job_types: selectedJobTypes,
-    contract_type: selectedIds,
+    contract_type: selectedIds?.toString(),
     country: selectedCountry,
     salary_currency: selectedSalaryCurrency,
     salary_per: selectedSalaryPer,
@@ -480,13 +483,22 @@ const JobPost = ({navigation, route}: any) => {
     if (!Currency) {
       getCurrency();
     }
-    if (!PostCategoryes) {
+    if (PostCategoryes?.length <= 0) {
       dispatch(PostJobCategories());
     }
   }, []);
 
   // ----memos
   const CurrencyMemo = React.useMemo(() => Currency || [], [Currency]);
+  const allCitiesMemo = React.useMemo(() => allCities || [], [allCities]);
+  const salaryPerMemeo = React.useMemo(
+    () => PostjobHelpers?.salary_per || [],
+    [PostjobHelpers?.salary_per],
+  );
+  const allCountriesMemo = React.useMemo(
+    () => allCountries || [],
+    [allCountries],
+  );
   const CategoryMemo = React.useMemo(
     () => PostCategoryes || [],
     [PostCategoryes],
@@ -613,7 +625,7 @@ const JobPost = ({navigation, route}: any) => {
               value={selectedCountry}
               setValue={setSelectedCountry}
               dropDownStyle={generalStyles.DropBorder}
-              list={allCountries}
+              list={allCountriesMemo}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }}
@@ -638,7 +650,7 @@ const JobPost = ({navigation, route}: any) => {
               value={selectedCity}
               setValue={setSelectedCity}
               dropDownStyle={generalStyles.DropBorder}
-              list={allCities}
+              list={allCitiesMemo}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
               }}
@@ -771,7 +783,7 @@ const JobPost = ({navigation, route}: any) => {
                   value={selectedSalaryPer}
                   setValue={SetSelectedSalaryPer}
                   dropDownStyle={styles.drop}
-                  list={PostjobHelpers?.salary_per}
+                  list={salaryPerMemeo}
                   containerStyle={{
                     zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
                     width: wp(40),

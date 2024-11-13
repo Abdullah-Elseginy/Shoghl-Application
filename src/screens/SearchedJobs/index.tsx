@@ -21,7 +21,7 @@ import {
   NotFound,
   UpperArrow2,
 } from '../../assets';
-import {generalStyles, hp, wp} from '../../constants';
+import {COLORS, generalStyles, hp, wp} from '../../constants';
 import {ParamListBase} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {QUETIONS} from '../../utils/Data';
@@ -354,7 +354,8 @@ const SearchedJobs = ({navigation}: Props) => {
               </View>
               <Button
                 text="done"
-                loading={loadinJobs}
+                isDisapled={loadinJobs}
+                disabledBGColor={COLORS.grayLight}
                 onPress={() => FilterJobs()}
                 style={styles.btn}
               />
