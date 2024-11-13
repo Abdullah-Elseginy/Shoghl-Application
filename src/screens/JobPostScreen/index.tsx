@@ -93,7 +93,7 @@ const JobPost = ({navigation, route}: any) => {
     jobData?.salary_hide || false,
   );
   const [exp_From, setExpFrom] = useState(
-    jobData?.experience_from.to.toString() || '',
+    jobData?.experience_from.toString() || '',
   );
   const [exp_To, setExpTo] = useState(jobData?.experience_to.toString() || '');
   const [salary_From, setSalaryFrom] = useState(
