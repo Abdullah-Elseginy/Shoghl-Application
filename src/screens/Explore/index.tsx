@@ -1,3 +1,4 @@
+/* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useCallback, useEffect, useState} from 'react';
 import {
@@ -7,6 +8,7 @@ import {
   ScrollView,
   Image,
   Pressable,
+  ActivityIndicator,
 } from 'react-native';
 import {
   Apploader,
@@ -17,7 +19,7 @@ import {
 } from '../../components';
 import {styles} from './styles';
 import {Add, Cash, Crown, Filte, Location, NotFound} from '../../assets';
-import {generalStyles, hp, wp} from '../../constants';
+import {COLORS, generalStyles, hp, wp} from '../../constants';
 import {ParamListBase, useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {JOBS, QUETIONS} from '../../utils/Data';
@@ -32,6 +34,22 @@ type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
   item: any;
 };
+const jobTypeColors = {
+  Internship: '#e1d123',
+  'Full Time': '#186fc9',
+  Freelance: '#53b427',
+  'Part Time': '#f1630d',
+};
+
+// Function to get border color based on job types
+const getBorderColor = (types: any) => {
+  if (types?.includes('Internship')) return jobTypeColors['Internship'];
+  if (types?.includes('Full Time')) return jobTypeColors['Full Time'];
+  if (types?.includes('Freelance')) return jobTypeColors['Freelance'];
+  if (types?.includes('Part Time')) return jobTypeColors['Part Time'];
+  if (types?.includes('Student activity')) return jobTypeColors['Part Time'];
+  return '#f1630d'; // Default color if no types match
+};
 const Job = ({item, navigation}: Props) => {
   return (
     <Pressable
@@ -40,12 +58,19 @@ const Job = ({item, navigation}: Props) => {
           jobCode: item?.code,
         })
       }
-      style={[styles.jobBox, {backgroundColor: item.color}]}>
+      style={[
+        styles.jobBox,
+        {borderColor: getBorderColor(item?.job_types?.en)},
+      ]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
           <View>
             <Image
-              source={{uri: item?.company?.company_logo}}
+              source={{
+                uri:
+                  item?.company?.company_logo ||
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+              }}
               style={styles.im}
               resizeMode="cover"
             />
@@ -131,7 +156,7 @@ const Quetions = ({item}: any) => {
   );
 };
 const Explore = ({navigation}: Props) => {
-  const {allJobs, helpersJobs, loadinJobs, companyPostedJobs} = useSelector(
+  const {allJobs, helpersJobs, loadinJobs} = useSelector(
     (state: any) => state.jobs,
   );
   const {allCities} = useSelector((state: any) => state.appdata);
@@ -139,9 +164,20 @@ const Explore = ({navigation}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [filterdcount, setfilterdcount] = useState(0);
   const [openSheet, SetOpenSheet] = useState(false);
-  console.log(
-    'helperFilterrrrrr--------------------------------' + helpersJobs,
-  );
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const loadMoreJobs = () => {
+    // Dispatch the SearchJobs thunk with the next page number and any filters
+    dispatch(
+      SearchJobs({
+        ...myfilterData, // Any filters like contract_type, city, etc.
+        page: currentPage + 1,
+      }),
+    );
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
   const Optionsdata = [
     {
       id: '1',
@@ -165,8 +201,6 @@ const Explore = ({navigation}: Props) => {
   // ---------------------------filter-----------------------
   const [myfilterData, setMyfilterData] = useState({});
 
-  console.log('MyFliterDAtaa-----', myfilterData);
-
   const handleSelectionChange = (
     category: string,
     selectedOptions: string[],
@@ -180,7 +214,9 @@ const Explore = ({navigation}: Props) => {
   // -----------------------------------API-----------------------------
   const FilterJobs = () => {
     const paramsdata = {
-      ...myfilterData,
+      filterdata: {
+        ...myfilterData,
+      },
     };
     console.log('paramsdata======', paramsdata);
     dispatch(SearchJobs(paramsdata))
@@ -206,7 +242,6 @@ const Explore = ({navigation}: Props) => {
       dispatch(SearchJobs());
     }, []),
   );
-
   return (
     <AppScreenContainer>
       {/* <AppHeader arrowBack={true} title="Search jobs" /> */}
@@ -279,6 +314,13 @@ const Explore = ({navigation}: Props) => {
               renderItem={({item}) => (
                 <Job navigation={navigation} item={item} />
               )}
+              onEndReached={loadMoreJobs} // Load more jobs when reaching the end
+              onEndReachedThreshold={0.8}
+              ListFooterComponent={
+                loadinJobs ? (
+                  <ActivityIndicator size="large" color="#0000ff" />
+                ) : null
+              }
             />
           </View>
         )}

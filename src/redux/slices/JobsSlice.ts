@@ -88,6 +88,7 @@ export const SearchJobs = createAsyncThunk(
   'auth/SearchJobs',
   async (data, {rejectWithValue}) => {
     try {
+      // Add page to the query string
       const res = await Axios({
         method: 'GET',
         path: APIS.SearchJobs,
@@ -98,7 +99,9 @@ export const SearchJobs = createAsyncThunk(
               data.city || [],
             )}&career_level=${JSON.stringify(
               data.career_level || [],
-            )}&category=${data.category || []}&title=${data.title || ''}`
+            )}&category=${data.category || []}&title=${data.title || ''}&page=${
+              data.page || 1
+            }` // Add page parameter
           : '',
       });
       console.log('Search---Jobs----', res?.data);
@@ -489,7 +492,14 @@ const JobsSlice = createSlice({
       })
       .addCase(SearchJobs.fulfilled, (state, action) => {
         state.loadinJobs = false;
-        state.allJobs = action.payload?.data?.data;
+
+        // If it's the first page, replace the data; otherwise, append the new jobs
+        if (action.meta.arg.page === 1) {
+          state.allJobs = action.payload?.data?.data;
+        } else {
+          state.allJobs = [...state.allJobs, ...action.payload?.data?.data];
+        }
+
         console.log('All Jobssss-------' + action.payload.data);
         state.error = null;
       })
