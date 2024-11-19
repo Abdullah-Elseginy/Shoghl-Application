@@ -60,8 +60,9 @@ import Toast from 'react-native-toast-message';
 import {
   editCandidateProfileHeader,
   EditmyProfileOverview,
-  getAllCountries,
 } from '../../redux/slices/appdataSlice';
+
+import {getAllCountries} from '../../redux/slices/helpersSlice';
 import LinearGradient from 'react-native-linear-gradient';
 const memoizedjobs = [
   {

@@ -326,16 +326,7 @@ const Country = [
     id: '1',
   },
 ];
-const GenderList = [
-  {
-    label: 'male',
-    id: 'm',
-  },
-  {
-    label: 'Female',
-    id: 'f',
-  },
-];
+
 const Optionsdata = [
   {
     id: '1',
@@ -1071,6 +1062,24 @@ const JOBS3 = [
     price: '$30,000.00 - $35,000.00',
   },
 ];
+const yearOptions = [
+  {
+    code: 1,
+    default_name: '2000',
+  },
+  {
+    code: 2,
+    default_name: '2001',
+  },
+  {
+    code: 3,
+    default_name: '2002',
+  },
+  {
+    code: 4,
+    default_name: '2023',
+  },
+];
 export {
   JOBS,
   QUETIONS,
@@ -1083,7 +1092,6 @@ export {
   Nationality,
   Country,
   City,
-  GenderList,
   FlatData,
   data,
   BROWESLOCATION,
@@ -1105,5 +1113,6 @@ export {
   YearsExList,
   JOBS3,
   currency,
-  Optionsdata
+  Optionsdata,
+  yearOptions,
 };

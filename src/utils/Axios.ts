@@ -22,7 +22,7 @@ export type APIsTypes = {
   logoutCompany: string;
   signUpTwoSendOTP: string;
   signUpThreeVrifyOTP: string;
-  get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per: string;
+  getCareerLevel: string;
   GetChoicesstep3: string;
   resendOTP: string;
   SignUpTwocandidate: string;
@@ -54,13 +54,37 @@ export type APIsTypes = {
   getIndusterialSearch: string;
   getSpecialtiesSearch: string;
   editCandidateProfileHeader: string;
+  getSalaryPer: string;
+  getJobTypes: string;
+  getWorkSpaceSettings: string;
+  getGender: string;
+  getYearsEx: string;
+  getEducationalLvel: string;
+  getFeildOfStudy: string;
+  getUniveristies: string;
+  getGrades: string;
+  getLanguage: string;
+  getLanguageLevel: string;
+  getSkills: string;
 };
 
 export const APIS: APIsTypes = {
   // =================== Helpers =================== //
-  allCountries: '/API/Helpers/Countries/All',
-  allCities: '/API/Helpers/Cities/',
-  GetSalaryCurrency: '/API/Helpers/Currency/All',
+  allCountries: '/API/Helpers/Locations/Countries?per_call=15',
+  allCities: '/API/Helpers/Locations/',
+  GetSalaryCurrency: '/API/Helpers/Locations/Currencies',
+  getSalaryPer: '/API/Helpers/Companies/Minimum-Net-Salary-Per',
+  getJobTypes: '/API/Helpers/Companies/Job-Types',
+  getWorkSpaceSettings: '/API/Helpers/Companies/Workspace-Setting',
+  getGender: '/API/Helpers/Companies/Genders',
+  getYearsEx: '/API/Helpers/Companies/Experience-Years',
+  getEducationalLvel: '/API/Helpers/Companies/Educational-Levels',
+  getFeildOfStudy: '/API/Helpers/Companies/Fields-Of-Study',
+  getUniveristies: '/API/Helpers/Companies/Universities',
+  getGrades: '/API/Helpers/Companies/Grades',
+  getLanguage: '/API/Helpers/Companies/Languages',
+  getLanguageLevel: '/API/Helpers/Companies/Languages-Levels',
+  getSkills: '/API/Helpers/Companies/Skills',
   // =================== auth Candidate =================== //
   signUpOneCandidat: '/API/LOW/Auth/Registration/One',
   signUpTwoSendOTP: '/API/LOW/Auth/Registration/Two',
@@ -92,8 +116,7 @@ export const APIS: APIsTypes = {
   getIndusterialSearch: '/API/COM/My/Industries-Search',
   getSpecialtiesSearch: '/API/COM/My/Specialties-Search',
   // ===================choices=================//
-  get_careeer_level_job_types_workspace_setting_minnuim_net_salary_per:
-    '/API/COM/Auth/Registration/Career-Interests-Helpers',
+  getCareerLevel: '/API/Helpers/Companies/Career-Levels',
   GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
   // =================jobs slice=====================//
   // ----------------Post jobs-------------------

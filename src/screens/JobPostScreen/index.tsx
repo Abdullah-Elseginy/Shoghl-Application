@@ -21,7 +21,7 @@ import {
   getAllCities,
   getAllCountries,
   GetSalaryCurrency,
-} from '../../redux/slices/appdataSlice';
+} from '../../redux/slices/helpersSlice';
 
 import Toast from 'react-native-toast-message';
 import {
@@ -39,7 +39,7 @@ const JobPost = ({navigation, route}: any) => {
   const dispatch = useDispatch<AppDispatch>();
   const {user} = useSelector((state: any) => state.auth);
   const {allCountries, allCities, Currency} = useSelector(
-    (state: any) => state.appdata,
+    (state: any) => state.helpers,
   );
   const {PostjobHelpers, loadinJobs, PostCategoryes, lodingApply} = useSelector(
     (state: any) => state.jobs,
@@ -395,7 +395,7 @@ const JobPost = ({navigation, route}: any) => {
 
   useEffect(() => {
     PostJobhelpers();
-    dispatch(getAllCities(187));
+    dispatch(getAllCities(14));
     dispatch(getAllCountries());
   }, []);
 
@@ -772,8 +772,8 @@ const JobPost = ({navigation, route}: any) => {
                     handleDropdownOpen(isOpen ? 'dropdown12' : null)
                   }
                   schema={{
-                    label: 'currency',
-                    value: 'id',
+                    label: 'default_name',
+                    value: 'code',
                   }}
                 />
               </View>

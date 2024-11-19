@@ -41,12 +41,12 @@ import {deleteJob, getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
 import {
   companyEmployeesRange,
   editCompanyProfile,
-  getAllCountries,
   getCompanyProfile,
   getIndusterialSearch,
   getSpecialtiesSearch,
 } from '../../redux/slices/appdataSlice';
-import {data} from '../../utils/Data';
+import {getAllCountries} from '../../redux/slices/helpersSlice';
+
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
 };
@@ -158,12 +158,12 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const {
     loadingappdata,
     CompanyDataProfile,
-    allCountries2,
     loadingSaveEdit,
     companyEmployeesRangedata,
     Specialties,
     industerial,
   } = useSelector((state: any) => state.appdata);
+  const {allCountries2} = useSelector((state: any) => state.helpers);
   const {companyPostedJobs, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );

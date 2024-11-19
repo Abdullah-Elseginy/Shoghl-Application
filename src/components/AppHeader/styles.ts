@@ -1,12 +1,11 @@
-import { StyleSheet } from 'react-native';
-import { COLORS, FONTS, hp, wp } from '../../constants';
-
+import {StyleSheet} from 'react-native';
+import {COLORS, FONTS, hp, wp} from '../../constants';
 
 export const styles = StyleSheet.create({
   arrowBack: {
     justifyContent: 'center',
     padding: wp(1.5),
-    borderRadius: wp(1.5)
+    borderRadius: wp(1.5),
   },
   headerContainer: {
     paddingVertical: hp(2),

@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {AppInput, Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
-import {Nationality, GenderList} from '../../../utils/Data';
+import {Nationality} from '../../../utils/Data';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpThreeCorporate} from '../../../redux/slices/authSlice';
@@ -13,9 +13,12 @@ import {AppDispatch} from '../../../redux/store';
 import {
   getAllCities,
   getAllCountries,
-} from '../../../redux/slices/appdataSlice';
+  getGender,
+} from '../../../redux/slices/helpersSlice';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
-  const {allCities, allCountries} = useSelector((state: any) => state.appdata);
+  const {allCities, allCountries, genderList, allCountries2} = useSelector(
+    (state: any) => state.helpers,
+  );
 
   // DropDwens
   const dispatch = useDispatch<AppDispatch>();
@@ -57,7 +60,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   });
 
   const DropDwenValues = {
-    gendar: selectedGender,
+    gender: selectedGender,
     nationality: Number(selectedNationality),
     country: selectedCountry,
     city: selectedCity,
@@ -80,7 +83,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     if (!formData.birth_day) {
       errors.birth_day = 'Day Required';
     }
-    if (!DropDwenValues.gendar) {
+    if (!DropDwenValues.gender) {
       errors.gendar = 'Gender Required';
     }
     if (!DropDwenValues.nationality) {
@@ -126,13 +129,15 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   };
 
   const getCities = () => {
-    dispatch(getAllCities(187));
+    dispatch(getAllCities(14));
   };
 
   useEffect(() => {
     getCities();
     dispatch(getAllCountries());
   }, []);
+
+  console.log('Countries2---' + JSON.stringify(allCountries2));
   return (
     <>
       {/*Personal Info */}
@@ -247,7 +252,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedGender}
               setValue={setSelectedGEnder}
               dropDownStyle={generalStyles.DropBorder2}
-              list={GenderList}
+              list={genderList}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }}
@@ -255,10 +260,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
-              schema={{
-                label: 'label',
-                value: 'id',
-              }}
             />
           </View>
           <View>
@@ -271,7 +272,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedNationality}
               setValue={setSelectedNationality}
               dropDownStyle={generalStyles.DropBorder2}
-              list={Nationality}
+              list={allCountries2}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
               }}
@@ -279,10 +280,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown2' : null)
               }
-              schema={{
-                label: 'label',
-                value: 'id',
-              }}
             />
           </View>
         </View>
@@ -325,10 +322,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown3' : null)
               }
-              schema={{
-                label: 'name_en',
-                value: 'id',
-              }}
             />
           </View>
           <View>
@@ -349,10 +342,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown4' : null)
               }
-              schema={{
-                label: 'name_en',
-                value: 'id',
-              }}
             />
           </View>
         </View>

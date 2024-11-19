@@ -24,21 +24,37 @@ import {
 } from '../../redux/slices/authSlice';
 import {AppDispatch} from '../../redux/store';
 import Toast from 'react-native-toast-message';
+import {
+  getCareeerLevel,
+  getEducationalLvel,
+  getFeildOfStudy,
+  getGender,
+  getGrades,
+  getJobTypes,
+  getLanguage,
+  getLanguageLevel,
+  GetSalaryCurrency,
+  getSalaryPer,
+  getSkills,
+  getUniveristies,
+  getWorkSpaceSettings,
+  getYearsEx,
+} from '../../redux/slices/helpersSlice';
 const roleList = [
   {
-    name_en: 'manger',
+    default_name: 'manger',
     code: '1',
   },
   {
-    name_en: 'client',
+    default_name: 'client',
     code: '2',
   },
   {
-    name_en: 'kol',
+    default_name: 'kol',
     code: '3',
   },
   {
-    name_en: 'giant',
+    default_name: 'giant',
     code: '4',
   },
 ];
@@ -203,6 +219,22 @@ const SignupScreen = ({navigation}: Props) => {
       });
   };
 
+  React.useEffect(() => {
+    dispatch(getCareeerLevel());
+    dispatch(getSalaryPer());
+    dispatch(getJobTypes());
+    dispatch(getWorkSpaceSettings());
+    dispatch(GetSalaryCurrency());
+    dispatch(getGender());
+    dispatch(getEducationalLvel());
+    dispatch(getYearsEx());
+    dispatch(getFeildOfStudy());
+    dispatch(getUniveristies());
+    dispatch(getGrades());
+    dispatch(getLanguage());
+    dispatch(getLanguageLevel());
+    dispatch(getSkills());
+  }, [dispatch]);
   return (
     <AppScreenContainer style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>

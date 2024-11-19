@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, Pressable, View} from 'react-native';
 import {
   AppInput,
@@ -12,30 +12,26 @@ import {
 } from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from '../styles';
-import {currency} from '../../../utils/Data';
 import Toast from 'react-native-toast-message';
 import {signUpTwoCorporate} from '../../../redux/slices/authSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
 
 const Step1 = ({setCurrentPosition, currentPosition}: any) => {
-  // const [JopTypes4, SetJopTypes4] = useState([
-  //   {id: '1', title: 'on site'},
-  //   {id: '2', title: 'remotly'},
-  //   {id: '3', title: 'hybrid'},
-  // ]);
-  const {choicesStep1} = useSelector((state: any) => state.appdata);
+  const {careerLevel, salaryPer, jobTypes, workSpace, Currency} = useSelector(
+    (state: any) => state.helpers,
+  );
   const dispatch = useDispatch<AppDispatch>();
   const [selectedId4, setSelectedId4] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [selectedIds5, setSelectedIds5] = useState<string[]>([]);
-  // const [currentSlectedindex, setcurrentSlectedindex] = useState(-1);
-  // const [SelectedJops, SetSelectedJops] = useState([]);
-  // console.log('career_level=' + selectedId4);
-  // console.log('job_types=' + selectedIds);
-  // console.log('workspace_setting=' + selectedIds5);
   const [Checked, setChecked] = useState(false);
-  const renderItem3 = ({item}: {item: {code: string; name_en: string}}) => {
+  console.log('selectedId4---' + selectedId4);
+  const renderItem3 = ({
+    item,
+  }: {
+    item: {code: string; default_name: string};
+  }) => {
     const isSelected = selectedIds.includes(item.code); // Check if item is selected
     return (
       <Pressable
@@ -45,13 +41,17 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         ]}
         onPress={() => handlePress(item.code)}>
         <CustomText
-          text={item.name_en}
+          text={item.default_name}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
     );
   };
-  const renderItem5 = ({item}: {item: {code: string; name_en: string}}) => {
+  const renderItem5 = ({
+    item,
+  }: {
+    item: {code: string; default_name: string};
+  }) => {
     const isSelected = selectedIds5.includes(item.code);
     return (
       <Pressable
@@ -61,7 +61,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         ]}
         onPress={() => handlePress5(item.code)}>
         <CustomText
-          text={item.name_en}
+          text={item.default_name}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
@@ -87,7 +87,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   //     </Pressable>
   //   );
   // };
-  const renderItem4 = ({item}: {item: {code: string; name_en: any}}) => (
+  const renderItem4 = ({item}: {item: {code: string; default_name: any}}) => (
     <Pressable
       style={[
         styles.Careerchoise,
@@ -95,7 +95,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
       ]}
       onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.name_en}
+        text={item.default_name}
         textStyle={
           selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
@@ -139,20 +139,19 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const [MinSalary, setMinSalary] = useState('');
   const {loading} = useSelector((state: any) => state.auth);
   const formData = {
-    career_level: selectedId4,
+    career_level: selectedId4.toString(),
     job_types: selectedIds,
     workspace_setting: selectedIds5,
     // job_titles: SelectedJops,
-    minnuim_net_salary: Number(MinSalary),
-    minnuim_net_salary_per: selectedMinNetSalary,
-    minnuim_net_salary_currency: selectedCurrency,
-    minnuim_net_salary_hide: Checked ? 'yes' : 'no',
+    minimum_net_salary: Number(MinSalary),
+    minimum_net_salary_per: selectedMinNetSalary,
+    minimum_net_salary_currency: selectedCurrency,
+    minimum_net_salary_hide: Checked ? 'yes' : 'no',
   };
   const [formErrors, setFormErrors] = React.useState({
     career_level: '',
     job_types: '',
     workspace_setting: '',
-    // job_titles: '',
     minnuim_net_salary: '',
     minnuim_net_salary_per: '',
     minnuim_net_salary_currency: '',
@@ -161,7 +160,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const validateForm = () => {
     // setCurrentPosition(1);
     const errors: {[key: string]: string} = {};
-    if (!formData.career_level?.length) {
+    if (!formData.career_level) {
       errors.career_level = 'Select at least one career level';
     }
     if (!formData.job_types?.length)
@@ -171,13 +170,13 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     // if (!formData.job_titles?.length) {
     //   errors.job_titles = 'add one or more job titles';
     // }
-    if (!formData.minnuim_net_salary) {
+    if (!formData.minimum_net_salary) {
       errors.minnuim_net_salary = 'Enter Min netSalary';
     }
-    if (!formData.minnuim_net_salary_per) {
+    if (!formData.minimum_net_salary_per) {
       errors.minnuim_net_salary_per = 'Please Select a minimum per';
     }
-    if (!formData.minnuim_net_salary_currency) {
+    if (!formData.minimum_net_salary_currency) {
       errors.minnuim_net_salary_currency = 'Please Select currency';
     }
     setFormErrors(errors);
@@ -186,7 +185,9 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
   const handleSubmit = () => {
     // setCurrentPosition(1);
     // console.log('formaaaaaaaaaa' + JSON.stringify(formData));
+
     if (validateForm()) {
+      console.log('formdata--' + JSON.stringify(formData));
       dispatch(signUpTwoCorporate(formData))
         .unwrap()
         .then(() => {
@@ -204,28 +205,13 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             text1: 'Error',
             text2: err,
             position: 'top',
-            visibilityTime: 1500,
+            visibilityTime: 3000,
           });
         });
     }
   };
-  // const get_Choices = () => {
-  //   dispatch(get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer());
-  // };
-  // useEffect(() => {
-  //   const get_Choices = () => {
-  //     dispatch(
-  //       get_careeerLevel_jobTypes_workspaceSetting_MinnuimNetSalaryPer(),
-  //     );
-  //   };
 
-  //   get_Choices(); // Run only once on mount
-  // }, [dispatch]); // Dependency on dispatch only
-  // const netSalaryList = choicesStep1?.minnuim_net_salary_per;
-  const memoizedChoicesStep1 = React.useMemo(
-    () => choicesStep1?.minnuim_net_salary_per || [],
-    [choicesStep1],
-  );
+  const memoizedSalaryPer = React.useMemo(() => salaryPer || [], [salaryPer]);
 
   return (
     <View>
@@ -244,7 +230,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={choicesStep1?.career_level}
+            data={careerLevel}
             keyExtractor={item => item.code}
             renderItem={renderItem4}
             extraData={selectedId4}
@@ -271,7 +257,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={choicesStep1?.job_types}
+          data={jobTypes}
           keyExtractor={item => item.code}
           renderItem={renderItem3}
           numColumns={2}
@@ -293,7 +279,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           />
         </View>
         <FlatList
-          data={choicesStep1?.workspace_setting}
+          data={workSpace}
           keyExtractor={item => item.code}
           renderItem={renderItem5}
           numColumns={2}
@@ -348,7 +334,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             containerStyle={styles.ContanerInput}
             isNumericKeyboard
             placeholder="type your minnuim net salary"
-            value={formData.minnuim_net_salary + ''}
+            value={MinSalary}
             onChangeText={val => setMinSalary(val)}
           />
           {formErrors.minnuim_net_salary && (
@@ -363,7 +349,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               value={selectedMinNetSalary}
               setValue={setSelectedMinNetSalary}
               dropDownStyle={generalStyles.DropBorder}
-              list={memoizedChoicesStep1}
+              list={memoizedSalaryPer}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }} // Manage zIndex
@@ -384,7 +370,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             placeholder="Select The currency"
             value={selectedCurrency}
             setValue={setSelectedCurrency}
-            list={currency}
+            list={Currency}
             dropDownStyle={generalStyles.DropBorder}
             containerStyle={[
               {zIndex: openDropdown === 'dropdown2' ? 10000 : 1},
@@ -393,10 +379,6 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown2' : null)
             } // Pass the current state
-            schema={{
-              label: 'label',
-              value: 'id',
-            }}
           />
           <View>
             {formErrors.minnuim_net_salary_currency && (

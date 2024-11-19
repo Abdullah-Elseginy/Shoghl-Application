@@ -20,7 +20,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-toast-message';
 import {AppDispatch} from '../../redux/store';
-import {getAllCities, getAllCountries} from '../../redux/slices/appdataSlice';
+import {getAllCities, getAllCountries} from '../../redux/slices/helpersSlice';
 import {signUpTwocandidate} from '../../redux/slices/authSlice';
 
 type Props = {
@@ -30,7 +30,7 @@ type Props = {
 const CompleteProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
-  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
+  const {allCountries, allCities} = useSelector((state: any) => state.helpers);
 
   const [JopTypes4, SetJopTypes4] = React.useState([
     {id: '1', title: 'Bucher'},
@@ -126,7 +126,7 @@ const CompleteProfile = ({navigation}: Props) => {
   }, []);
 
   const getCities = () => {
-    dispatch(getAllCities(187));
+    dispatch(getAllCities(14));
   };
 
   const renderItem6 = ({

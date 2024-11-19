@@ -6,7 +6,7 @@ import {styles} from './styles';
 import {COLORS, generalStyles} from '../../../constants';
 import {FlatList, Pressable, TouchableOpacity, View} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
-import {FieldList} from '../../../utils/Data';
+import {yearOptions} from '../../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../../redux/store';
 import {signUpFourCorporate} from '../../../redux/slices/authSlice';
@@ -21,7 +21,16 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const [SelectedProficiency, setselectedProficiency] = useState('');
   const [SelectedLanguage, setselectedLanguage] = useState('');
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
-  const {choicesStep3} = useSelector((state: any) => state.appdata);
+  const {
+    yearsExperience,
+    EducationalLevel,
+    feildStudy,
+    universities,
+    Grades,
+    languages,
+    languagesLevel,
+    skills,
+  } = useSelector((state: any) => state.helpers);
   // dropDwens
   const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedYearEx, setSelectedYearEx] = useState('');
@@ -39,14 +48,18 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     }
   };
   // Year Options
-  const yearsArray = choicesStep3?.degree;
+  // const yearsArray = choicesStep3?.degree;
 
-  const yearOptions = yearsArray?.map((year: any) => ({
-    label: year?.toString(),
-    value: year,
-  }));
+  // const yearOptions = yearsArray?.map((year: any) => ({
+  //   label: year?.toString(),
+  //   value: year,
+  // }));
 
-  const renderItem4 = ({item}: {item: {code: string; name_en: string}}) => (
+  const renderItem4 = ({
+    item,
+  }: {
+    item: {code: string; default_name: string};
+  }) => (
     <Pressable
       style={[
         styles.Careerchoise,
@@ -54,7 +67,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       ]}
       onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.name_en}
+        text={item.default_name}
         textStyle={
           selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
@@ -118,7 +131,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     experience_years: selectedYearEx,
     educational_level: selectedId4,
     fields_of_study: selectedFeild,
-    university: selectedUniversty + 'scsc',
+    university: selectedUniversty,
     degree: selectedDegree,
     grade: selectedGrade,
     user_languages: [SelectedLanguage],
@@ -145,7 +158,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     if (!formData.experience_years) {
       errors.year_ex = 'Year Experience Required';
     }
-    if (!formData.educational_level?.length)
+    if (!formData.educational_level)
       errors.educational_Level = 'Educational Level Required';
     if (formData.fields_of_study.length === 0)
       errors.feiled_study = 'Feiled Study Required';
@@ -193,11 +206,24 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       formToSend.append('experience_years', selectedYearEx);
       formToSend.append('educational_level', selectedId4);
       formToSend.append('fields_of_study[]', selectedFeild);
-      formToSend.append('university', selectedUniversty + 'scsc');
+      formToSend.append('university', selectedUniversty);
       formToSend.append('degree', selectedDegree);
       formToSend.append('grade', selectedGrade);
       formToSend.append('user_languages[]', SelectedLanguage);
       formToSend.append('skills[]', selectedSkills);
+
+      // formToSend.append('experience_years', 2);
+      // formToSend.append('educational_level', 1);
+      // formToSend.append('fields_of_study[]', ['1', '2']);
+      // formToSend.append('university', 2);
+      // formToSend.append('degree', 2023);
+      // formToSend.append('grade', 1);
+      // formToSend.append('user_languages[]', [
+      //   {lang: '1', level: '3'},
+      //   {lang: '2', level: '1'},
+      //   {lang: '3', level: '2'},
+      // ]);
+      // formToSend.append('skills[]', ['1', '2']);
       dispatch(signUpFourCorporate(formToSend))
         .unwrap()
         .then(() => {
@@ -225,15 +251,15 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const transformedSelected = useMemo(
     () =>
       slectedLang.map(sel => {
-        const language = choicesStep3?.languages?.find(
+        const language = languages?.find(
           lang => lang.code === sel?.lang,
-        )?.name_en;
-        const level = choicesStep3?.languages_level?.find(
+        )?.default_name;
+        const level = languagesLevel?.find(
           level => level.code === sel.level,
-        )?.name_en;
+        )?.default_name;
         return {lang: language, level: level};
       }),
-    [slectedLang, choicesStep3],
+    [slectedLang, languages, languagesLevel],
   );
 
   // console.log('choiceeeesssss-----' + JSON.stringify(choicesStep3));
@@ -253,7 +279,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={selectedYearEx}
             setValue={setSelectedYearEx}
             dropDownStyle={generalStyles.DropBorder}
-            list={choicesStep3?.experience_years}
+            list={yearsExperience}
             containerStyle={{
               zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
             }}
@@ -283,7 +309,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
         </View>
         <View style={styles.CareerLevel}>
           <FlatList
-            data={choicesStep3?.educational_level}
+            data={EducationalLevel}
             keyExtractor={item => item.code}
             renderItem={renderItem4}
             numColumns={2}
@@ -313,7 +339,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={selectedFeild}
             setValue={setSelectedFeild}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={feildStudy}
             multiBle={true}
             min={0}
             max={3}
@@ -324,10 +350,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown3' : null)
             }
-            schema={{
-              label: 'label',
-              value: 'id',
-            }}
           />
         </View>
         {formErrors.feiled_study && (
@@ -348,7 +370,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={selectedUniversty}
             setValue={setSelectedUniversty}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={universities}
             containerStyle={{
               zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
             }}
@@ -356,10 +378,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown4' : null)
             }
-            schema={{
-              label: 'label',
-              value: 'id',
-            }}
           />
         </View>
         {formErrors.Universty && (
@@ -386,8 +404,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
               handleDropdownOpen(isOpen ? 'dropdown5' : null)
             }
             schema={{
-              label: 'label',
-              value: 'value',
+              label: 'default_name',
+              value: 'default_name',
             }}
           />
         </View>
@@ -409,7 +427,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={selectedGrade}
             setValue={setSelectedGrade}
             dropDownStyle={generalStyles.DropBorder}
-            list={choicesStep3?.grade}
+            list={Grades}
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
@@ -441,7 +459,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={SelectedLanguage}
             setValue={setselectedLanguage}
             dropDownStyle={generalStyles.DropBorder}
-            list={choicesStep3?.languages}
+            list={languages}
             containerStyle={{
               zIndex: openDropdown === 'dropdown7' ? 10000 : 1,
             }}
@@ -465,7 +483,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={SelectedProficiency}
             setValue={setselectedProficiency}
             dropDownStyle={generalStyles.DropBorder}
-            list={choicesStep3?.languages_level}
+            list={languagesLevel}
             containerStyle={{
               zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
             }}
@@ -473,10 +491,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown12' : null)
             }
-            schema={{
-              label: 'name_en',
-              value: 'code',
-            }}
           />
           {formErrors.profisincy && (
             <CustomText
@@ -528,7 +542,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             value={selectedSkills}
             setValue={setSelectedSkills}
             dropDownStyle={generalStyles.DropBorder}
-            list={FieldList}
+            list={skills}
             containerStyle={{
               zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
             }}
@@ -539,10 +553,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
             onDropdownOpen={isOpen =>
               handleDropdownOpen(isOpen ? 'dropdown6' : null)
             }
-            schema={{
-              label: 'label',
-              value: 'id',
-            }}
           />
         </View>
         {formErrors.skills && (

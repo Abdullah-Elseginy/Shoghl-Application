@@ -38,7 +38,7 @@ import {
 } from '../../redux/slices/JobsSlice';
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
-import {getAllCities} from '../../redux/slices/appdataSlice';
+import {getAllCities} from '../../redux/slices/helpersSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -276,7 +276,7 @@ const HomeScreen = ({navigation}: Props) => {
   };
 
   React.useEffect(() => {
-    dispatch(getAllCities(187));
+    dispatch(getAllCities(14));
   }, []);
 
   // this for Explore Screen and filter
