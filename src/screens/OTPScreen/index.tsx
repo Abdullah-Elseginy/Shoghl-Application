@@ -9,6 +9,7 @@ import ScreenNames from '../../navigations/ScreenNames';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   changeRegisterationType,
+  companyForgetPasswordStepTwoOTP,
   loginTwo,
   ResendOTP,
   signUpThreeVerifyOTP,
@@ -42,7 +43,7 @@ const OTPScreen = ({route, navigation}: Props) => {
     }
   };
 
-  const handlesumit2 = () => {
+  const candidateLogin = () => {
     const isValid = handleCandiditeInputsStep2();
     if (isValid) {
       const candidateData = {
@@ -116,6 +117,39 @@ const OTPScreen = ({route, navigation}: Props) => {
         });
     }
   };
+
+  const handleResetPassword = () => {
+    const data = {
+      mobile_number: phone,
+      code: InputVal.otp,
+    };
+    dispatch(companyForgetPasswordStepTwoOTP(data))
+      .unwrap()
+      .then(() => {
+        Toast.show({
+          text1: 'success',
+          text2: 'right OTP please enter your new password',
+          type: 'success',
+          position: 'top',
+          visibilityTime: 2000,
+          autoHide: true,
+        });
+        navigation.navigate(ScreenNames.NewPassword, {
+          phoneNumber: phone,
+        });
+      })
+      .catch((err: any) => {
+        Toast.show({
+          text1: 'Error',
+          text2: err,
+          type: 'error',
+          position: 'top',
+          visibilityTime: 3000,
+          autoHide: true,
+        });
+      });
+  };
+
   const RESENDOTP = () => {
     const ResenData = {
       border_number: borderNo,
@@ -196,13 +230,23 @@ const OTPScreen = ({route, navigation}: Props) => {
             </View>
           </>
           <Button
-            text={`${type === 'signup' ? 'Sign Up' : 'Login'}`}
+            text={`${'Continue'}`}
             loading={loading}
             style={styles.Bottom}
             onPress={() => {
-              type === 'signup'
-                ? handlesubmitSignUpCandidate()
-                : handlesumit2();
+              switch (type) {
+                case 'login':
+                  candidateLogin();
+                  break;
+                case 'Reset Password':
+                  handleResetPassword();
+                  break;
+                case 'signup':
+                  handlesubmitSignUpCandidate();
+                  break;
+                default:
+                  candidateLogin();
+              }
             }}
           />
         </View>

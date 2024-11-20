@@ -26,6 +26,15 @@ type InitailStateTypes = {
   languages: Array<any>;
   languagesLevel: Array<any>;
   skills: Array<any>;
+  postType: Array<any>;
+  jobPostTypes: Array<any>;
+  contractTypes: Array<any>;
+  postJobCareerLevel: Array<any>;
+  jobsSalaryPer: Array<any>;
+  notifyPer: Array<any>;
+  industrys: Array<any>;
+  specialties: Array<any>;
+  CompanyRangedata: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -52,6 +61,15 @@ const initialState: InitailStateTypes = {
   languages: [],
   languagesLevel: [],
   skills: [],
+  postType: [],
+  jobPostTypes: [],
+  contractTypes: [],
+  postJobCareerLevel: [],
+  jobsSalaryPer: [],
+  notifyPer: [],
+  industrys: [],
+  specialties: [],
+  CompanyRangedata: [],
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -342,6 +360,7 @@ export const getLanguageLevel = createAsyncThunk(
     }
   },
 );
+
 // ========================== get Skills ========================
 export const getSkills = createAsyncThunk(
   'auth/getSkills',
@@ -357,6 +376,179 @@ export const getSkills = createAsyncThunk(
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getSkills Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Post Type ========================
+export const getPostType = createAsyncThunk(
+  'auth/getPostType',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getPostType,
+      });
+      console.log('getPostType', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getPostType Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Post Job Types ========================
+export const getPostJobTypes = createAsyncThunk(
+  'auth/getPostJobTypes',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getPostJobTypes,
+      });
+      console.log('getPostJobTypes', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getPostJobTypes Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Contract-Types ========================
+export const getContractTypes = createAsyncThunk(
+  'auth/getContractTypes',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getContractTypes,
+      });
+      console.log('getContractTypes', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getContractTypes Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Jobs Career Levels========================
+export const getJobsCareerLevels = createAsyncThunk(
+  'auth/getJobsCareerLevels',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getJobsCareerLevels,
+      });
+      console.log('getJobsCareerLevels', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getJobsCareerLevels Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Jobs Career Levels========================
+export const getJobsSalaryPer = createAsyncThunk(
+  'auth/getJobsSalaryPer',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getJobsSalaryPer,
+      });
+      console.log('getJobsSalaryPer', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getJobsSalaryPer Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== Send-Emails-Notification-Pers========================
+export const sendEmailNotifyPer = createAsyncThunk(
+  'auth/sendEmailNotifyPer',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.sendEmailNotifyPer,
+      });
+      console.log('sendEmailNotifyPer', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('sendEmailNotifyPer Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Industyes========================
+export const getIndustrys = createAsyncThunk(
+  'auth/getIndustrys',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getIndustrys,
+        params: data,
+      });
+      console.log('getIndustrys', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getIndustrys Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Specialties========================
+export const getSpecialties = createAsyncThunk(
+  'auth/getSpecialties',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getSpecialties,
+        params: data,
+      });
+      console.log('getSpecialties', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getSpecialties Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================== get Specialties========================
+export const getCompanyRange = createAsyncThunk(
+  'auth/getCompanyRange',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getCompanyRange,
+      });
+      console.log('getCompanyRange', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getCompanyRange Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -595,6 +787,132 @@ const helpersSlice = createSlice({
         state.error = null;
       })
       .addCase(getSkills.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get Post Type  =======================
+      .addCase(getPostType.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getPostType.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.postType = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getPostType.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get Post job Types  =======================
+      .addCase(getPostJobTypes.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getPostJobTypes.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.jobPostTypes = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getPostJobTypes.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get contract types  =======================
+      .addCase(getContractTypes.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getContractTypes.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.contractTypes = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getContractTypes.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get jobs Career Levels  =======================
+      .addCase(getJobsCareerLevels.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getJobsCareerLevels.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.postJobCareerLevel = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getJobsCareerLevels.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get jobs Career Levels  =======================
+      .addCase(getJobsSalaryPer.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getJobsSalaryPer.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.jobsSalaryPer = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getJobsSalaryPer.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================send email notification per  =======================
+      .addCase(sendEmailNotifyPer.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(sendEmailNotifyPer.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.notifyPer = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(sendEmailNotifyPer.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get Industrys  =======================
+      .addCase(getIndustrys.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getIndustrys.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.industrys = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getIndustrys.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get specialties  =======================
+      .addCase(getSpecialties.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getSpecialties.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.specialties = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getSpecialties.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get company Range  =======================
+      .addCase(getCompanyRange.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getCompanyRange.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.CompanyRangedata = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getCompanyRange.rejected, (state, action) => {
         state.helpersLoading = false;
         state.error = action.payload;
       });

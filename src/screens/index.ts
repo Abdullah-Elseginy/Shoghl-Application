@@ -25,3 +25,4 @@ export {default as SignUpStepTwoCandidate} from './SignUpStepTwoCandidate';
 export {default as ForgetPassword} from './ForgetPassword';
 export {default as CVProfile} from './CVUserProfileDetails';
 export {default as CompanyMainProfile} from './CompanyMainProfile';
+export {default as NewPassword} from './NewPasswordScreen';

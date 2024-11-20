@@ -20,7 +20,13 @@ import {AppDispatch} from '../../redux/store';
 import {
   getAllCities,
   getAllCountries,
+  getContractTypes,
+  getJobsCareerLevels,
+  getJobsSalaryPer,
+  getPostJobTypes,
+  getPostType,
   GetSalaryCurrency,
+  sendEmailNotifyPer,
 } from '../../redux/slices/helpersSlice';
 
 import Toast from 'react-native-toast-message';
@@ -34,14 +40,21 @@ import ScreenNames from '../../navigations/ScreenNames';
 
 const JobPost = ({navigation, route}: any) => {
   const {jobData} = route.params || {};
-  console.log('jobPostData----------' + JSON.stringify(jobData));
-  console.log('career_level----------' + [jobData?.career_level?.en]);
   const dispatch = useDispatch<AppDispatch>();
   const {user} = useSelector((state: any) => state.auth);
-  const {allCountries, allCities, Currency} = useSelector(
-    (state: any) => state.helpers,
-  );
-  const {PostjobHelpers, loadinJobs, PostCategoryes, lodingApply} = useSelector(
+
+  const {
+    allCountries,
+    allCities,
+    Currency,
+    postType,
+    jobPostTypes,
+    contractTypes,
+    postJobCareerLevel,
+    jobsSalaryPer,
+    notifyPer,
+  } = useSelector((state: any) => state.helpers);
+  const {loadinJobs, PostCategoryes, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
   const JobOPtionData = [
@@ -72,22 +85,23 @@ const JobPost = ({navigation, route}: any) => {
   // console.log('codeeeeeeeeeeesss------' + returnCode());
 
   const [selectedId, setSelectedId] = useState<string | null>(
-    jobData?.post_type?.en === 'Job' ? '1' : '2' || null,
+    jobData?.post_type?.en === 'Job'
+      ? '1'
+      : jobData?.post_type?.en === 'Job Post'
+      ? '2'
+      : null,
   );
   const [Title, setTitle] = useState<string>(jobData?.title || '');
   const [Category, setCategory] = useState('');
   const [selectedType, setSelectedType] = useState<string>('Job');
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
-    returnCode(jobData?.job_types?.en, PostjobHelpers?.job_types) || [],
+    returnCode(jobData?.job_types?.en, jobPostTypes) || [],
   );
-  console.log('jobData?.job_types?.en==' + jobData?.job_types?.en);
   const [selectedId4, setSelectedId4] = useState<string | null>(
-    returnCode([jobData?.career_level?.en], PostjobHelpers?.career_level) +
-      '' || null,
+    returnCode([jobData?.career_level?.en], postJobCareerLevel) + '' || null,
   );
-  const [selectedIds, setSelectedIds] = useState<string>(
-    returnCode([jobData?.contract_type?.en], PostjobHelpers?.contract_type) ||
-      '',
+  const [selectedIds, setSelectedIds] = useState<string[]>(
+    returnCode([jobData?.contract_type?.en], contractTypes) || [],
   );
   const [Checked, setChecked] = useState<boolean>(
     jobData?.salary_hide || false,
@@ -124,12 +138,6 @@ const JobPost = ({navigation, route}: any) => {
   );
   const [openDropdown, setOpenDropdown] = useState(null);
   const [KeyWpordsArray, setKeyWpordsArray] = useState(jobData?.keywords || []);
-  // console.log('Job Type---: ' + selectedId);
-  // console.log('Job Typessss---: ' + selectedJobTypes);
-  // console.log('Contract types---: ' + selectedIds);
-  // console.log('Country Code---: ' + selectedCountry);
-  // console.log('City Code---: ' + selectedCity);
-  // console.log('salary per---: ' + selectedSalaryCurrency);
 
   const deleteItemByIndex = (indexToDelete: number) => {
     setKeyWpordsArray((prevLanguages: any) =>
@@ -159,7 +167,7 @@ const JobPost = ({navigation, route}: any) => {
     }
   };
 
-  const renderItem = ({item}: {item: {code: string; name_en: string}}) => (
+  const renderItem = ({item}: {item: {code: string; default_name: string}}) => (
     <Pressable
       style={[
         styles.choise,
@@ -167,10 +175,10 @@ const JobPost = ({navigation, route}: any) => {
       ]}
       onPress={() => {
         setSelectedId(item.code);
-        setSelectedType(item.name_en);
+        setSelectedType(item.default_name);
       }}>
       <CustomText
-        text={item.name_en}
+        text={item.default_name}
         textStyle={
           selectedId === item.code ? styles.textSlected : styles.textunselected
         }
@@ -178,7 +186,11 @@ const JobPost = ({navigation, route}: any) => {
     </Pressable>
   );
 
-  const renderItem2 = ({item}: {item: {code: string; name_en: string}}) => (
+  const renderItem2 = ({
+    item,
+  }: {
+    item: {code: string; default_name: string};
+  }) => (
     <Pressable
       style={[
         styles.choise1,
@@ -188,7 +200,7 @@ const JobPost = ({navigation, route}: any) => {
       ]}
       onPress={() => handleSelectedJobsType(item.code)}>
       <CustomText
-        text={item.name_en}
+        text={item.default_name}
         textStyle={
           selectedJobTypes.includes(item.code)
             ? styles.textSlected
@@ -198,24 +210,37 @@ const JobPost = ({navigation, route}: any) => {
     </Pressable>
   );
 
-  const renderItem3 = ({item}: {item: {code: string; name_en: string}}) => {
+  const renderItem3 = ({item}: {item: {code: any; default_name: string}}) => {
     const isSelected = selectedIds.includes(item.code);
+
+    const handlePress = () => {
+      setSelectedIds(prevSelectedIds =>
+        isSelected
+          ? prevSelectedIds.filter(id => id !== item.code)
+          : [...prevSelectedIds, item.code],
+      );
+    };
+
     return (
       <Pressable
         style={[
           styles.choise,
           isSelected ? styles.selected : styles.unselected,
         ]}
-        onPress={() => setSelectedIds(item.code)}>
+        onPress={handlePress}>
         <CustomText
-          text={item.name_en}
+          text={item.default_name}
           textStyle={isSelected ? styles.textSlected : styles.textunselected}
         />
       </Pressable>
     );
   };
 
-  const renderItem4 = ({item}: {item: {code: string; name_en: string}}) => (
+  const renderItem4 = ({
+    item,
+  }: {
+    item: {code: string; default_name: string};
+  }) => (
     <Pressable
       style={[
         styles.Careerchoise,
@@ -223,7 +248,7 @@ const JobPost = ({navigation, route}: any) => {
       ]}
       onPress={() => setSelectedId4(item.code)}>
       <CustomText
-        text={item.name_en}
+        text={item.default_name}
         textStyle={
           selectedId4 === item.code ? styles.textSlected : styles.textunselected
         }
@@ -397,6 +422,13 @@ const JobPost = ({navigation, route}: any) => {
     PostJobhelpers();
     dispatch(getAllCities(14));
     dispatch(getAllCountries());
+    dispatch(getPostJobTypes());
+    dispatch(getContractTypes());
+    dispatch(getJobsCareerLevels());
+    dispatch(GetSalaryCurrency());
+    dispatch(getPostType());
+    dispatch(getJobsSalaryPer());
+    dispatch(sendEmailNotifyPer());
   }, []);
 
   const PostJob = () => {
@@ -475,30 +507,21 @@ const JobPost = ({navigation, route}: any) => {
     }
   };
 
-  const getCurrency = async () => {
-    dispatch(GetSalaryCurrency());
-  };
-
   useEffect(() => {
-    if (!Currency) {
-      getCurrency();
-    }
-    if (PostCategoryes?.length <= 0) {
-      dispatch(PostJobCategories());
-    }
+    dispatch(PostJobCategories());
   }, []);
 
   // ----memos
-  const CurrencyMemo = React.useMemo(() => Currency || [], [Currency]);
-  const allCitiesMemo = React.useMemo(() => allCities || [], [allCities]);
-  const salaryPerMemeo = React.useMemo(
-    () => PostjobHelpers?.salary_per || [],
-    [PostjobHelpers?.salary_per],
-  );
-  const allCountriesMemo = React.useMemo(
-    () => allCountries || [],
-    [allCountries],
-  );
+  // const CurrencyMemo = React.useMemo(() => Currency || [], [Currency]);
+  // const allCitiesMemo = React.useMemo(() => allCities || [], [allCities]);
+  // const salaryPerMemeo = React.useMemo(
+  //   () => PostjobHelpers?.salary_per || [],
+  //   [PostjobHelpers?.salary_per],
+  // );
+  // const allCountriesMemo = React.useMemo(
+  //   () => allCountries || [],
+  //   [allCountries],
+  // );
   const CategoryMemo = React.useMemo(
     () => PostCategoryes || [],
     [PostCategoryes],
@@ -517,7 +540,7 @@ const JobPost = ({navigation, route}: any) => {
           <View>
             <CustomText text="Post Type" textStyle={styles.StepTitle} />
             <FlatList
-              data={PostjobHelpers?.post_type}
+              data={postType}
               keyExtractor={item => item.code}
               renderItem={renderItem}
               horizontal={true}
@@ -585,7 +608,7 @@ const JobPost = ({navigation, route}: any) => {
               textStyle={styles.StepTitle}
             />
             <FlatList
-              data={PostjobHelpers?.job_types}
+              data={jobPostTypes}
               keyExtractor={item => item.code}
               renderItem={renderItem2}
               numColumns={2}
@@ -604,7 +627,7 @@ const JobPost = ({navigation, route}: any) => {
               textStyle={styles.StepTitle}
             />
             <FlatList
-              data={PostjobHelpers?.contract_type}
+              data={contractTypes}
               keyExtractor={item => item.code}
               renderItem={renderItem3}
               horizontal={true}
@@ -625,7 +648,7 @@ const JobPost = ({navigation, route}: any) => {
               value={selectedCountry}
               setValue={setSelectedCountry}
               dropDownStyle={generalStyles.DropBorder}
-              list={allCountriesMemo}
+              list={allCountries}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
               }}
@@ -633,10 +656,6 @@ const JobPost = ({navigation, route}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown1' : null)
               }
-              schema={{
-                label: 'name_en',
-                value: 'id',
-              }}
             />
             {formErrors.country && (
               <CustomText
@@ -650,7 +669,7 @@ const JobPost = ({navigation, route}: any) => {
               value={selectedCity}
               setValue={setSelectedCity}
               dropDownStyle={generalStyles.DropBorder}
-              list={allCitiesMemo}
+              list={allCities}
               containerStyle={{
                 zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
               }}
@@ -658,10 +677,6 @@ const JobPost = ({navigation, route}: any) => {
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown2' : null)
               }
-              schema={{
-                label: 'name_en',
-                value: 'id',
-              }}
             />
             {formErrors.city && (
               <CustomText text={formErrors.city} textStyle={styles.ErrorMSG} />
@@ -672,7 +687,7 @@ const JobPost = ({navigation, route}: any) => {
             <CustomText text="Career Level" textStyle={styles.StepTitle} />
             <View style={styles.CareerLevel}>
               <FlatList
-                data={PostjobHelpers?.career_level}
+                data={postJobCareerLevel}
                 keyExtractor={item => item.code}
                 renderItem={renderItem4}
                 numColumns={2}
@@ -761,7 +776,7 @@ const JobPost = ({navigation, route}: any) => {
                   value={selectedSalaryCurrency}
                   setValue={SetSelectedSalaryCurrency}
                   dropDownStyle={styles.drop}
-                  list={CurrencyMemo}
+                  list={Currency}
                   containerStyle={{
                     zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
                     width: wp(40),
@@ -783,7 +798,7 @@ const JobPost = ({navigation, route}: any) => {
                   value={selectedSalaryPer}
                   setValue={SetSelectedSalaryPer}
                   dropDownStyle={styles.drop}
-                  list={salaryPerMemeo}
+                  list={jobsSalaryPer}
                   containerStyle={{
                     zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
                     width: wp(40),
@@ -960,7 +975,7 @@ const JobPost = ({navigation, route}: any) => {
               {/* Second FlatList (shown only if code '2' is selected in the first list) */}
               {selectedJobOption === '2' && (
                 <FlatList
-                  data={PostjobHelpers?.send_emails_notification_per}
+                  data={notifyPer}
                   keyExtractor={item => item.code}
                   renderItem={({item}) => (
                     <View style={[generalStyles.row, styles.SubCheckBox]}>
@@ -968,10 +983,12 @@ const JobPost = ({navigation, route}: any) => {
                         isChecked={selectedSubOption === item.code}
                         setIsChecked={() => toggleSubSelection(item.code)}
                       />
-                      <CustomText
-                        text={item.name_en}
-                        textStyle={styles.subcheckText}
-                      />
+                      <Pressable onPress={() => toggleSubSelection(item.code)}>
+                        <CustomText
+                          text={item.default_name}
+                          textStyle={styles.subcheckText}
+                        />
+                      </Pressable>
                     </View>
                   )}
                 />

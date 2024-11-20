@@ -47,7 +47,6 @@ import {
 } from '../../assets';
 import {COLORS, generalStyles, hp} from '../../constants';
 import {useDispatch, useSelector} from 'react-redux';
-import ComplateCompanyProfile from '../CompanyMainProfile';
 import {
   editAbout_charactaristic,
   getMyProfile,
@@ -62,19 +61,19 @@ import {
   EditmyProfileOverview,
 } from '../../redux/slices/appdataSlice';
 
-import {getAllCountries} from '../../redux/slices/helpersSlice';
+import {getAllCities, getAllCountries} from '../../redux/slices/helpersSlice';
 import LinearGradient from 'react-native-linear-gradient';
 const memoizedjobs = [
   {
-    name_en: 'carpernter',
+    default_name: 'carpernter',
     code: '1',
   },
   {
-    name_en: 'barber',
+    default_name: 'barber',
     code: '2',
   },
   {
-    name_en: 'patient',
+    default_name: 'patient',
     code: '3',
   },
 ];
@@ -93,7 +92,7 @@ const memoizedjobs = [
 const ProfileScreen = () => {
   // const [isLicence, setIsLicence] = React.useState(false);
   // const [isMotorCycle, setIsMotorCycle] = React.useState(false);
-  const {allCountries, allCities} = useSelector((state: any) => state.appdata);
+  const {allCountries, allCities} = useSelector((state: any) => state.helpers);
   const {loading, userProfileData} = useSelector((state: any) => state.auth);
   const [editaboutme, seteditaboutme] = React.useState(false);
   const [editHeader, seteditHeader] = React.useState(false);
@@ -163,10 +162,6 @@ const ProfileScreen = () => {
       [key]: val,
     });
   };
-  React.useEffect(() => {
-    dispatch(getMyProfile());
-    dispatch(getAllCountries());
-  }, [dispatch]);
 
   const LogOut = () => {
     dispatch(logout())
@@ -401,6 +396,20 @@ const ProfileScreen = () => {
     }
   };
 
+  React.useEffect(() => {
+    dispatch(getMyProfile());
+    dispatch(getAllCountries());
+    dispatch(getAllCities(14));
+  }, [dispatch]);
+
+  const memoAllCountries = React.useMemo(
+    () => allCountries || [],
+    [allCountries],
+  );
+  const memoAllCities = React.useMemo(() => allCities || [], [allCities]);
+
+  // console.log('countrrr' + allCountries);
+
   const currentYear = new Date().getFullYear();
   return (
     <>
@@ -513,7 +522,7 @@ const ProfileScreen = () => {
                         value={selctedcountry}
                         setValue={setselctedcountry}
                         dropDownStyle={styles.DropBorder3}
-                        list={allCountries}
+                        list={memoAllCountries}
                         containerStyle={{
                           zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
                         }}
@@ -521,10 +530,6 @@ const ProfileScreen = () => {
                         onDropdownOpen={isOpen =>
                           handleDropdownOpen(isOpen ? 'dropdown2' : null)
                         }
-                        schema={{
-                          label: 'name_en',
-                          value: 'id',
-                        }}
                       />
                     </View>
                   )}
@@ -547,7 +552,7 @@ const ProfileScreen = () => {
                         value={selctedcity}
                         setValue={setselctedcity}
                         dropDownStyle={styles.DropBorder3}
-                        list={allCities}
+                        list={memoAllCities}
                         containerStyle={{
                           zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
                         }}
@@ -555,10 +560,6 @@ const ProfileScreen = () => {
                         onDropdownOpen={isOpen =>
                           handleDropdownOpen(isOpen ? 'dropdown2' : null)
                         }
-                        schema={{
-                          label: 'name_en',
-                          value: 'id',
-                        }}
                       />
                     </View>
                   )}

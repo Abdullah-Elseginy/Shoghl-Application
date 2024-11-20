@@ -23,10 +23,8 @@ export type APIsTypes = {
   signUpTwoSendOTP: string;
   signUpThreeVrifyOTP: string;
   getCareerLevel: string;
-  GetChoicesstep3: string;
   resendOTP: string;
   SignUpTwocandidate: string;
-  PostJobHelpers: string;
   postNewJob: string;
   // ----jobs slice
   SearchJobs: string;
@@ -50,9 +48,6 @@ export type APIsTypes = {
   getCvsDetailsShowUserProfile: string;
   getCompanyProfile: string;
   editCompanyProfile: string;
-  companyEmployeesRange: string;
-  getIndusterialSearch: string;
-  getSpecialtiesSearch: string;
   editCandidateProfileHeader: string;
   getSalaryPer: string;
   getJobTypes: string;
@@ -66,6 +61,18 @@ export type APIsTypes = {
   getLanguage: string;
   getLanguageLevel: string;
   getSkills: string;
+  getPostType: string;
+  getPostJobTypes: string;
+  getContractTypes: string;
+  getJobsCareerLevels: string;
+  getJobsSalaryPer: string;
+  sendEmailNotifyPer: string;
+  getIndustrys: string;
+  getSpecialties: string;
+  getCompanyRange: string;
+  companyForgetPasswordStepOnePhoneNumber: string;
+  companyForgetPasswordStepTwoOTP: string;
+  companyForgetPasswordThreeNewPassword: string;
 };
 
 export const APIS: APIsTypes = {
@@ -85,6 +92,15 @@ export const APIS: APIsTypes = {
   getLanguage: '/API/Helpers/Companies/Languages',
   getLanguageLevel: '/API/Helpers/Companies/Languages-Levels',
   getSkills: '/API/Helpers/Companies/Skills',
+  getPostType: '/API/Helpers/Jobs/Post-Types',
+  getPostJobTypes: '/API/Helpers/Jobs/Job-Types',
+  getContractTypes: '/API/Helpers/Jobs/Contract-Types',
+  getJobsCareerLevels: '/API/Helpers/Jobs/Career-Levels',
+  getJobsSalaryPer: '/API/Helpers/Jobs/Salary-Pers',
+  sendEmailNotifyPer: '/API/Helpers/Jobs/Send-Emails-Notification-Pers',
+  getIndustrys: '/API/Helpers/Companies/Industrys',
+  getSpecialties: '/API/Helpers/Companies/Specialties',
+  getCompanyRange: '/API/Helpers/Companies/Employee-Range?all_names=yes',
   // =================== auth Candidate =================== //
   signUpOneCandidat: '/API/LOW/Auth/Registration/One',
   signUpTwoSendOTP: '/API/LOW/Auth/Registration/Two',
@@ -103,7 +119,11 @@ export const APIS: APIsTypes = {
   LoginCompany: '/API/COM/Auth/Login',
   logoutCompany: '/API/COM/Auth/Logout',
   resendOTP: '/API/LOW/Auth/Registration/Two-Resend-Otp',
-
+  companyForgetPasswordStepOnePhoneNumber:
+    '/API/COM/Auth/Forgot-Password/Phone',
+  companyForgetPasswordStepTwoOTP: '/API/COM/Auth/Forgot-Password/Otp',
+  companyForgetPasswordThreeNewPassword:
+    '/API/COM/Auth/Forgot-Password/New-Password',
   // ===================candidate Profile =================== //
   getMyProfile: '/API/LOW/My/Profile',
   editAbout_charactaristic: '/API/LOW/My/About',
@@ -112,15 +132,10 @@ export const APIS: APIsTypes = {
   // ===================company Profile =================== //
   getCompanyProfile: '/API/COM/My/Profile',
   editCompanyProfile: '/API/COM/My/Edit-Profile',
-  companyEmployeesRange: '/API/COM/My/Edit-Profile-Helper',
-  getIndusterialSearch: '/API/COM/My/Industries-Search',
-  getSpecialtiesSearch: '/API/COM/My/Specialties-Search',
   // ===================choices=================//
   getCareerLevel: '/API/Helpers/Companies/Career-Levels',
-  GetChoicesstep3: '/API/COM/Auth/Registration/Professional-Info-Helpers',
   // =================jobs slice=====================//
   // ----------------Post jobs-------------------
-  PostJobHelpers: '/API/COM/Jobs/Post-New-Helper',
   postNewJob: '/API/COM/Jobs/Post-New',
   PostJobCategories: '/API/COM/Jobs/Categorys?Name=TK',
   companyPostedJobs: '/API/COM/Jobs/My',

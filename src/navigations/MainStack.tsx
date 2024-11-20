@@ -12,6 +12,7 @@ import {
   CVProfile,
   JobDetailsScreen,
   JobPost,
+  NewPassword,
   RegisterationSteps,
   SearchCV,
   SearchedJobs,
@@ -68,6 +69,7 @@ const MainStack = () => {
           component={Applications}
         />
         <Stack.Screen name={ScreenNames.CVProfile} component={CVProfile} />
+        <Stack.Screen name={ScreenNames.NewPassword} component={NewPassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

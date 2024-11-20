@@ -10,7 +10,6 @@ type InitailStateTypes = {
   choicesStep3: any;
   CompanyDataProfile: Array<any>;
   loadingSaveEdit: boolean;
-  companyEmployeesRangedata: Array<any>;
   industerial: Array<any>;
   Specialties: Array<any>;
 };
@@ -22,7 +21,6 @@ const initialState: InitailStateTypes = {
   choicesStep3: [],
   CompanyDataProfile: [],
   loadingSaveEdit: false,
-  companyEmployeesRangedata: [],
   industerial: [],
   Specialties: [],
 };
@@ -108,65 +106,7 @@ export const editCompanyProfile = createAsyncThunk(
     }
   },
 );
-// ========================== company_employees_range ========================
-export const companyEmployeesRange = createAsyncThunk(
-  'auth/companyEmployeesRange',
-  async (_, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'GET',
-        path: APIS.companyEmployeesRange,
-      });
-      console.log('companyEmployeesRange', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('companyEmployeesRange Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
-// ========================== get Industerial Search ========================
-export const getIndusterialSearch = createAsyncThunk(
-  'auth/getIndusterialSearch',
-  async (data, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'GET',
-        path: APIS.getIndusterialSearch,
-        params: data,
-      });
-      console.log('getIndusterialSearch', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('getIndusterialSearch Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
-// ========================== get Industerial Search ========================
-export const getSpecialtiesSearch = createAsyncThunk(
-  'auth/getSpecialtiesSearch',
-  async (data, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'GET',
-        path: APIS.getSpecialtiesSearch,
-        params: data,
-      });
-      console.log('getSpecialtiesSearch', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('getSpecialtiesSearch Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
+
 // ==============================================================
 
 const appdataSlice = createSlice({
@@ -217,48 +157,7 @@ const appdataSlice = createSlice({
         state.loadingSaveEdit = false;
         state.error = action.payload;
       })
-      // =====================company_employees_range =======================
-      .addCase(companyEmployeesRange.pending, state => {
-        state.loadingappdata = true;
-        state.error = null;
-      })
-      .addCase(companyEmployeesRange.fulfilled, (state, action) => {
-        state.loadingappdata = false;
-        state.companyEmployeesRangedata = action.payload.data;
-        state.error = null;
-      })
-      .addCase(companyEmployeesRange.rejected, (state, action) => {
-        state.loadingappdata = false;
-        state.error = action.payload;
-      })
-      // =====================get Industerial Search =======================
-      .addCase(getIndusterialSearch.pending, state => {
-        state.loadingappdata = false;
-        state.error = null;
-      })
-      .addCase(getIndusterialSearch.fulfilled, (state, action) => {
-        state.loadingappdata = false;
-        state.industerial = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getIndusterialSearch.rejected, (state, action) => {
-        state.loadingappdata = false;
-        state.error = action.payload;
-      })
-      // =====================get Specialties Search =======================
-      .addCase(getSpecialtiesSearch.pending, state => {
-        state.loadingappdata = false;
-        state.error = null;
-      })
-      .addCase(getSpecialtiesSearch.fulfilled, (state, action) => {
-        state.loadingappdata = false;
-        state.Specialties = action.payload.data;
-        state.error = null;
-      })
-      .addCase(getSpecialtiesSearch.rejected, (state, action) => {
-        state.loadingappdata = false;
-        state.error = action.payload;
-      })
+
       // =====================edit candidate profile header =======================
       .addCase(editCandidateProfileHeader.pending, state => {
         state.loadingappdata = true;

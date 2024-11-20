@@ -88,7 +88,6 @@ export const SearchJobs = createAsyncThunk(
   'auth/SearchJobs',
   async (data, {rejectWithValue}) => {
     try {
-      // Add page to the query string
       const res = await Axios({
         method: 'GET',
         path: APIS.SearchJobs,
@@ -99,9 +98,7 @@ export const SearchJobs = createAsyncThunk(
               data.city || [],
             )}&career_level=${JSON.stringify(
               data.career_level || [],
-            )}&category=${data.category || []}&title=${data.title || ''}&page=${
-              data.page || 1
-            }` // Add page parameter
+            )}&category=${data.category || []}&title=${data.title || ''}`
           : '',
       });
       console.log('Search---Jobs----', res?.data);
@@ -313,25 +310,7 @@ export const ViewedJobs = createAsyncThunk(
     }
   },
 );
-// ========================== Viewed Jobs  ======================
-export const PostJobCategories = createAsyncThunk(
-  'auth/PostJobCategories',
-  async (data, {rejectWithValue}) => {
-    try {
-      const res = await Axios({
-        method: 'GET',
-        path: APIS.PostJobCategories,
-      });
-      console.log('PostJobCategories----', res?.data);
-      return res.data;
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.errors?.message || error.message;
-      console.log('PostJobCategories Error', errorMessage);
-      return rejectWithValue(errorMessage);
-    }
-  },
-);
+
 // ========================== compantPostedJobs Jobs  ======================
 export const getCompanyPostedJobs = createAsyncThunk(
   'auth/getCompanyPostedJobs',
@@ -492,14 +471,7 @@ const JobsSlice = createSlice({
       })
       .addCase(SearchJobs.fulfilled, (state, action) => {
         state.loadinJobs = false;
-
-        // If it's the first page, replace the data; otherwise, append the new jobs
-        if (action.meta.arg.page === 1) {
-          state.allJobs = action.payload?.data?.data;
-        } else {
-          state.allJobs = [...state.allJobs, ...action.payload?.data?.data];
-        }
-
+        state.allJobs = action.payload?.data?.data;
         console.log('All Jobssss-------' + action.payload.data);
         state.error = null;
       })
@@ -639,20 +611,6 @@ const JobsSlice = createSlice({
         state.error = null;
       })
       .addCase(ViewedJobs.rejected, (state, action) => {
-        state.lodingApply = false;
-        state.error = action.payload;
-      })
-      // ======================PostJobCategories jobs=======================
-      .addCase(PostJobCategories.pending, state => {
-        state.lodingApply = false;
-        state.error = null;
-      })
-      .addCase(PostJobCategories.fulfilled, (state, action) => {
-        state.lodingApply = false;
-        state.PostCategoryes = action.payload.data.data;
-        state.error = null;
-      })
-      .addCase(PostJobCategories.rejected, (state, action) => {
         state.lodingApply = false;
         state.error = action.payload;
       })

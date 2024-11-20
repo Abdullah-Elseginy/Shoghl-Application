@@ -20,6 +20,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const {loading} = useSelector((state: any) => state.auth);
   const [SelectedProficiency, setselectedProficiency] = useState('');
   const [SelectedLanguage, setselectedLanguage] = useState('');
+  console.log('selected language: ' + SelectedLanguage);
   const [selectedId4, setSelectedId4] = useState<string | null>(null);
   const {
     yearsExperience,
@@ -203,13 +204,25 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
         type: file.type,
         name: file.name,
       });
+      // const formToSend = {
+      //   experience_years: selectedYearEx,
+      //   educational_level: selectedId4,
+      //   fields_of_study: selectedFeild,
+      //   university: selectedUniversty,
+      //   degree: selectedDegree,
+      //   grade: selectedGrade,
+      //   skills: selectedSkills,
+      //   cv: file,
+      //   user_languages: slectedLang,
+      // };
+      console.log('formmm' + JSON.stringify(formToSend));
       formToSend.append('experience_years', selectedYearEx);
       formToSend.append('educational_level', selectedId4);
       formToSend.append('fields_of_study[]', selectedFeild);
       formToSend.append('university', selectedUniversty);
       formToSend.append('degree', selectedDegree);
       formToSend.append('grade', selectedGrade);
-      formToSend.append('user_languages[]', SelectedLanguage);
+      formToSend.append('user_languages[]', slectedLang);
       formToSend.append('skills[]', selectedSkills);
 
       // formToSend.append('experience_years', 2);

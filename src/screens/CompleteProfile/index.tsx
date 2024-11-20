@@ -31,7 +31,6 @@ const CompleteProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
   const {allCountries, allCities} = useSelector((state: any) => state.helpers);
-
   const [JopTypes4, SetJopTypes4] = React.useState([
     {id: '1', title: 'Bucher'},
     {id: '2', title: 'Carpenter'},
@@ -46,7 +45,6 @@ const CompleteProfile = ({navigation}: Props) => {
   const [phone, setPhone] = React.useState('');
   const [expectedSalary, setExpectedSalary] = React.useState('');
   const [errors, setErrors] = React.useState<any>({});
-  const [countryID] = React.useState(1);
 
   // Handles dropdown open/close state
   const handleDropdownOpen = (dropdownId: any) => {
@@ -81,8 +79,8 @@ const CompleteProfile = ({navigation}: Props) => {
   const handlesubmit = () => {
     if (validateFields()) {
       const data = {
-        country: countryID,
-        city: 2,
+        country: selectedLocation,
+        city: selectedCity,
         mobile_phone: '01014216378',
         expected_salary: Number(expectedSalary),
         hide_salary: isSalaryHidden ? 'yes' : 'no',
@@ -180,10 +178,6 @@ const CompleteProfile = ({navigation}: Props) => {
           onDropdownOpen={isOpen =>
             handleDropdownOpen(isOpen ? 'dropdown1' : null)
           }
-          schema={{
-            label: 'name_en',
-            value: 'id',
-          }}
         />
         {errors.selectedLocation && (
           <CustomText
@@ -207,10 +201,6 @@ const CompleteProfile = ({navigation}: Props) => {
           onDropdownOpen={isOpen =>
             handleDropdownOpen(isOpen ? 'dropdown2' : null)
           }
-          schema={{
-            label: 'name_en',
-            value: 'id',
-          }}
         />
         {errors.selectedCity && (
           <CustomText

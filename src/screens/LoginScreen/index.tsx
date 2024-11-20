@@ -124,7 +124,7 @@ const LoginScreen = ({navigation}: Props) => {
             type: 'error',
             text1: err,
             position: 'top',
-            visibilityTime: 2000,
+            visibilityTime: 3000,
           });
           console.log('LoginOne error ', err);
         });
@@ -214,9 +214,9 @@ const LoginScreen = ({navigation}: Props) => {
               </View>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate(ScreenNames.ForgetPassword);
+                  // navigation.navigate(ScreenNames.ForgetPassword);
                 }}>
-                <CustomText text="Forget Password?" />
+                <CustomText text="Forget Border Number?" />
               </TouchableOpacity>
             </View>
 
@@ -264,7 +264,10 @@ const LoginScreen = ({navigation}: Props) => {
                   textStyle={[generalStyles.marginLeft, styles.remember]}
                 />
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(ScreenNames.ForgetPassword);
+                }}>
                 <CustomText text="Forget Password?" />
               </TouchableOpacity>
             </View>

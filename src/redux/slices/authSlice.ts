@@ -72,7 +72,7 @@ export const signUpTwocandidate = createAsyncThunk(
       });
       console.log('signUpTwocandidate', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage = error?.response?.data?.message || error.message;
       console.log('signUpTwocandidate Error', errorMessage);
       return rejectWithValue(errorMessage);
@@ -321,6 +321,10 @@ export const signUpThreeCorporate = createAsyncThunk(
 export const signUpFourCorporate = createAsyncThunk(
   'auth/signUpFourCorporate',
   async (data, {rejectWithValue}) => {
+    // data?.forEach((value, key) => {
+    //   console.log('DATIIIII---' + `${key}: ${value}`);
+    // });
+    console.log('diii--' + JSON.stringify(data));
     try {
       const res = await Axios({
         method: 'POST',
@@ -333,6 +337,66 @@ export const signUpFourCorporate = createAsyncThunk(
     } catch (error) {
       const errorMessage = error?.response?.data?.message || error.message;
       console.log('signUpFourCorporate Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================  Company Forget PAssword step One Phone Number===========================
+export const companyForgetPasswordStepOnePhoneNumber = createAsyncThunk(
+  'auth/companyForgetPasswordStepOnePhoneNumber',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.companyForgetPasswordStepOnePhoneNumber,
+        data: data,
+      });
+      console.log('companyForgetPasswordStepOnePhoneNumber', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log(
+        'companyForgetPasswordStepOnePhoneNumber Error',
+        errorMessage,
+      );
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================  Company Forget PAssword Step Two OTP===========================
+export const companyForgetPasswordStepTwoOTP = createAsyncThunk(
+  'auth/companyForgetPasswordStepTwoOTP',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.companyForgetPasswordStepTwoOTP,
+        data: data,
+      });
+      console.log('companyForgetPasswordStepTwoOTP', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('companyForgetPasswordStepTwoOTP Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+// ========================  Company Forget PAssword Step Three New Password===========================
+export const companyForgetPasswordThreeNewPassword = createAsyncThunk(
+  'auth/companyForgetPasswordThreeNewPassword',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'POST',
+        path: APIS.companyForgetPasswordThreeNewPassword,
+        data: data,
+      });
+      console.log('companyForgetPasswordThreeNewPassword', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error.message;
+      console.log('companyForgetPasswordThreeNewPassword Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -617,8 +681,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.token = action.payload.data.access_token;
         console.log(
-          'userTOKENsignUpOneCorporate===' +
-            action.payload.data.access_token
+          'userTOKENsignUpOneCorporate===' + action.payload.data.access_token,
         );
         state.error = null;
       })
@@ -732,7 +795,53 @@ const authSlice = createSlice({
       .addCase(myProfileOverview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      // ===================== Company Forget Password ========================
+      // =====================Step One Phone Number================
+      .addCase(companyForgetPasswordStepOnePhoneNumber.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(companyForgetPasswordStepOnePhoneNumber.fulfilled, state => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(
+        companyForgetPasswordStepOnePhoneNumber.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
+      )
+      // =====================Step Two OTP================
+      .addCase(companyForgetPasswordStepTwoOTP.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(companyForgetPasswordStepTwoOTP.fulfilled, state => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(companyForgetPasswordStepTwoOTP.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // =====================Step THree New Password================
+      .addCase(companyForgetPasswordThreeNewPassword.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(companyForgetPasswordThreeNewPassword.fulfilled, state => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(
+        companyForgetPasswordThreeNewPassword.rejected,
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
+      );
   },
 });
 

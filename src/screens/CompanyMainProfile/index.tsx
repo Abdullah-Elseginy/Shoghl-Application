@@ -39,13 +39,15 @@ import ScreenNames from '../../navigations/ScreenNames';
 import WebView from 'react-native-webview';
 import {deleteJob, getCompanyPostedJobs} from '../../redux/slices/JobsSlice';
 import {
-  companyEmployeesRange,
   editCompanyProfile,
   getCompanyProfile,
-  getIndusterialSearch,
-  getSpecialtiesSearch,
 } from '../../redux/slices/appdataSlice';
-import {getAllCountries} from '../../redux/slices/helpersSlice';
+import {
+  getAllCountries,
+  getCompanyRange,
+  getIndustrys,
+  getSpecialties,
+} from '../../redux/slices/helpersSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase, string>;
@@ -155,15 +157,12 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
 const ComplateCompanyProfile = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
-  const {
-    loadingappdata,
-    CompanyDataProfile,
-    loadingSaveEdit,
-    companyEmployeesRangedata,
-    Specialties,
-    industerial,
-  } = useSelector((state: any) => state.appdata);
-  const {allCountries2} = useSelector((state: any) => state.helpers);
+  const {loadingappdata, CompanyDataProfile, loadingSaveEdit} = useSelector(
+    (state: any) => state.appdata,
+  );
+  const {allCountries2, industrys, specialties, CompanyRangedata} = useSelector(
+    (state: any) => state.helpers,
+  );
   const {companyPostedJobs, lodingApply} = useSelector(
     (state: any) => state.jobs,
   );
@@ -325,16 +324,16 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
 
   const GetSpecialties = (searchKey: any) => {
     const dataTosend = {
-      company_specialties_name: searchKey,
+      search: searchKey,
     };
-    dispatch(getSpecialtiesSearch(dataTosend));
+    dispatch(getSpecialties(dataTosend));
   };
 
   const Getindusterial = (searchKey: any) => {
     const dataTosend2 = {
-      company_industry_name: searchKey,
+      search: searchKey,
     };
-    dispatch(getIndusterialSearch(dataTosend2));
+    dispatch(getIndustrys(dataTosend2));
   };
 
   useFocusEffect(
@@ -346,14 +345,16 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
 
   useEffect(() => {
     dispatch(getAllCountries());
-    dispatch(companyEmployeesRange());
+    dispatch(getCompanyRange());
   }, []);
+
+  console.log('company Range0-----' + companyRange);
 
   const memoLocation = useMemo(() => allCountries2 || [], [allCountries2]);
 
   const memoCompanyRange = useMemo(
-    () => companyEmployeesRangedata?.company_employees_range || [],
-    [companyEmployeesRangedata],
+    () => CompanyRangedata || [],
+    [CompanyRangedata],
   );
 
   return (
@@ -446,10 +447,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     onDropdownOpen={isOpen =>
                       handleDropdownOpen(isOpen ? 'dropdown4' : null)
                     }
-                    schema={{
-                      label: 'name_en',
-                      value: 'id',
-                    }}
                   />
                 </View>
               )}
@@ -504,20 +501,20 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   editable={Disapled}
                 />
                 {ShowSearch1 ? (
-                  Specialties?.length > 0 ? (
+                  specialties?.length > 0 ? (
                     <View style={styles.flatsearch}>
                       <FlatList
-                        data={Specialties}
+                        data={specialties}
                         keyExtractor={item => item.code}
                         renderItem={({item}) => (
                           <Pressable
                             onPress={() => {
-                              OchangeInpus(item.name, 'Specialties');
+                              OchangeInpus(item.default_name, 'Specialties');
                               setSpecialisesCode(item.code);
                               setShowSearch1(false);
                             }}
                             style={styles.rowserch}>
-                            <CustomText text={item.name} />
+                            <CustomText text={item.default_name} />
                           </Pressable>
                         )}
                       />
@@ -555,20 +552,20 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 />
 
                 {ShowSearch2 ? (
-                  industerial?.length > 0 ? (
+                  industrys?.length > 0 ? (
                     <View style={styles.flatsearch}>
                       <FlatList
-                        data={industerial}
+                        data={industrys}
                         keyExtractor={item => item.code}
                         renderItem={({item}) => (
                           <Pressable
                             onPress={() => {
-                              OchangeInpus(item.name, 'Industry');
+                              OchangeInpus(item.default_name, 'Industry');
                               SetIndusteryCode(item.code);
                               setShowSearch2(false);
                             }}
                             style={styles.rowserch}>
-                            <CustomText text={item.name} />
+                            <CustomText text={item.default_name} />
                           </Pressable>
                         )}
                       />

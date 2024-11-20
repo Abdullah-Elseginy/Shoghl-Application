@@ -165,18 +165,6 @@ const Explore = ({navigation}: Props) => {
   const [filterdcount, setfilterdcount] = useState(0);
   const [openSheet, SetOpenSheet] = useState(false);
   // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const loadMoreJobs = () => {
-    // Dispatch the SearchJobs thunk with the next page number and any filters
-    dispatch(
-      SearchJobs({
-        ...myfilterData, // Any filters like contract_type, city, etc.
-        page: currentPage + 1,
-      }),
-    );
-    setCurrentPage(prevPage => prevPage + 1);
-  };
 
   const Optionsdata = [
     {
@@ -314,13 +302,6 @@ const Explore = ({navigation}: Props) => {
               renderItem={({item}) => (
                 <Job navigation={navigation} item={item} />
               )}
-              onEndReached={loadMoreJobs} // Load more jobs when reaching the end
-              onEndReachedThreshold={0.8}
-              ListFooterComponent={
-                loadinJobs ? (
-                  <ActivityIndicator size="large" color="#0000ff" />
-                ) : null
-              }
             />
           </View>
         )}

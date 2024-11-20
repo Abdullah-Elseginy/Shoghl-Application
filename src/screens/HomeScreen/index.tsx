@@ -53,7 +53,7 @@ const HomeScreen = ({navigation}: Props) => {
   const [CategoryVal, setCategoryVal] = React.useState('');
   const [modalVisible, SetModalVisable] = React.useState(true);
   const [ShowSearch, setShowSearch] = React.useState(false);
-  console.log('Cityyy-----' + city);
+
   const HowItWork = ({item}: any) => {
     return (
       <View style={styles.HowItWorkBox}>
@@ -284,6 +284,7 @@ const HomeScreen = ({navigation}: Props) => {
     dispatch(getAllHelperJobs());
   }, []);
 
+  const MemoCities = React.useMemo(() => allCities || [], [allCities]);
   return (
     <AppScreenContainer style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -304,7 +305,7 @@ const HomeScreen = ({navigation}: Props) => {
             value={city}
             setValue={setCity}
             dropDownStyle={[generalStyles.DropBorder]}
-            list={allCities}
+            list={MemoCities}
             schema={{value: 'id', label: 'name_en'}}
           />
           <AppInput
