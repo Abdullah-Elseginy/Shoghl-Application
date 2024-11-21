@@ -73,6 +73,7 @@ export type APIsTypes = {
   companyForgetPasswordStepOnePhoneNumber: string;
   companyForgetPasswordStepTwoOTP: string;
   companyForgetPasswordThreeNewPassword: string;
+  getJobCategories: string;
 };
 
 export const APIS: APIsTypes = {
@@ -101,6 +102,7 @@ export const APIS: APIsTypes = {
   getIndustrys: '/API/Helpers/Companies/Industrys',
   getSpecialties: '/API/Helpers/Companies/Specialties',
   getCompanyRange: '/API/Helpers/Companies/Employee-Range?all_names=yes',
+  getJobCategories: '/API/Helpers/Jobs/Categories',
   // =================== auth Candidate =================== //
   signUpOneCandidat: '/API/LOW/Auth/Registration/One',
   signUpTwoSendOTP: '/API/LOW/Auth/Registration/Two',
@@ -136,7 +138,7 @@ export const APIS: APIsTypes = {
   getCareerLevel: '/API/Helpers/Companies/Career-Levels',
   // =================jobs slice=====================//
   // ----------------Post jobs-------------------
-  postNewJob: '/API/COM/Jobs/Post-New',
+  postNewJob: '/API/COM/Jobs/Add',
   PostJobCategories: '/API/COM/Jobs/Categorys?Name=TK',
   companyPostedJobs: '/API/COM/Jobs/My',
   // ----------------search jobs-------------------

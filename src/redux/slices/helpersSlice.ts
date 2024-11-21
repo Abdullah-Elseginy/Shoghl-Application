@@ -35,6 +35,7 @@ type InitailStateTypes = {
   industrys: Array<any>;
   specialties: Array<any>;
   CompanyRangedata: Array<any>;
+  jobCategories: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -70,6 +71,7 @@ const initialState: InitailStateTypes = {
   industrys: [],
   specialties: [],
   CompanyRangedata: [],
+  jobCategories: [],
 };
 // ===================== Get All Countries ========================
 export const getAllCountries = createAsyncThunk(
@@ -553,6 +555,25 @@ export const getCompanyRange = createAsyncThunk(
     }
   },
 );
+// ========================== get Job Categories========================
+export const getJobCategories = createAsyncThunk(
+  'auth/getJobCategories',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getJobCategories,
+      });
+      console.log('getJobCategories', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getJobCategories Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
 // ==============================================================
 
 const helpersSlice = createSlice({
@@ -913,6 +934,20 @@ const helpersSlice = createSlice({
         state.error = null;
       })
       .addCase(getCompanyRange.rejected, (state, action) => {
+        state.helpersLoading = false;
+        state.error = action.payload;
+      })
+      // =====================get Job Categories  =======================
+      .addCase(getJobCategories.pending, state => {
+        state.helpersLoading = true;
+        state.error = null;
+      })
+      .addCase(getJobCategories.fulfilled, (state, action) => {
+        state.helpersLoading = false;
+        state.jobCategories = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getJobCategories.rejected, (state, action) => {
         state.helpersLoading = false;
         state.error = action.payload;
       });

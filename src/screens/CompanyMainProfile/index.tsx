@@ -76,28 +76,28 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
             </View>
             <View style={[generalStyles.rowBetween]}>
               <FlatList
-                data={item?.job_types?.en}
+                data={item?.job_types}
                 horizontal
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
-                  item == 'Full Time' ? (
+                  item === 'Full Time' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item.default_name.slice(0, 9)}
                       textStyle={[styles.period2]}
                     />
                   ) : item == 'Shift based' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item.default_name?.slice(0, 9)}
                       textStyle={[styles.period]}
                     />
                   ) : item == 'Part Time' ? (
                     <CustomText
-                      text={item.slice(0, 12)}
+                      text={item.default_name?.slice(0, 12)}
                       textStyle={[styles.period, styles.period4]}
                     />
                   ) : (
                     <CustomText
-                      text={item.slice(0, 12) + '..'}
+                      text={item.default_name?.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -134,7 +134,6 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
             style={[generalStyles.row, styles.editDelateBox]}
             onPress={() => {
               deletejob(item.code);
-              console.log('item.code' + item.code);
             }}>
             <ExitXicon />
             <CustomText text="Delete" />

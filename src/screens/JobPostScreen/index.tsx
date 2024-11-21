@@ -21,6 +21,7 @@ import {
   getAllCities,
   getAllCountries,
   getContractTypes,
+  getJobCategories,
   getJobsCareerLevels,
   getJobsSalaryPer,
   getPostJobTypes,
@@ -40,6 +41,7 @@ import ScreenNames from '../../navigations/ScreenNames';
 
 const JobPost = ({navigation, route}: any) => {
   const {jobData} = route.params || {};
+  console.log('first---=' + JSON.stringify(jobData));
   const dispatch = useDispatch<AppDispatch>();
   const {user} = useSelector((state: any) => state.auth);
 
@@ -53,10 +55,9 @@ const JobPost = ({navigation, route}: any) => {
     postJobCareerLevel,
     jobsSalaryPer,
     notifyPer,
+    jobCategories,
   } = useSelector((state: any) => state.helpers);
-  const {loadinJobs, PostCategoryes, lodingApply} = useSelector(
-    (state: any) => state.jobs,
-  );
+  const {loadinJobs, lodingApply} = useSelector((state: any) => state.jobs);
   const JobOPtionData = [
     {
       code: '1',
@@ -69,40 +70,42 @@ const JobPost = ({navigation, route}: any) => {
       subTitle: '',
     },
   ];
-  console.log('jobData?.job_types---' + jobData?.job_types);
-  const returnCode = (selectedtypes: any, alltypes: any) => {
-    let job_types = selectedtypes;
-    let mainData = alltypes;
 
-    // Filter mainData and get the codes for matching job_types
-    let codes = mainData
-      ?.filter((item: any) => job_types?.includes(item.name_en))
-      ?.map((item: any) => item.code);
+  // const returnCode = (selectedtypes: any, alltypes: any) => {
+  //   let job_types = selectedtypes;
+  //   let mainData = alltypes;
 
-    return codes;
+  //   // Filter mainData and get the codes for matching job_types
+  //   let codes = mainData
+  //     ?.filter((item: any) => job_types?.includes(item.default_name))
+  //     ?.map((item: any) => item.code);
+
+  //   return codes;
+  // };
+
+  const getCodes = (datatogetItsCode: any) => {
+    return datatogetItsCode?.map((job: any) => job.code);
   };
 
   // console.log('codeeeeeeeeeeesss------' + returnCode());
 
   const [selectedId, setSelectedId] = useState<string | null>(
-    jobData?.post_type?.en === 'Job'
-      ? '1'
-      : jobData?.post_type?.en === 'Job Post'
-      ? '2'
-      : null,
+    jobData?.post_type?.code || '1',
   );
   const [Title, setTitle] = useState<string>(jobData?.title || '');
-  const [Category, setCategory] = useState('');
+  const [Category, setCategory] = useState(jobData?.category?.code || '');
+  console.log('caterrr', Category);
   const [selectedType, setSelectedType] = useState<string>('Job');
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
-    returnCode(jobData?.job_types?.en, jobPostTypes) || [],
+    getCodes(jobData?.job_types) || [],
   );
   const [selectedId4, setSelectedId4] = useState<string | null>(
-    returnCode([jobData?.career_level?.en], postJobCareerLevel) + '' || null,
+    jobData?.career_level?.code || null,
   );
-  const [selectedIds, setSelectedIds] = useState<string[]>(
-    returnCode([jobData?.contract_type?.en], contractTypes) || [],
+  const [selectedIds, setSelectedIds] = useState<string | null>(
+    [jobData?.contract_type?.code] || [],
   );
+
   const [Checked, setChecked] = useState<boolean>(
     jobData?.salary_hide || false,
   );
@@ -117,24 +120,26 @@ const JobPost = ({navigation, route}: any) => {
     jobData?.salary_to.toString() || '',
   );
   const [numberOFVacancies, setnumberOFVacancies] = useState(
-    jobData?.number_of_vacancies || '',
+    jobData?.number_of_vacancies?.toString() || '',
   );
   const [Description, setDescription] = useState(
     jobData?.job_description || '',
   );
   const [Requirment, setRequirment] = useState(jobData?.job_requirements || '');
   const [keyWords, setKeyWords] = useState('');
-  const [Email, setEmail] = useState(user?.business_email || '');
+  const [Email, setEmail] = useState(
+    jobData?.send_emails_notification_to || user?.business_email,
+  );
   // dropdwens
-  const [selectedCity, setSelectedCity] = useState(jobData?.city?.id || '');
+  const [selectedCity, setSelectedCity] = useState(jobData?.city?.code || '');
   const [selectedCountry, setSelectedCountry] = useState(
-    jobData?.country?.id || '',
+    jobData?.country?.code || '',
   );
   const [selectedSalaryPer, SetSelectedSalaryPer] = useState(
     jobData?.salary_per?.code || '',
   );
   const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState(
-    jobData?.salary_currency?.id || '',
+    jobData?.salary_currency?.code || '',
   );
   const [openDropdown, setOpenDropdown] = useState(null);
   const [KeyWpordsArray, setKeyWpordsArray] = useState(jobData?.keywords || []);
@@ -211,7 +216,7 @@ const JobPost = ({navigation, route}: any) => {
   );
 
   const renderItem3 = ({item}: {item: {code: any; default_name: string}}) => {
-    const isSelected = selectedIds.includes(item.code);
+    const isSelected = selectedIds?.includes(item.code);
 
     const handlePress = () => {
       setSelectedIds(prevSelectedIds =>
@@ -298,7 +303,7 @@ const JobPost = ({navigation, route}: any) => {
     is_high_job: 'no',
     post_type: selectedId,
     title: Title,
-    category: Number(Category),
+    category: 50,
     job_types: selectedJobTypes,
     contract_type: selectedIds?.toString(),
     country: selectedCountry,
@@ -429,6 +434,7 @@ const JobPost = ({navigation, route}: any) => {
     dispatch(getPostType());
     dispatch(getJobsSalaryPer());
     dispatch(sendEmailNotifyPer());
+    dispatch(getJobCategories());
   }, []);
 
   const PostJob = () => {
@@ -507,10 +513,6 @@ const JobPost = ({navigation, route}: any) => {
     }
   };
 
-  useEffect(() => {
-    dispatch(PostJobCategories());
-  }, []);
-
   // ----memos
   // const CurrencyMemo = React.useMemo(() => Currency || [], [Currency]);
   // const allCitiesMemo = React.useMemo(() => allCities || [], [allCities]);
@@ -523,8 +525,8 @@ const JobPost = ({navigation, route}: any) => {
   //   [allCountries],
   // );
   const CategoryMemo = React.useMemo(
-    () => PostCategoryes || [],
-    [PostCategoryes],
+    () => jobCategories || [],
+    [jobCategories],
   );
 
   return (
@@ -588,10 +590,6 @@ const JobPost = ({navigation, route}: any) => {
                 onDropdownOpen={isOpen =>
                   handleDropdownOpen(isOpen ? 'dropdown77' : null)
                 }
-                schema={{
-                  label: 'name_en',
-                  value: 'id',
-                }}
               />
             </View>
           </View>
@@ -850,7 +848,7 @@ const JobPost = ({navigation, route}: any) => {
             <AppInput
               placeholder="Enter Number"
               isNumericKeyboard
-              value={numberOFVacancies}
+              value={numberOFVacancies + ''}
               onChangeText={(value: any) => setnumberOFVacancies(value)}
             />
             {formErrors.number_of_vacancies && (
