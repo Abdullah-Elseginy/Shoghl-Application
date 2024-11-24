@@ -276,7 +276,7 @@ const HomeScreen = ({navigation}: Props) => {
   };
 
   React.useEffect(() => {
-    dispatch(getAllCities(14));
+    dispatch(getAllCities(1));
   }, []);
 
   // this for Explore Screen and filter

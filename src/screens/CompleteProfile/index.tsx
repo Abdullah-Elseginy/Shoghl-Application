@@ -124,7 +124,7 @@ const CompleteProfile = ({navigation}: Props) => {
   }, []);
 
   const getCities = () => {
-    dispatch(getAllCities(14));
+    dispatch(getAllCities(1));
   };
 
   const renderItem6 = ({

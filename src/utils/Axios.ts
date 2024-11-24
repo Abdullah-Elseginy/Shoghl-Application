@@ -1,7 +1,7 @@
 import axios, {Method} from 'axios';
 import {store} from '../redux/store';
 
-const BASE_URL = 'https://shoghl.code-faster.giize.com';
+const BASE_URL = 'https://camp-coding.site/shogl';
 
 export type APIsTypes = {
   allCountries: string;

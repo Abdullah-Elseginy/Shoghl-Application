@@ -17,6 +17,7 @@ import {
   Filte,
   JobTitle,
   Location,
+  NotFound,
   Skills,
   UpperArrow2,
 } from '../../assets';
@@ -29,7 +30,7 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import {AppDispatch} from '../../redux/store';
 import Toast from 'react-native-toast-message';
-const applicantsItems = ({item,getUserCVDetails}: any) => (
+const applicantsItems = ({item, getUserCVDetails}: any) => (
   <TouchableOpacity
     onPress={() => {
       getUserCVDetails(item.code);
@@ -203,6 +204,15 @@ const Applicants = ({navigation}: any) => {
           style={styles.filterBottm}>
           <Filte width={wp(5.5)} height={hp(4)} />
         </TouchableOpacity>
+        {aplliedUsers?.length == 0 && (
+          <View style={styles.noJobs}>
+            <CustomText
+              text="No Applicants Founded"
+              textStyle={styles.nottext}
+            />
+            <NotFound />
+          </View>
+        )}
         <FlatList
           data={aplliedUsers}
           keyExtractor={item => item.code}

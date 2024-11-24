@@ -745,7 +745,7 @@ const authSlice = createSlice({
       })
       .addCase(loginComapny.fulfilled, (state, action) => {
         state.loading = false;
-        state.token = action.payload.data.access_token.access_token;
+        state.token = action.payload.data.access_token;
         state.user = action.payload.data.user;
         state.error = null;
       })

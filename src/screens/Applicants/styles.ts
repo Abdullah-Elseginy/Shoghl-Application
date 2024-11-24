@@ -95,4 +95,13 @@ export const styles = StyleSheet.create({
     fontFamily: FONTS.SemiBold,
     color: COLORS.blue,
   },
+  noJobs: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: hp(20),
+  },
+  nottext: {
+    fontFamily: FONTS.SemiBold,
+    color: COLORS.primary,
+  },
 });

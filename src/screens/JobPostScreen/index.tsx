@@ -425,7 +425,7 @@ const JobPost = ({navigation, route}: any) => {
 
   useEffect(() => {
     PostJobhelpers();
-    dispatch(getAllCities(14));
+    dispatch(getAllCities(1));
     dispatch(getAllCountries());
     dispatch(getPostJobTypes());
     dispatch(getContractTypes());

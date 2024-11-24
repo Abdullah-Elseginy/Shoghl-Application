@@ -76,8 +76,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     </Pressable>
   );
 
-  const [file, setFile] = useState({name: '', type: '', uri: ''});
   const [slectedLang, setSelectedLang] = useState([]);
+  const [file, setFile] = useState({name: '', type: '', uri: ''});
 
   const selectDocument = async () => {
     try {
@@ -215,7 +215,6 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       //   cv: file,
       //   user_languages: slectedLang,
       // };
-      console.log('formmm' + JSON.stringify(formToSend));
       formToSend.append('experience_years', selectedYearEx);
       formToSend.append('educational_level', selectedId4);
       formToSend.append('fields_of_study[]', selectedFeild);
@@ -224,7 +223,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       formToSend.append('grade', selectedGrade);
       formToSend.append('user_languages[]', slectedLang);
       formToSend.append('skills[]', selectedSkills);
+      console.log('formmm' + JSON.stringify(formToSend));
 
+      // console.log('====fil' + JSON.stringify(selectedFeild).toString());
       // formToSend.append('experience_years', 2);
       // formToSend.append('educational_level', 1);
       // formToSend.append('fields_of_study[]', ['1', '2']);

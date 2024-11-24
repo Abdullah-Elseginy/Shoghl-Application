@@ -590,7 +590,7 @@ const helpersSlice = createSlice({
       .addCase(getAllCountries.fulfilled, (state, action) => {
         state.helpersLoading = false;
         const filterdCountries = action.payload?.data?.filter(
-          (item: any) => item.code === 14,
+          (item: any) => item.code === 1,
         );
         state.allCountries = filterdCountries;
         state.allCountries2 = action.payload?.data;

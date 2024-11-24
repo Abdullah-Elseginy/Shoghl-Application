@@ -116,7 +116,7 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
           <View style={[generalStyles.row, styles.marginT]}>
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
-              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              text={item?.country?.default_name + ' | ' + item?.city?.default_name}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -124,7 +124,7 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
         <View style={generalStyles.row}>
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
-            text={item?.contract_type?.en + ' | ' + item?.career_level?.en}
+            text={item?.contract_type?.default_name + ' | ' + item?.career_level?.default_name}
             textStyle={styles.jobBottomTxt}
           />
         </View>
@@ -376,9 +376,9 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 <Location />
                 <CustomText
                   text={
-                    companyDataProfile?.city?.name_en +
+                    companyDataProfile?.city?.default_name +
                     ' , ' +
-                    companyDataProfile?.country?.name_en
+                    companyDataProfile?.country?.default_name
                   }
                   textStyle={styles.subText2}
                 />
@@ -427,7 +427,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 <View>
                   <CustomText text="Location" textStyle={styles.labelinput} />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
-                    <CustomText text={companyDataProfile?.country?.name_en} />
+                    <CustomText text={companyDataProfile?.country?.default_name} />
                   </View>
                 </View>
               ) : (

@@ -129,7 +129,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   };
 
   const getCities = () => {
-    dispatch(getAllCities(14));
+    dispatch(getAllCities(1));
   };
 
   useEffect(() => {

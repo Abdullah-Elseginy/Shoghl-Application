@@ -399,7 +399,7 @@ const ProfileScreen = () => {
   React.useEffect(() => {
     dispatch(getMyProfile());
     dispatch(getAllCountries());
-    dispatch(getAllCities(14));
+    dispatch(getAllCities(1));
   }, [dispatch]);
 
   const memoAllCountries = React.useMemo(

@@ -45,28 +45,28 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
             </View>
             <View style={[generalStyles.rowBetween]}>
               <FlatList
-                data={item?.job_types?.en}
+                data={item?.job_types}
                 horizontal
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
                   item == 'Full Time' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name.slice(0, 9)}
                       textStyle={[styles.period2]}
                     />
                   ) : item == 'Shift based' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name.slice(0, 9)}
                       textStyle={[styles.period]}
                     />
                   ) : item == 'Part Time' ? (
                     <CustomText
-                      text={item.slice(0, 12)}
+                      text={item?.default_name.slice(0, 12)}
                       textStyle={[styles.period, styles.period4]}
                     />
                   ) : (
                     <CustomText
-                      text={item.slice(0, 12) + '..'}
+                      text={item?.default_name.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -85,7 +85,7 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
           <View style={[generalStyles.row, styles.marginT]}>
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
-              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              text={item?.country?.default_name + ' | ' + item?.city?.default_name}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -93,7 +93,7 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
         <View style={generalStyles.row}>
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
-            text={item?.contract_type?.en + ' | ' + item?.career_level?.en}
+            text={item?.contract_type?.default_name + ' | ' + item?.career_level?.default_name}
             textStyle={styles.jobBottomTxt}
           />
         </View>
