@@ -5,7 +5,6 @@ import React, {useEffect, useState} from 'react';
 import {AppInput, Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
-import {Nationality} from '../../../utils/Data';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {signUpThreeCorporate} from '../../../redux/slices/authSlice';
@@ -13,7 +12,6 @@ import {AppDispatch} from '../../../redux/store';
 import {
   getAllCities,
   getAllCountries,
-  getGender,
 } from '../../../redux/slices/helpersSlice';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   const {allCities, allCountries, genderList, allCountries2} = useSelector(
@@ -76,12 +74,30 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
       errors.first_name = 'First Name Required';
     }
     if (!formData.last_name) errors.last_name = 'Last Name Required';
-    if (!formData.birth_year) errors.birth_year = 'Year Required';
+    if (!formData.birth_year) {
+      errors.birth_year = 'Year Required';
+    } else if (
+      Number(formData.birth_year) > 2025 ||
+      Number(formData.birth_year) < 1950
+    ) {
+      errors.birth_year = 'Year must be between 1950 and 2025';
+    }
     if (!formData.birth_month) {
       errors.birth_month = 'Month Required';
+    } else if (
+      Number(formData.birth_month) > 12 ||
+      Number(formData.birth_month) < 1
+    ) {
+      errors.birth_month = 'Month must be between 0 and 12';
     }
+
     if (!formData.birth_day) {
       errors.birth_day = 'Day Required';
+    } else if (
+      Number(formData.birth_day) > 31 ||
+      Number(formData.birth_day) < 1
+    ) {
+      errors.birth_day = 'Day must be between 0 and 31';
     }
     if (!DropDwenValues.gender) {
       errors.gendar = 'Gender Required';
@@ -315,9 +331,6 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               setValue={setSelectedCountry}
               dropDownStyle={generalStyles.DropBorder2}
               list={allCountries}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
-              }}
               isOpen={openDropdown === 'dropdown3'}
               onDropdownOpen={isOpen =>
                 handleDropdownOpen(isOpen ? 'dropdown3' : null)
@@ -330,7 +343,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
               textStyle={[styles.LapelStyle, styles.MArginBtn]}
             />
             <Dropdown
-              placeholder="Select Country"
+              placeholder="Select City"
               value={selectedCity}
               setValue={setSelectedCity}
               dropDownStyle={generalStyles.DropBorder2}

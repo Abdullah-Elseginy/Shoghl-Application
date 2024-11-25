@@ -62,4 +62,15 @@ export const styles = StyleSheet.create({
     fontSize: wp(3.2),
     fontFamily: FONTS.Medium,
   },
+  noOfWords: {
+    textAlign: 'right',
+    marginRight: wp(1),
+    marginTop: hp(0.5),
+  },
+  text2: {
+    textAlign: 'right',
+    marginRight: wp(1),
+    marginTop: hp(0.5),
+    fontFamily: FONTS.Medium,
+  },
 });

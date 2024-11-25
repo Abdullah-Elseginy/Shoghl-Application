@@ -163,7 +163,7 @@ export const getAllHelperJobs = createAsyncThunk(
       });
       console.log('getAllHelperJobs----', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error:any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getAllHelperJobs Error', errorMessage);
@@ -358,11 +358,11 @@ export const editBob = createAsyncThunk(
       const res = await Axios({
         method: 'POST',
         path: APIS.editBob,
-        params: data,
+        data: data,
       });
       console.log('editBob----', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('editBob Error', errorMessage);
@@ -401,7 +401,7 @@ export const getSearchedCVs = createAsyncThunk(
       });
       console.log('getSearchedCVs----', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error:any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getSearchedCVs Error', errorMessage);
@@ -421,7 +421,7 @@ export const getCvsDetailsShowUserProfile = createAsyncThunk(
       });
       console.log('getCvsDetailsShowUserProfile----', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error:any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getCvsDetailsShowUserProfile Error', errorMessage);

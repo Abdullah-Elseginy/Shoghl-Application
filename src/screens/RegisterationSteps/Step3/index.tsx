@@ -150,7 +150,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     grade: '',
     language: '',
     profisincy: '',
-    Cv_file: '',
+    // Cv_file: '',
     skills: '',
   });
 
@@ -178,9 +178,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     // if (!formData.profisincy) {
     //   errors.profisincy = 'Profetiency Required';
     // }
-    if (!file.name?.length) {
-      errors.Cv_file = 'CV Required';
-    }
+    // if (!file.name?.length) {
+    //   errors.Cv_file = 'CV Required';
+    // }
     if (formData.skills.length === 0) {
       errors.skills = 'Skills Required';
     }
@@ -199,11 +199,11 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
   const handlesubmit = () => {
     if (validateForm()) {
       const formToSend = new FormData();
-      formToSend.append('cv', {
-        uri: file.uri,
-        type: file.type,
-        name: file.name,
-      });
+      // formToSend.append('cv', {
+      //   uri: file.uri,
+      //   type: file.type,
+      //   name: file.name,
+      // });
       // const formToSend = {
       //   experience_years: selectedYearEx,
       //   educational_level: selectedId4,
@@ -252,6 +252,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           }, 1000);
         })
         .catch(err => {
+          // navigation.replace(ScreenNames.BottomTabs);
+
           Toast.show({
             type: 'error',
             text1: 'Error',
@@ -591,12 +593,12 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
         {file?.name && (
           <CustomText text={file?.name} textStyle={styles.CVname} />
         )}
-        {formErrors?.Cv_file && (
+        {/* {formErrors?.Cv_file && (
           <CustomText
             text={formErrors.Cv_file}
             textStyle={[styles.ErrorMSG, styles.centerTExt]}
           />
-        )}
+        )} */}
       </View>
 
       <Button

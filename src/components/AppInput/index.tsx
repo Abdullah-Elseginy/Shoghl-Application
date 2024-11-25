@@ -39,6 +39,8 @@ type Props = {
   setDelatedToJobTypesAgain?: any;
   maxLength?: number;
   keyboardType?: string;
+  minLength?: number;
+  inputLength?: boolean;
 };
 
 const AppInput = ({
@@ -49,7 +51,7 @@ const AppInput = ({
   containerStyle,
   labelStyle,
   value,
-  multiline=false,
+  multiline = false,
   inputstyle,
   onChangeText,
   onLeftIconPress,
@@ -64,6 +66,8 @@ const AppInput = ({
   setDelatedToJobTypesAgain,
   maxLength,
   keyboardType,
+  minLength,
+  inputLength,
 }: Props) => {
   const DelateItem = (index: number) => {
     const newData = [...Flatdata];
@@ -128,6 +132,14 @@ const AppInput = ({
           </TouchableOpacity>
         )}
       </View>
+      {inputLength && (
+        <CustomText
+          text={value?.length}
+          text2={' / ' + minLength}
+          textStyle2={styles.text2}
+          textStyle={styles.noOfWords}
+        />
+      )}
     </View>
   );
 };

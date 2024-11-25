@@ -41,7 +41,6 @@ import ScreenNames from '../../navigations/ScreenNames';
 
 const JobPost = ({navigation, route}: any) => {
   const {jobData} = route.params || {};
-  console.log('first---=' + JSON.stringify(jobData));
   const dispatch = useDispatch<AppDispatch>();
   const {user} = useSelector((state: any) => state.auth);
 
@@ -71,23 +70,9 @@ const JobPost = ({navigation, route}: any) => {
     },
   ];
 
-  // const returnCode = (selectedtypes: any, alltypes: any) => {
-  //   let job_types = selectedtypes;
-  //   let mainData = alltypes;
-
-  //   // Filter mainData and get the codes for matching job_types
-  //   let codes = mainData
-  //     ?.filter((item: any) => job_types?.includes(item.default_name))
-  //     ?.map((item: any) => item.code);
-
-  //   return codes;
-  // };
-
   const getCodes = (datatogetItsCode: any) => {
     return datatogetItsCode?.map((job: any) => job.code);
   };
-
-  // console.log('codeeeeeeeeeeesss------' + returnCode());
 
   const [selectedId, setSelectedId] = useState<string | null>(
     jobData?.post_type?.code || '1',
@@ -99,32 +84,42 @@ const JobPost = ({navigation, route}: any) => {
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
     getCodes(jobData?.job_types) || [],
   );
+
   const [selectedId4, setSelectedId4] = useState<string | null>(
     jobData?.career_level?.code || null,
   );
+
   const [selectedIds, setSelectedIds] = useState<string | null>(
-    [jobData?.contract_type?.code] || [],
+    [jobData?.contract_type?.code] || '',
   );
+
+  console.log('ffoooo' + selectedIds);
 
   const [Checked, setChecked] = useState<boolean>(
     jobData?.salary_hide || false,
   );
+
   const [exp_From, setExpFrom] = useState(
     jobData?.experience_from.toString() || '',
   );
+
   const [exp_To, setExpTo] = useState(jobData?.experience_to.toString() || '');
   const [salary_From, setSalaryFrom] = useState(
     jobData?.salary_from.toString() || '',
   );
+
   const [salary_To, setSalaryTo] = useState(
     jobData?.salary_to.toString() || '',
   );
+
   const [numberOFVacancies, setnumberOFVacancies] = useState(
     jobData?.number_of_vacancies?.toString() || '',
   );
+
   const [Description, setDescription] = useState(
     jobData?.job_description || '',
   );
+
   const [Requirment, setRequirment] = useState(jobData?.job_requirements || '');
   const [keyWords, setKeyWords] = useState('');
   const [Email, setEmail] = useState(
@@ -135,12 +130,15 @@ const JobPost = ({navigation, route}: any) => {
   const [selectedCountry, setSelectedCountry] = useState(
     jobData?.country?.code || '',
   );
+
   const [selectedSalaryPer, SetSelectedSalaryPer] = useState(
     jobData?.salary_per?.code || '',
   );
+
   const [selectedSalaryCurrency, SetSelectedSalaryCurrency] = useState(
     jobData?.salary_currency?.code || '',
   );
+
   const [openDropdown, setOpenDropdown] = useState(null);
   const [KeyWpordsArray, setKeyWpordsArray] = useState(jobData?.keywords || []);
 
@@ -149,6 +147,7 @@ const JobPost = ({navigation, route}: any) => {
       prevLanguages?.filter((_, index) => index !== indexToDelete),
     );
   };
+
   const addedLanguge = () => {
     for (let i = 0; i < KeyWpordsArray.length; i++) {
       if (KeyWpordsArray[i] === keyWords) {
@@ -222,7 +221,7 @@ const JobPost = ({navigation, route}: any) => {
       setSelectedIds(prevSelectedIds =>
         isSelected
           ? prevSelectedIds.filter(id => id !== item.code)
-          : [...prevSelectedIds, item.code],
+          : [item.code],
       );
     };
 
@@ -303,9 +302,9 @@ const JobPost = ({navigation, route}: any) => {
     is_high_job: 'no',
     post_type: selectedId,
     title: Title,
-    category: 50,
+    category: 1,
     job_types: selectedJobTypes,
-    contract_type: selectedIds?.toString(),
+    contract_type: Number(selectedIds?.toString()),
     country: selectedCountry,
     salary_currency: selectedSalaryCurrency,
     salary_per: selectedSalaryPer,
@@ -320,7 +319,7 @@ const JobPost = ({navigation, route}: any) => {
     job_description: Description,
     job_requirements: Requirment,
     keywords: KeyWpordsArray,
-    option: selectedJobOption,
+    // option: selectedJobOption,
     send_emails_notification_per: selectedSubOption,
     send_emails_notification_to: Email,
   };
@@ -487,11 +486,11 @@ const JobPost = ({navigation, route}: any) => {
   };
 
   const EDITJOB = () => {
-    console.log('Folrm Edit Job--------' + JSON.stringify(formData));
     const EditedDataToSend = {
       ...formData,
-      job_code: jobData?.code,
+      code: jobData?.code,
     };
+    console.log('Folrm Edit Job--------' + JSON.stringify(EditedDataToSend));
     if (validateForm()) {
       dispatch(editBob(EditedDataToSend))
         .unwrap()
@@ -873,7 +872,10 @@ const JobPost = ({navigation, route}: any) => {
                 label={selectedType + ' description'}
                 value={Description}
                 onChangeText={(val: any) => setDescription(val)}
+                inputLength
+                minLength={1024}
               />
+
               {formErrors.job_description && (
                 <CustomText
                   text={formErrors.job_description}
@@ -890,6 +892,8 @@ const JobPost = ({navigation, route}: any) => {
                 label={selectedType + ' requirement'}
                 value={Requirment}
                 onChangeText={(val: any) => setRequirment(val)}
+                inputLength
+                minLength={1024}
               />
               {formErrors.job_requirements && (
                 <CustomText
@@ -1011,19 +1015,9 @@ const JobPost = ({navigation, route}: any) => {
 
           {/* SAve */}
           {jobData ? (
-            <Button
-              text="Edit Job"
-              style={styles.Buttom}
-              onPress={EDITJOB}
-              loading={lodingApply}
-            />
+            <Button text="Edit Job" style={styles.Buttom} onPress={EDITJOB} />
           ) : (
-            <Button
-              text="Post Now"
-              style={styles.Buttom}
-              onPress={PostJob}
-              loading={loadinJobs}
-            />
+            <Button text="Post Now" style={styles.Buttom} onPress={PostJob} />
           )}
         </ScrollView>
       </View>

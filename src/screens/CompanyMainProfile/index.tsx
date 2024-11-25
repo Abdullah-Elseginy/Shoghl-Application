@@ -116,7 +116,9 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
           <View style={[generalStyles.row, styles.marginT]}>
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
-              text={item?.country?.default_name + ' | ' + item?.city?.default_name}
+              text={
+                item?.country?.default_name + ' | ' + item?.city?.default_name
+              }
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -124,7 +126,11 @@ const Job = ({item, navigation, companyName, deletejob}: any) => {
         <View style={generalStyles.row}>
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
-            text={item?.contract_type?.default_name + ' | ' + item?.career_level?.default_name}
+            text={
+              item?.contract_type?.default_name +
+              ' | ' +
+              item?.career_level?.default_name
+            }
             textStyle={styles.jobBottomTxt}
           />
         </View>
@@ -347,8 +353,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
     dispatch(getCompanyRange());
   }, []);
 
-  console.log('company Range0-----' + companyRange);
-
   const memoLocation = useMemo(() => allCountries2 || [], [allCountries2]);
 
   const memoCompanyRange = useMemo(
@@ -427,7 +431,9 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 <View>
                   <CustomText text="Location" textStyle={styles.labelinput} />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
-                    <CustomText text={companyDataProfile?.country?.default_name} />
+                    <CustomText
+                      text={companyDataProfile?.country?.default_name}
+                    />
                   </View>
                 </View>
               ) : (
@@ -639,7 +645,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
             )}
             {doenloadPDF && (
               <WebView
-                source={{uri: DocumentURL}}
+                source={{uri: DocumentURL || ''}}
                 downloadingMessage="Dowenloaded successfully"
               />
             )}
