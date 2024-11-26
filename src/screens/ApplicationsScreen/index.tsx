@@ -193,20 +193,9 @@ const Applications = ({navigation}: any) => {
             <Dropdown
               placeholder="Select Your Country"
               value={selectedCountr}
-              setValue={setSelectedCountry}
+              onChangeValue={(value: any) => setSelectedCountry(value.code)}
               dropDownStyle={styles.dropdwon}
-              list={[{label: 'KSA', id: '1'}]}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown1'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown1' : null)
-              }
-              schema={{
-                label: 'label',
-                value: 'id',
-              }}
+              list={[{default_name: 'KSA', code: '1'}]}
             />
           </View>
         </View>

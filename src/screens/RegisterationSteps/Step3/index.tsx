@@ -293,16 +293,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Select Years Of Experience"
             value={selectedYearEx}
-            setValue={setSelectedYearEx}
+            onChangeValue={(value: any) => setSelectedYearEx(value.code)}
             dropDownStyle={generalStyles.DropBorder}
             list={yearsExperience}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown1'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown1' : null)
-            }
           />
         </View>
         {formErrors.year_ex && (
@@ -353,19 +346,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Field(S) of study"
             value={selectedFeild}
-            setValue={setSelectedFeild}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setSelectedFeild(value.code)}
             list={feildStudy}
-            multiBle={true}
-            min={0}
-            max={3}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown3' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown3'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown3' : null)
-            }
           />
         </View>
         {formErrors.feiled_study && (
@@ -384,16 +366,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="University / Institution"
             value={selectedUniversty}
-            setValue={setSelectedUniversty}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setSelectedUniversty(value.code)}
             list={universities}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown4'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown4' : null)
-            }
           />
         </View>
         {formErrors.Universty && (
@@ -409,20 +383,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="When did you get your degree?"
             value={selectedDegree}
-            setValue={setSelectedDegree}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setSelectedDegree(value.code)}
             list={yearOptions}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown5' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown5'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown5' : null)
-            }
-            schema={{
-              label: 'default_name',
-              value: 'default_name',
-            }}
           />
         </View>
         {formErrors.degree_date && (
@@ -441,16 +403,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Grade"
             value={selectedGrade}
-            setValue={setSelectedGrade}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setSelectedGrade(value.code)}
             list={Grades}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown6'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown6' : null)
-            }
           />
         </View>
         {formErrors.grade && (
@@ -473,16 +427,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Langauge"
             value={SelectedLanguage}
-            setValue={setselectedLanguage}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setselectedLanguage(value.code)}
             list={languages}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown7' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown7'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown7' : null)
-            }
           />
         </View>
         {formErrors.language && (
@@ -497,16 +443,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Proficiency"
             value={SelectedProficiency}
-            setValue={setselectedProficiency}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setselectedProficiency(value.code)}
             list={languagesLevel}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
-            }}
-            isOpen={openDropdown === 'dropdown12'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown12' : null)
-            }
           />
           {formErrors.profisincy && (
             <CustomText
@@ -548,7 +486,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       </View>
       {/* What skills, tools, technologies and fields of expertise do you have? */}
       <View style={styles.SectionBox}>
-        <View style={generalStyles.rowwrap}>
+        <View>
           <CustomText
             text="What skills, tools, technologies and fields of expertise do you have?"
             textStyle={[styles.StepTitle, styles.marginbtn]}
@@ -556,19 +494,8 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Skills"
             value={selectedSkills}
-            setValue={setSelectedSkills}
-            dropDownStyle={generalStyles.DropBorder}
+            onChangeValue={(value: any) => setSelectedSkills(value.code)}
             list={skills}
-            containerStyle={{
-              zIndex: openDropdown === 'dropdown6' ? 10000 : 1,
-            }}
-            multiBle={true}
-            min={0}
-            max={10}
-            isOpen={openDropdown === 'dropdown6'}
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown6' : null)
-            }
           />
         </View>
         {formErrors.skills && (

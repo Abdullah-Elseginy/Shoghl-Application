@@ -1,111 +1,79 @@
-import {StyleProp, TextStyle, ViewStyle} from 'react-native';
-import React, {useState} from 'react';
-import DropDownPicker from 'react-native-dropdown-picker';
+import {StyleProp, TextStyle, View, ViewStyle} from 'react-native';
+import React from 'react';
+import {Dropdown as DropDwenPicker} from 'react-native-element-dropdown';
 import {styles} from './styles';
 import CustomText from '../CustomText';
+import {COLORS} from '../../constants';
 
 type Props = {
   placeholder?: string;
   label?: string;
   value?: any;
-  setValue?: any;
   onChangeValue?: any;
   list?: any;
   dropDownStyle?: StyleProp<ViewStyle>;
   placeholderStyle?: StyleProp<TextStyle>;
-  ModalContainerStyle?: StyleProp<ViewStyle>;
   ItemsBOX?: StyleProp<ViewStyle>;
-  selectedItemContainerStyle?: StyleProp<ViewStyle>;
   containerStyle?: StyleProp<ViewStyle>;
-  isOpen?: boolean; // New prop to indicate if this dropdown is open
-  onDropdownOpen?: (isOpen: boolean) => void; // Updated type for the function
   labelStyle?: StyleProp<ViewStyle>;
+  selectedTextStyle?: StyleProp<TextStyle>;
   schema?: any;
-  multiBle?: boolean;
+  search?: boolean;
   min?: number;
-  max?: number;
+  maxSelect?: number;
 };
 
 const Dropdown = ({
   placeholder,
   label,
   value,
-  setValue,
   onChangeValue,
   list,
   dropDownStyle,
   placeholderStyle,
-  ModalContainerStyle,
   ItemsBOX,
-  selectedItemContainerStyle,
   containerStyle,
-  isOpen,
-  onDropdownOpen,
   labelStyle,
+  selectedTextStyle,
   schema,
-  multiBle = false,
-  min,
-  max,
+  search = false,
 }: Props) => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const handleDropdownToggle = () => {
-    const newState = !isDropdownOpen;
-    setIsDropdownOpen(newState); // Toggle local dropdown state
-    if (onDropdownOpen) {
-      onDropdownOpen(newState); // Pass the new state to the parent
-    }
-  };
-
+  const itemHeight = 50; // Height of each item
+  const dropdownHeight = list.length * itemHeight; // Total height of dropdown
   return (
-    <>
+    <View>
       {label && (
         <CustomText text={label} textStyle={[styles.labelStyle, labelStyle]} />
       )}
-      <DropDownPicker
-        maxHeight={200}
-        listMode="SCROLLVIEW"
+      <DropDwenPicker
+        data={list}
+        labelField={schema?.label || 'default_name'}
+        valueField={schema?.value || 'code'}
+        mode="default"
         placeholder={placeholder}
         placeholderStyle={[styles.placeholderStyle, placeholderStyle]}
-        items={list}
-        open={isDropdownOpen}
-        setOpen={handleDropdownToggle} // Use the toggle function
-        value={value}
-        setValue={setValue}
-        onChangeValue={onChangeValue}
         style={[styles.dropDownStyle, dropDownStyle]}
-        modalContentContainerStyle={[
-          styles.dropDownContainerStyle,
-          ModalContainerStyle,
-        ]}
-        multiple={multiBle}
-        mode={'BADGE'}
-        // badgeColors={COLORS.primaryLight}
-        badgeTextStyle={styles.bagetextStyle}
-        min={min}
-        max={max}
         containerStyle={[
           styles.dropDownContainerStyle,
           containerStyle,
-          {zIndex: isOpen ? 10000 : 1}, // Set a high zIndex when open
+          {height: dropdownHeight},
         ]}
-        listItemLabelStyle={styles.listItemLabelStyle}
-        selectedItemContainerStyle={[
-          styles.selectedItemContainerStyle,
-          selectedItemContainerStyle,
-        ]}
-        selectedItemLabelStyle={styles.selectedItemLabelStyle}
-        dropDownContainerStyle={[ItemsBOX, styles.itemsContaienrStyle]}
-        schema={
-          schema
-            ? schema
-            : {
-                label: 'default_name',
-                value: 'code',
-              }
-        }
+        selectedTextStyle={[styles.selectedTextStyle, selectedTextStyle]}
+        itemContainerStyle={styles.itemContainerStyle}
+        dropdownPosition="bottom"
+        activeColor={COLORS.primaryMoreLight}
+        search={search}
+        value={value}
+        onChange={onChangeValue}
+        renderItem={item => (
+          <View style={[styles.itemsContaienrStyle, ItemsBOX]}>
+            <CustomText text={item.default_name} />
+          </View>
+        )}
+        maxHeight={200}
+        minHeight={50}
       />
-    </>
+    </View>
   );
 };
 

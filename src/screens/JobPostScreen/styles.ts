@@ -97,7 +97,6 @@ export const styles = StyleSheet.create({
   },
   InputBox: {
     width: wp(40),
-    marginRight: wp(6),
     marginTop: hp(2),
     borderColor: COLORS.primary,
     backgroundColor: COLORS.white,
@@ -175,7 +174,6 @@ export const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderWidth: hp(0.1),
     width: wp(40),
-    // marginRight: wp(6),
   },
   MB: {
     marginBottom: hp(1),

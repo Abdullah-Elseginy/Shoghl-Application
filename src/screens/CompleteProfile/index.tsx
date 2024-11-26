@@ -45,7 +45,6 @@ const CompleteProfile = ({navigation}: Props) => {
   const [phone, setPhone] = React.useState('');
   const [expectedSalary, setExpectedSalary] = React.useState('');
   const [errors, setErrors] = React.useState<any>({});
-
   // Handles dropdown open/close state
   const handleDropdownOpen = (dropdownId: any) => {
     if (openDropdown === dropdownId) {
@@ -168,16 +167,8 @@ const CompleteProfile = ({navigation}: Props) => {
           placeholder="Location"
           label="Location"
           value={selectedLocation}
-          setValue={setSelectedLocation}
-          dropDownStyle={generalStyles.DropBorder}
+          onChangeValue={(value: any) => setSelectedLocation(value.code)}
           list={allCountries}
-          containerStyle={{
-            zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-          }}
-          isOpen={openDropdown === 'dropdown1'}
-          onDropdownOpen={isOpen =>
-            handleDropdownOpen(isOpen ? 'dropdown1' : null)
-          }
         />
         {errors.selectedLocation && (
           <CustomText
@@ -191,16 +182,8 @@ const CompleteProfile = ({navigation}: Props) => {
           label="City"
           labelStyle={styles.marginTop}
           value={selectedCity}
-          setValue={setSelectedCity}
-          dropDownStyle={generalStyles.DropBorder}
+          onChangeValue={(value: any) => setSelectedCity(value.code)}
           list={allCities}
-          containerStyle={{
-            zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-          }}
-          isOpen={openDropdown === 'dropdown2'}
-          onDropdownOpen={isOpen =>
-            handleDropdownOpen(isOpen ? 'dropdown2' : null)
-          }
         />
         {errors.selectedCity && (
           <CustomText

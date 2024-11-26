@@ -483,16 +483,9 @@ const ProfileScreen = () => {
                     <Dropdown
                       placeholder="Selct job"
                       value={selctedjobs}
-                      setValue={setselctedjobs}
+                      onChangeValue={(value: any) => setselctedjobs(value.code)}
                       dropDownStyle={styles.DropBorder2}
                       list={memoizedjobs}
-                      containerStyle={{
-                        zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-                      }}
-                      isOpen={openDropdown === 'dropdown1'}
-                      onDropdownOpen={isOpen =>
-                        handleDropdownOpen(isOpen ? 'dropdown1' : null)
-                      }
                     />
                   </View>
                 </View>
@@ -520,16 +513,11 @@ const ProfileScreen = () => {
                       <Dropdown
                         placeholder="country"
                         value={selctedcountry}
-                        setValue={setselctedcountry}
+                        onChangeValue={(value: any) =>
+                          setselctedcountry(value.code)
+                        }
                         dropDownStyle={styles.DropBorder3}
                         list={memoAllCountries}
-                        containerStyle={{
-                          zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-                        }}
-                        isOpen={openDropdown === 'dropdown2'}
-                        onDropdownOpen={isOpen =>
-                          handleDropdownOpen(isOpen ? 'dropdown2' : null)
-                        }
                       />
                     </View>
                   )}
@@ -550,16 +538,11 @@ const ProfileScreen = () => {
                       <Dropdown
                         placeholder="city"
                         value={selctedcity}
-                        setValue={setselctedcity}
+                        onChangeValue={(value: any) =>
+                          setselctedcity(value.code)
+                        }
                         dropDownStyle={styles.DropBorder3}
                         list={memoAllCities}
-                        containerStyle={{
-                          zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-                        }}
-                        isOpen={openDropdown === 'dropdown2'}
-                        onDropdownOpen={isOpen =>
-                          handleDropdownOpen(isOpen ? 'dropdown2' : null)
-                        }
                       />
                     </View>
                   )}

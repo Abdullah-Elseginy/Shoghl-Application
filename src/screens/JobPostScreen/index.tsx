@@ -532,7 +532,9 @@ const JobPost = ({navigation, route}: any) => {
     <AppScreenContainer>
       <AppHeader arrowBack title="Jop Post" />
       <View style={styles.Container}>
-        <ScrollView contentContainerStyle={styles.Scrollstyle}>
+        <ScrollView
+          contentContainerStyle={styles.Scrollstyle}
+          nestedScrollEnabled={true}>
           <View style={styles.MainStep}>
             <CustomText text="Post New Job" textStyle={styles.MainStepText} />
             <CustomText text="Create a job post" />
@@ -579,16 +581,8 @@ const JobPost = ({navigation, route}: any) => {
               <Dropdown
                 placeholder="Select Category"
                 value={Category}
-                setValue={setCategory}
-                dropDownStyle={generalStyles.DropBorder}
+                onChangeValue={(value: any) => setCategory(value.code)}
                 list={CategoryMemo}
-                containerStyle={{
-                  zIndex: openDropdown === 'dropdown77' ? 10000 : 1,
-                }}
-                isOpen={openDropdown === 'dropdown77'}
-                onDropdownOpen={isOpen =>
-                  handleDropdownOpen(isOpen ? 'dropdown77' : null)
-                }
               />
             </View>
           </View>
@@ -643,16 +637,9 @@ const JobPost = ({navigation, route}: any) => {
             <Dropdown
               placeholder="Country"
               value={selectedCountry}
-              setValue={setSelectedCountry}
-              dropDownStyle={generalStyles.DropBorder}
               list={allCountries}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown1'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown1' : null)
-              }
+              setValue={setSelectedCountry}
+              onChangeValue={(value: any) => setSelectedCountry(value.code)}
             />
             {formErrors.country && (
               <CustomText
@@ -664,16 +651,8 @@ const JobPost = ({navigation, route}: any) => {
             <Dropdown
               placeholder="City"
               value={selectedCity}
-              setValue={setSelectedCity}
-              dropDownStyle={generalStyles.DropBorder}
               list={allCities}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown2'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown2' : null)
-              }
+              onChangeValue={(value: any) => setSelectedCity(value.code)}
             />
             {formErrors.city && (
               <CustomText text={formErrors.city} textStyle={styles.ErrorMSG} />
@@ -703,7 +682,7 @@ const JobPost = ({navigation, route}: any) => {
               text="Years of Experience"
               textStyle={styles.StepTitle}
             />
-            <View style={generalStyles.row}>
+            <View style={generalStyles.rowBetween}>
               <View>
                 <AppInput
                   containerStyle={styles.InputBox}
@@ -746,7 +725,7 @@ const JobPost = ({navigation, route}: any) => {
           {/* Salary Range */}
           <View style={[styles.SectionBox]}>
             <CustomText text="Salary Range" textStyle={styles.StepTitle} />
-            <View style={generalStyles.row}>
+            <View style={generalStyles.rowBetween}>
               <View>
                 <AppInput
                   containerStyle={styles.InputBox}
@@ -766,44 +745,27 @@ const JobPost = ({navigation, route}: any) => {
                 />
               </View>
             </View>
-            <View style={[generalStyles.row, styles.DrobOx]}>
+            <View style={[generalStyles.rowBetween, styles.DrobOx]}>
               <View>
                 <Dropdown
                   placeholder="Currency"
                   value={selectedSalaryCurrency}
-                  setValue={SetSelectedSalaryCurrency}
                   dropDownStyle={styles.drop}
                   list={Currency}
-                  containerStyle={{
-                    zIndex: openDropdown === 'dropdown12' ? 10000 : 1,
-                    width: wp(40),
-                    marginRight: wp(6),
-                  }}
-                  isOpen={openDropdown === 'dropdown12'}
-                  onDropdownOpen={isOpen =>
-                    handleDropdownOpen(isOpen ? 'dropdown12' : null)
+                  onChangeValue={(value: any) =>
+                    SetSelectedSalaryCurrency(value.code)
                   }
-                  schema={{
-                    label: 'default_name',
-                    value: 'code',
-                  }}
                 />
               </View>
               <View>
                 <Dropdown
                   placeholder="Salary Per"
                   value={selectedSalaryPer}
-                  setValue={SetSelectedSalaryPer}
+                  onChangeValue={(value: any) =>
+                    SetSelectedSalaryPer(value.code)
+                  }
                   dropDownStyle={styles.drop}
                   list={jobsSalaryPer}
-                  containerStyle={{
-                    zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-                    width: wp(40),
-                  }}
-                  isOpen={openDropdown === 'dropdown2'}
-                  onDropdownOpen={isOpen =>
-                    handleDropdownOpen(isOpen ? 'dropdown2' : null)
-                  }
                 />
               </View>
             </View>

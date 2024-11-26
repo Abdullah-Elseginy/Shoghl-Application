@@ -183,7 +183,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    // setCurrentPosition(1);
+    setCurrentPosition(1);
     // console.log('formaaaaaaaaaa' + JSON.stringify(formData));
 
     if (validateForm()) {
@@ -345,18 +345,12 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
           )}
           <View style={styles.dropBox}>
             <Dropdown
-              placeholder="Selected minimum net salary per?"
+              placeholder="Select salary per?"
               value={selectedMinNetSalary}
-              setValue={setSelectedMinNetSalary}
-              dropDownStyle={generalStyles.DropBorder}
               list={memoizedSalaryPer}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-              }} // Manage zIndex
-              isOpen={openDropdown === 'dropdown1'} // Determine if this dropdown is open
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown1' : null)
-              } // Pass the current state
+              onChangeValue={(value: any) =>
+                setSelectedMinNetSalary(value.code)
+              }
             />
 
             {formErrors.minnuim_net_salary_per && (
@@ -366,20 +360,14 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
               />
             )}
           </View>
-          <Dropdown
-            placeholder="Select The currency"
-            value={selectedCurrency}
-            setValue={setSelectedCurrency}
-            list={Currency}
-            dropDownStyle={generalStyles.DropBorder}
-            containerStyle={[
-              {zIndex: openDropdown === 'dropdown2' ? 10000 : 1},
-            ]} // Manage zIndex
-            isOpen={openDropdown === 'dropdown2'} // Determine if this dropdown is open
-            onDropdownOpen={isOpen =>
-              handleDropdownOpen(isOpen ? 'dropdown2' : null)
-            } // Pass the current state
-          />
+          <View style={styles.dropBox}>
+            <Dropdown
+              placeholder="Select The currency"
+              value={selectedCurrency}
+              onChangeValue={(value: any) => setSelectedCurrency(value.code)}
+              list={Currency}
+            />
+          </View>
           <View>
             {formErrors.minnuim_net_salary_currency && (
               <CustomText

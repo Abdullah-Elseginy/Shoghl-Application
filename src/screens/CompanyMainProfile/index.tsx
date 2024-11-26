@@ -442,16 +442,9 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     label="Location"
                     placeholder="Location"
                     value={companyLocation}
-                    setValue={setLocation}
+                    onChangeValue={(value: any) => setLocation(value.code)}
                     dropDownStyle={styles.DropBorder2}
                     list={memoLocation}
-                    containerStyle={{
-                      zIndex: openDropdown === 'dropdown4' ? 100004444440 : 1,
-                    }}
-                    isOpen={openDropdown === 'dropdown4'}
-                    onDropdownOpen={isOpen =>
-                      handleDropdownOpen(isOpen ? 'dropdown4' : null)
-                    }
                   />
                 </View>
               )}
@@ -471,16 +464,9 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     label="Company Size"
                     placeholder="Company Size"
                     value={companyRange}
-                    setValue={setCompanyRange}
+                    onChangeValue={(value: any) => setCompanyRange(value.code)}
                     dropDownStyle={styles.DropBorder2}
                     list={memoCompanyRange}
-                    containerStyle={{
-                      zIndex: openDropdown === 'dropdown4' ? 100004444440 : 1,
-                    }}
-                    isOpen={openDropdown === 'dropdown4'}
-                    onDropdownOpen={isOpen =>
-                      handleDropdownOpen(isOpen ? 'dropdown4' : null)
-                    }
                   />
                 </View>
               )}

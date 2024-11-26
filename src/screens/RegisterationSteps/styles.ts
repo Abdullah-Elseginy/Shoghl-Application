@@ -86,9 +86,16 @@ export const styles = StyleSheet.create({
   },
   dropBox: {
     marginTop: hp(3),
+    width: '100%',
   },
   ErrorMSG: {
     color: COLORS.danger,
     marginTop: hp(0.5),
+  },
+  drop: {
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderWidth: hp(0.1),
+    width: wp(40),
   },
 });

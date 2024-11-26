@@ -47,7 +47,7 @@ type Props = {
 const HomeScreen = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loadinJobs, allCategories} = useSelector((state: any) => state.jobs);
-  const {allCities} = useSelector((state: any) => state.appdata);
+  const {allCities} = useSelector((state: any) => state.helpers);
   const [city, setCity] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [CategoryVal, setCategoryVal] = React.useState('');
@@ -303,10 +303,8 @@ const HomeScreen = ({navigation}: Props) => {
           <Dropdown
             placeholder="City"
             value={city}
-            setValue={setCity}
-            dropDownStyle={[generalStyles.DropBorder]}
+            onChangeValue={(value: any) => setCity(value.code)}
             list={MemoCities}
-            schema={{value: 'id', label: 'name_en'}}
           />
           <AppInput
             placeholder="All Categories"

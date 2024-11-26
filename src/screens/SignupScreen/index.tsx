@@ -384,6 +384,23 @@ const SignupScreen = ({navigation}: Props) => {
                   text={formErrors.mobileNumber}
                 />
               )}
+              <Dropdown
+                placeholder="which role you are open to?"
+                label="which role you are open to?"
+                labelStyle={[styles.inputLabel, styles.CoporateInput]}
+                value={role}
+                dropDownStyle={generalStyles.DropBorder}
+                list={roleList}
+                maxSelect={3}
+                multiBle={true}
+                onChangeValue={(value: any) => setrole(value.code)}
+              />
+              {formErrors.role && (
+                <CustomText
+                  textStyle={styles.ErrorMSG}
+                  text={formErrors.role}
+                />
+              )}
 
               <AppInput
                 placeholder="Enter Your Business Mail"
@@ -419,31 +436,7 @@ const SignupScreen = ({navigation}: Props) => {
                   text={formErrors.password}
                 />
               )}
-              <Dropdown
-                placeholder="which role you are open to?"
-                label="which role you are open to?"
-                labelStyle={[styles.inputLabel, styles.CoporateInput]}
-                value={role}
-                setValue={setrole}
-                dropDownStyle={generalStyles.DropBorder}
-                list={roleList}
-                max={3}
-                min={1}
-                multiBle={true}
-                containerStyle={{
-                  zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-                }}
-                isOpen={openDropdown === 'dropdown1'}
-                onDropdownOpen={isOpen =>
-                  handleDropdownOpen(isOpen ? 'dropdown1' : null)
-                }
-              />
-              {formErrors.role && (
-                <CustomText
-                  textStyle={styles.ErrorMSG}
-                  text={formErrors.role}
-                />
-              )}
+
               <Button
                 loading={loading}
                 text="Submit"

@@ -118,7 +118,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    // setCurrentPosition(2);
+    setCurrentPosition(2);
     const concatFormData = {...formData, ...DropDwenValues};
     if (validateForm()) {
       dispatch(signUpThreeCorporate(concatFormData))
@@ -266,16 +266,9 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
             <Dropdown
               placeholder="Select Gender"
               value={selectedGender}
-              setValue={setSelectedGEnder}
+              onChangeValue={(value: any) => setSelectedGEnder(value.code)}
               dropDownStyle={generalStyles.DropBorder2}
               list={genderList}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown1' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown1'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown1' : null)
-              }
             />
           </View>
           <View>
@@ -286,16 +279,9 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
             <Dropdown
               placeholder="Select Nationality"
               value={selectedNationality}
-              setValue={setSelectedNationality}
+              onChangeValue={(value: any) => setSelectedNationality(value.code)}
               dropDownStyle={generalStyles.DropBorder2}
               list={allCountries2}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown2' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown2'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown2' : null)
-              }
             />
           </View>
         </View>
@@ -328,13 +314,9 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
             <Dropdown
               placeholder="Select Country"
               value={selectedCountry}
-              setValue={setSelectedCountry}
-              dropDownStyle={generalStyles.DropBorder2}
+              onChangeValue={(value: any) => setSelectedCountry(value.code)}
               list={allCountries}
-              isOpen={openDropdown === 'dropdown3'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown3' : null)
-              }
+              dropDownStyle={generalStyles.DropBorder2}
             />
           </View>
           <View>
@@ -345,16 +327,9 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
             <Dropdown
               placeholder="Select City"
               value={selectedCity}
-              setValue={setSelectedCity}
+              onChangeValue={(value: any) => setSelectedCity(value.code)}
               dropDownStyle={generalStyles.DropBorder2}
               list={allCities}
-              containerStyle={{
-                zIndex: openDropdown === 'dropdown4' ? 10000 : 1,
-              }}
-              isOpen={openDropdown === 'dropdown4'}
-              onDropdownOpen={isOpen =>
-                handleDropdownOpen(isOpen ? 'dropdown4' : null)
-              }
             />
           </View>
         </View>
