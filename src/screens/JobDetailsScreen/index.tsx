@@ -44,7 +44,7 @@ const SimilarJobs = ({item, setjobcode, GETGobDtetails}: any) => {
         textStyle={styles.company}
       />
       <CustomText
-        text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+        text={item?.country?.default_name + ' | ' + item?.city?.default_name}
         textStyle={styles.location}
       />
       <CustomText text={item?.since} textStyle={styles.days} />
@@ -80,14 +80,14 @@ const SimilarFunctions = ({item, setjobcode, GETGobDtetails}: any) => {
           <View style={generalStyles.row}>
             <Location />
             <CustomText
-              text={item?.country?.name_en}
+              text={item?.country?.default_name}
               textStyle={styles.Telimed}
             />
           </View>
           <View style={generalStyles.row}>
             <Temlid />
             <CustomText
-              text={item?.contract_type?.en}
+              text={item?.contract_type?.default_name}
               textStyle={styles.Telimed}
             />
           </View>
@@ -214,14 +214,18 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
           <TouchableOpacity
             onPress={() => navigation.navigate(ScreenNames.CompanyProfile)}>
             <Image
-              source={{uri: jobDetails?.company?.company_logo}}
+              source={{
+                uri:
+                  jobDetails?.company?.company_logo ||
+                  'https://plus.unsplash.com/premium_photo-1682002135678-87b8a2fdde50?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              }}
               resizeMode="cover"
               style={styles.ImageProfile}
             />
           </TouchableOpacity>
           <CustomText text={jobDetails?.title} textStyle={styles.JobNameText} />
           <View style={generalStyles.row}>
-            {jobDetails?.job_types?.en.map((item: any) => (
+            {jobDetails?.job_types?.default_name?.map((item: any) => (
               <CustomText text={item} textStyle={styles.JobsiteText} />
             ))}
           </View>
@@ -237,9 +241,9 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
             <CustomText
               text={
                 ' ' +
-                jobDetails?.city?.name_en +
+                jobDetails?.city?.default_name +
                 ' | ' +
-                jobDetails?.country?.name_en
+                jobDetails?.country?.default_name
               }
             />
           </View>
@@ -376,14 +380,14 @@ const JobDetailsScreen = ({route, navigation}: Props) => {
           <View style={[generalStyles.rowBetween, styles.requrmentSectionBox]}>
             <CustomText text="Basic Salary" textStyle={styles.textRequrments} />
             <CustomText
-              text={`${jobDetails?.salary_from} - ${jobDetails?.salary_to} ${jobDetails?.country?.currency} / ${jobDetails?.salary_per?.en}`}
+              text={`${jobDetails?.salary_from} - ${jobDetails?.salary_to} ${jobDetails?.country?.currency} / ${jobDetails?.salary_per?.default_name}`}
               textStyle={styles.textRequrments3}
             />
           </View>
           <View style={[generalStyles.rowBetween, styles.requrmentSectionBox]}>
             <CustomText text="Type of Job" textStyle={styles.textRequrments} />
             <CustomText
-              text={jobDetails?.contract_type?.en}
+              text={jobDetails?.contract_type?.default_name}
               textStyle={styles.textRequrments3}
             />
           </View>

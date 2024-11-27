@@ -175,6 +175,8 @@ export const styles = StyleSheet.create({
     marginTop: hp(0.7),
     borderWidth: 0,
     marginBottom: hp(2),
+    padding: wp(3.8),
+    borderRadius: wp(2),
   },
   box: {
     padding: wp(3.8),
@@ -185,11 +187,12 @@ export const styles = StyleSheet.create({
   },
   FlatBox2: {
     marginRight: wp(4),
-    marginBottom: hp(2),
+    marginBottom: hp(1),
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     flexWrap: 'wrap',
+    marginTop: hp(2),
   },
   Logout: {
     backgroundColor: COLORS.danger,
@@ -255,5 +258,14 @@ export const styles = StyleSheet.create({
     marginVertical: hp(1),
     backgroundColor: COLORS.blueLight,
     borderRadius: wp(2),
+  },
+  mb: {
+    marginBottom: hp(2),
+  },
+  cont: {
+    backgroundColor: COLORS.blueMoresmothy,
+    padding: wp(3.8),
+    borderRadius: wp(2),
+    marginBottom: hp(2),
   },
 });

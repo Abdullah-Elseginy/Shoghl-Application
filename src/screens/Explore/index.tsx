@@ -35,10 +35,10 @@ type Props = {
   item: any;
 };
 const jobTypeColors = {
-  Internship: '#e1d123',
-  'Full Time': '#186fc9',
-  Freelance: '#53b427',
-  'Part Time': '#f1630d',
+  Internship: COLORS.dangerLight,
+  'Full Time': COLORS.blueMoresmothy,
+  Freelance: COLORS.primaryMoreLight,
+  'Part Time': COLORS.yellow,
 };
 
 // Function to get border color based on job types
@@ -48,7 +48,7 @@ const getBorderColor = (types: any) => {
   if (types?.includes('Freelance')) return jobTypeColors['Freelance'];
   if (types?.includes('Part Time')) return jobTypeColors['Part Time'];
   if (types?.includes('Student activity')) return jobTypeColors['Part Time'];
-  return '#f1630d'; // Default color if no types match
+  return '#e1d123'; // Default color if no types match
 };
 const Job = ({item, navigation}: Props) => {
   return (
@@ -60,7 +60,7 @@ const Job = ({item, navigation}: Props) => {
       }
       style={[
         styles.jobBox,
-        {borderColor: getBorderColor(item?.job_types?.en)},
+        {backgroundColor: getBorderColor(item?.job_types?.default_name)},
       ]}>
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
@@ -82,28 +82,28 @@ const Job = ({item, navigation}: Props) => {
             </View>
             <View style={[generalStyles.rowBetween]}>
               <FlatList
-                data={item?.job_types?.en}
+                data={item?.job_types}
                 horizontal
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
                   item == 'Full Time' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name?.slice(0, 9)}
                       textStyle={[styles.period2]}
                     />
                   ) : item == 'Shift based' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name?.slice(0, 9)}
                       textStyle={[styles.period]}
                     />
                   ) : item == 'Part Time' ? (
                     <CustomText
-                      text={item.slice(0, 12)}
+                      text={item?.default_name?.slice(0, 12)}
                       textStyle={[styles.period, styles.period4]}
                     />
                   ) : (
                     <CustomText
-                      text={item.slice(0, 12) + '..'}
+                      text={item?.default_name?.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -125,7 +125,9 @@ const Job = ({item, navigation}: Props) => {
           <View style={[generalStyles.row, styles.marginT]}>
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
-              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              text={
+                item?.country?.default_name + ' | ' + item?.city?.default_name
+              }
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -134,11 +136,11 @@ const Job = ({item, navigation}: Props) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.contract_type?.en +
+              item?.contract_type?.default_name +
               ' | ' +
-              item?.career_level?.en +
+              item?.career_level?.default_name +
               ' | ' +
-              item?.category_name?.en
+              item?.category_name?.default_name
             }
             textStyle={styles.jobBottomTxt}
           />
@@ -159,7 +161,9 @@ const Explore = ({navigation}: Props) => {
   const {allJobs, helpersJobs, loadinJobs} = useSelector(
     (state: any) => state.jobs,
   );
-  const {allCities} = useSelector((state: any) => state.appdata);
+  const {allCities, contractTypes, careerLevel} = useSelector(
+    (state: any) => state.helpers,
+  );
   const dispatch = useDispatch<AppDispatch>();
   const [expanded, setExpanded] = useState(false);
   const [filterdcount, setfilterdcount] = useState(0);
@@ -171,7 +175,7 @@ const Explore = ({navigation}: Props) => {
       id: '1',
       title: 'Workplace',
       title2: 'contract_type',
-      options: [...helpersJobs?.contract_type],
+      options: [...contractTypes],
     },
     {
       id: '3',
@@ -183,7 +187,7 @@ const Explore = ({navigation}: Props) => {
       id: '5',
       title: 'Career Level',
       title2: 'career_level',
-      options: [...helpersJobs?.career_level],
+      options: [...careerLevel],
     },
   ];
   // ---------------------------filter-----------------------

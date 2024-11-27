@@ -2,7 +2,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {AppInput, Button, CustomText, Dropdown} from '../../../components';
+import {Button, CustomText, Dropdown} from '../../../components';
 import {generalStyles} from '../../../constants';
 import {styles} from './styles';
 import Toast from 'react-native-toast-message';
@@ -13,6 +13,7 @@ import {
   getAllCities,
   getAllCountries,
 } from '../../../redux/slices/helpersSlice';
+import {month, Monthdays, yearOptions} from '../../../utils/Data';
 const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   const {allCities, allCountries, genderList, allCountries2} = useSelector(
     (state: any) => state.helpers,
@@ -21,105 +22,69 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
   // DropDwens
   const dispatch = useDispatch<AppDispatch>();
   const {loading} = useSelector((state: any) => state.auth);
-  const [openDropdown, setOpenDropdown] = useState(null); // Track the currently open dropdown
-  const [selectedGender, setSelectedGEnder] = useState('');
-  const [selectedNationality, setSelectedNationality] = useState<number>();
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
 
-  const handleDropdownOpen = (dropdownId: any) => {
-    if (openDropdown === dropdownId) {
-      setOpenDropdown(null); // Close it if it's already open
-    } else {
-      setOpenDropdown(dropdownId); // Open the new dropdown
-    }
-  };
-
-  const [formData, SetformData] = useState({
-    first_name: 'ahmed',
-    last_name: 'mohamed',
-    birth_year: '',
-    birth_month: '',
+  const [selectedValues, setSelectedValues] = useState({
+    first_name: 'agm',
+    last_name: 'agm',
     birth_day: '',
+    birth_month: '',
+    birth_year: '',
+    gender: '',
+    nationality: '',
+    country: '',
+    city: '',
     phone: '01014216397',
   });
 
   const [formErrors, setFormErrors] = React.useState({
-    first_name: '',
-    last_name: '',
     birth_year: '',
     birth_month: '',
     birth_day: '',
-    phone: '',
     gendar: '',
     nationality: '',
     country: '',
     city: '',
   });
 
-  const DropDwenValues = {
-    gender: selectedGender,
-    nationality: Number(selectedNationality),
-    country: selectedCountry,
-    city: selectedCity,
+  const handleValueChange = (key: keyof typeof selectedValues, value: any) => {
+    setSelectedValues(prevState => ({
+      ...prevState,
+      [key]: value,
+    }));
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    SetformData({...formData, [field]: value});
-  };
   const validateForm = () => {
     // setCurrentPosition(2);
     const errors: {[key: string]: string} = {};
-    if (!formData.first_name) {
-      errors.first_name = 'First Name Required';
-    }
-    if (!formData.last_name) errors.last_name = 'Last Name Required';
-    if (!formData.birth_year) {
+    if (!selectedValues.birth_year) {
       errors.birth_year = 'Year Required';
-    } else if (
-      Number(formData.birth_year) > 2025 ||
-      Number(formData.birth_year) < 1950
-    ) {
-      errors.birth_year = 'Year must be between 1950 and 2025';
     }
-    if (!formData.birth_month) {
+    if (!selectedValues.birth_month) {
       errors.birth_month = 'Month Required';
-    } else if (
-      Number(formData.birth_month) > 12 ||
-      Number(formData.birth_month) < 1
-    ) {
-      errors.birth_month = 'Month must be between 0 and 12';
     }
 
-    if (!formData.birth_day) {
+    if (!selectedValues.birth_day) {
       errors.birth_day = 'Day Required';
-    } else if (
-      Number(formData.birth_day) > 31 ||
-      Number(formData.birth_day) < 1
-    ) {
-      errors.birth_day = 'Day must be between 0 and 31';
     }
-    if (!DropDwenValues.gender) {
+    if (!selectedValues.gender) {
       errors.gendar = 'Gender Required';
     }
-    if (!DropDwenValues.nationality) {
+    if (!selectedValues.nationality) {
       errors.nationality = 'Nationality Required';
     }
-    if (!DropDwenValues.country) {
+    if (!selectedValues.country) {
       errors.country = 'Country Required';
     }
-    if (!DropDwenValues.city) {
+    if (!selectedValues.city) {
       errors.city = 'City Required';
-    }
-    if (!formData.phone) {
-      errors.phone = 'Phone Required';
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    setCurrentPosition(2);
-    const concatFormData = {...formData, ...DropDwenValues};
+    // setCurrentPosition(2);
+    const concatFormData = {...selectedValues};
+    console.log('firstSubmit', concatFormData);
     if (validateForm()) {
       dispatch(signUpThreeCorporate(concatFormData))
         .unwrap()
@@ -161,78 +126,46 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         <View style={generalStyles.row}>
           <CustomText text="Your Personal Info" textStyle={styles.StepTitle} />
         </View>
-        {/* <View style={generalStyles.rowBetween}>
-          <View>
-            <AppInput
-              containerStyle={styles.ContanerInput}
-              placeholder="e.g Ahmed"
-              label="First Name"
-              labelStyle={styles.LapelStyle}
-              value={formData.first_name}
-              onChangeText={(val: any) => handleInputChange('first_name', val)}
-            />
-          </View>
-          <View>
-            <AppInput
-              containerStyle={styles.ContanerInput}
-              placeholder="e.g Salem"
-              label="Last Name"
-              labelStyle={styles.LapelStyle}
-              value={formData.last_name}
-              onChangeText={(val: any) => handleInputChange('last_name', val)}
-            />
-          </View>
-        </View>
-        <View style={generalStyles.rowBetween}>
-          {formErrors.first_name && (
-            <CustomText
-              text={formErrors.first_name}
-              textStyle={[styles.ErrorMSG, styles.width]}
-            />
-          )}
-          {formErrors.last_name && (
-            <CustomText
-              text={formErrors.last_name}
-              textStyle={[styles.ErrorMSG, styles.width]}
-            />
-          )}
-        </View> */}
         {/* BirhDay */}
         <View style={generalStyles.rowBetween}>
           <View>
-            <AppInput
-              containerStyle={styles.ContanerInput2}
-              placeholder="Day"
-              label="Birthdate"
-              maxLength={2}
-              isNumericKeyboard
-              labelStyle={styles.LapelStyle}
-              value={formData.birth_day}
-              onChangeText={(val: any) => handleInputChange('birth_day', val)}
+            <Dropdown
+              label="Birth day"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
+              placeholder="Select day"
+              value={selectedValues.birth_day}
+              onChangeValue={(value: any) =>
+                handleValueChange('birth_day', value.code)
+              }
+              dropDownStyle={generalStyles.DropBorder3}
+              list={Monthdays}
             />
           </View>
           <View>
-            <AppInput
-              containerStyle={styles.ContanerInput2}
-              placeholder="Month"
-              label=" "
-              isNumericKeyboard
-              maxLength={2}
-              labelStyle={styles.LapelStyle}
-              value={formData.birth_month}
-              onChangeText={(val: any) => handleInputChange('birth_month', val)}
+            <Dropdown
+              label="Birth month"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
+              placeholder="Select month"
+              value={selectedValues.birth_month}
+              onChangeValue={(value: any) =>
+                handleValueChange('birth_month', value.code)
+              }
+              dropDownStyle={generalStyles.DropBorder3}
+              list={month}
             />
           </View>
+
           <View>
-            <AppInput
-              containerStyle={styles.ContanerInput2}
-              placeholder="Year"
-              label=" "
-              isNumericKeyboard
-              maxLength={4}
-              labelStyle={styles.LapelStyle}
-              value={formData.birth_year}
-              onChangeText={(val: any) => handleInputChange('birth_year', val)}
+            <Dropdown
+              label="Birth year"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
+              placeholder="Select year"
+              value={selectedValues.birth_year}
+              onChangeValue={(value: any) =>
+                handleValueChange('birth_year', value.default_name)
+              }
+              dropDownStyle={generalStyles.DropBorder3}
+              list={yearOptions}
             />
           </View>
         </View>
@@ -259,27 +192,27 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         {/* Gender and nationalaty */}
         <View style={generalStyles.rowBetween}>
           <View>
-            <CustomText
-              text="Gender"
-              textStyle={[styles.LapelStyle, styles.MArginBtn]}
-            />
             <Dropdown
+              label="Gender"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
               placeholder="Select Gender"
-              value={selectedGender}
-              onChangeValue={(value: any) => setSelectedGEnder(value.code)}
+              value={selectedValues.gender}
+              onChangeValue={(value: any) =>
+                handleValueChange('gender', value.code)
+              }
               dropDownStyle={generalStyles.DropBorder2}
               list={genderList}
             />
           </View>
           <View>
-            <CustomText
-              text="Nationality"
-              textStyle={[styles.LapelStyle, styles.MArginBtn]}
-            />
             <Dropdown
+              label="Nationality"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
               placeholder="Select Nationality"
-              value={selectedNationality}
-              onChangeValue={(value: any) => setSelectedNationality(value.code)}
+              value={selectedValues.nationality}
+              onChangeValue={(value: any) =>
+                handleValueChange('nationality', value.code)
+              }
               dropDownStyle={generalStyles.DropBorder2}
               list={allCountries2}
             />
@@ -307,27 +240,27 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
         </View>
         <View style={generalStyles.rowBetween}>
           <View>
-            <CustomText
-              text="Country"
-              textStyle={[styles.LapelStyle, styles.MArginBtn]}
-            />
             <Dropdown
+              label="Country"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
               placeholder="Select Country"
-              value={selectedCountry}
-              onChangeValue={(value: any) => setSelectedCountry(value.code)}
+              value={selectedValues.country}
+              onChangeValue={(value: any) =>
+                handleValueChange('country', value.code)
+              }
               list={allCountries}
               dropDownStyle={generalStyles.DropBorder2}
             />
           </View>
           <View>
-            <CustomText
-              text="City"
-              textStyle={[styles.LapelStyle, styles.MArginBtn]}
-            />
             <Dropdown
+              label="City"
+              labelStyle={[styles.LapelStyle, styles.MArginBtn]}
               placeholder="Select City"
-              value={selectedCity}
-              onChangeValue={(value: any) => setSelectedCity(value.code)}
+              value={selectedValues.city}
+              onChangeValue={(value: any) =>
+                handleValueChange('city', value.code)
+              }
               dropDownStyle={generalStyles.DropBorder2}
               list={allCities}
             />
@@ -348,23 +281,7 @@ const Step2 = ({setCurrentPosition, currentPosition}: any) => {
           )}
         </View>
       </View>
-      {/* <View style={styles.SectionBox}>
-        <View style={generalStyles.row}>
-          <CustomText text="Contact Info" textStyle={styles.StepTitle} />
-        </View>
-        <AppInput
-          containerStyle={styles.ContanerInput3}
-          placeholder="01557888124"
-          label="Mobile Number"
-          labelStyle={styles.LapelStyle}
-          value={formData.phone}
-          onChangeText={val => handleInputChange('phone', val)}
-          isNumericKeyboard
-        />
-        {formErrors.phone && (
-          <CustomText text={formErrors.phone} textStyle={styles.ErrorMSG} />
-        )}
-      </View> */}
+
       <Button
         text={currentPosition === 2 ? 'Finsh' : 'Next'}
         onPress={() => {

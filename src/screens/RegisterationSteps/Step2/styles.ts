@@ -31,6 +31,8 @@ export const styles = StyleSheet.create({
   },
   LapelStyle: {
     marginTop: hp(2),
+    fontFamily: FONTS.Regular,
+    fontSize: hp(1.6),
   },
   DropBorder: {
     borderColor: COLORS.primary,
@@ -64,6 +66,6 @@ export const styles = StyleSheet.create({
     width: wp(42),
   },
   width2: {
-    width: wp(27),
+    width: wp(28),
   },
 });

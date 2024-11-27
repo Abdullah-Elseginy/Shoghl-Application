@@ -48,7 +48,11 @@ const Job = ({item, navigation}: Props) => {
         <View style={generalStyles.row}>
           <View>
             <Image
-              source={{uri: item?.company?.company_logo}}
+              source={{
+                uri:
+                  item?.company?.company_logo ||
+                  'https://plus.unsplash.com/premium_photo-1682002135678-87b8a2fdde50?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              }}
               style={styles.im}
               resizeMode="cover"
             />
@@ -60,28 +64,28 @@ const Job = ({item, navigation}: Props) => {
             </View>
             <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
               <FlatList
-                data={item?.job_types?.en}
+                data={item?.job_types}
                 horizontal
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
                   item == 'Full Time' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item.default_name?.slice(0, 9)}
                       textStyle={[styles.period2]}
                     />
                   ) : item == 'Shift based' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item.default_name?.slice(0, 9)}
                       textStyle={[styles.period]}
                     />
                   ) : item == 'Part Time' ? (
                     <CustomText
-                      text={item.slice(0, 12)}
+                      text={item.default_name?.slice(0, 12)}
                       textStyle={[styles.period, styles.period4]}
                     />
                   ) : (
                     <CustomText
-                      text={item.slice(0, 12) + '..'}
+                      text={item.default_name?.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -103,7 +107,9 @@ const Job = ({item, navigation}: Props) => {
           <View style={generalStyles.row}>
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
-              text={item?.country?.name_en + ' | ' + item?.city?.name_en}
+              text={
+                item?.country?.default_name + ' | ' + item?.city?.default_name
+              }
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -112,11 +118,11 @@ const Job = ({item, navigation}: Props) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.contract_type?.en +
+              item?.contract_type?.default_name +
               ' | ' +
-              item?.career_level?.en +
+              item?.career_level?.default_name +
               ' | ' +
-              item?.category_name?.en
+              item?.category_name?.default_name
             }
             textStyle={styles.jobBottomTxt}
           />
@@ -128,7 +134,6 @@ const Job = ({item, navigation}: Props) => {
 export const FilterSection = ({
   item,
   onSelectionChange,
-  index,
   expanded,
   setExpanded,
   setfilterdcount,
@@ -207,7 +212,10 @@ export const FilterSection = ({
                 setIsChecked={() => toggleCheckbox(index)}
               />
               <TouchableOpacity onPress={() => toggleCheckbox(index)}>
-                <CustomText text={item.name_en} textStyle={styles.ItemText} />
+                <CustomText
+                  text={item.default_name}
+                  textStyle={styles.ItemText}
+                />
               </TouchableOpacity>
             </View>
           )}
@@ -229,10 +237,12 @@ const Quetions = ({item}: any) => {
 };
 const SearchedJobs = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {allJobs, helpersJobs, loadinJobs} = useSelector(
+  const {allJobs, loadinJobs} = useSelector(
     (state: any) => state.jobs,
   );
-  const {allCities} = useSelector((state: any) => state.appdata);
+  const {allCities, contractTypes, careerLevel} = useSelector(
+    (state: any) => state.helpers,
+  );
   const [openSheet, SetOpenSheet] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [filterdcount, setfilterdcount] = useState(0);
@@ -243,7 +253,7 @@ const SearchedJobs = ({navigation}: Props) => {
       id: '1',
       title: 'Workplace',
       title2: 'contract_type',
-      options: [...helpersJobs?.contract_type],
+      options: [...contractTypes],
     },
     {
       id: '3',
@@ -255,7 +265,7 @@ const SearchedJobs = ({navigation}: Props) => {
       id: '5',
       title: 'Career Level',
       title2: 'career_level',
-      options: [...helpersJobs?.career_level],
+      options: [...careerLevel],
     },
   ];
   // ---------------------------filter-----------------------

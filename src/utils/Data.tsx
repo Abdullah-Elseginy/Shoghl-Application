@@ -1080,8 +1080,50 @@ const yearOptions = [
     default_name: '2023',
   },
 ];
+const Monthdays = [
+  {
+    code: 1,
+    default_name: '1',
+  },
+  {
+    code: 2,
+    default_name: '2',
+  },
+  {
+    code: 3,
+    default_name: '3',
+  },
+  {
+    code: 4,
+    default_name: '4',
+  },
+];
+const month = [
+  {
+    code: 1,
+    default_name: '1',
+  },
+  {
+    code: 2,
+    default_name: '2',
+  },
+  {
+    code: 3,
+    default_name: '3',
+  },
+  {
+    code: 4,
+    default_name: '4',
+  },
+  {
+    code: 5,
+    default_name: '5',
+  },
+];
 export {
   JOBS,
+  Monthdays,
+  month,
   QUETIONS,
   PARTENERS,
   CAROUSELDATA,

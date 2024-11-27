@@ -79,6 +79,7 @@ const JobPost = ({navigation, route}: any) => {
   );
   const [Title, setTitle] = useState<string>(jobData?.title || '');
   const [Category, setCategory] = useState(jobData?.category?.code || '');
+
   console.log('caterrr', Category);
   const [selectedType, setSelectedType] = useState<string>('Job');
   const [selectedJobTypes, setSelectedJobTypes] = useState<string[]>(
@@ -473,7 +474,7 @@ const JobPost = ({navigation, route}: any) => {
             text2: 'Job Posted Successfully',
             type: 'success',
           });
-          navigation.navigate(ScreenNames.BottomTabs);
+          navigation.replace(ScreenNames.WelcomeEmployee);
         })
         .catch(err => {
           Toast.show({
@@ -500,7 +501,7 @@ const JobPost = ({navigation, route}: any) => {
             text2: 'Job Edited Successfully',
             type: 'success',
           });
-          navigation.navigate(ScreenNames.BottomTabs);
+          navigation.replace(ScreenNames.WelcomeEmployee);
         })
         .catch(err => {
           Toast.show({
@@ -581,7 +582,7 @@ const JobPost = ({navigation, route}: any) => {
               <Dropdown
                 placeholder="Select Category"
                 value={Category}
-                onChangeValue={(value: any) => setCategory(value.code)}
+                onChangeValue={(value: any) => setCategory(value)}
                 list={CategoryMemo}
               />
             </View>
@@ -638,7 +639,6 @@ const JobPost = ({navigation, route}: any) => {
               placeholder="Country"
               value={selectedCountry}
               list={allCountries}
-              setValue={setSelectedCountry}
               onChangeValue={(value: any) => setSelectedCountry(value.code)}
             />
             {formErrors.country && (

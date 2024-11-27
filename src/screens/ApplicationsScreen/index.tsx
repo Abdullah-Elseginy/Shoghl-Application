@@ -54,7 +54,11 @@ const Job = ({item, navigation}: any) => {
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
           <Image
-            source={{uri: item?.job?.company?.company_logo}}
+            source={{
+              uri:
+                item?.job?.company?.company_logo ||
+                'https://plus.unsplash.com/premium_photo-1682002135678-87b8a2fdde50?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            }}
             style={styles.im}
           />
           <View style={styles.jobTopContent}>
@@ -64,28 +68,28 @@ const Job = ({item, navigation}: any) => {
             </View>
             <View style={[generalStyles.rowBetween]}>
               <FlatList
-                data={item?.job?.job_types?.en}
+                data={item?.job_types}
                 horizontal
                 contentContainerStyle={styles.Conten}
                 renderItem={({item}: any) =>
                   item == 'Full Time' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name?.slice(0, 9)}
                       textStyle={[styles.period2]}
                     />
                   ) : item == 'Shift based' ? (
                     <CustomText
-                      text={item.slice(0, 9)}
+                      text={item?.default_name?.slice(0, 9)}
                       textStyle={[styles.period]}
                     />
                   ) : item == 'Part Time' ? (
                     <CustomText
-                      text={item.slice(0, 12)}
+                      text={item?.default_name?.slice(0, 12)}
                       textStyle={[styles.period, styles.period4]}
                     />
                   ) : (
                     <CustomText
-                      text={item.slice(0, 12) + '..'}
+                      text={item?.default_name?.slice(0, 12) + '..'}
                       textStyle={[styles.period, styles.period3]}
                     />
                   )
@@ -108,7 +112,9 @@ const Job = ({item, navigation}: any) => {
             <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
             <CustomText
               text={
-                item?.job?.country?.name_en + ' | ' + item?.job?.city?.name_en
+                item?.job?.country?.default_name +
+                ' | ' +
+                item?.job?.city?.default_name
               }
               textStyle={styles.jobBottomTxt}
             />

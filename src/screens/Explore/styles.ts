@@ -146,9 +146,9 @@ export const styles = StyleSheet.create({
     marginTop: hp(2),
   },
   im: {
-    minWidth: wp(20),
-    height: hp(10),
-    borderRadius: wp(10),
+    minWidth: wp(15),
+    height: wp(15),
+    borderRadius: wp(60),
   },
   Conten: {
     justifyContent: 'space-between',

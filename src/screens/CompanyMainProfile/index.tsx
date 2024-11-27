@@ -175,9 +175,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const [Disapled, SetDisapled] = useState(false);
   const [modalVisible, setmodalVisible] = useState(false);
   const [editDoc, setesitDoc] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null);
-  const [ShowSearch1, setShowSearch1] = useState(false);
-  const [ShowSearch2, setShowSearch2] = useState(false);
 
   const [companyLocation, setLocation] = useState(
     companyDataProfile?.country?.id || '',
@@ -185,14 +182,14 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const [companyRange, setCompanyRange] = useState('');
 
   const [InpusValues, SetInpusValues] = useState<any>({
-    Founded: '',
+    Founded: companyDataProfile?.company_year_founded + '',
     'Company Size': '',
     Specialties: '',
     Industry: '',
   });
 
-  const [IndusteryCode, SetIndusteryCode] = useState('');
-  const [SpecialisesCode, setSpecialisesCode] = useState('');
+  // const [IndusteryCode, SetIndusteryCode] = useState('');
+  // const [SpecialisesCode, setSpecialisesCode] = useState('');
 
   const OchangeInpus = (val: string, FieldName: string) => {
     SetInpusValues((prevState: any) => ({
@@ -227,14 +224,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
           visibilityTime: 1500,
         });
       });
-  };
-
-  const handleDropdownOpen = (dropdownId: any) => {
-    if (openDropdown === dropdownId) {
-      setOpenDropdown(null); // Close it if it's already open
-    } else {
-      setOpenDropdown(dropdownId); // Open the new dropdown
-    }
   };
 
   // ----------------------------------show PDF-------------------------------------------------------
@@ -303,10 +292,12 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       country: companyLocation,
       company_year_founded: InpusValues.Founded,
       company_employees_range: companyRange,
-      company_industry: IndusteryCode,
-      company_specialties: [SpecialisesCode],
+      company_industry: InpusValues.Industry,
+      company_specialties: [InpusValues.Specialties],
       company_about: 'test about',
+      size: 5,
     };
+    console.log('ssss=' + JSON.stringify(datatosend));
     dispatch(editCompanyProfile(datatosend))
       .unwrap()
       .then(() => {
@@ -327,20 +318,6 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       });
   };
 
-  const GetSpecialties = (searchKey: any) => {
-    const dataTosend = {
-      search: searchKey,
-    };
-    dispatch(getSpecialties(dataTosend));
-  };
-
-  const Getindusterial = (searchKey: any) => {
-    const dataTosend2 = {
-      search: searchKey,
-    };
-    dispatch(getIndustrys(dataTosend2));
-  };
-
   useFocusEffect(
     useCallback(() => {
       dispatch(getCompanyPostedJobs());
@@ -351,6 +328,8 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   useEffect(() => {
     dispatch(getAllCountries());
     dispatch(getCompanyRange());
+    dispatch(getSpecialties());
+    dispatch(getIndustrys());
   }, []);
 
   const memoLocation = useMemo(() => allCountries2 || [], [allCountries2]);
@@ -390,7 +369,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
               <View style={[generalStyles.row]}>
                 <Globaly />
                 <CustomText
-                  text={companyDataProfile?.business_email}
+                  text={' ' + companyDataProfile?.business_email}
                   textStyle={styles.subText2}
                 />
               </View>
@@ -419,6 +398,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                 <Button
                   onPress={() => {
                     SetDisapled(true);
+                    // OchangeInpus(5, 'Founded');
                   }}
                   style={styles.EditBtn}
                   text={'+ Edit'}
@@ -455,7 +435,7 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     textStyle={styles.labelinput}
                   />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
-                    <CustomText text={companyRange + ''} />
+                    <CustomText text={companyDataProfile?.size + ''} />
                   </View>
                 </View>
               ) : (
@@ -470,121 +450,64 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   />
                 </View>
               )}
-              <View>
-                <CustomText text="Specialties" textStyle={styles.labelinput} />
-                <AppInput
+            </View>
+            {Disapled ? (
+              <View style={styles.mb}>
+                <Dropdown
+                  label="Specialties"
+                  placeholder="Select Specialties"
                   value={InpusValues.Specialties}
-                  onChangeText={val => {
-                    OchangeInpus(val, 'Specialties');
-                    GetSpecialties(val);
-                    if (val) {
-                      setShowSearch1(true);
-                    } else {
-                      setShowSearch1(false);
-                    }
-                  }}
-                  containerStyle={[
-                    Disapled
-                      ? styles.InputContainerStyle
-                      : styles.InputContainerStyle2,
-                  ]}
-                  placeholder={'Specialties'}
-                  editable={Disapled}
+                  onChangeValue={(value: any) =>
+                    OchangeInpus(value.code, 'Specialties')
+                  }
+                  list={specialties}
+                  search
                 />
-                {ShowSearch1 ? (
-                  specialties?.length > 0 ? (
-                    <View style={styles.flatsearch}>
-                      <FlatList
-                        data={specialties}
-                        keyExtractor={item => item.code}
-                        renderItem={({item}) => (
-                          <Pressable
-                            onPress={() => {
-                              OchangeInpus(item.default_name, 'Specialties');
-                              setSpecialisesCode(item.code);
-                              setShowSearch1(false);
-                            }}
-                            style={styles.rowserch}>
-                            <CustomText text={item.default_name} />
-                          </Pressable>
-                        )}
-                      />
-                    </View>
-                  ) : (
-                    <View style={styles.flatsearch}>
-                      <CustomText text="no suggetion" />
-                    </View>
-                  )
-                ) : (
-                  ''
-                )}
               </View>
-              <View>
-                <CustomText text="Industry" textStyle={styles.labelinput} />
-
-                <AppInput
+            ) : (
+              <View style={[styles.mb, styles.cont]}>
+                <CustomText text="specialtiess" />
+              </View>
+            )}
+            {Disapled ? (
+              <View style={styles.mb}>
+                <Dropdown
+                  label="Industry"
+                  placeholder="Select Industry"
                   value={InpusValues.Industry}
-                  onChangeText={val => {
-                    OchangeInpus(val, 'Industry');
-                    Getindusterial(val);
-                    if (val) {
-                      setShowSearch2(true);
-                    } else {
-                      setShowSearch2(false);
-                    }
-                  }}
-                  containerStyle={[
-                    Disapled
-                      ? styles.InputContainerStyle
-                      : styles.InputContainerStyle2,
-                  ]}
-                  placeholder={'Industry'}
-                  editable={Disapled}
+                  onChangeValue={(value: any) =>
+                    OchangeInpus(value.code, 'Industry')
+                  }
+                  list={industrys}
+                  search
                 />
-
-                {ShowSearch2 ? (
-                  industrys?.length > 0 ? (
-                    <View style={styles.flatsearch}>
-                      <FlatList
-                        data={industrys}
-                        keyExtractor={item => item.code}
-                        renderItem={({item}) => (
-                          <Pressable
-                            onPress={() => {
-                              OchangeInpus(item.default_name, 'Industry');
-                              SetIndusteryCode(item.code);
-                              setShowSearch2(false);
-                            }}
-                            style={styles.rowserch}>
-                            <CustomText text={item.default_name} />
-                          </Pressable>
-                        )}
-                      />
-                    </View>
-                  ) : (
-                    <View style={styles.flatsearch}>
-                      <CustomText text="no suggetion" />
-                    </View>
-                  )
-                ) : (
-                  ''
-                )}
               </View>
+            ) : (
+              <View style={[styles.mb, styles.cont]}>
+                <CustomText text="industyrs" />
+              </View>
+            )}
+            {Disapled ? (
               <View>
                 <CustomText text="Founded" textStyle={styles.labelinput} />
                 <AppInput
                   value={InpusValues.Founded}
                   onChangeText={val => OchangeInpus(val, 'Founded')}
-                  containerStyle={[
-                    Disapled
-                      ? styles.InputContainerStyle
-                      : styles.InputContainerStyle2,
-                  ]}
+                  containerStyle={[styles.InputContainerStyle]}
                   placeholder={'Founded'}
-                  editable={Disapled}
                 />
               </View>
-            </View>
+            ) : (
+              <View>
+                <CustomText text="Founded" textStyle={styles.labelinput} />
+                <View style={styles.InputContainerStyle2}>
+                  <CustomText
+                    text={companyDataProfile?.company_year_founded}
+                    textStyle={styles.labelinput}
+                  />
+                </View>
+              </View>
+            )}
           </View>
 
           {/* </View> */}

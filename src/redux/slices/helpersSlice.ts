@@ -499,12 +499,11 @@ export const sendEmailNotifyPer = createAsyncThunk(
 // ========================== get Industyes========================
 export const getIndustrys = createAsyncThunk(
   'auth/getIndustrys',
-  async (data, {rejectWithValue}) => {
+  async (_, {rejectWithValue}) => {
     try {
       const res = await Axios({
         method: 'GET',
         path: APIS.getIndustrys,
-        params: data,
       });
       console.log('getIndustrys', res?.data);
       return res.data;
@@ -519,12 +518,11 @@ export const getIndustrys = createAsyncThunk(
 // ========================== get Specialties========================
 export const getSpecialties = createAsyncThunk(
   'auth/getSpecialties',
-  async (data, {rejectWithValue}) => {
+  async (_, {rejectWithValue}) => {
     try {
       const res = await Axios({
         method: 'GET',
         path: APIS.getSpecialties,
-        params: data,
       });
       console.log('getSpecialties', res?.data);
       return res.data;

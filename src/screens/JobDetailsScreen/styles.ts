@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
   },
   ImageProfile: {
     width: wp(25),
-    height: hp(11),
-    borderRadius: hp(5),
+    height: wp(25),
+    borderRadius: wp(100),
   },
   JobNameText: {
     fontFamily: FONTS.Bold,

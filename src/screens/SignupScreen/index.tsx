@@ -392,8 +392,8 @@ const SignupScreen = ({navigation}: Props) => {
                 dropDownStyle={generalStyles.DropBorder}
                 list={roleList}
                 maxSelect={3}
-                multiBle={true}
-                onChangeValue={(value: any) => setrole(value.code)}
+                multible={true}
+                onChangeValue={(value: any) => setrole(value)}
               />
               {formErrors.role && (
                 <CustomText

@@ -182,9 +182,9 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
   },
   im: {
-    minWidth: wp(20),
-    height: hp(10),
-    borderRadius: wp(10),
+    minWidth: wp(15),
+    height: wp(15),
+    borderRadius: wp(60),
   },
   marginT: {
     marginTop: hp(2),

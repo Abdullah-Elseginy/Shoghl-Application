@@ -87,6 +87,9 @@ export const generalStyles = StyleSheet.create({
     borderWidth: hp(0.1),
     width: wp(42),
   },
+  DropBorder3: {
+    width: wp(28),
+  },
   errortxt: {
     color: COLORS.danger,
     marginTop: hp(0.5),

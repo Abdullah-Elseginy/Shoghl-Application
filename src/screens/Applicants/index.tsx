@@ -43,7 +43,7 @@ const applicantsItems = ({item, getUserCVDetails}: any) => (
     <View style={styles.SkillsBox}>
       <JobTitle width={wp(6)} height={hp(2.5)} />
       <CustomText
-        text={item.job_titles?.join(' | ') || 'no job title '}
+        text={item.job_titles?.default_name?.join(' | ') || 'no job title '}
         textStyle={styles.title}
       />
     </View>

@@ -33,21 +33,14 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
     skills,
   } = useSelector((state: any) => state.helpers);
   // dropDwens
-  const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedYearEx, setSelectedYearEx] = useState('');
   const [selectedFeild, setSelectedFeild] = useState([]);
   const [selectedUniversty, setSelectedUniversty] = useState('');
   const [selectedDegree, setSelectedDegree] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
   const [selectedSkills, setSelectedSkills] = useState([]);
+  // console.log('first78---' + selectedDegree);
 
-  const handleDropdownOpen = (dropdownId: any) => {
-    if (openDropdown === dropdownId) {
-      setOpenDropdown(null);
-    } else {
-      setOpenDropdown(dropdownId);
-    }
-  };
   // Year Options
   // const yearsArray = choicesStep3?.degree;
 
@@ -346,8 +339,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Field(S) of study"
             value={selectedFeild}
-            onChangeValue={(value: any) => setSelectedFeild(value.code)}
+            onChangeValue={(value: any) => setSelectedFeild(value)}
             list={feildStudy}
+            multible
           />
         </View>
         {formErrors.feiled_study && (
@@ -383,7 +377,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="When did you get your degree?"
             value={selectedDegree}
-            onChangeValue={(value: any) => setSelectedDegree(value.code)}
+            onChangeValue={(value: any) =>
+              setSelectedDegree(value.default_name)
+            }
             list={yearOptions}
           />
         </View>
@@ -494,8 +490,9 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="Skills"
             value={selectedSkills}
-            onChangeValue={(value: any) => setSelectedSkills(value.code)}
+            onChangeValue={(value: any) => setSelectedSkills(value)}
             list={skills}
+            multible
           />
         </View>
         {formErrors.skills && (
