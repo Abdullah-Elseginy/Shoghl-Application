@@ -51,6 +51,7 @@ export const styles = StyleSheet.create({
     borderRadius: hp(1),
     marginBottom: hp(3),
     marginRight: wp(2),
+    width: wp(80),
   },
   jobTopBox: {
     paddingHorizontal: wp(6),
@@ -87,11 +88,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: wp(6),
     paddingVertical: hp(3),
   },
-  JobButtomBox2: {marginBottom: hp(2)},
+  JobButtomBox2: {marginBottom: hp(2), flexWrap: 'wrap'},
   btnIcon: {
     marginEnd: wp(1.5),
   },
-  LocationBTN: {marginStart: wp(20)},
   jobBottomTxt: {
     fontSize: hp(1.8),
     textTransform: 'capitalize',
@@ -235,5 +235,20 @@ export const styles = StyleSheet.create({
     color: COLORS.danger,
     marginTop: hp(0.5),
     textAlign: 'center',
+  },
+  categoryBox: {
+    marginTop: hp(2),
+  },
+  im: {
+    width: wp(13),
+    height: wp(13),
+    borderRadius: wp(52),
+    marginRight: wp(2),
+  },
+  im2: {
+    width: wp(16),
+    height: wp(16),
+    borderRadius: wp(5),
+    marginRight: wp(2),
   },
 });

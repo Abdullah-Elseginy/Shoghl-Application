@@ -48,7 +48,7 @@ const getBorderColor = (types: any) => {
   if (types?.includes('Freelance')) return jobTypeColors['Freelance'];
   if (types?.includes('Part Time')) return jobTypeColors['Part Time'];
   if (types?.includes('Student activity')) return jobTypeColors['Part Time'];
-  return '#e1d123'; // Default color if no types match
+  return COLORS.blueMoresmothy; // Default color if no types match
 };
 const Job = ({item, navigation}: Props) => {
   return (
@@ -78,7 +78,10 @@ const Job = ({item, navigation}: Props) => {
           <View style={styles.jobTopContent}>
             <View style={generalStyles.rowBetween}>
               <CustomText text={item.title} textStyle={styles.job} />
-              <CustomText text={item.since} textStyle={styles.status} />
+              <CustomText
+                text={item.since || '2 days'}
+                textStyle={styles.status}
+              />
             </View>
             <View style={[generalStyles.rowBetween]}>
               <FlatList
@@ -118,7 +121,7 @@ const Job = ({item, navigation}: Props) => {
           <View style={generalStyles.row}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
-              text={item?.company?.company_name}
+              text={item?.company?.company_name || 'Raya'}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -136,11 +139,11 @@ const Job = ({item, navigation}: Props) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.contract_type?.default_name +
+              (item?.contract_type?.default_name || 'on site') +
               ' | ' +
-              item?.career_level?.default_name +
+              (item?.career_level?.default_name || 'Entery Level') +
               ' | ' +
-              item?.category_name?.default_name
+              (item?.category_name?.default_name || 'no category')
             }
             textStyle={styles.jobBottomTxt}
           />

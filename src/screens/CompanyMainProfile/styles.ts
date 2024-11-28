@@ -268,4 +268,8 @@ export const styles = StyleSheet.create({
     borderRadius: wp(2),
     marginBottom: hp(2),
   },
+  errorText: {
+    color: COLORS.danger,
+    marginTop: hp(0.5),
+  },
 });

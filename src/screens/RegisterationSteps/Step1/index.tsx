@@ -183,7 +183,7 @@ const Step1 = ({setCurrentPosition, currentPosition}: any) => {
     return Object.keys(errors).length === 0;
   };
   const handleSubmit = () => {
-    setCurrentPosition(1);
+    // setCurrentPosition(1);
     // console.log('formaaaaaaaaaa' + JSON.stringify(formData));
 
     if (validateForm()) {

@@ -38,12 +38,15 @@ const applicantsItems = ({item, getUserCVDetails}: any) => (
     activeOpacity={0.5}
     style={styles.CardBox}>
     <View style={styles.nameBox}>
-      <CustomText text={item.name} textStyle={[styles.name]} />
+      <CustomText
+        text={item.first_name + ' ' + item.last_name}
+        textStyle={[styles.name]}
+      />
     </View>
     <View style={styles.SkillsBox}>
       <JobTitle width={wp(6)} height={hp(2.5)} />
       <CustomText
-        text={item.job_titles?.default_name?.join(' | ') || 'no job title '}
+        text={item.jobs?.join(' | ') || 'no job title '}
         textStyle={styles.title}
       />
     </View>
@@ -53,7 +56,11 @@ const applicantsItems = ({item, getUserCVDetails}: any) => (
     </View>
     <View style={styles.SkillsBox}>
       <Location width={wp(6)} height={hp(2.5)} />
-      <CustomText text={item?.country_name?.en + ',' + item?.city_name?.en} />
+      <CustomText
+        text={
+          ('Saudi Arabia' || item?.country) + ',' + (item?.city * 1 || 'Riyadh')
+        }
+      />
     </View>
   </TouchableOpacity>
 );

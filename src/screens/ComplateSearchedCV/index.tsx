@@ -196,9 +196,9 @@ const renderItem = ({item, getUserCVDetails}: any) => {
           </View>
           <CustomText
             text={
-              item.city_name.en +
+              (item.country_name.default_name || 'Saudi Arabia') +
               ',' +
-              item.country_name.en +
+              (item.city_name.default_name || 'Riyadh') +
               '- ' +
               (Number(currentYear) - Number(item.birth_year)) +
               ' years old'
@@ -235,7 +235,9 @@ const renderItem = ({item, getUserCVDetails}: any) => {
           <View style={styles.medtexBox}>
             <CustomText
               text="Job Title : "
-              text2={item.job_titles?.toString()}
+              text2={item?.job_titles?.map((item2: any) => (
+                <CustomText text={item2?.default_name} />
+              ))}
               textStyle2={styles.jobtitle}
               textStyle={styles.tex1}
             />

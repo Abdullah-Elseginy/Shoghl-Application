@@ -13,7 +13,7 @@ import {
 import {styles} from './styles';
 import CustomText from '../CustomText';
 import {COLORS, wp} from '../../constants';
-import {Delate, Search} from '../../assets';
+import {Delate} from '../../assets';
 
 type Props = {
   placeholder?: string;
@@ -88,7 +88,7 @@ const Dropdown = ({
               <CustomText text={item.default_name || item[schema?.label]} />
             </View>
           )}
-          maxHeight={search ? 500 : 200}
+          maxHeight={search ? 300 : 200}
           // minHeight={50}
         />
       ) : (

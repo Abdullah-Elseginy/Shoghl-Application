@@ -23,7 +23,7 @@ const CVProfile = () => {
   const {userDetailsData} = useSelector((state: any) => state.jobs);
   const currentYear = new Date().getFullYear();
   return (
-    <AppScreenContainer style={{flex: 1}}>
+    <AppScreenContainer>
       <AppHeader title="Profile " arrowBack />
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.userInfoBox}>
@@ -33,7 +33,9 @@ const CVProfile = () => {
             textStyle={styles.username}
           />
           <CustomText
-            text={userDetailsData?.job_titles?.toString()}
+            text={userDetailsData?.job_titles?.map((item2: any) => (
+              <CustomText text={item2?.default_name + ' | '} />
+            ))}
             textStyle={styles.nickname}
           />
           <View style={[generalStyles.rowBetween, styles.infoBox]}>
@@ -41,14 +43,16 @@ const CVProfile = () => {
             <View style={generalStyles.rowBetween}>
               <Saudi width={hp(2.5)} height={hp(2.5)} style={styles.btnIcon} />
               <CustomText
-                text={userDetailsData?.country_name?.en}
+                text={
+                  userDetailsData?.country_name?.default_name || 'Saudi Arabia'
+                }
                 textStyle={styles.country}
               />
             </View>
             <View style={generalStyles.rowBetween}>
               <Location width={hp(2)} height={hp(2)} style={styles.btnIcon} />
               <CustomText
-                text={userDetailsData?.city_name?.en}
+                text={userDetailsData?.city_name?.default_name || 'Riydh'}
                 textStyle={styles.location}
               />
             </View>
@@ -93,13 +97,13 @@ const CVProfile = () => {
             />
           </View>
 
-          <View style={styles.overviewBox}>
+          {/* <View style={styles.overviewBox}>
             <CustomText
               text={userDetailsData?.jobs || '0'}
               textStyle={styles.overviewData}
             />
             <CustomText text="jobs done" textStyle={styles.overviewDataTitle} />
-          </View>
+          </View> */}
         </View>
 
         <View style={[generalStyles.rowBetween, styles.titleBox]}>

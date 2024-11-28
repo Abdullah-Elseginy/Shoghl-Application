@@ -74,6 +74,9 @@ export type APIsTypes = {
   companyForgetPasswordStepTwoOTP: string;
   companyForgetPasswordThreeNewPassword: string;
   getJobCategories: string;
+  getHomeCities: string;
+  getParteners: string;
+  getRecentJobs: string;
 };
 
 export const APIS: APIsTypes = {
@@ -162,6 +165,10 @@ export const APIS: APIsTypes = {
   // get cvs users --------------------
   getSearchedCVs: '/API/COM/Users/L/All',
   getCvsDetailsShowUserProfile: '/API/COM/Users/L/Details',
+  //-------Home Screen Data --------------------
+  getHomeCities: '/API/Helpers/Locations/SaudiArabiaCities',
+  getParteners: '/API/COM/My/Parteners',
+  getRecentJobs: '/API/LOW/Jobs/Recently-Jobs',
 };
 
 const axiosInstance = axios.create({

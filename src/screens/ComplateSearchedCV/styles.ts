@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   Lock: {
-    backgroundColor: COLORS.blue,
+    backgroundColor: COLORS.bluesmothy,
     borderRadius: wp(3),
     justifyContent: 'center',
     alignItems: 'center',

@@ -63,7 +63,10 @@ const Job = ({item, navigation}: any) => {
           />
           <View style={styles.jobTopContent}>
             <View style={generalStyles.rowBetween}>
-              <CustomText text={item?.job?.title} textStyle={styles.job} />
+              <CustomText
+                text={item?.job?.title || 'React'}
+                textStyle={styles.job}
+              />
               <CustomText text={item?.job?.since} textStyle={styles.status} />
             </View>
             <View style={[generalStyles.rowBetween]}>
@@ -104,7 +107,7 @@ const Job = ({item, navigation}: any) => {
           <View style={[generalStyles.row, styles.marginT]}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
-              text={item?.job?.company?.company_name}
+              text={item?.job?.company?.company_name || 'Raya'}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -124,11 +127,11 @@ const Job = ({item, navigation}: any) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.job?.category_name?.en +
+              (item?.job?.category_name?.default_name || 'permenant') +
               ' | ' +
-              item?.job?.career_level?.en +
+              (item?.job?.career_level?.default_name || 'mid-level') +
               ' | ' +
-              item?.job?.contract_type?.en
+              (item?.job?.contract_type?.default_name || 'contract')
             }
             textStyle={styles.jobBottomTxt}
           />
@@ -141,15 +144,9 @@ const Applications = ({navigation}: any) => {
   const {appliedJobs, lodingApply} = useSelector((state: any) => state.jobs);
   const dispatch = useDispatch<AppDispatch>();
   const [selected, setSelected] = useState<String>('Application');
-  const [openDropdown, setOpenDropdown] = useState(null);
   const [selectedCountr, setSelectedCountry] = useState('');
 
-  const handleDropdownOpen = (dropdownId: any) => {
-    if (openDropdown === dropdownId) {
-      setOpenDropdown(null);
-      setOpenDropdown(dropdownId);
-    }
-  };
+
   const handlePress = (choice: string) => {
     setSelected(choice);
   };
@@ -212,7 +209,7 @@ const Applications = ({navigation}: any) => {
                 <Search width={wp(6)} height={hp(3)} />
               </View>
               <View style={generalStyles.marginLeft}>
-                <CustomText text="15" textStyle={styles.Bold} />
+                <CustomText text="0" textStyle={styles.Bold} />
                 <CustomText
                   text="Search appearance"
                   textStyle={styles.searchText}
@@ -224,7 +221,7 @@ const Applications = ({navigation}: any) => {
                 <Eye width={wp(6)} height={hp(3)} />
               </View>
               <View style={generalStyles.marginLeft}>
-                <CustomText text="15" textStyle={styles.Bold} />
+                <CustomText text="0" textStyle={styles.Bold} />
                 <CustomText
                   text="Search appearance"
                   textStyle={styles.searchText}
@@ -237,7 +234,7 @@ const Applications = ({navigation}: any) => {
               <Lock width={wp(6)} height={hp(3)} />
             </View>
             <View style={generalStyles.marginLeft}>
-              <CustomText text="15" textStyle={styles.Bold} />
+              <CustomText text="0" textStyle={styles.Bold} />
               <CustomText
                 text="Search appearance"
                 textStyle={styles.searchText}

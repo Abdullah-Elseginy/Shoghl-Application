@@ -505,7 +505,7 @@ const ProfileScreen = () => {
                   />
                   {!editHeader ? (
                     <CustomText
-                      text={userProfileData?.data?.country}
+                      text={'Saudi Arabia' || userProfileData?.data?.country}
                       textStyle={styles.country}
                     />
                   ) : (
@@ -530,7 +530,7 @@ const ProfileScreen = () => {
                   />
                   {!editHeader ? (
                     <CustomText
-                      text={userProfileData?.data?.city * 1 || 'no city'}
+                      text={userProfileData?.data?.city * 1 || 'Riyadh'}
                       textStyle={styles.location}
                     />
                   ) : (
@@ -648,7 +648,7 @@ const ProfileScreen = () => {
                     />
                   </View>
 
-                  <View style={styles.overviewBox}>
+                  {/* <View style={styles.overviewBox}>
                     <CustomText
                       text={userProfileData?.data?.jobs || '0'}
                       textStyle={styles.overviewData}
@@ -657,7 +657,7 @@ const ProfileScreen = () => {
                       text="jobs done"
                       textStyle={styles.overviewDataTitle}
                     />
-                  </View>
+                  </View> */}
                 </View>
               </>
             ) : (
@@ -673,7 +673,7 @@ const ProfileScreen = () => {
                       isNumericKeyboard
                     />
                   </View>
-                  <View style={styles.overviewBox}>
+                  {/* <View style={styles.overviewBox}>
                     <CustomText
                       text={userProfileData?.data?.jobs}
                       textStyle={styles.overviewData}
@@ -682,7 +682,7 @@ const ProfileScreen = () => {
                       text="jobs done"
                       textStyle={styles.overviewDataTitle}
                     />
-                  </View>
+                  </View> */}
                 </View>
                 {!editProgileOverview ? (
                   ''
@@ -726,7 +726,7 @@ const ProfileScreen = () => {
               {!editProgileOverview ? (
                 <>
                   <CustomText
-                    text={userProfileData?.data?.mobile_phone}
+                    text={userProfileData?.data?.phone || 'edit to add phone'}
                     textStyle={styles.contactData}
                   />
                 </>

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import {
   AppInput,
+  Apploader,
   AppScreenContainer,
   Button,
   CustomModal,
@@ -12,22 +13,17 @@ import {
 import {styles} from './styles';
 import {
   FlatList,
+  Image,
   Pressable,
   ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Cash, Crown, Help, Location, UploadDoc} from '../../assets';
+import {Cash, Crown, Help, Location, Riyadh, UploadDoc} from '../../assets';
 import {generalStyles, hp, wp} from '../../constants';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
-import {
-  CAREERLEVEL,
-  HOWITWORK,
-  JOBSHOME,
-  PARTENERS,
-  BROWESLOCATION,
-} from '../../utils/Data';
+import {CAREERLEVEL, HOWITWORK, JOBSHOME, PARTENERS} from '../../utils/Data';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch} from '../../redux/store';
 import {
@@ -38,6 +34,11 @@ import {
 import Toast from 'react-native-toast-message';
 import ScreenNames from '../../navigations/ScreenNames';
 import {getAllCities} from '../../redux/slices/helpersSlice';
+import {
+  getHomeCities,
+  getParteners,
+  getRecentJobs,
+} from '../../redux/slices/appdataSlice';
 
 type Props = {
   navigation: NativeStackNavigationProp<ParamListBase>;
@@ -46,12 +47,16 @@ type Props = {
 const HomeScreen = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const {loadinJobs, allCategories} = useSelector((state: any) => state.jobs);
+  console.log('allCategories--' + JSON.stringify(allCategories));
   const {allCities} = useSelector((state: any) => state.helpers);
+  const {homeCities, parteners, recentJobs} = useSelector(
+    (state: any) => state.appdata,
+  );
+  console.log('recentJobs' + recentJobs);
   const [city, setCity] = React.useState('');
   const [title, setTitle] = React.useState('');
   const [CategoryVal, setCategoryVal] = React.useState('');
   const [modalVisible, SetModalVisable] = React.useState(true);
-  const [ShowSearch, setShowSearch] = React.useState(false);
 
   const HowItWork = ({item}: any) => {
     return (
@@ -65,6 +70,7 @@ const HomeScreen = ({navigation}: Props) => {
       </View>
     );
   };
+
   const Job = ({item}: any) => {
     return (
       <Pressable
@@ -74,40 +80,82 @@ const HomeScreen = ({navigation}: Props) => {
         style={styles.jobBox}>
         <View style={styles.jobTopBox}>
           <View style={generalStyles.row}>
-            {item.img}
+            <Image
+              source={{
+                uri:
+                  item?.company_logo ||
+                  'https://images.unsplash.com/photo-1619454016518-697bc231e7cb?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              }}
+              style={styles.im2}
+            />
             <View style={styles.jobTopContent}>
-              <CustomText text={item.status} textStyle={styles.status} />
-              <CustomText text={item.job} textStyle={styles.job} />
-              <CustomText text={item.period} textStyle={styles.period} />
+              <CustomText
+                text={item?.career_level?.default_name || 'Telimed'}
+                textStyle={styles.status}
+              />
+              <CustomText
+                text={item?.title || 'electcian'}
+                textStyle={styles.job}
+              />
+              <CustomText
+                text={item.period || 'full time'}
+                textStyle={styles.period}
+              />
             </View>
           </View>
         </View>
         <View style={styles.jobBottomBox}>
-          <View style={[generalStyles.row, styles.JobButtomBox2]}>
-            <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-            <CustomText text={item.status} textStyle={styles.jobBottomTxt} />
-            <Location
-              width={hp(2)}
-              height={hp(2)}
-              style={[styles.btnIcon, styles.LocationBTN]}
-            />
-            <CustomText text={item.location} textStyle={styles.jobBottomTxt} />
+          <View style={[generalStyles.rowBetween, styles.JobButtomBox2]}>
+            <View style={generalStyles.row}>
+              <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
+              <CustomText
+                text={item?.category?.default_name || 'Telemid'}
+                textStyle={styles.jobBottomTxt}
+              />
+            </View>
+            <View style={generalStyles.row}>
+              <Location width={hp(2)} height={hp(2)} style={[styles.btnIcon]} />
+              <CustomText
+                text={
+                  item?.country?.names?.en + ',' + item?.city?.names?.en ||
+                  'france,paris'
+                }
+                textStyle={styles.jobBottomTxt}
+              />
+            </View>
           </View>
           <View style={generalStyles.row}>
             <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
-            <CustomText text={item.price} textStyle={styles.jobBottomTxt} />
+            <CustomText
+              text={
+                item?.salary_from +
+                  ' -' +
+                  item.salary_to +
+                  ' ' +
+                  item?.salary_currency?.default_name || '30.0000-50.0000 $'
+              }
+              textStyle={styles.jobBottomTxt}
+            />
           </View>
         </View>
       </Pressable>
     );
   };
+
   const Parteners = ({item}: any) => {
     return (
       <Pressable
         onPress={() => {
           navigation.navigate(ScreenNames.CompanyProfile);
         }}>
-        {item.imag}
+        <Image
+          source={{
+            uri:
+              item?.company_logo ||
+              'https://images.unsplash.com/photo-1619454016518-697bc231e7cb?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+          }}
+          style={styles.im}
+        />
       </Pressable>
     );
   };
@@ -128,30 +176,22 @@ const HomeScreen = ({navigation}: Props) => {
     );
   };
 
-  const BrowesLocation = ({item}: any) => {
+  const BrowesLocation = ({item, SerchJobs}: any) => {
     return (
       <Pressable
         onPress={() => {
-          navigation.navigate(ScreenNames.JobDetails, {jobCode: '400'});
+          SerchJobs(item.code);
         }}
         style={styles.SearchByLocation}>
-        {item.imag}
-        <CustomText text={item.title} textStyle={styles.BrowseLocationTitle} />
+        <Riyadh width={'50%'} />
+        <CustomText
+          text={item.default_name}
+          textStyle={styles.BrowseLocationTitle}
+        />
       </Pressable>
     );
   };
-  const SearchItems = ({item}: any) => {
-    return (
-      <TouchableOpacity
-        style={styles.SerchRow}
-        onPress={() => {
-          setCategoryVal(item.name_en);
-          setShowSearch(false);
-        }}>
-        <CustomText text={item.name_en} textStyle={styles.namesearch} />
-      </TouchableOpacity>
-    );
-  };
+
   const ModalContent = () => {
     return (
       <>
@@ -226,30 +266,29 @@ const HomeScreen = ({navigation}: Props) => {
       </>
     );
   };
-  const [formErrors, setFormErrors] = React.useState({
-    search: '',
-  });
-  const validateForm = () => {
-    const errors: {[key: string]: string} = {};
-    if (!city?.length && !CategoryVal?.length && !title?.length) {
-      errors.search = 'Select at least one to search ';
-    }
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  // const [formErrors, setFormErrors] = React.useState({
+  //   search: '',
+  // });
+  // const validateForm = () => {
+  //   const errors: {[key: string]: string} = {};
+  //   if (!city?.length && !CategoryVal?.length && !title?.length) {
+  //     errors.search = 'Select at least one to search ';
+  //   }
+  //   setFormErrors(errors);
+  //   return Object.keys(errors).length === 0;
+  // };
   const ClearInputs = () => {
     setCity('');
     setTitle('');
     setCategoryVal('');
   };
   // ----------------------------APIs-----------------------------------------
-  const SerchJobs = () => {
+  const SerchJobs = (cityCode: any) => {
     const paramsdata = {
       title: title,
-      city: city && [city],
+      city: (city && [city]) || (cityCode && [cityCode]),
       category: CategoryVal,
     };
-    console.log('paaa----' + paramsdata);
     // if (!validateForm()) {
     dispatch(SearchJobs(paramsdata))
       .unwrap()
@@ -267,26 +306,33 @@ const HomeScreen = ({navigation}: Props) => {
     // }
   };
 
-  const SuugestionsCategory = (val: any) => {
-    const dataTofilter = {
-      Name: val,
+  const getMyHomeCities = () => {
+    const date = {
+      lang: 'en',
     };
-    dispatch(getCategoryWithSearch(dataTofilter));
+    dispatch(getHomeCities(date));
   };
-
   React.useEffect(() => {
-    dispatch(getAllCities(1));
-  }, []);
-
-  // this for Explore Screen and filter
-  React.useEffect(() => {
-    dispatch(getAllHelperJobs());
+    if (
+      !allCities &&
+      !homeCities &&
+      !allCategories &&
+      !parteners &&
+      !recentJobs
+    ) {
+      dispatch(getAllCities(1));
+      getMyHomeCities();
+      dispatch(getCategoryWithSearch());
+      dispatch(getParteners());
+      dispatch(getRecentJobs());
+    }
   }, []);
 
   const MemoCities = React.useMemo(() => allCities || [], [allCities]);
   return (
     <AppScreenContainer style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
+        {loadinJobs && <Apploader />}
         <View style={styles.SearchBox}>
           <CustomText text="find job" textStyle={styles.sectionTitle} />
           <CustomText
@@ -305,51 +351,37 @@ const HomeScreen = ({navigation}: Props) => {
             onChangeValue={(value: any) => setCity(value.code)}
             list={MemoCities}
           />
-          <AppInput
-            placeholder="All Categories"
-            appInputStyle={styles.containerStyle1}
-            value={CategoryVal}
-            onChangeText={val => {
-              setCategoryVal(val);
-              SuugestionsCategory(val);
-              if (val) {
-                setShowSearch(true);
-              } else {
-                setShowSearch(false);
-              }
-            }}
-          />
-          {ShowSearch ? (
-            <View style={styles.serchBox}>
-              <FlatList
-                data={allCategories?.data?.data}
-                showsVerticalScrollIndicator={true}
-                renderItem={({item, index}) => (
-                  <SearchItems item={item} index={index} />
-                )}
-              />
-            </View>
-          ) : (
-            ''
-          )}
+          <View style={styles.categoryBox}>
+            <Dropdown
+              placeholder="Category"
+              value={CategoryVal}
+              onChangeValue={(value: any) => setCategoryVal(value.code)}
+              list={allCategories}
+              search
+              schema={{
+                label: 'name_en',
+                value: 'code',
+              }}
+            />
+          </View>
 
           <Button
             isDisapled={loadinJobs}
             text="search"
             style={styles.btn}
-            onPress={() => SerchJobs()}
+            onPress={() => SerchJobs(null)}
           />
-          {formErrors.search && (
+          {/* {formErrors.search && (
             <CustomText text={formErrors.search} textStyle={styles.ErrorMSG} />
-          )}
+          )} */}
         </View>
         <View style={styles.HowItWorkSection}>
           <CustomText text="Recent Jobs" textStyle={styles.sectionTitle} />
         </View>
         <FlatList
-          data={JOBSHOME}
+          data={recentJobs}
           horizontal={true}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.code.toString()}
           renderItem={({item}) => <Job item={item} />}
         />
         <Button text="show more jobs" style={styles.btn} onPress={() => null} />
@@ -379,8 +411,8 @@ const HomeScreen = ({navigation}: Props) => {
           </View>
           <FlatList
             horizontal={true}
-            data={PARTENERS}
-            keyExtractor={item => item.id.toString()}
+            data={parteners}
+            keyExtractor={item => item.code.toString()}
             renderItem={({item}) => <Parteners item={item} />}
           />
         </View>
@@ -413,9 +445,11 @@ const HomeScreen = ({navigation}: Props) => {
           <View style={styles.SearchLocationContainer}>
             <FlatList
               horizontal
-              data={BROWESLOCATION}
-              keyExtractor={item => item.id.toString()}
-              renderItem={({item}) => <BrowesLocation item={item} />}
+              data={homeCities}
+              keyExtractor={item => item.code?.toString()}
+              renderItem={({item}) => (
+                <BrowesLocation item={item} SerchJobs={SerchJobs} />
+              )}
             />
           </View>
           <Button text="show more" style={styles.btn} onPress={() => null} />

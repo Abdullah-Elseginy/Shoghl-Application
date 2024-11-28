@@ -400,8 +400,8 @@ const JobPost = ({navigation, route}: any) => {
       errors.job_requirements =
         'job requirements must be between 100:1024 characters';
     }
-    if (!formData.keywords) {
-      errors.number_of_vacancies = 'Required';
+    if (!formData.keywords || KeyWpordsArray.length < 2) {
+      errors.keywords = 'Required,must be more than 2 keywords';
     }
     if (!formData.send_emails_notification_to) {
       errors.email = 'Email Required';
@@ -890,7 +890,7 @@ const JobPost = ({navigation, route}: any) => {
               )}
               <Button
                 text="Add"
-                isDisapled={KeyWpordsArray && KeyWpordsArray ? false : true}
+                isDisapled={keyWords && keyWords ? false : true}
                 disabledBGColor={COLORS.grayLight}
                 style={styles.Add}
                 onPress={() => {
@@ -979,7 +979,12 @@ const JobPost = ({navigation, route}: any) => {
           {jobData ? (
             <Button text="Edit Job" style={styles.Buttom} onPress={EDITJOB} />
           ) : (
-            <Button text="Post Now" style={styles.Buttom} onPress={PostJob} />
+            <Button
+              text="Post Now"
+              style={styles.Buttom}
+              onPress={PostJob}
+              loading={loadinJobs}
+            />
           )}
         </ScrollView>
       </View>

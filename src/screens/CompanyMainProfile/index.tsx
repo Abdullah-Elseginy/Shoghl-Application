@@ -177,16 +177,19 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
   const [editDoc, setesitDoc] = useState(false);
 
   const [companyLocation, setLocation] = useState(
-    companyDataProfile?.country?.id || '',
+    companyDataProfile?.country?.code || '',
   );
-  const [companyRange, setCompanyRange] = useState('');
+  const [companyRange, setCompanyRange] = useState(
+    companyDataProfile?.size?.code || '',
+  );
 
   const [InpusValues, SetInpusValues] = useState<any>({
     Founded: companyDataProfile?.company_year_founded + '',
     'Company Size': '',
-    Specialties: '',
-    Industry: '',
+    Specialties: companyDataProfile?.company_specialties?.specialties,
+    Industry: companyDataProfile?.company_industry_data?.code,
   });
+  console.log('speee' + companyDataProfile?.company_specialties?.specialties);
 
   // const [IndusteryCode, SetIndusteryCode] = useState('');
   // const [SpecialisesCode, setSpecialisesCode] = useState('');
@@ -234,6 +237,39 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       setdoenloadPDF(false);
     }, 1000);
   }
+
+  //----------------------validate form--------------------------------
+  const [formErrors, setFormErrors] = React.useState({
+    country: '',
+    company_year_founded: '',
+    company_employees_range: '',
+    company_industry: '',
+    company_specialties: '',
+    company_about: 'test about',
+    size: 5,
+  });
+
+  const validateForm = () => {
+    const errors: {[key: string]: string} = {};
+    if (!companyLocation) {
+      errors.country = 'Required';
+    }
+    if (!InpusValues.Founded) {
+      errors.company_year_founded = 'Required,must between 1950-2026';
+    }
+
+    if (!companyRange) {
+      errors.company_employees_range = 'Required';
+    }
+    if (!InpusValues.Industry) {
+      errors.company_industry = 'Required';
+    }
+    if (!InpusValues.Specialties) {
+      errors.company_specialties = 'Required';
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   //--------------------------------Upload File--------------------------
   const [file, setFile] = useState({name: '', type: '', uri: ''});
@@ -298,24 +334,26 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
       size: 5,
     };
     console.log('ssss=' + JSON.stringify(datatosend));
-    dispatch(editCompanyProfile(datatosend))
-      .unwrap()
-      .then(() => {
-        Toast.show({
-          text1: 'Success',
-          text2: 'Company Profile Edited Successfully',
-          type: 'success',
+    if (validateForm()) {
+      dispatch(editCompanyProfile(datatosend))
+        .unwrap()
+        .then(() => {
+          Toast.show({
+            text1: 'Success',
+            text2: 'Company Profile Edited Successfully',
+            type: 'success',
+          });
+          SetDisapled(false);
+          dispatch(getCompanyProfile());
+        })
+        .catch(err => {
+          Toast.show({
+            type: 'error',
+            text1: 'Error',
+            text2: err,
+          });
         });
-        SetDisapled(false);
-        dispatch(getCompanyProfile());
-      })
-      .catch(err => {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: err,
-        });
-      });
+    }
   };
 
   useFocusEffect(
@@ -412,7 +450,10 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   <CustomText text="Location" textStyle={styles.labelinput} />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
                     <CustomText
-                      text={companyDataProfile?.country?.default_name}
+                      text={
+                        companyDataProfile?.country?.default_name ||
+                        'edit to add location'
+                      }
                     />
                   </View>
                 </View>
@@ -426,6 +467,12 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     dropDownStyle={styles.DropBorder2}
                     list={memoLocation}
                   />
+                  {formErrors.country && (
+                    <CustomText
+                      text={formErrors.country}
+                      textStyle={styles.errorText}
+                    />
+                  )}
                 </View>
               )}
               {!Disapled ? (
@@ -435,7 +482,12 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     textStyle={styles.labelinput}
                   />
                   <View style={[styles.InputContainerStyle2, styles.box]}>
-                    <CustomText text={companyDataProfile?.size + ''} />
+                    <CustomText
+                      text={
+                        companyDataProfile?.size?.default_name  ||
+                        'edit to add size'
+                      }
+                    />
                   </View>
                 </View>
               ) : (
@@ -448,6 +500,12 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                     dropDownStyle={styles.DropBorder2}
                     list={memoCompanyRange}
                   />
+                  {formErrors.company_employees_range && (
+                    <CustomText
+                      text={formErrors.company_employees_range}
+                      textStyle={styles.errorText}
+                    />
+                  )}
                 </View>
               )}
             </View>
@@ -463,10 +521,24 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   list={specialties}
                   search
                 />
+                {formErrors.company_specialties && (
+                  <CustomText
+                    text={formErrors.company_specialties}
+                    textStyle={styles.errorText}
+                  />
+                )}
               </View>
             ) : (
-              <View style={[styles.mb, styles.cont]}>
-                <CustomText text="specialtiess" />
+              <View>
+                <CustomText text="specialtiess" textStyle={styles.labelinput} />
+                <View style={[styles.mb, styles.cont]}>
+                  <CustomText
+                    text={
+                      companyDataProfile?.company_specialties?.value
+                        ?.default_name || 'edit to add speciaties '
+                    }
+                  />
+                </View>
               </View>
             )}
             {Disapled ? (
@@ -481,10 +553,24 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   list={industrys}
                   search
                 />
+                {formErrors.company_industry && (
+                  <CustomText
+                    text={formErrors.company_industry}
+                    textStyle={styles.errorText}
+                  />
+                )}
               </View>
             ) : (
-              <View style={[styles.mb, styles.cont]}>
-                <CustomText text="industyrs" />
+              <View>
+                <CustomText text="industyrs" textStyle={styles.labelinput} />
+                <View style={[styles.mb, styles.cont]}>
+                  <CustomText
+                    text={
+                      companyDataProfile?.company_industry_data?.default_name ||
+                      'edit to add industyrs '
+                    }
+                  />
+                </View>
               </View>
             )}
             {Disapled ? (
@@ -496,14 +582,22 @@ const ComplateCompanyProfile = ({navigation}: Props) => {
                   containerStyle={[styles.InputContainerStyle]}
                   placeholder={'Founded'}
                 />
+                {formErrors.company_year_founded && (
+                  <CustomText
+                    text={formErrors.company_year_founded}
+                    textStyle={styles.errorText}
+                  />
+                )}
               </View>
             ) : (
               <View>
                 <CustomText text="Founded" textStyle={styles.labelinput} />
                 <View style={styles.InputContainerStyle2}>
                   <CustomText
-                    text={companyDataProfile?.company_year_founded}
-                    textStyle={styles.labelinput}
+                    text={
+                      companyDataProfile?.company_year_founded ||
+                      'edit to add founded year'
+                    }
                   />
                 </View>
               </View>

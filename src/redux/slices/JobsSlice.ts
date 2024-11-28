@@ -163,7 +163,7 @@ export const getAllHelperJobs = createAsyncThunk(
       });
       console.log('getAllHelperJobs----', res?.data);
       return res.data;
-    } catch (error:any) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getAllHelperJobs Error', errorMessage);
@@ -401,7 +401,7 @@ export const getSearchedCVs = createAsyncThunk(
       });
       console.log('getSearchedCVs----', res?.data);
       return res.data;
-    } catch (error:any) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getSearchedCVs Error', errorMessage);
@@ -421,7 +421,7 @@ export const getCvsDetailsShowUserProfile = createAsyncThunk(
       });
       console.log('getCvsDetailsShowUserProfile----', res?.data);
       return res.data;
-    } catch (error:any) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getCvsDetailsShowUserProfile Error', errorMessage);
@@ -481,12 +481,12 @@ const JobsSlice = createSlice({
       })
       // =====================getCategoryWithSearch=======================
       .addCase(getCategoryWithSearch.pending, state => {
-        state.loadinJobs = true;
+        state.loadinJobs = false;
         state.error = null;
       })
       .addCase(getCategoryWithSearch.fulfilled, (state, action) => {
         state.loadinJobs = false;
-        state.allCategories = action.payload;
+        state.allCategories = action.payload.data.data;
         state.error = null;
       })
       .addCase(getCategoryWithSearch.rejected, (state, action) => {

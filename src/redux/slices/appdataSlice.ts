@@ -12,6 +12,9 @@ type InitailStateTypes = {
   loadingSaveEdit: boolean;
   industerial: Array<any>;
   Specialties: Array<any>;
+  homeCities: Array<any>;
+  parteners: Array<any>;
+  recentJobs: Array<any>;
 };
 const initialState: InitailStateTypes = {
   token: null,
@@ -23,6 +26,9 @@ const initialState: InitailStateTypes = {
   loadingSaveEdit: false,
   industerial: [],
   Specialties: [],
+  homeCities: [],
+  parteners: [],
+  recentJobs: [],
 };
 
 // ========================== Profile OverView ========================
@@ -37,7 +43,7 @@ export const EditmyProfileOverview = createAsyncThunk(
       });
       console.log('editAbout_charactaristic', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('EditmyProfileOverview Error', errorMessage);
@@ -77,7 +83,7 @@ export const getCompanyProfile = createAsyncThunk(
       });
       console.log('getCompanyProfile', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('getCompanyProfile Error', errorMessage);
@@ -98,10 +104,71 @@ export const editCompanyProfile = createAsyncThunk(
       });
       console.log('editCompanyProfile', res?.data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       const errorMessage =
         error.response?.data?.errors?.message || error.message;
       console.log('editCompanyProfile Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+
+// ========================== get cities in home Data ========================
+export const getHomeCities = createAsyncThunk(
+  'auth/getHomeCities',
+  async (data, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getHomeCities,
+        params: data,
+      });
+      console.log('getHomeCities', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getHomeCities Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+
+// ========================== get Parteners in home Data ========================
+export const getParteners = createAsyncThunk(
+  'auth/getParteners',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getParteners,
+      });
+      console.log('getParteners', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getParteners Error', errorMessage);
+      return rejectWithValue(errorMessage);
+    }
+  },
+);
+
+// ========================== get Recent Jobs in home Data ========================
+export const getRecentJobs = createAsyncThunk(
+  'auth/getRecentJobs',
+  async (_, {rejectWithValue}) => {
+    try {
+      const res = await Axios({
+        method: 'GET',
+        path: APIS.getRecentJobs,
+      });
+      console.log('getRecentJobs', res?.data);
+      return res.data;
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.errors?.message || error.message;
+      console.log('getRecentJobs Error', errorMessage);
       return rejectWithValue(errorMessage);
     }
   },
@@ -168,6 +235,48 @@ const appdataSlice = createSlice({
         state.error = null;
       })
       .addCase(editCandidateProfileHeader.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================get home cities =======================
+      .addCase(getHomeCities.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(getHomeCities.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.homeCities = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getHomeCities.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================get Parteners  =======================
+      .addCase(getParteners.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(getParteners.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.parteners = action.payload.data;
+        state.error = null;
+      })
+      .addCase(getParteners.rejected, (state, action) => {
+        state.loadingappdata = false;
+        state.error = action.payload;
+      })
+      // =====================get Recent Jobs   =======================
+      .addCase(getRecentJobs.pending, state => {
+        state.loadingappdata = true;
+        state.error = null;
+      })
+      .addCase(getRecentJobs.fulfilled, (state, action) => {
+        state.loadingappdata = false;
+        state.recentJobs = action.payload.data.data;
+        state.error = null;
+      })
+      .addCase(getRecentJobs.rejected, (state, action) => {
         state.loadingappdata = false;
         state.error = action.payload;
       });

@@ -38,7 +38,11 @@ const Job = ({item, navigation, UnSaveJob}: Props) => {
       <View style={styles.jobTopBox}>
         <View style={generalStyles.row}>
           <Image
-            source={{uri: item?.job?.company?.company_logo}}
+            source={{
+              uri:
+                item?.job?.company?.company_logo ||
+                'https://images.unsplash.com/photo-1707330069618-0dff8e80a6e8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+            }}
             style={styles.im}
           />
           <View style={styles.jobTopContent}>
@@ -84,7 +88,7 @@ const Job = ({item, navigation, UnSaveJob}: Props) => {
           <View style={generalStyles.row}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
-              text={item?.job?.company?.company_name}
+              text={item?.job?.company?.company_name || 'Raya'}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -96,7 +100,9 @@ const Job = ({item, navigation, UnSaveJob}: Props) => {
             />
             <CustomText
               text={
-                item?.job?.country?.name_en + ' | ' + item?.job?.city?.name_en
+                item?.job?.country?.names?.en +
+                ' | ' +
+                item?.job?.city.names?.en
               }
               textStyle={styles.jobBottomTxt}
             />
@@ -106,11 +112,11 @@ const Job = ({item, navigation, UnSaveJob}: Props) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.job?.category_name?.en +
+              (item?.job?.category_name?.default_name || 'Permenant') +
               ' | ' +
-              item?.job?.career_level?.en +
+              (item?.job?.career_level?.default_name || 'Mid-Level') +
               ' | ' +
-              item?.job?.contract_type?.en
+              (item?.job?.contract_type?.default_name || 'no category')
             }
             textStyle={styles.jobBottomTxt}
           />

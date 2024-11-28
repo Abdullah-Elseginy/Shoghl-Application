@@ -212,7 +212,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
       formToSend.append('educational_level', selectedId4);
       formToSend.append('fields_of_study[]', selectedFeild);
       formToSend.append('university', selectedUniversty);
-      formToSend.append('degree', selectedDegree);
+      formToSend.append('degree', '200' + selectedDegree);
       formToSend.append('grade', selectedGrade);
       formToSend.append('user_languages[]', slectedLang);
       formToSend.append('skills[]', selectedSkills);
@@ -377,9 +377,7 @@ const Step3 = ({currentPosition, setCurrentPosition}: any) => {
           <Dropdown
             placeholder="When did you get your degree?"
             value={selectedDegree}
-            onChangeValue={(value: any) =>
-              setSelectedDegree(value.default_name)
-            }
+            onChangeValue={(value: any) => setSelectedDegree(value.code)}
             list={yearOptions}
           />
         </View>

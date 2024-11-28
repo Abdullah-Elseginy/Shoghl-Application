@@ -59,7 +59,7 @@ const Job = ({item, navigation}: Props) => {
           </View>
           <View style={styles.jobTopContent}>
             <View style={generalStyles.rowBetween}>
-              <CustomText text={item.title} textStyle={styles.job} />
+              <CustomText text={item.title || 'Raya'} textStyle={styles.job} />
               <CustomText text={item.since} textStyle={styles.status} />
             </View>
             <View style={[generalStyles.rowBetween, styles.PeriodBox]}>
@@ -100,7 +100,7 @@ const Job = ({item, navigation}: Props) => {
           <View style={generalStyles.row}>
             <Crown width={hp(2)} height={hp(2)} style={styles.btnIcon} />
             <CustomText
-              text={item?.company?.company_name}
+              text={item?.company?.company_name || 'Raya'}
               textStyle={styles.jobBottomTxt}
             />
           </View>
@@ -118,11 +118,11 @@ const Job = ({item, navigation}: Props) => {
           <Cash width={hp(2)} height={hp(2)} style={styles.btnIcon} />
           <CustomText
             text={
-              item?.contract_type?.default_name +
+              (item?.contract_type?.default_name || 'on site') +
               ' | ' +
-              item?.career_level?.default_name +
+              (item?.career_level?.default_name ) +
               ' | ' +
-              item?.category_name?.default_name
+              (item?.category_name?.default_name || 'no caregory')
             }
             textStyle={styles.jobBottomTxt}
           />
@@ -237,9 +237,7 @@ const Quetions = ({item}: any) => {
 };
 const SearchedJobs = ({navigation}: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const {allJobs, loadinJobs} = useSelector(
-    (state: any) => state.jobs,
-  );
+  const {allJobs, loadinJobs} = useSelector((state: any) => state.jobs);
   const {allCities, contractTypes, careerLevel} = useSelector(
     (state: any) => state.helpers,
   );
